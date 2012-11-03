@@ -13,7 +13,7 @@ RewriteRule ^about[\.php]*[/about]*$                  /Us [R=301,L]
 RewriteRule ^about[\.php]*/news$                      /Us&News [R=301,L]
 RewriteRule ^about[\.php]*/news,(.*)$                 /Us&News=$1 [R=301,L]
 RewriteRule ^about[\.php]*/team$                      /Us&Team [R=301,L]
-RewriteRule ^about[\.php]*/[trademark|copyright|impressum]+$  /Us&Legal [R=301,L]
+RewriteRule ^about[\.php]*/[trademark|copyright|impressum]+$ /Us&Legal [R=301,L]
 
 RewriteRule ^solutions[\.php]*[/oscommerce|/downloads]*$     /Products [R=301,L]
 
@@ -25,6 +25,7 @@ RewriteRule ^shops[\.php]*/demonstration$             http://demo.oscommerce.com
 
 RewriteRule ^partners[\.php]*[/corporate]*$           /Services [R=301,L]
 RewriteRule ^partners[\.php]*/community$              http://forums.oscommerce.com/subscriptions/ [R=301,L]
+RewriteRule ^partners[\.php]*/corporate/list,(.*)$    /Services&$1 [R=301,L]
 
 RewriteRule ^get[\.php]*/(.*)$                        /Products&Download=$1 [R=301,L]
 
@@ -33,3 +34,7 @@ RewriteRule ^public/sites/Website/rss/news\.xml$      http://feeds.feedburner.co
 
 RewriteCond %{HTTP_USER_AGENT} !FeedBurner
 RewriteRule ^public/sites/Website/rss/addons\.xml$    http://feeds.feedburner.com/osCommerce_Contributions [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/?$1 [L]
