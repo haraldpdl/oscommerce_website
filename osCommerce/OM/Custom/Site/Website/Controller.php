@@ -38,7 +38,7 @@
       $OSCOM_Template->setValue('html_character_set', $OSCOM_Language->getCharacterSet());
       $OSCOM_Template->setValue('html_page_title', $OSCOM_Template->getPageTitle());
       $OSCOM_Template->setValue('html_page_contents_file', $OSCOM_Template->getPageContentsFile());
-      $OSCOM_Template->setValue('html_base_href', dirname(OSCOM::getLink()) . '/');
+      $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
       $OSCOM_Template->setValue('current_site_application', OSCOM::getSiteApplication());
       $OSCOM_Template->setValue('current_site_application_action', Registry::get('Application')->getCurrentAction());
       $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
