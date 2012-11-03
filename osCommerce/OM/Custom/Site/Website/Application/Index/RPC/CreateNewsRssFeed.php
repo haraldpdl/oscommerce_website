@@ -29,10 +29,10 @@
         while ( $Qnews->fetch() ) {
           $news .= '    <item>' . "\n" .
                    '      <title>' . htmlentities($Qnews->value('title')) . '</title>' . "\n" .
-                   '      <link>http://www.oscommerce.com/index.php?Us&News=' . $Qnews->valueInt('id') . '</link>' . "\n" .
+                   '      <link>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</link>' . "\n" .
                    '      <description><![CDATA[' . nl2br($Qnews->value('body')) . ']]></description>' . "\n" .
                    '      <pubDate>' . $Qnews->value('date_added_formatted') . '</pubDate>' . "\n" .
-                   '      <guid>http://www.oscommerce.com/index.php?Us&News=' . $Qnews->valueInt('id') . '</guid>' . "\n" .
+                   '      <guid>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</guid>' . "\n" .
                    '    </item>' . "\n";
         }
 
