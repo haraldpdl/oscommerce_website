@@ -1,0 +1,35 @@
+RewriteEngine On
+
+RewriteRule ^shops[\.php]*/live(.*)$                  http://shops.oscommerce.com [R=301,L]
+
+RewriteRule ^community[\.php]*/bugs(.*)$              http://forums.oscommerce.com/tracker [R=301,L]
+
+RewriteRule ^oscommerce\.rdf$                         /public/sites/Website/rss/news.xml [R=301,L]
+RewriteRule ^rss/news_and_blogs\.rss$                 /public/sites/Website/rss/news_and_blogs.xml [R=301,L]
+RewriteRule ^oscommerce_contributions\.rdf$           /public/sites/Website/rss/addons.xml [R=301,L]
+RewriteRule ^oscommerce_contributions_packages\.rdf$  /public/sites/Website/rss/addons_packages.xml [R=301,L]
+
+RewriteRule ^about[\.php]*[/about]*$                  /Us [R=301,L]
+RewriteRule ^about[\.php]*/news$                      /Us&News [R=301,L]
+RewriteRule ^about[\.php]*/news,(.*)$                 /Us&News=$1 [R=301,L]
+RewriteRule ^about[\.php]*/team$                      /Us&Team [R=301,L]
+RewriteRule ^about[\.php]*/[trademark|copyright|impressum]+$  /Us&Legal [R=301,L]
+
+RewriteRule ^solutions[\.php]*[/oscommerce|/downloads]*$     /Products [R=301,L]
+
+RewriteRule ^support$                                 /Support [R=301,L]
+RewriteRule ^community[\.php]*[/support]*$            /Support [R=301,L]
+
+RewriteRule ^shops[\.php]*[/sponsors]*$               http://shops.oscommerce.com [R=301,L]
+RewriteRule ^shops[\.php]*/demonstration$             http://demo.oscommerce.com [R=301,L]
+
+RewriteRule ^partners[\.php]*[/corporate]*$           /Services [R=301,L]
+RewriteRule ^partners[\.php]*/community$              http://forums.oscommerce.com/subscriptions/ [R=301,L]
+
+RewriteRule ^get[\.php]*/(.*)$                        /Products&Download=$1 [R=301,L]
+
+RewriteCond %{HTTP_USER_AGENT} !FeedBurner
+RewriteRule ^public/sites/Website/rss/news\.xml$      http://feeds.feedburner.com/osCommerce [R=301,L]
+
+RewriteCond %{HTTP_USER_AGENT} !FeedBurner
+RewriteRule ^public/sites/Website/rss/addons\.xml$    http://feeds.feedburner.com/osCommerce_Contributions [R=301,L]
