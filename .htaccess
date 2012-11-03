@@ -37,4 +37,4 @@ RewriteRule ^public/sites/Website/rss/addons\.xml$    http://feeds.feedburner.co
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/?$1 [L]
+RewriteRule ^(.*)$ index.php?$1 [L]
