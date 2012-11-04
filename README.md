@@ -4,23 +4,36 @@ osCommerce Website
 This repository contains the development of the new osCommerce website powered
 by the osCommerce Online Merchant v3.0 framework.
 
+Our website is not a general purpose solution for users to use as their
+website - it is custom and tailored to run the main osCommerce website. The
+frontend design is licensed and some graphics will not be available on Github.
+No installation routine is present however setup instructions are available for
+those interested in helping out.
+
 The initial code is to propose template engine functionality to add to
 osCommerce Online Merchant v3.0.
 
 Installation
 ------------
 
-An installation of osCommerce Online Merchant v3.0 is required:
+Copy the "template" branch from my Github repository:
 
-https://github.com/osCommerce/oscommerce
+    git clone -b template https://github.com/haraldpdl/oscommerce.git
 
-The following directory structure is used as an example:
+Copy this repository:
+
+    git clone https://github.com/haraldpdl/oscommerce_website.git
+
+The following directory structure is now in place:
 
 * oscommerce - osCommerce Online Merchant v3.0
 * oscommerce_website - osCommerce Website
 
-Once the files have been cloned from the "oscommerce_website" repository, the
-following directories must be symlinked to the "oscommerce" installation:
+Install osCommerce Online Merchant by visiting the following address:
+
+    http://your-server/oscommerce/index.php?Setup
+
+Symlink the following directories from "oscommerce_website" to "oscommerce":
 
     mkdir oscommerce/osCommerce/OM/Custom/Site
     cd oscommerce/osCommerce/OM/Custom/Site
@@ -28,9 +41,10 @@ following directories must be symlinked to the "oscommerce" installation:
     ln -s ../../../../../oscommerce_website/osCommerce/OM/Custom/Site/Admin Admin
     ln -s ../../../../../oscommerce_website/osCommerce/OM/Custom/Site/_skel _skel
     cd ..
-    ln -s ../../../../oscommerce_website/osCommerce/OM/Custom/Template Template
     ln -s ../../../../oscommerce_website/osCommerce/OM/Custom/Exception Exception
-    cd ../../../public/sites
+    cd ..
+    ln -s ../../../oscommerce_website/osCommerce/OM/External/simplepie_1.3.1.mini.php External/simplepie_1.3.1.mini.php
+    cd ../../public/sites
     ln -s ../../../oscommerce_website/public/sites/Website Website
     cd ../external
     ln -s ../../../oscommerce_website/public/external/bootstrap bootstrap
@@ -58,10 +72,23 @@ which can be copied from an existing block:
     db_table_prefix = "osc_"
     db_server_persistent_connections = "false"
     store_sessions = "Database"
+    community_api_key = ""
+    community_api_module = ""
+    community_api_address = ""
+    cron_key = ""
 
-The website is accessed with the following URL:
+The following SQL file needs to be imported into the installation database to
+create the tables for the website:
+
+    osCommerce/OM/Custom/Site/Website/Setup/SQL/mysql.sql
+
+The website can then be accessed with the following URL:
 
     http://your-server/oscommerce/index.php?Website
+
+The "Website" part in "index.php?Website" can be removed by making it the
+default Site. In osCommerce/OM/Config/settings.ini change default_site in the
+OSCOM group to "Website".
 
 Feedback
 ---------
@@ -71,12 +98,18 @@ functionality.
 
 http://forums.oscommerce.com/topic/383392-template-engine-functionality-proposal/
 
+Discussions for our new website platform are held in:
+
+http://forums.oscommerce.com/forum/89-website-platform/
+
 Note
 ----
 
-Although the source code to new osCommerce website will be available, it will
-not be packaged together with osCommerce Online Merchant v3.0.
+Although the source code to new osCommerce website is available, it will
+obviously not be packaged together with osCommerce Online Merchant v3.0.
 
 Making the source code available serves to showcase the capabilities of the
-framework and to kickstart the initiative of a general purpose CMS Site that
-can be packaged with osCommerce Online Merchant v3.0.
+framework, to migrate the Add-Ons and Live Shops sites to the new platform,
+to create new Documentation and Translations Sites, and to kickstart the
+initiative of a general purpose CMS Site that can be packaged with
+osCommerce Online Merchant v3.0.
