@@ -2,6 +2,7 @@ RewriteEngine On
 
 RewriteRule ^shops[\.php]*/live(.*)$                  http://shops.oscommerce.com [R=301,L]
 
+RewriteRule ^community[\.php]*/contributions,(.*)$    http://addons.oscommerce.com/info/$1 [R=301,L]
 RewriteRule ^community[\.php]*/bugs(.*)$              http://forums.oscommerce.com/tracker [R=301,L]
 
 RewriteRule ^oscommerce\.rdf$                         /public/sites/Website/rss/news.xml [R=301,L]
