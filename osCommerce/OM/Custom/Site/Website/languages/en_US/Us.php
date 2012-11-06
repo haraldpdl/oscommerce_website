@@ -47,3 +47,9 @@ news_page_title = News
 news_entry_html_page_title = osCommerce News, :news_title
 
 link_back_to_listing = Back to listing
+
+marketing_html_page_title = osCommerce, Marketing Material
+
+marketing_page_title = Marketing
+
+marketing_main_content = <p>The osCommerce logo may be used in marketing materials following our <a href="{link}Us|Website|Legal{link}">trademark policy</a>.</p><dl><dt style="padding-bottom: 10px;">osCommerce Logo (3545 x 605 PNG)</dt><dd><p><a href="{publiclink}images/logos/oscommerce_black.png{publiclink}">Download in Black</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{publiclink}images/logos/oscommerce_white.png{publiclink}">Download in White</a></p></dd></dl>
