@@ -16,8 +16,8 @@ button_partners = View our Partners
 support_tickets_title = Support Tickets
 support_tickets_description = <p>Submit a Support Ticket and we will personally strive to help you further as soon as possible. Support Tickets are private and are directly handled by us with no interim standard responses to quickly solve issues faster.</p>
 <p>Support Hours: Monday - Friday, 9am - 6pm CET <small>(that's the official time; support is also likely be provided off hours and on weekends when we are available)</small></p>
-<p>A <a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=register">community forum account</a> and <a href="http://forums.oscommerce.com/subscriptions/">Community Sponsorship</a> is required to submit Support Tickets, starting from 10EUR/Month!</p>
-button_support_tickets = Submit a Ticket
+<p>A <a href="{link}_|Website|Sponsorship{link}">Community Sponsorship</a> is required to submit Support Tickets, starting from 10 &euro; / Month!</p>
+button_support_tickets = See what's Covered
 
 hire_developers_title = Hire Developers
 hire_developers_description = <p>Our community is full of experts you can hook into and enquire about custom modifications, longer term jobs, and general help.</p>
