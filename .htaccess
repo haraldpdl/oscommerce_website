@@ -36,6 +36,8 @@ RewriteRule ^public/sites/Website/rss/news\.xml$      http://feeds.feedburner.co
 RewriteCond %{HTTP_USER_AGENT} !FeedBurner
 RewriteRule ^public/sites/Website/rss/addons\.xml$    http://feeds.feedburner.com/osCommerce_Contributions [R=301,L]
 
+Redirect 301 /newsletter/subscribe http://oscommerce.list-manage.com/subscribe?u=a5961750a3635e18fdf4bb539&id=10af90c126
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?$1 [L]
