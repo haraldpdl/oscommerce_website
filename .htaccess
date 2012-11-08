@@ -18,7 +18,7 @@ RewriteRule ^about[\.php]*/[trademark|copyright|impressum]+$ /Us&Legal [R=301,L]
 
 RewriteRule ^solutions[\.php]*[/oscommerce|/downloads]*$     /Products [R=301,L]
 
-RewriteRule ^support$                                 /Support [R=301,L]
+RewriteRule ^support[\.php]*$                         /Support [R=301,L]
 RewriteRule ^community[\.php]*[/support]*$            /Support [R=301,L]
 
 RewriteRule ^shops[\.php]*[/sponsors]*$               http://shops.oscommerce.com [R=301,L]
