@@ -15,7 +15,7 @@
 
     public function __destruct() {
       if ( is_null($this->getCurrentAction()) ) {
-        OSCOM::redirect(OSCOM::getLink('Index'));
+        OSCOM::redirect(OSCOM::getLink(null, 'Index'));
       }
     }
   }
