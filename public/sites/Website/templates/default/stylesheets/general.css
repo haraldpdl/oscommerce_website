@@ -5042,6 +5042,9 @@ footer {
 footer p {
   padding-bottom: 0.2em;
 }
+footer img {
+  margin-right: 15px;
+}
 #logo {
   padding-top: 10px;
 }
