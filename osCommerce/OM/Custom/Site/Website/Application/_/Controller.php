@@ -11,7 +11,9 @@
   use osCommerce\OM\Core\OSCOM;
 
   class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
-    protected function initialize() { }
+    protected function initialize() {
+      $this->_page_contents = 'main.html';
+    }
 
     public function __destruct() {
       if ( is_null($this->getCurrentAction()) ) {
