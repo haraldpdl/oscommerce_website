@@ -99,6 +99,19 @@ CREATE TABLE osc_website_partner_account (
   PRIMARY KEY (community_account_id, partner_id)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS osc_website_partner_banner;
+CREATE TABLE osc_website_partner_banner (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  partner_id int unsigned NOT NULL,
+  code varchar(255) NOT NULL,
+  image varchar(255),
+  url varchar(255),
+  twitter varchar(255),
+  PRIMARY KEY (id),
+  KEY idx_ws_partner_banner_partner_id (partner_id),
+  KEY idx_ws_partner_banner_code (code)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 DROP TABLE IF EXISTS osc_website_partner_transaction;
 CREATE TABLE osc_website_partner_transaction (
   id int unsigned NOT NULL AUTO_INCREMENT,
