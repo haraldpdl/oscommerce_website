@@ -27,6 +27,7 @@ CREATE TABLE osc_website_news (
   body text NOT NULL,
   date_added datetime NOT NULL,
   status int NOT NULL,
+  image varchar(255),
   PRIMARY KEY (id),
   KEY idx_ws_news_title (title),
   KEY idx_ws_news_date_added (date_added),

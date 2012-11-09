@@ -9,6 +9,10 @@
 
       <h2>{value}news_entry title{value}<br /><small>{value}news_entry date_added_formatted{value}</small></h2>
 
+{ifvalue news_entry image}
+      <img src="{publiclink}images/news/{raw}news_entry image{raw}{publiclink}" class="thumbnail" style="float: right; margin-left: 10px; margin-bottom: 10px;" />
+{ifvalue}
+
       {nl2br}{raw}news_entry body{raw}{nl2br}
 
       <p style="padding-top: 40px;"><a href="{link}Us|Website|News#n{raw}news_entry id{raw}{link}"><i class="icon-chevron-left"></i> {lang}link_back_to_listing{lang}</a></p>

@@ -24,13 +24,19 @@
         $news = '';
         $merge = '';
 
-        $Qnews = $OSCOM_PDO->query('select id, title, body, date_format(date_added, "%a, %d %b %Y %H:%i:%s -0400") as date_added_formatted from :table_website_news where status = 1 order by date_added desc limit 5');
+        $Qnews = $OSCOM_PDO->query('select id, title, body, date_format(date_added, "%a, %d %b %Y %H:%i:%s -0400") as date_added_formatted, image from :table_website_news where status = 1 order by date_added desc limit 5');
 
         while ( $Qnews->fetch() ) {
+          $news_article = nl2br($Qnews->value('body'));
+
+          if ( strlen($Qnews->value('image')) > 0 ) {
+            $news_article = '<img src="http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/news/' . $Qnews->value('image')) . '" alt="" />' . "\n" . $news_article;
+          }
+
           $news .= '    <item>' . "\n" .
                    '      <title>' . htmlentities($Qnews->value('title')) . '</title>' . "\n" .
                    '      <link>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</link>' . "\n" .
-                   '      <description><![CDATA[' . nl2br($Qnews->value('body')) . ']]></description>' . "\n" .
+                   '      <description><![CDATA[' . $news_article . ']]></description>' . "\n" .
                    '      <pubDate>' . $Qnews->value('date_added_formatted') . '</pubDate>' . "\n" .
                    '      <guid>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</guid>' . "\n" .
                    '    </item>' . "\n";
