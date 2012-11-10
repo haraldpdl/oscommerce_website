@@ -9,6 +9,5 @@
   namespace osCommerce\OM\Core\Site\Website;
 
   abstract class ApplicationAbstract extends \osCommerce\OM\Core\ApplicationAbstract {
-    abstract protected function initialize();
   }
 ?>

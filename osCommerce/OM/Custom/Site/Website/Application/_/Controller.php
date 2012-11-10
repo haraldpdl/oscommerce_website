@@ -15,7 +15,9 @@
       $this->_page_contents = 'main.html';
     }
 
-    public function __destruct() {
+    public function runActions() {
+      parent::runActions();
+
       if ( is_null($this->getCurrentAction()) ) {
         OSCOM::redirect(OSCOM::getLink(null, 'Index'));
       }
