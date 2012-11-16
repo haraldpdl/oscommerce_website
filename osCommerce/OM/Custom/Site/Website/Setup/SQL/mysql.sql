@@ -128,3 +128,25 @@ CREATE TABLE osc_website_partner_transaction (
   KEY idx_ws_partner_tx_date_start (date_start),
   KEY idx_ws_partner_tx_date_end (date_end)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS osc_website_user_server_info;
+CREATE TABLE osc_website_user_server_info (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  submit_ip varchar(255),
+  osc_version varchar(255),
+  system_os varchar(255),
+  http_server varchar(255),
+  php_version varchar(255),
+  php_extensions text,
+  php_sapi varchar(255),
+  php_memory varchar(255),
+  mysql_version varchar(255),
+  php_other text,
+  system_other text,
+  mysql_other text,
+  date_added datetime,
+  date_updated datetime,
+  update_count int DEFAULT 1,
+  PRIMARY KEY (id),
+  KEY idx_ws_user_server_info_ip (submit_ip)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;

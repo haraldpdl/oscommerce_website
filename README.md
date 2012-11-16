@@ -76,6 +76,7 @@ which can be copied from an existing block:
     community_api_module = ""
     community_api_address = ""
     cron_key = ""
+    save_user_server_info_salt = ""
 
 The following SQL file needs to be imported into the installation database to
 create the tables for the website:
