@@ -9,7 +9,6 @@
   namespace osCommerce\OM\Core\Site\Website;
 
   use osCommerce\OM\Core\Cache;
-  use osCommerce\OM\Core\MessageStack;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\PDO;
   use osCommerce\OM\Core\Registry;
