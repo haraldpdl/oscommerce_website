@@ -15,7 +15,7 @@
       $OSCOM_PDO = Registry::get('PDO');
 
       $Qpartner = $OSCOM_PDO->prepare('select * from :table_website_partner where code = :code');
-      $Qpartner->bindParam(':code', $data['code']);
+      $Qpartner->bindValue(':code', $data['code']);
       $Qpartner->setCache('website_partner-' . $data['code']);
       $Qpartner->execute();
 
