@@ -8,6 +8,7 @@
 
   namespace osCommerce\OM\Core\Site\Website;
 
+  use osCommerce\OM\Core\Cache;
   use osCommerce\OM\Core\OSCOM;
 
   class Partner {
@@ -93,4 +94,89 @@
 
       return static::$_promotions;
     }
+
+    public static function hasCampaign($id, $code = null) {
+      $data = array('id' => $id);
+
+      if ( isset($code) ) {
+        $data['code'] = $code;
+      }
+
+      return OSCOM::callDB('Website\PartnerHasCampaign', $data, 'Site');
+    }
+
+    public static function getCampaigns($id) {
+      return OSCOM::callDB('Website\PartnerGetCampaigns', array('id' => $id), 'Site');
+    }
+
+    public static function getCampaign($id, $code) {
+      return OSCOM::callDB('Website\PartnerGetCampaign', array('id' => $id, 'code' => $code), 'Site');
+    }
+
+    public static function save($user_id, $code, $partner) {
+      $campaign = static::getCampaign($user_id, $code);
+
+      $data = array('id' => $campaign['id'],
+                    'code' => $code,
+                    'desc_short' => $partner['desc_short'],
+                    'desc_long' => $partner['desc_long'],
+                    'address' => isset($partner['address']) ? $partner['address'] : null,
+                    'telephone' => isset($partner['telephone']) ? $partner['telephone'] : null,
+                    'email' => isset($partner['email']) ? $partner['email'] : null,
+                    'url' => $partner['url'],
+                    'public_url' => $partner['public_url'],
+                    'image_small' => isset($partner['image_small']) ? $partner['image_small'] : null,
+                    'image_big' => (($campaign['has_gold'] == '1') && isset($partner['image_big'])) ? $partner['image_big'] : null,
+                    'image_promo' => null,
+                    'image_promo_url' => null,
+                    'banner_image_en' => null,
+                    'banner_url_en' => null,
+                    'twitter_en' => null,
+                    'banner_image_de' => null,
+                    'banner_url_de' => null,
+                    'twitter_de' => null);
+
+      if ( $campaign['has_gold'] == '1' ) {
+        if ( isset($partner['image_promo_url']) ) {
+          $data['image_promo_url'] = $partner['image_promo_url'];
+
+          if ( isset($partner['image_promo']) ) {
+            $data['image_promo'] = $partner['image_promo'];
+          }
+        }
+
+        if ( isset($partner['banner_url_en']) ) {
+          $data['banner_url_en'] = $partner['banner_url_en'];
+
+          if ( isset($partner['banner_image_en']) ) {
+            $data['banner_image_en'] = $partner['banner_image_en'];
+          }
+
+          if ( isset($partner['twitter_en']) ) {
+            $data['twitter_en'] = $partner['twitter_en'];
+          }
+        }
+
+        if ( isset($partner['banner_url_de']) ) {
+          $data['banner_url_de'] = $partner['banner_url_de'];
+
+          if ( isset($partner['banner_image_de']) ) {
+            $data['banner_image_de'] = $partner['banner_image_de'];
+          }
+
+          if ( isset($partner['twitter_de']) ) {
+            $data['twitter_de'] = $partner['twitter_de'];
+          }
+        }
+      }
+
+      $result = OSCOM::callDB('Website\PartnerSave', $data, 'Site');
+
+      Cache::clear('website_partner-' . $data['code']);
+      Cache::clear('website_partner_promotions');
+      Cache::clear('website_partners');
+
+      return $result;
+    }
   }
+?>

@@ -1,0 +1,220 @@
+<div id="highlights">
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="span12">
+    <div id="maincontent">
+      <h1>{lang}dashboard_title{lang}</h1>
+
+      {widget}message_stack|services{widget}
+
+      <h3>{value}partner_campaign title{value} <small>(in {value}partner_campaign category_title{value})</small></h3>
+
+      <form action="{link}Services|Website|Dashboard&Edit={raw}partner_campaign code{raw}&Process{link}" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <fieldset>
+          <legend>{lang}dashboard_partner_information_page{lang} <small class="pull-right text-error">{lang}dashboard_required_fields{lang}</small></legend>
+
+          <div class="control-group">
+            <label class="control-label" for="inputDescShort"><strong>{lang}dashboard_field_desc_short_title{lang}</strong> <span class="text-error">*</span></label>
+
+            <div class="controls">
+              <textarea id="inputDescShort" name="desc_short" rows="6" maxlength="450" class="span8">{post}desc_short|partner_campaign desc_short{post}</textarea>
+              <span class="help-block"><small>{lang}dashboard_field_desc_short_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputDescLong"><strong>{lang}dashboard_field_desc_long_title{lang}</strong> <span class="text-error">*</span></label>
+
+            <div class="controls">
+              <textarea id="inputDescLong" name="desc_long" rows="15" class="span8">{post}desc_long|partner_campaign desc_long{post}</textarea>
+              <span class="help-block"><small>{lang}dashboard_field_desc_long_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputAddress"><strong>{lang}dashboard_field_address_title{lang}</strong></label>
+
+            <div class="controls">
+              <textarea id="inputAddress" name="address" rows="5" maxlength="255" class="span8">{post}address|partner_campaign address{post}</textarea>
+              <span class="help-block"><small>{lang}dashboard_field_address_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputTelephone"><strong>{lang}dashboard_field_telephone_title{lang}</strong></label>
+
+            <div class="controls">
+              <input type="text" id="inputTelephone" name="telephone" value="{post}telephone|partner_campaign telephone{post}" class="span8" />
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputEmail"><strong>{lang}dashboard_field_email_title{lang}</strong></label>
+
+            <div class="controls">
+              <input type="text" id="inputEmail" name="email" value="{post}email|partner_campaign email{post}" class="span8" />
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputPublicUrl"><strong>{lang}dashboard_field_public_url_title{lang}</strong> <span class="text-error">*</span></label>
+
+            <div class="controls">
+              <input type="text" id="inputPublicUrl" name="public_url" value="{post}public_url|partner_campaign public_url{post}" class="span8" />
+              <span class="help-block"><small>{lang}dashboard_field_public_url_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputUrl"><strong>{lang}dashboard_field_url_title{lang}</strong> <span class="text-error">*</span></label>
+
+            <div class="controls">
+              <input type="text" id="inputUrl" name="url" value="{post}url|partner_campaign url{post}" class="span8" />
+              <span class="help-block"><small>{lang}dashboard_field_url_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="inputImageSmall"><strong>{lang}dashboard_field_image_small_title{lang}</strong></label>
+
+            <div class="controls">
+              <input type="file" id="inputImageSmall" name="image_small" class="span6" />
+
+              {ifvalue partner_campaign image_small}
+              <span class="span2 pull-right"><a href="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" target="_blank"><small>{lang}dashboard_view_current_image{lang}</small></a></span>
+              {ifvalue}
+
+              <span class="help-block"><small>{lang}dashboard_field_image_small_desc{lang}</small></span>
+            </div>
+          </div>
+
+          <div class="partner_gold">
+            <div class="control-group">
+              <label class="control-label" for="inputImageBig"><strong>{lang}dashboard_field_image_big_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="file" id="inputImageBig" name="image_big" class="span6" />
+
+                {ifvalue partner_campaign image_big}
+                <span class="span2 pull-right"><a href="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" target="_blank"><small>{lang}dashboard_view_current_image{lang}</small></a></span>
+                {ifvalue}
+
+                <span class="help-block"><small>{lang}dashboard_field_image_big_desc{lang}</small></span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="partner_gold">
+          <fieldset>
+            <legend>{lang}dashboard_promotion_banner{lang}</legend>
+
+            <div class="control-group">
+              <label class="control-label" for="inputImagePromo"><strong>{lang}dashboard_field_image_promo_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="file" id="inputImagePromo" name="image_promo" class="span6" />
+
+                {ifvalue partner_campaign image_promo}
+                <span class="span2 pull-right"><a href="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" target="_blank"><small>{lang}dashboard_view_current_image{lang}</small></a></span>
+                {ifvalue}
+
+                <span class="help-block"><small>{lang}dashboard_field_image_promo_desc{lang}</small></span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="inputPromoUrl"><strong>{lang}dashboard_field_image_promo_url_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="text" id="inputPromoUrl" name="image_promo_url" value="{post}image_promo_url|partner_campaign image_promo_url{post}" class="span8" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>{lang}dashboard_banner_english{lang}</legend>
+
+            <div class="control-group">
+              <label class="control-label" for="inputBannerImageEn"><strong>{lang}dashboard_field_banner_image_en_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="file" id="inputBannerImageEn" name="banner_image_en" class="span6" />
+
+                {ifvalue partner_campaign banner_image_en}
+                <span class="span2 pull-right"><a href="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" target="_blank"><small>{lang}dashboard_view_current_image{lang}</small></a></span>
+                {ifvalue}
+
+                <span class="help-block"><small>{lang}dashboard_field_banner_image_en_desc{lang}</small></span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="inputBannerUrlEn"><strong>{lang}dashboard_field_banner_url_en_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="text" id="inputBannerUrlEn" name="banner_url_en" value="{post}banner_url_en|partner_campaign banner_url_en{post}" class="span8" />
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="inputTwitterEn"><strong>{lang}dashboard_field_twitter_en_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="text" id="inputTwitterEn" name="twitter_en" value="{post}twitter_en|partner_campaign twitter_en{post}" class="span8" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>{lang}dashboard_banner_german{lang}</legend>
+
+            <div class="control-group">
+              <label class="control-label" for="inputBannerImageDe"><strong>{lang}dashboard_field_banner_image_de_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="file" id="inputBannerImageDe" name="banner_image_de" class="span6" />
+
+                {ifvalue partner_campaign banner_image_de}
+                <span class="span2 pull-right"><a href="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" target="_blank"><small>{lang}dashboard_view_current_image{lang}</small></a></span>
+                {ifvalue}
+
+                <span class="help-block"><small>{lang}dashboard_field_banner_image_de_desc{lang}</small></span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="inputBannerUrlDe"><strong>{lang}dashboard_field_banner_url_de_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="text" id="inputBannerUrlDe" name="banner_url_de" value="{post}banner_url_de|partner_campaign banner_url_de{post}" class="span8" />
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="inputTwitterDe"><strong>{lang}dashboard_field_twitter_de_title{lang}</strong></label>
+
+              <div class="controls">
+                <input type="text" id="inputTwitterDe" name="twitter_de" value="{post}twitter_de|partner_campaign twitter_de{post}" class="span8" />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-success">{lang}dashboard_button_save{lang}</button> <a href="{link}Services|Website|Dashboard{link}" class="btn btn-link">{lang}dashboard_button_cancel{lang}</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+if ( {value}partner_campaign has_gold{value} != 1 ) {
+  $('.partner_gold').remove();
+}
+</script>

@@ -1,0 +1,44 @@
+<div id="highlights">
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="span9">
+    <div id="maincontent">
+      <h1>{lang}dashboard_title{lang}</h1>
+
+      {widget}message_stack|services{widget}
+
+      {lang}login_introduction{lang}
+
+      <form action="{link}Services|Website|Login&Process{link}" method="post" class="form-horizontal">
+        <div class="control-group">
+          <label class="control-label" for="inputUsername">{lang}login_username_title{lang}</label>
+
+          <div class="controls">
+            <input type="text" id="inputUsername" name="username" value="{post}username{post}" />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="inputPassword">{lang}login_password_title{lang}</label>
+
+          <div class="controls">
+            <input type="password" id="inputPassword" name="password" />
+            <span class="help-block"><small><a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=lostpass" class="muted">{lang}login_password_forgotten_title{lang}</a></small></span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn">{lang}login_button_sign_in{lang}</button>
+          </div>
+        </div>
+      </form>
+
+      <p><small>{lang}login_create_account_text{lang}</small></p>
+    </div>
+  </div>
+
+  {widget}services_sidebar_nav{widget}
+</div>
