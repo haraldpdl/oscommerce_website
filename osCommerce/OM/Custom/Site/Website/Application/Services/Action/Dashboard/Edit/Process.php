@@ -87,6 +87,45 @@
         }
       }
 
+      if ( isset($_POST['youtube_video_id']) ) {
+        $youtube_video_id = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['youtube_video_id']));
+
+        if ( strlen($youtube_video_id) > 255 ) {
+          $error = true;
+
+          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_length'));
+        } else {
+          $curl = curl_init('https://gdata.youtube.com/feeds/api/videos/' . $youtube_video_id);
+
+          $curl_options = array(CURLOPT_HEADER => true,
+                                CURLOPT_SSL_VERIFYPEER => true,
+                                CURLOPT_SSL_VERIFYHOST => 2,
+                                CURLOPT_NOBODY => true,
+                                CURLOPT_FORBID_REUSE => true,
+                                CURLOPT_FRESH_CONNECT => true,
+                                CURLOPT_FOLLOWLOCATION => false);
+
+          curl_setopt_array($curl, $curl_options);
+          $result = curl_exec($curl);
+
+          if ( $result !== false ) {
+            $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if ( $http_code !== 200 ) {
+              $error = true;
+
+              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_invalid'));
+            } else {
+              $data['youtube_video_id'] = !empty($youtube_video_id) ? $youtube_video_id : null;
+            }
+          } else {
+            $error = true;
+
+            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_invalid'));
+          }
+        }
+      }
+
       if ( !isset($_POST['public_url']) || empty($_POST['public_url']) ) {
         $error = true;
 

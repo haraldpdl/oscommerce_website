@@ -123,6 +123,7 @@
                     'address' => isset($partner['address']) ? $partner['address'] : null,
                     'telephone' => isset($partner['telephone']) ? $partner['telephone'] : null,
                     'email' => isset($partner['email']) ? $partner['email'] : null,
+                    'youtube_video_id' => isset($partner['youtube_video_id']) ? $partner['youtube_video_id'] : null,
                     'url' => $partner['url'],
                     'public_url' => $partner['public_url'],
                     'image_small' => isset($partner['image_small']) ? $partner['image_small'] : null,

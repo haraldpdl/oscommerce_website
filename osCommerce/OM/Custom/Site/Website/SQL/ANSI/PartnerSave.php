@@ -19,6 +19,7 @@
                        'address' => $data['address'],
                        'telephone' => $data['telephone'],
                        'email' => $data['email'],
+                       'youtube_video_id' => $data['youtube_video_id'],
                        'url' => $data['url'],
                        'public_url' => $data['public_url'],
                        'image_promo_url' => $data['image_promo_url']);

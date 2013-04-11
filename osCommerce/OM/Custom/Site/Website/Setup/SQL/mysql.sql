@@ -87,6 +87,7 @@ CREATE TABLE osc_website_partner (
   image_big varchar(255),
   image_promo varchar(255),
   image_promo_url varchar(255),
+  youtube_video_id varchar(255),
   PRIMARY KEY (id),
   KEY idx_ws_partner_title (title),
   KEY idx_ws_partner_code (code),
