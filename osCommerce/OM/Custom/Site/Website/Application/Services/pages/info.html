@@ -9,7 +9,7 @@
 
       <a href="{value}partner url{value}" target="_blank"><img src="{publiclink}images/partners/{raw}partner image_small{raw}{publiclink}" alt="" title="{value}partner title{value}" width="130" height="50" style="float: left; margin-right: 10px;" /></a>
 
-      <p>{nl2br}{value}partner desc_long{value}{nl2br}</p>
+      <p>{nl2br}{parse b u i url}{value}partner desc_long{value}{parse}{nl2br}</p>
 
 {ifvalue partner youtube_video_id}
       <div style="text-align: center; padding-bottom: 20px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" frameborder="0" allowfullscreen></iframe></div>
