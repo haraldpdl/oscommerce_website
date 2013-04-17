@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 DROP TABLE IF EXISTS osc_website_downloads;
@@ -128,6 +128,17 @@ CREATE TABLE osc_website_partner_transaction (
   KEY idx_ws_partner_tx_package_id (package_id),
   KEY idx_ws_partner_tx_date_start (date_start),
   KEY idx_ws_partner_tx_date_end (date_end)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS osc_website_partner_status_update;
+CREATE TABLE osc_website_partner_status_update (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  partner_id int unsigned NOT NULL,
+  code varchar(255) NOT NULL,
+  status_update text,
+  date_added datetime,
+  PRIMARY KEY (id),
+  KEY idx_ws_partner_su_partner_id (partner_id)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS osc_website_user_server_info;

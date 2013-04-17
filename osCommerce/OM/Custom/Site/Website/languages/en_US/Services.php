@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 services_html_page_title = osCommerce, Partner Services
@@ -84,10 +84,16 @@ dashboard_field_banner_image_en_title = Banner Image
 dashboard_field_banner_image_en_desc = 468 x 60px; gif png jpg
 dashboard_field_banner_url_en_title = Banner URL
 dashboard_field_twitter_en_title = Twitter Account
+dashboard_field_twitter_en_desc = <span class="text-error">Active until May 7 2013</span>
+dashboard_field_status_update_en_title = Status Update
+dashboard_field_status_update_en_desc = Max 200 characters; No HTML; Line breaks ignored; &#123;url&#125;url|title&#123;url&#125;
 dashboard_field_banner_image_de_title = Banner Image
 dashboard_field_banner_image_de_desc = 468 x 60px; gif png jpg; Must be in German!
 dashboard_field_banner_url_de_title = Banner URL
 dashboard_field_twitter_de_title = Twitter Account
+dashboard_field_twitter_de_desc = <span class="text-error">Active until May 7 2013</span>
+dashboard_field_status_update_de_title = Status Update
+dashboard_field_status_update_de_desc = Max 200 characters; No HTML; Line breaks ignored; &#123;url&#125;url|title&#123;url&#125;
 dashboard_view_current_image = View Current
 dashboard_button_save = Save
 dashboard_button_cancel = Cancel
@@ -111,9 +117,11 @@ dashboard_error_image_promo_url_error = Promotion Image URL must not be greater 
 dashboard_error_banner_image_en_error = Banner Image (English) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 dashboard_error_banner_url_en_length = Banner URL (English) must not be greater than 255 characters.
 dashboard_error_twitter_en_length = Twitter Account (English) must not be greater than 255 characters.
+dashboard_error_status_update_en_length = Status Update (English) must not be greater than 200 characters.
 dashboard_error_banner_image_de_error = Banner Image (German) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 dashboard_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 dashboard_error_twitter_de_length = Twitter Account (German) must not be greater than 255 characters.
+dashboard_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
 dashboard_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">View</a>
 
 login_introduction = <p>Please sign in with your <a href="http://forums.oscommerce.com">community profile</a> account.</p>

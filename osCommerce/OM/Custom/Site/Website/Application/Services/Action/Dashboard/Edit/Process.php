@@ -275,6 +275,18 @@
           }
         }
 
+        if ( isset($_POST['status_update_en']) ) {
+          $status_update_en = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['status_update_en']));
+
+          if ( strlen($status_update_en) > 200 ) {
+            $error = true;
+
+            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_status_update_en_length'));
+          } else {
+            $data['status_update_en'] = !empty($status_update_en) ? $status_update_en : null;
+          }
+        }
+
         if ( isset($_FILES['banner_image_de']['name']) && !empty($_FILES['banner_image_de']['name']) ) {
           $Ubanner_image_de = new Upload('banner_image_de', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('gif', 'jpg', 'png'), true);
   
@@ -317,6 +329,18 @@
           } else {
             $data['twitter_de'] = !empty($twitter_de) ? $twitter_de : null;
           }
+        }
+      }
+
+      if ( isset($_POST['status_update_de']) ) {
+        $status_update_de = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['status_update_de']));
+
+        if ( strlen($status_update_de) > 200 ) {
+          $error = true;
+
+          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_status_update_de_length'));
+        } else {
+          $data['status_update_de'] = !empty($status_update_de) ? $status_update_de : null;
         }
       }
 

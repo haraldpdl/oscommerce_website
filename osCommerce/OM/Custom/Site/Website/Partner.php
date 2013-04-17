@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -133,9 +133,11 @@
                     'banner_image_en' => null,
                     'banner_url_en' => null,
                     'twitter_en' => null,
+                    'status_update_en' => null,
                     'banner_image_de' => null,
                     'banner_url_de' => null,
-                    'twitter_de' => null);
+                    'twitter_de' => null,
+                    'status_update_de' => null);
 
       if ( $campaign['has_gold'] == '1' ) {
         if ( isset($partner['image_promo_url']) ) {
@@ -158,6 +160,10 @@
           }
         }
 
+        if ( isset($partner['status_update_en']) ) {
+          $data['status_update_en'] = $partner['status_update_en'];
+        }
+
         if ( isset($partner['banner_url_de']) ) {
           $data['banner_url_de'] = $partner['banner_url_de'];
 
@@ -168,6 +174,10 @@
           if ( isset($partner['twitter_de']) ) {
             $data['twitter_de'] = $partner['twitter_de'];
           }
+        }
+
+        if ( isset($partner['status_update_de']) ) {
+          $data['status_update_de'] = $partner['status_update_de'];
         }
       }
 

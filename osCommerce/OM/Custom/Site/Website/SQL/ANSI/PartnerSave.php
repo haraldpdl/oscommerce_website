@@ -70,6 +70,28 @@
         $OSCOM_PDO->save('website_partner_banner', $banner);
       }
 
+      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "en"');
+      $Qcheck->bindInt(':partner_id', $data['id']);
+      $Qcheck->execute();
+
+      if ( $Qcheck->fetch() !== false ) {
+        if ( !isset($data['status_update_en']) ) {
+          $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
+        } else {
+          $status = array('status_update' => $data['status_update_en'],
+                          'date_added' => 'now()');
+
+          $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+        }
+      } elseif ( isset($data['status_update_en']) ) {
+        $status = array('partner_id' => $data['id'],
+                        'code' => 'en',
+                        'status_update' => $data['status_update_en'],
+                        'date_added' => 'now()');
+
+        $OSCOM_PDO->save('website_partner_status_update', $status);
+      }
+
       $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = "de"');
       $Qcheck->bindInt(':partner_id', $data['id']);
       $Qcheck->execute();
@@ -98,6 +120,28 @@
         }
 
         $OSCOM_PDO->save('website_partner_banner', $banner);
+      }
+
+      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "de"');
+      $Qcheck->bindInt(':partner_id', $data['id']);
+      $Qcheck->execute();
+
+      if ( $Qcheck->fetch() !== false ) {
+        if ( !isset($data['status_update_de']) ) {
+          $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
+        } else {
+          $status = array('status_update' => $data['status_update_de'],
+                          'date_added' => 'now()');
+
+          $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+        }
+      } elseif ( isset($data['status_update_de']) ) {
+        $status = array('partner_id' => $data['id'],
+                        'code' => 'de',
+                        'status_update' => $data['status_update_de'],
+                        'date_added' => 'now()');
+
+        $OSCOM_PDO->save('website_partner_status_update', $status);
       }
 
       return true;
