@@ -60,7 +60,9 @@ function oscLoadStatusUpdate() {
 jQuery(function() {
   oscLoadBanner();
 
-  if ( oscPartner.twitter != null ) {
+  if ( oscPartner.status_update != null ) {
+    oscLoadStatusUpdate();
+  } else if ( oscPartner.twitter != null ) {
     jQuery.getJSON('http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' + oscPartner.twitter + '&count=1&callback=?', function (data) {
       if ( data.length > 0 && data[0].text.length > 0 ) {
         oscPartner.status_update = '<a href="http://twitter.com/' + data[0].user['screen_name'] + '/status/' + data[0].id_str + '" target="_blank">' + data[0].text + '</a>';
@@ -68,8 +70,6 @@ jQuery(function() {
         oscLoadStatusUpdate();
       }
     });
-  } else if ( oscPartner.status_update != null ) {
-    oscLoadStatusUpdate();
   }
 });
 JAVASCRIPT;
