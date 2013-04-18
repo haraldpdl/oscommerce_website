@@ -26,8 +26,8 @@
       $output = <<<JAVASCRIPT
 var oscNews = $json
 
-jQuery(function() {
-  jQuery('#latest_news_content').html('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
+document.observe('dom:loaded', function() {
+  $('latest_news_content').update('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
 });
 JAVASCRIPT;
 
