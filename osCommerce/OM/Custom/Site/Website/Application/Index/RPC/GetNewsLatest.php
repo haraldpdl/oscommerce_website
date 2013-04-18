@@ -19,6 +19,8 @@
       $result = array('title' => $news['title'],
                       'url' => OSCOM::getLink(null, 'Us', 'News=' . $news['id'], 'NONSSL', false));
 
+      header('Cache-Control: max-age=10800, must-revalidate');
+      header_remove('Pragma');
       header('Content-Type: application/javascript');
 
       $json = json_encode($result);
