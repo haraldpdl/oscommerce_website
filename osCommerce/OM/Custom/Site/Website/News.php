@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -15,6 +15,10 @@
 
     public static function getListing() {
       return OSCOM::callDB('Website\GetNewsListing', null, 'Site');
+    }
+
+    public static function getLatest() {
+      return OSCOM::callDB('Website\GetNewsLatest', null, 'Site');
     }
 
     public static function get($id, $key = null) {
