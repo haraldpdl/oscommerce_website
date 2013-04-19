@@ -45,29 +45,31 @@
         $json = json_encode($result);
 
         $output = <<<JAVASCRIPT
-jQuery.ajaxSetup({ cache: false });
-
 var oscPartner = $json
 
 function oscLoadBanner() {
-  jQuery('#osCCS').html('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
+  $('osCCS').update('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
 }
 
 function oscLoadStatusUpdate() {
-  jQuery('#osCCS').append('<div id="osCCSDesc"><p><b>' + oscPartner.title + '</b></p><p>' + oscPartner.status_update + '</p></div>');
+  $('osCCS').insert('<div id="osCCSDesc"><p><a href="' + oscPartner.url + '" target="_blank"><strong>' + oscPartner.title + '</strong></a></p><p>' + oscPartner.status_update + '</p></div>');
 }
 
-jQuery(function() {
+document.observe('dom:loaded', function() {
   oscLoadBanner();
 
   if ( oscPartner.status_update != null ) {
     oscLoadStatusUpdate();
   } else if ( oscPartner.twitter != null ) {
-    jQuery.getJSON('http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' + oscPartner.twitter + '&count=1&callback=?', function (data) {
-      if ( data.length > 0 && data[0].text.length > 0 ) {
-        oscPartner.status_update = '<a href="http://twitter.com/' + data[0].user['screen_name'] + '/status/' + data[0].id_str + '" target="_blank">' + data[0].text + '</a>';
+    new Ajax.JSONRequest('http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' + oscPartner.twitter + '&count=1', {
+      onSuccess: function(response) {
+        var data = response.responseJSON;
 
-        oscLoadStatusUpdate();
+        if ( data.length > 0 && data[0].text.length > 0 ) {
+          oscPartner.status_update = '<a href="http://twitter.com/' + data[0].user['screen_name'] + '/status/' + data[0].id_str + '" target="_blank">' + data[0].text + '</a>';
+
+          oscLoadStatusUpdate();
+        }
       }
     });
   }
