@@ -48,8 +48,7 @@
         if ( !isset($data['banner_url_en']) ) {
           $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
         } else {
-          $banner = array('url' => $data['banner_url_en'],
-                          'twitter' => $data['twitter_en']);
+          $banner = array('url' => $data['banner_url_en']);
 
           if ( isset($data['banner_image_en']) ) {
             $banner['image'] = $data['banner_image_en'];
@@ -60,8 +59,7 @@
       } elseif ( isset($data['banner_url_en']) ) {
         $banner = array('partner_id' => $data['id'],
                         'code' => 'en',
-                        'url' => $data['banner_url_en'],
-                        'twitter' => $data['twitter_en']);
+                        'url' => $data['banner_url_en']);
 
         if ( isset($data['banner_image_en']) ) {
           $banner['image'] = $data['banner_image_en'];
@@ -100,8 +98,7 @@
         if ( !isset($data['banner_url_de']) ) {
           $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
         } else {
-          $banner = array('url' => $data['banner_url_de'],
-                          'twitter' => $data['twitter_de']);
+          $banner = array('url' => $data['banner_url_de']);
 
           if ( isset($data['banner_image_de']) ) {
             $banner['image'] = $data['banner_image_de'];
@@ -112,8 +109,7 @@
       } elseif ( isset($data['banner_url_de']) ) {
         $banner = array('partner_id' => $data['id'],
                         'code' => 'de',
-                        'url' => $data['banner_url_de'],
-                        'twitter' => $data['twitter_de']);
+                        'url' => $data['banner_url_de']);
 
         if ( isset($data['banner_image_de']) ) {
           $banner['image'] = $data['banner_image_de'];

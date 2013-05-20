@@ -87,7 +87,7 @@
         }
       }
 
-      if ( isset($_POST['youtube_video_id']) ) {
+      if ( isset($_POST['youtube_video_id']) && !empty($_POST['youtube_video_id']) ) {
         $youtube_video_id = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['youtube_video_id']));
 
         if ( strlen($youtube_video_id) > 255 ) {
@@ -263,18 +263,6 @@
           }
         }
 
-        if ( isset($_POST['twitter_en']) ) {
-          $twitter_en = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['twitter_en']));
-
-          if ( strlen($twitter_en) > 255 ) {
-            $error = true;
-
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_twitter_en_length'));
-          } else {
-            $data['twitter_en'] = !empty($twitter_en) ? $twitter_en : null;
-          }
-        }
-
         if ( isset($_POST['status_update_en']) ) {
           $status_update_en = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['status_update_en']));
 
@@ -316,18 +304,6 @@
             $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_url_de_length'));
           } else {
             $data['banner_url_de'] = !empty($banner_url_de) ? $banner_url_de : null;
-          }
-        }
-
-        if ( isset($_POST['twitter_de']) ) {
-          $twitter_de = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['twitter_de']));
-
-          if ( strlen($twitter_de) > 255 ) {
-            $error = true;
-
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_twitter_de_length'));
-          } else {
-            $data['twitter_de'] = !empty($twitter_de) ? $twitter_de : null;
           }
         }
       }

@@ -23,7 +23,7 @@
         $group = HTML::outputProtected($_GET['group']);
       }
 
-      $Qpartners = $OSCOM_PDO->prepare('select p.title, p.image_small, b.image, b.url, b.twitter, su.status_update from :table_website_partner p left join :table_website_partner_status_update su on (p.id = su.partner_id and su.code = :sucode), :table_website_partner_banner b, :table_website_partner_transaction t where t.package_id = 3 and t.date_start <= now() and t.date_end >= now() and t.partner_id = p.id and p.id = b.partner_id and b.code = :code group by p.id order by rand()');
+      $Qpartners = $OSCOM_PDO->prepare('select p.title, p.image_small, b.image, b.url, su.status_update from :table_website_partner p left join :table_website_partner_status_update su on (p.id = su.partner_id and su.code = :sucode), :table_website_partner_banner b, :table_website_partner_transaction t where t.package_id = 3 and t.date_start <= now() and t.date_end >= now() and t.partner_id = p.id and p.id = b.partner_id and b.code = :code group by p.id order by rand()');
       $Qpartners->bindValue(':sucode', $group);
       $Qpartners->bindValue(':code', $group);
       $Qpartners->setCache('website_partners-all-banners-' . $group, 180);
@@ -37,8 +37,7 @@
         $result = array('url' => HTML::outputProtected($data['url']),
                         'image' => 'http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $data['image']),
                         'title' => HTML::outputProtected($data['title']),
-                        'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), array('url')) : null,
-                        'twitter' => !empty($data['twitter']) ? HTML::outputProtected($data['twitter']) : null);
+                        'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), array('url')) : null);
 
         header('Content-Type: application/javascript');
 
@@ -60,18 +59,6 @@ document.observe('dom:loaded', function() {
 
   if ( oscPartner.status_update != null ) {
     oscLoadStatusUpdate();
-  } else if ( oscPartner.twitter != null ) {
-    new Ajax.JSONRequest('http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' + oscPartner.twitter + '&count=1', {
-      onSuccess: function(response) {
-        var data = response.responseJSON;
-
-        if ( data.length > 0 && data[0].text.length > 0 ) {
-          oscPartner.status_update = '<a href="http://twitter.com/' + data[0].user['screen_name'] + '/status/' + data[0].id_str + '" target="_blank">' + data[0].text + '</a>';
-
-          oscLoadStatusUpdate();
-        }
-      }
-    });
   }
 });
 JAVASCRIPT;
