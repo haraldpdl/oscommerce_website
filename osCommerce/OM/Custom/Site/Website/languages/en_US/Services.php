@@ -22,11 +22,13 @@ cs_plans_title_gold = Gold
 
 cs_plans_service_partner = Displayed as a partner on the website
 cs_plans_service_information_page = Own partner information page
-cs_plans_service_commercial_enquiries = View and reply to commercial enquiries on the forum
-cs_plans_service_profile = Highlighted community profile
+cs_plans_service_commercial_enquiries = View and reply to commercial support enquiries on the forum
+cs_plans_service_commercial_feedback = Accept client feedback and reviews on the forum
+cs_plans_service_profile = Promoted community profile
 cs_plans_service_custom_header = Large custom header image on partner information page
 cs_plans_service_promotions = Show promotions on the website
-cs_plans_service_banner = Show banner on the forum with latest tweet
+cs_plans_service_banner = Show banner on the forum with latest status update
+cs_plans_service_adwords = Authorized use of trademark in Google AdWords (min. 6 months)
 
 cs_pricing_title = Pricing
 cs_pricing_1_month = 1 Month
@@ -39,6 +41,7 @@ cs_pricing_info = All prices are in Euro. German residents will be additionally 
 
 cs_enquiry_title = Interested?
 cs_enquiry_info = Send us your enquiries at:
+cs_enquiry_additional_discount = Additional partnerships are available with discounts! Enquire to find out!
 
 listing_html_page_title = osCommerce, :category_title Partners
 

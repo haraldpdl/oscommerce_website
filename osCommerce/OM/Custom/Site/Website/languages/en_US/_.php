@@ -20,6 +20,7 @@ cs_plan_title = Community Sponsorship
 cs_plan_profile = Highlighted community profile
 cs_plan_tickets = Support Tickets for direct support
 cs_plan_commercial = View and reply to commercial enquiries on the forum
+cs_plan_commercial_feedback = Accept client feedback and reviews on the forum
 cs_plan_live_shop = Highlighted live shop entry
 cs_plan_chat = Start personal chats in the Live Chat room
 cs_plan_search = Lowered search flood protection on the forum
