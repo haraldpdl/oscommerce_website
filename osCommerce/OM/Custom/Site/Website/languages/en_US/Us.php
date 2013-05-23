@@ -19,7 +19,10 @@ us_main_content = <p>We're geeks. And we love what we do.</p>
 team_html_page_title = osCommerce, The Team
 
 team_page_title = The Team
-team_page_earlier_members_title = Earlier Team Members from 12 Years
+team_page_core_team_title = Core Team
+team_page_community_team_title = Community Team
+team_page_german_team_title = German Team
+team_page_earlier_members_title = Earlier Team Members
 
 team_page_special_thanks = Special thanks all team members for their dedication and support! <span class="label label-success">You Rock!</span>
 
