@@ -355,7 +355,7 @@
 
         Partner::save($_SESSION[OSCOM::getSite()]['Services']['id'], $partner['code'], $data);
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_success_save', array(':partner_link' => OSCOM::getLink(null, 'Services', $partner['category_code'] . '&' . $partner['code']))), 'success');
+        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_success_save', array(':partner_link' => OSCOM::getLink(null, 'Services', 'Dashboard&View=' . $partner['code']))), 'success');
 
         OSCOM::redirect(OSCOM::getLink(null, 'Services', 'Dashboard&Edit=' . $partner['code']));
       }

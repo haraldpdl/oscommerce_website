@@ -119,7 +119,7 @@ dashboard_error_status_update_en_length = Status Update (English) must not be gr
 dashboard_error_banner_image_de_error = Banner Image (German) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 dashboard_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 dashboard_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
-dashboard_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">View</a>
+dashboard_success_save = Partner information has been updated! <a href=":partner_link" target="_blank" class="btn btn-small pull-right">View</a>
 
 login_introduction = <p>Please sign in with your <a href="http://forums.oscommerce.com">community profile</a> account.</p>
 login_username_title = Username:
