@@ -44,6 +44,7 @@
 
       $OSCOM_Template->setValue('partner_title', $partner_title);
       $OSCOM_Template->setValue('partner_url', $partner_url);
+      $OSCOM_Template->setValue('partner_url_js', json_encode($partner_url));
 
       $application->setPageContent('redirect.html');
       $application->setPageTitle(OSCOM::getDef('redirect_html_page_title', array(':partner_title' => $partner_title)));

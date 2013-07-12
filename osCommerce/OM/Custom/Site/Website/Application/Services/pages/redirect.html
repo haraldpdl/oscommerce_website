@@ -12,7 +12,7 @@ $(function() {
   var redirect_timer = setInterval(function() {
     if ( --redirect_count < 1 ) {
       clearInterval(redirect_timer);
-      window.location.href = '{value}partner_url{value}';
+      window.location.href = {raw}partner_url_js{raw};
     }
 
     $('#redirect_counter').text(redirect_count);
