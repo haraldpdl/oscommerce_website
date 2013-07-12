@@ -9,6 +9,7 @@
   namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
   use osCommerce\OM\Core\HTML;
+  use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
   class GetPartnerStatusUpdates {
@@ -39,7 +40,7 @@
 
         $result[] = array('code' => $Qpartners->value('code'),
                           'title' => $Qpartners->valueProtected('title'),
-                          'url' => $Qpartners->valueProtected('url'),
+                          'url' => OSCOM::getLink('Website', 'Services', 'Redirect=' . $Qpartners->value('code'), 'NONSSL', false),
                           'status_update' => $OSCOM_Template->parseContent(HTML::outputProtected($status_update), array('partnerurl')),
                           'category_title' => $Qpartners->value('category_title'),
                           'category_code' => $Qpartners->value('category_code'));
