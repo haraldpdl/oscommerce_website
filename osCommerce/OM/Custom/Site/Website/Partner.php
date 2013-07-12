@@ -113,6 +113,10 @@
       return OSCOM::callDB('Website\PartnerGetCampaign', array('id' => $id, 'code' => $code), 'Site');
     }
 
+    public static function getStatusUpdateUrl($code, $url_id) {
+      return OSCOM::callDB('Website\GetPartnerStatusUpdateUrl', array('partner_id' => static::get($code, 'id'), 'id' => $url_id), 'Site');
+    }
+
     public static function save($user_id, $code, $partner) {
       $campaign = static::getCampaign($user_id, $code);
 

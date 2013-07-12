@@ -30,10 +30,17 @@
       $result = array();
 
       while ( $Qpartners->fetch() ) {
+        $status_update = $Qpartners->value('status_update');
+
+// Oh yes, I may just sneak in an old switcheroo!
+        if ( strpos($status_update, '{url}') !== false ) {
+          $status_update = preg_replace('/(\{url\})(.*)(\{url\})/s', '{partnerurl ' . $Qpartners->value('code') . '}$2{partnerurl}', $status_update);
+        }
+
         $result[] = array('code' => $Qpartners->value('code'),
                           'title' => $Qpartners->valueProtected('title'),
                           'url' => $Qpartners->valueProtected('url'),
-                          'status_update' => $OSCOM_Template->parseContent($Qpartners->valueProtected('status_update'), array('url')),
+                          'status_update' => $OSCOM_Template->parseContent(HTML::outputProtected($status_update), array('partnerurl')),
                           'category_title' => $Qpartners->value('category_title'),
                           'category_code' => $Qpartners->value('category_code'));
       }

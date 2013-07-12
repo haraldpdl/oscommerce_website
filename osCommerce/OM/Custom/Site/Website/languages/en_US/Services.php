@@ -127,3 +127,9 @@ login_password_title = Password:
 login_password_forgotten_title = Password forgotten?
 login_button_sign_in = Sign In
 login_create_account_text = Don't have a community profile account? <a href="{link}Services|Website|Info{link}">Send us an enquiry</a> and we'll get back to you.
+
+redirect_html_page_title = osCommerce, Redirecting to :partner_title
+
+redirect_title = Redirecting..
+redirect_description = Redirecting to {value}partner_title{value} in <span id="redirect_counter">5</span> second(s)
+redirect_button = Skip, and continue now..

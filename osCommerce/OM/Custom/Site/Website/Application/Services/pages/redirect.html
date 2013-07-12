@@ -1,0 +1,21 @@
+<div class="hero-unit">
+  <h1>{lang}redirect_title{lang}</h1>
+
+  <p>{lang}redirect_description{lang}</p>
+
+  <p><a href="{value}partner_url{value}" class="btn btn-primary btn-large">{lang}redirect_button{lang}</a></p>
+</div>
+
+<script>
+$(function() {
+  var redirect_count = 5;
+  var redirect_timer = setInterval(function() {
+    if ( --redirect_count < 1 ) {
+      clearInterval(redirect_timer);
+      window.location.href = '{value}partner_url{value}';
+    }
+
+    $('#redirect_counter').text(redirect_count);
+  }, 1000);
+});
+</script>

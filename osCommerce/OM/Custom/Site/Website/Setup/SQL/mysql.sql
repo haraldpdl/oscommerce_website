@@ -141,6 +141,17 @@ CREATE TABLE osc_website_partner_status_update (
   KEY idx_ws_partner_su_partner_id (partner_id)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS osc_website_partner_status_update_urls;
+CREATE TABLE osc_website_partner_status_update_urls (
+  id char(8) NOT NULL,
+  partner_id int unsigned NOT NULL,
+  url varchar(255) NOT NULL,
+  date_added datetime,
+  PRIMARY KEY (id),
+  KEY idx_ws_partner_su_u_partner_id (partner_id),
+  KEY idx_ws_partner_su_u_url (url)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 DROP TABLE IF EXISTS osc_website_user_server_info;
 CREATE TABLE osc_website_user_server_info (
   id int unsigned NOT NULL AUTO_INCREMENT,
