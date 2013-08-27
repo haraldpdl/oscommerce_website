@@ -3,7 +3,7 @@
 # @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
-services_html_page_title = osCommerce, Partner Services
+services_html_page_title = Partner Services | osCommerce
 
 services_page_title = Services
 
@@ -11,7 +11,7 @@ services_main_content = <p>We focus on providing you the best products possible 
 
 promotions_heading = Promotions
 
-cs_html_page_title = osCommerce, Partner With Us
+cs_html_page_title = Partner With Us | osCommerce
 
 cs_page_title = Partner With Us
 cs_main_content = <p>We partner with experts around the world who focus on providing the best services to customers. If you provide e-commerce services and would like to support us and be promoted to our community, get in touch - we're excited to work with you!</p>
@@ -43,9 +43,9 @@ cs_enquiry_title = Interested?
 cs_enquiry_info = Send us your enquiries at:
 cs_enquiry_additional_discount = Additional partnerships are available with discounts! Enquire to find out!
 
-listing_html_page_title = osCommerce, :category_title Partners
+listing_html_page_title = :category_title Partners | osCommerce
 
-partner_html_page_title = osCommerce Partner, :partner_title
+partner_html_page_title = :partner_title | osCommerce
 
 button_partner_with_us = Partner with us
 button_find_out_more = Find out more
@@ -53,7 +53,7 @@ button_visit_partner_website = Visit Partner Website
 
 link_back_to_listing = Back to listing
 
-dashboard_html_title = osCommerce, Partner Dashboard
+dashboard_html_title = Partner Dashboard | osCommerce
 dashboard_title = Partner Dashboard
 dashboard_introduction = Please select a campaign to edit:
 dashboard_empty = There are currently no campaigns available. <a href="{link}Services|Website|Info{link}">Send us an enquiry</a> and we'll get back to you.
@@ -128,7 +128,7 @@ login_password_forgotten_title = Password forgotten?
 login_button_sign_in = Sign In
 login_create_account_text = Don't have a community profile account? <a href="{link}Services|Website|Info{link}">Send us an enquiry</a> and we'll get back to you.
 
-redirect_html_page_title = osCommerce, Redirecting to :partner_title
+redirect_html_page_title = Redirecting to :partner_title | osCommerce
 
 redirect_title = Redirecting..
 redirect_description = Redirecting to {value}partner_title{value} in <span id="redirect_counter">5</span> second(s)

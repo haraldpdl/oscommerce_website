@@ -1,9 +1,9 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
-products_html_page_title = osCommerce Products, osCommerce Online Merchant
+products_html_page_title = Online Merchant | osCommerce
 
 oscom_page_title = Online Merchant
 

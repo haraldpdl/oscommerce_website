@@ -1,9 +1,9 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
-us_html_page_title = osCommerce, Who We Are
+us_html_page_title = Who We Are | osCommerce
 
 us_page_title = Who We Are
 
@@ -16,7 +16,7 @@ us_main_content = <p>We're geeks. And we love what we do.</p>
 <p>We've grown so much with the community and love the engagement in helping us all succeed.</p>
 <p>We're anxious to see you get involved and be part of the success!</p>
 
-team_html_page_title = osCommerce, The Team
+team_html_page_title = The Team | osCommerce
 
 team_page_title = The Team
 team_page_core_team_title = Core Team
@@ -26,7 +26,7 @@ team_page_earlier_members_title = Earlier Team Members
 
 team_page_special_thanks = Special thanks all team members for their dedication and support! <span class="label label-success">You Rock!</span>
 
-legal_html_page_title = osCommerce, Legal
+legal_html_page_title = Legal | osCommerce
 
 legal_page_title = Legal
 
@@ -43,15 +43,15 @@ legal_impressum = <h2 class="text-success">Impressum</h2>
 <p>Harald Ponce de Leon<br />Remscheider Str. 96<br />42659 Solingen<br />Germany<br /><a href="mailto:hpdl@oscommerce.com">hpdl@oscommerce.com</a></p>
 <p>We are not responsible for the content of external sites that are linked to from the osCommerce website, nor for the content the community has submited (eg, add-ons, live shops, forum postings, ..).</p>
 
-news_html_page_title = osCommerce, News
+news_html_page_title = News | osCommerce
 
 news_page_title = News
 
-news_entry_html_page_title = osCommerce News, :news_title
+news_entry_html_page_title = :news_title | osCommerce
 
 link_back_to_listing = Back to listing
 
-marketing_html_page_title = osCommerce, Marketing Material
+marketing_html_page_title = Marketing Material | osCommerce
 
 marketing_page_title = Marketing
 

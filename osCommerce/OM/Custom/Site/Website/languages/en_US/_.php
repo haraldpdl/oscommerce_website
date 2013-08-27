@@ -1,9 +1,9 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
-personal_html_page_title = osCommerce, It's personal, not business.
+personal_html_page_title = It's personal, not business. | osCommerce
 
 personal_page_title = Personal Matters
 

@@ -1,9 +1,9 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
-html_page_title = osCommerce, Creating Online Stores Worldwide
+html_page_title = Creating Online Stores Worldwide | osCommerce
 
 page_title = Sell Online
 
