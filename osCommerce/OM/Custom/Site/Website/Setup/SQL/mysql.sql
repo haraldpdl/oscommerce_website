@@ -28,10 +28,12 @@ CREATE TABLE osc_website_news (
   date_added datetime NOT NULL,
   status int NOT NULL,
   image varchar(255),
+  author_id int unsigned,
   PRIMARY KEY (id),
   KEY idx_ws_news_title (title),
   KEY idx_ws_news_date_added (date_added),
-  KEY idx_ws_news_status (status)
+  KEY idx_ws_news_status (status),
+  KEY idx_ws_news_author_id (author_id)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS osc_website_partner_category;
@@ -172,4 +174,15 @@ CREATE TABLE osc_website_user_server_info (
   update_count int DEFAULT 1,
   PRIMARY KEY (id),
   KEY idx_ws_user_server_info_ip (submit_ip)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS osc_website_user_profiles;
+CREATE TABLE osc_website_user_profiles (
+  id int unsigned NOT NULL,
+  display_name varchar(255) NOT NULL,
+  twitter_id varchar(255),
+  google_plus_id varchar(255),
+  facebook_id varchar(255),
+  github_id varchar(255),
+  PRIMARY KEY (id)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;

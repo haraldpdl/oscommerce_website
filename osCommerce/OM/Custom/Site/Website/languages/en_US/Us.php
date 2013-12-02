@@ -49,6 +49,9 @@ news_page_title = News
 
 news_entry_html_page_title = :news_title | osCommerce
 
+news_entry_author_by = by
+news_entry_author_profiles_title = Author Profiles
+
 link_back_to_listing = Back to listing
 
 marketing_html_page_title = Marketing Material | osCommerce

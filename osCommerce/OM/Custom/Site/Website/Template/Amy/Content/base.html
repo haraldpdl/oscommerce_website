@@ -1,17 +1,17 @@
 <!doctype html>
 
-<html dir="{value}html_text_direction{value}" lang="{value}html_lang{value}">
+<html {ifvalue html_tags}{raw}html_tags{raw}{ifvalue}>
 
 <head>
 
 <!--
-      ,‒‒‒‒‒‒‒.‒‒‒‒‒‒‒‒,,‒‒‒‒‒‒‒‒‒. ,‒‒‒‒‒‒,‒‒‒‒‒.‒‒‒‒‒‒‒‒‒.‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒.‒‒‒‒‒‒‒‒‒.‒‒‒‒‒‒‒‒‒,
-     _\__,    |    ___/_|    ,   ⸣|_\__,   \____ ' _______ ' ____    ,_________,    |    ,    |    ,___/ 
-    |    |   ,‒‒‒‒‒.    |    |‒‒‒‒'‒,  |    |   \ /   |   \ /   |    ,_/‒‒+‒,  _   ‒+‒,  |‒‒‒‒'‒,  ,_/‒‒‒‒,
+      ________ ________  _________ ______________ _________ ________________________ _________ _________
+     _\___    |    ___/_|    _    |    _   \____ ' _______ ' ____    ___________    |    _    |    ____/ 
+    |    |   _|_____    |    |____|_   |    |   \ /   |   \ /   |    __/__|_   _   _|_   |____|_   __/____
     |    |   \_    |    |    |    _/   |    |    V    |    V    |    |    _/   |    _/   |    _/   |    _/
     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
     |    '    |    '    |    '    |    '    |    |    |_   |    |_   '    |    |    |    '    |    '    |
-    `‒‒‒‒‒‒‒‒‒|____|‒‒‒‒'‒‒‒‒‒‒‒‒‒'‒‒‒‒‒‒‒‒‒'‒‒‒‒|___, /‒‒‒|___, /‒‒‒‒‒‒‒‒'‒‒‒‒|____|‒‒‒‒‒‒‒‒‒'‒‒‒‒‒‒ᏲᎮ‒'
+    |_________|_________|_________|_________|____|____ /___|____ /________|____|____|_________|______hp_|
                                                      |/        |/                                     
          C R E A T I N G    O N L I N E    S T O R E S    W O R L D W I D E    S I N C E    2 0 0 0 !
 //-->
@@ -24,8 +24,6 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}" />
 
-  <meta name="generator" content="osCommerce Website v{value}site_version{value}" />
-
   <script type="text/javascript" src="public/external/jquery/jquery-1.7.1.min.js"></script>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -37,6 +35,11 @@
   <link rel="stylesheet" type="text/css" href="{publiclink}templates/default/stylesheets/general.css{publiclink}" />
 
   <link rel="alternate" type="application/rss+xml" href="http://www.oscommerce.com/oscommerce.rdf" title="osCommerce News" />
+
+{ifvalue html_header_tags}
+  {raw}html_header_tags{raw}
+{ifvalue}
+
 </head>
 
 <body>
