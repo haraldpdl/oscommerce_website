@@ -1,0 +1,246 @@
+<div id="highlights">
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="span9">
+    <div id="maincontent">
+      <h1>{lang}create_title{lang}</h1>
+
+      {lang}create_introduction{lang}
+
+      {widget}message_stack|account{widget}
+
+      <form id="formCreateAccount" name="create" action="{link}Account|Website|Create&Process|SSL{link}" method="post" class="form-horizontal">{formprotect}public_token{formprotect}
+        <div class="control-group">
+          <label class="control-label" for="inputUsername">{lang}create_username_title{lang}</label>
+
+          <div class="controls">
+            <input type="text" id="inputUsername" name="username" value="{post}username{post}" />
+            <span id="inputUsernameAlert" class="help-block hide label label-important"></span>
+            <span class="help-block"><span class="muted"><small>{lang}create_username_note{lang}</small></span></span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">{lang}create_email_address_title{lang}</label>
+
+          <div class="controls">
+            <input type="text" id="inputEmail" name="email" value="{post}email{post}" />
+            <span id="inputEmailAlert" class="help-block hide label label-important"></span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="inputPassword">{lang}create_password_title{lang}</label>
+
+          <div class="controls">
+            <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} />
+            <span id="inputPasswordAlert" class="help-block hide label label-important"></span>
+            <span class="help-block"><span class="muted"><small><span id="inputPasswordInfo">{lang}create_password_note{lang}</span><a href="#" onclick="$('#inputPassword').togglePassword(); return false;" id="inputPasswordShowHide">{lang}create_password_show_hide{lang}</a></small></span></span>
+          </div>
+        </div>
+
+{iffalse recaptcha_pass}
+        <div class="control-group">
+          <label class="control-label">{lang}create_security_check_title{lang}</label>
+
+          <div class="controls">
+<script>
+var RecaptchaOptions = {
+  theme: 'white'
+};
+</script>
+<script src="https://www.google.com/recaptcha/api/challenge?k={value}recaptcha_key_public{value}"></script>
+<noscript>
+  <iframe src="https://www.google.com/recaptcha/api/noscript?k={value}recaptcha_key_public{value}" height="300" width="500" frameborder="0"></iframe><br>
+  <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+  <input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
+</noscript>
+          </div>
+        </div>
+{iffalse}
+
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" id="inputTOS" name="agree_tos" value="1" />
+              {lang}create_tos_agree_title{lang}
+              <span id="inputTOSAlert" class="help-block hidden label label-important"></span>
+            </label>
+
+<div id="tosPane" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="tosPaneLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="tosPaneLabel">{lang}create_tos_title{lang}</h3>
+  </div>
+  <div class="modal-body">
+    {lang}create_tos_body{lang}
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">{lang}create_tos_close{lang}</button>
+  </div>
+</div>
+
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" id="createButton" class="btn" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {widget}account_sidebar_nav{widget}
+</div>
+
+<script>
+function checkUsername() {
+  $('#inputUsername').val($('#inputUsername').val().trim());
+
+  if ( $('#inputUsernameAlert').not(':hidden') ) {
+    $('#inputUsernameAlert').hide();
+  }
+
+  if ( $('#inputUsername').val() == '' ) {
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_required{lang}').show();
+  } else if ( $('#inputUsername').val().length < 3 ) {
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_short{lang}').show();
+  } else if ( $('#inputUsername').val().length > 26 ) {
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_long{lang}').show();
+  } else if ( $('#inputUsername').val().match(/oscommerce/gi) !== null ) {
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_oscommerce{lang}').show();
+  }
+
+  return $('#inputUsernameAlert').is(':hidden');
+}
+
+function checkEmailAddress() {
+  $('#inputEmail').val($('#inputEmail').val().trim());
+
+  if ( $('#inputEmailAlert').not(':hidden') ) {
+    $('#inputEmailAlert').hide();
+  }
+
+  if ( $('#inputEmail').val() == '' ) {
+    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_required{lang}').show();
+  } else if ( $('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null ) {
+    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_invalid{lang}').show();
+  }
+
+  return $('#inputEmailAlert').is(':hidden');
+}
+
+function checkPassword() {
+  if ( $('#inputPasswordAlert').not(':hidden') ) {
+    $('#inputPasswordAlert').hide();
+  }
+
+  if ( $('#inputPassword').val() == '' ) {
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_required{lang}').show();
+  } else if ( $('#inputPassword').val().length < 3 ) {
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_short{lang}').show();
+  } else if ( $('#inputPassword').val().length > 32 ) {
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_long{lang}').show();
+  }
+
+  return $('#inputPasswordAlert').is(':hidden');
+}
+
+function showPasswordInfo() {
+  if ( $('#inputPassword').val().length > 2 ) {
+    if ( $('#inputPasswordInfo').not(':hidden') ) {
+      $('#inputPasswordInfo').hide();
+    }
+
+    if ( $('#inputPasswordShowHide').is(':hidden') ) {
+      $('#inputPasswordShowHide').show();
+    }
+  } else {
+    if ( $('#inputPasswordShowHide').not(':hidden') ) {
+      $('#inputPasswordShowHide').hide();
+    }
+
+    if ( $('#inputPasswordInfo').is(':hidden') ) {
+      $('#inputPasswordInfo').show();
+    }
+  }
+}
+
+function checkTOS() {
+  if ( $('#inputTOSAlert').not(':hidden') ) {
+    $('#inputTOSAlert').hide();
+  }
+
+  if ( !$('#inputTOS').is(':checked') ) {
+    $('#inputTOSAlert').html('{lang addslashes}create_tos_agree_js_error_required{lang}').show();
+  }
+
+  return $('#inputTOSAlert').is(':hidden');
+}
+
+function checkForm() {
+  var has_error = false;
+
+  if ( !checkUsername() ) {
+    has_error = true;
+  }
+
+  if ( !checkEmailAddress() ) {
+    has_error = true;
+  }
+
+  if ( !checkPassword() ) {
+    has_error = true;
+  }
+
+  if ( !checkTOS() ) {
+    has_error = true;
+  }
+
+  return !has_error;
+}
+
+$(function() {
+  showPasswordInfo();
+
+  if ( '{post}agree_tos{post}' == '1' ) {
+    $('#inputTOS').prop('checked', true);
+  }
+
+  $('#inputUsername').blur(function() {
+    checkUsername();
+  });
+
+  $('#inputEmail').blur(function() {
+    checkEmailAddress();
+  });
+
+  $('#inputPassword').blur(function() {
+    checkPassword();
+  });
+
+  $('#inputPassword').keyup(function() {
+    showPasswordInfo();
+  });
+
+  $('#inputTOS').change(function() {
+    checkTOS();
+  });
+
+  $('#formCreateAccount').submit(function() {
+    $('#createButton').button('processing');
+
+    var result = checkForm();
+
+    if ( result === false ) {
+      $('#createButton').button('reset');
+    }
+
+    return result;
+  });
+});
+</script>

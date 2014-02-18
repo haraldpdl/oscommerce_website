@@ -1,0 +1,48 @@
+<div id="highlights">
+  {raw}partner_header{raw}
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="span9">
+    <div id="maincontent">
+      <h1>{value}partner title{value}</h1>
+
+      <a href="{value}partner url{value}" target="_blank"><img src="{publiclink}images/partners/{raw}partner image_small{raw}{publiclink}" alt="" title="{value}partner title{value}" width="130" height="50" style="float: left; margin-right: 10px;" /></a>
+
+      <p>{nl2br}{parse b u i url ul}{value}partner desc_long{value}{parse}{nl2br}</p>
+
+{ifvalue partner youtube_video_id}
+      <div style="text-align: center; padding-bottom: 20px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" frameborder="0" allowfullscreen></iframe></div>
+{ifvalue}
+
+      <div class="hero-unit">
+        <p style="float: right;">
+
+{ifvalue partner telephone}
+          <i class="icon-user" style="margin-top: 3px;"></i> {value}partner telephone{value}<br />
+{ifvalue}
+
+{ifvalue partner email}
+          <i class="icon-envelope" style="margin-top: 3px;"></i> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a><br />
+{ifvalue}
+
+          <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-large" style="margin-top: 10px;">{lang}button_visit_partner_website{lang}</a>
+        </p>
+
+        <p>
+          <strong>{value}partner title{value}</strong><br />
+
+{ifvalue partner address}
+          {nl2br}{value}partner address{value}{nl2br}<br />
+{ifvalue}
+
+          <a href="{value}partner url{value}" target="_blank">{value}partner public_url{value}</a>
+        </p>
+      </div>
+
+      <p><a href="{link}Account|Website|Partner|SSL{link}"><i class="icon-chevron-left"></i> {lang}partner_back_to_campaigns{lang}</a></p>
+    </div>
+  </div>
+
+  {widget}account_sidebar_nav{widget}
+</div>

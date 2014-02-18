@@ -1,60 +1,47 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\Services\Action;
+  namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
 
   use osCommerce\OM\Core\ApplicationAbstract;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
-  use osCommerce\OM\Core\Session;
 
-  use osCommerce\OM\Core\Site\Website\Invision;
-  use osCommerce\OM\Core\Site\Website\Partner;
+  use osCommerce\OM\Core\Site\Website\Partner as PartnerClass;
 
-  class Dashboard {
+  class Partner {
     public static function execute(ApplicationAbstract $application) {
       $OSCOM_Template = Registry::get('Template');
 
-      define('SERVICE_SESSION_FORCE_COOKIE_USAGE', 1);
-      Registry::set('Session', Session::load());
+      if ( !isset($_SESSION[OSCOM::getSite()]['Account']) ) {
+        $req_actions = http_build_query(array_slice($_GET, array_search('Partner', array_keys($_GET))));
 
-      $OSCOM_Session = Registry::get('Session');
-      $OSCOM_Session->start();
+        $_SESSION['login_redirect'] = OSCOM::getLink(null, null, $req_actions, 'SSL');
 
-      Registry::get('MessageStack')->loadFromSession();
-
-      if ( !isset($_SESSION[OSCOM::getSite()]['Services']) ) {
-        if ( isset($_COOKIE['member_id']) && is_numeric($_COOKIE['member_id']) && ($_COOKIE['member_id'] > 0) && isset($_COOKIE['pass_hash']) && (strlen($_COOKIE['pass_hash']) == 32) ) {
-          $OSCOM_Invision = new Invision();
-
-          if ( $OSCOM_Invision->autoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']) ) {
-            if ( $OSCOM_Invision->hasAccess() ) {
-              $_SESSION[OSCOM::getSite()]['Services'] = array('id' => $OSCOM_Invision->getUserData('id'),
-                                                              'name' => $OSCOM_Invision->getUserData('name'));
-            }
-          }
-        }
+        OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Login', 'SSL'));
       }
 
-      if ( !isset($_SESSION[OSCOM::getSite()]['Services']) ) {
-        OSCOM::redirect(OSCOM::getLink(null, 'Services', 'Login'));
-      }
-
-      if ( Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Services']['id']) ) {
-        $OSCOM_Template->setValue('partner_campaigns', Partner::getCampaigns($_SESSION[OSCOM::getSite()]['Services']['id']));
+      if ( PartnerClass::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id']) ) {
+        $OSCOM_Template->setValue('partner_campaigns', PartnerClass::getCampaigns($_SESSION[OSCOM::getSite()]['Account']['id']));
         $OSCOM_Template->setValue('partner_date_now', date('Y-m-d H:i:s'));
 
-        $application->setPageContent('dashboard.html');
+        $application->setPageContent('partner.html');
       } else {
-        $application->setPageContent('dashboard_empty.html');
+        $application->setPageContent('partner_empty.html');
       }
 
-      $application->setPageTitle(OSCOM::getDef('dashboard_html_title'));
+      $application->setPageTitle(OSCOM::getDef('partner_html_title'));
+
+      if ( file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/services.jpg') ) {
+        $OSCOM_Template->setValue('highlights_image', 'images/services.jpg', true);
+      } else {
+        $OSCOM_Template->setValue('highlights_image', 'images/940x285.gif', true);
+      }
     }
   }
 ?>

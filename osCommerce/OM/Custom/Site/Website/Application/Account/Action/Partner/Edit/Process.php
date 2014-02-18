@@ -1,12 +1,12 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\Services\Action\Dashboard\Edit;
+  namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Edit;
 
   use osCommerce\OM\Core\ApplicationAbstract;
   use osCommerce\OM\Core\OSCOM;
@@ -20,22 +20,30 @@
       $OSCOM_MessageStack = Registry::get('MessageStack');
       $OSCOM_Template = Registry::get('Template');
 
-      $partner = $OSCOM_Template->getValue('partner_campaign');
-
       $data = array();
       $error = false;
+
+      $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
+
+      if ( $public_token !== md5($_SESSION[OSCOM::getSite()]['public_token']) ) {
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_form_protect_general'), 'error');
+
+        return false;
+      }
+
+      $partner = $OSCOM_Template->getValue('partner_campaign');
 
       if ( !isset($_POST['desc_short']) || empty($_POST['desc_short']) ) {
         $error = true;
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_desc_short_empty'));
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_desc_short_empty'));
       } else {
         $desc_short = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['desc_short']));
 
         if ( strlen($desc_short) > 450 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_desc_short_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_desc_short_length'));
         } else {
           $data['desc_short'] = $desc_short;
         }
@@ -44,7 +52,7 @@
       if ( !isset($_POST['desc_long']) || empty($_POST['desc_long']) ) {
         $error = true;
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_desc_long_empty'));
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_desc_long_empty'));
       } else {
         $desc_long = trim($_POST['desc_long']);
 
@@ -57,7 +65,7 @@
         if ( strlen($address) > 255 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_address_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_address_length'));
         } else {
           $data['address'] = !empty($address) ? $address : null;
         }
@@ -69,7 +77,7 @@
         if ( strlen($telephone) > 255 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_telephone_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_telephone_length'));
         } else {
           $data['telephone'] = !empty($telephone) ? $telephone : null;
         }
@@ -81,7 +89,7 @@
         if ( !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL) === false) || (strlen($email) > 255) ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_email_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_email_length'));
         } else {
           $data['email'] = !empty($email) ? $email : null;
         }
@@ -93,7 +101,7 @@
         if ( strlen($youtube_video_id) > 255 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_length'));
         } else {
           $curl = curl_init('https://gdata.youtube.com/feeds/api/videos/' . $youtube_video_id);
 
@@ -103,7 +111,8 @@
                                 CURLOPT_NOBODY => true,
                                 CURLOPT_FORBID_REUSE => true,
                                 CURLOPT_FRESH_CONNECT => true,
-                                CURLOPT_FOLLOWLOCATION => false);
+                                CURLOPT_FOLLOWLOCATION => false,
+                                CURLOPT_RETURNTRANSFER => true);
 
           curl_setopt_array($curl, $curl_options);
           $result = curl_exec($curl);
@@ -114,14 +123,14 @@
             if ( $http_code !== 200 ) {
               $error = true;
 
-              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_invalid'));
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_invalid'));
             } else {
               $data['youtube_video_id'] = !empty($youtube_video_id) ? $youtube_video_id : null;
             }
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_youtube_video_id_invalid'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_invalid'));
           }
         }
       }
@@ -129,14 +138,14 @@
       if ( !isset($_POST['public_url']) || empty($_POST['public_url']) ) {
         $error = true;
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_public_url_empty'));
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_public_url_empty'));
       } else {
         $public_url = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_url']));
 
         if ( strlen($public_url) > 255 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_public_url_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_public_url_length'));
         } else {
           $data['public_url'] = $public_url;
         }
@@ -145,14 +154,14 @@
       if ( !isset($_POST['url']) || empty($_POST['url']) ) {
         $error = true;
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_url_empty'));
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_url_empty'));
       } else {
         $url = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['url']));
 
         if ( strlen($url) > 255 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_url_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_url_length'));
         } else {
           $data['url'] = $url;
         }
@@ -169,12 +178,12 @@
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_small_error'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_small_error'));
           }
         } else {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_small_error'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_small_error'));
         }
       }
 
@@ -190,12 +199,12 @@
             } else {
               $error = true;
 
-              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_big_error'));
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_big_error'));
             }
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_big_error'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_big_error'));
           }
         }
 
@@ -210,12 +219,12 @@
             } else {
               $error = true;
 
-              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_promo_error'));
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_error'));
             }
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_promo_error'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_error'));
           }
         }
 
@@ -225,7 +234,7 @@
           if ( strlen($image_promo_url) > 255 ) {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_image_promo_url_length'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_url_length'));
           } else {
             $data['image_promo_url'] = !empty($image_promo_url) ? $image_promo_url : null;
           }
@@ -242,12 +251,12 @@
             } else {
               $error = true;
 
-              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_image_en_error'));
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_en_error'));
             }
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_image_en_error'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_en_error'));
           }
         }
 
@@ -257,7 +266,7 @@
           if ( strlen($banner_url_en) > 255 ) {
             $error = true;
 
-            $OSCOM_MessageStack->add('services',  OSCOM::getDef('dashboard_error_banner_url_en_length'));
+            $OSCOM_MessageStack->add('partner',  OSCOM::getDef('partner_error_banner_url_en_length'));
           } else {
             $data['banner_url_en'] = !empty($banner_url_en) ? $banner_url_en : null;
           }
@@ -269,7 +278,7 @@
           if ( strlen($status_update_en) > 200 ) {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_status_update_en_length'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_en_length'));
           } else {
             $data['status_update_en'] = !empty($status_update_en) ? $status_update_en : null;
           }
@@ -286,12 +295,12 @@
             } else {
               $error = true;
 
-              $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_image_de_error'));
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_de_error'));
             }
           } else {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_image_de_error'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_de_error'));
           }
         }
 
@@ -301,7 +310,7 @@
           if ( strlen($banner_url_de) > 255 ) {
             $error = true;
 
-            $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_banner_url_de_length'));
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_url_de_length'));
           } else {
             $data['banner_url_de'] = !empty($banner_url_de) ? $banner_url_de : null;
           }
@@ -314,7 +323,7 @@
         if ( strlen($status_update_de) > 200 ) {
           $error = true;
 
-          $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_error_status_update_de_length'));
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_de_length'));
         } else {
           $data['status_update_de'] = !empty($status_update_de) ? $status_update_de : null;
         }
@@ -353,11 +362,11 @@
           }
         }
 
-        Partner::save($_SESSION[OSCOM::getSite()]['Services']['id'], $partner['code'], $data);
+        Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $data);
 
-        $OSCOM_MessageStack->add('services', OSCOM::getDef('dashboard_success_save', array(':partner_link' => OSCOM::getLink(null, 'Services', 'Dashboard&View=' . $partner['code']))), 'success');
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_success_save', array(':partner_link' => OSCOM::getLink(null, 'Account', 'Partner&View=' . $partner['code'], 'SSL'))), 'success');
 
-        OSCOM::redirect(OSCOM::getLink(null, 'Services', 'Dashboard&Edit=' . $partner['code']));
+        OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner&Edit=' . $partner['code'], 'SSL'));
       }
     }
   }

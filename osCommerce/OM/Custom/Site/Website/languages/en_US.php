@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 html_lang_code = en
@@ -10,6 +10,13 @@ navbutton_us = Us
 navbutton_products = Products
 navbutton_services = Services
 navbutton_support = Support
+navbutton_account = Account
+navbutton_account_log_in = Log In
+navbutton_account_my_account = My Account
+navbutton_account_create_account = Create Account
+navbutton_account_verify_account = Verify Account
+navbutton_account_partner_dashboard = Partner Dashboard
+navbutton_account_log_out = Log Out
 
 copyright_footer = <p>Copyright (c) {value}current_year{value} osCommerce. All rights reserved. osCommerce is a registered trademark of Harald Ponce de Leon.</p>
 
@@ -23,3 +30,5 @@ social_facebook = Facebook
 social_facebook_title = Be our fan on Facebook
 social_github = GitHub
 social_github_title = Code with us on GitHub
+
+error_form_protect_general = A general error occurred - please try again.

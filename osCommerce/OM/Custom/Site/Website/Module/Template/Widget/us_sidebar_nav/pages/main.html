@@ -10,11 +10,9 @@
 </div>
 
 <script>
-var current_action = '{value}current_site_application_action{value}';
+$(function() {
+  var sn_active_link = ( typeof site_req['actions'][0] !== 'undefined' ) ? site_req['actions'][0] : 'Us';
 
-if ( current_action.length < 1 ) {
-  current_action = 'Us';
-}
-
-$('#sidebar #sn' + current_action).addClass('active');
+  $('#sidebar #sn' + sn_active_link).addClass('active');
+});
 </script>

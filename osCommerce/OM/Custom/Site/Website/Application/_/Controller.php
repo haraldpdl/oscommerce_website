@@ -1,8 +1,8 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -18,7 +18,7 @@
     public function runActions() {
       parent::runActions();
 
-      if ( is_null($this->getCurrentAction()) ) {
+      if ( $this->getCurrentAction() === false ) {
         OSCOM::redirect(OSCOM::getLink(null, 'Index'));
       }
     }

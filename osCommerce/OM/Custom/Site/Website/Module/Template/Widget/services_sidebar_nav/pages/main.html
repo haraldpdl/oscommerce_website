@@ -13,14 +13,8 @@
 <script>
 $(function() {
   var services_category = '{value}services_action{value}';
-  var application_action = '{value}current_site_application_action{value}';
+  var sn_active_link = ( services_category.length > 0 ) ? services_category : 'Index';
 
-  if ( services_category.length < 1 ) {
-    services_category = 'Index';
-  }
-
-  if ( application_action.length < 1 ) {
-    $('#sidebar #sn' + services_category).addClass('active');
-  }
+  $('#sidebar #sn' + sn_active_link).addClass('active');
 });
 </script>

@@ -1,18 +1,21 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
   namespace osCommerce\OM\Core\Site\Website;
 
   use osCommerce\OM\Core\Cache;
+  use osCommerce\OM\Core\Hash;
   use osCommerce\OM\Core\HTML;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\PDO;
   use osCommerce\OM\Core\Registry;
+
+  use osCommerce\OM\Core\Site\Website\Session;
 
   class Controller implements \osCommerce\OM\Core\SiteInterface {
     protected static $_default_application = 'Index';
@@ -21,8 +24,34 @@
       Registry::set('MessageStack', new MessageStack());
       Registry::set('Cache', new Cache());
       Registry::set('PDO', PDO::initialize());
+      Registry::set('Session', Session::load());
+
+      $OSCOM_Session = Registry::get('Session');
+      $OSCOM_Session->setLifeTime(3600);
+      $OSCOM_Session->start();
+      Registry::get('MessageStack')->loadFromSession();
+
       Registry::set('Language', new Language());
       Registry::set('Template', new Template());
+
+      if ( !isset($_SESSION[OSCOM::getSite()]['Account']) ) {
+        if ( isset($_COOKIE['member_id']) && is_numeric($_COOKIE['member_id']) && ($_COOKIE['member_id'] > 0) && isset($_COOKIE['pass_hash']) && (strlen($_COOKIE['pass_hash']) == 32) ) {
+          $user = Invision::canAutoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']);
+
+          if ( is_array($user) && isset($user['id']) && ($user['verified'] === true) && ($user['banned'] === false) ) {
+            $_SESSION[OSCOM::getSite()]['Account'] = $user;
+
+            $OSCOM_Session->recreate();
+          } else {
+            OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
+            OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
+          }
+        }
+      }
+
+      if ( !isset($_SESSION[OSCOM::getSite()]['public_token']) ) {
+        $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
+      }
 
       $OSCOM_Template = Registry::get('Template');
       $OSCOM_Language = Registry::get('Language');
@@ -42,10 +71,15 @@
       $OSCOM_Template->setValue('html_page_contents_file', $OSCOM_Template->getPageContentsFile());
       $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
       $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlHeaderTags());
-      $OSCOM_Template->setValue('current_site_application', OSCOM::getSiteApplication());
-      $OSCOM_Template->setValue('current_site_application_action', Registry::get('Application')->getCurrentAction());
+      $OSCOM_Template->setValue('site_req', [ 'site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun() ]);
       $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
       $OSCOM_Template->setValue('current_year', date('Y'));
+      $OSCOM_Template->setValue('in_ssl', OSCOM::getRequestType() == 'SSL');
+      $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
+
+      if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {
+        $OSCOM_Template->setValue('user', $_SESSION[OSCOM::getSite()]['Account']);
+      }
     }
 
     public static function getDefaultApplication() {

@@ -1,0 +1,50 @@
+<div id="highlights" style="width: 940px; height: 285px; background: url('{publiclink}{raw}highlights_image{raw}{publiclink}') no-repeat;">
+  <div id="hellokitty" style="display: none; font-family: Allura; transform: rotate(-3deg); text-align: center; padding-top: 60px;">
+    {value}user name{value}
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#hellokitty').show(); // no meow when js disabled
+  $('#highlights').boxfit();
+});
+</script>
+
+<div class="row">
+  <div id="maincontainer" class="span9">
+    <div id="maincontent">
+      <h1>{lang}account_title{lang}</h1>
+
+      {lang}account_introduction{lang}
+
+      {widget}message_stack|account{widget}
+
+      <ul class="thumbnails">
+        <li class="span4">
+          <h3 class="text-info">{lang}account_forum_title{lang}</h3>
+          <p>{lang}account_forum_desc{lang}</p>
+          <p><a class="btn" href="http://forums.oscommerce.com">{lang}account_forum_link{lang}</a></p>
+        </li>
+        <li class="span4">
+          <h3 class="text-info">{lang}account_add_ons_title{lang}</h3>
+          <p>{lang}account_add_ons_desc{lang}</p>
+          <p><a class="btn" href="http://addons.oscommerce.com">{lang}account_add_ons_link{lang}</a></p>
+        </li>
+        <li class="span4">
+          <h3 class="text-info">{lang}account_live_shops_title{lang}</h3>
+          <p>{lang}account_live_shops_desc{lang}</p>
+          <p><a class="btn" href="http://shops.oscommerce.com">{lang}account_live_shops_link{lang}</a></p>
+        </li>
+        <li class="span4">
+          <h3 class="text-info">{lang}account_partner_title{lang}</h3>
+          <p>{lang}account_partner_desc{lang}</p>
+          <p><a class="btn" href="{link}Account|Website|Partner|SSL{link}">{lang}account_partner_link{lang}</a></p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  {widget}account_sidebar_nav{widget}
+</div>

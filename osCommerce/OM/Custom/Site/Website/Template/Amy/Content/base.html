@@ -24,14 +24,14 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}" />
 
-  <script type="text/javascript" src="public/external/jquery/jquery-1.7.1.min.js"></script>
+  <script src="public/external/jquery/jquery-1.7.1.min.js"></script>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-  <script type="text/javascript" src="public/external/bootstrap/js/bootstrap.min.js"></script>
+  <script src="public/external/bootstrap/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="{publiclink}templates/default/stylesheets/general.css{publiclink}" />
 
   <link rel="alternate" type="application/rss+xml" href="http://www.oscommerce.com/oscommerce.rdf" title="osCommerce News" />
@@ -39,6 +39,10 @@
 {ifvalue html_header_tags}
   {raw}html_header_tags{raw}
 {ifvalue}
+
+<script>
+var site_req = {raw json_encode}site_req{raw};
+</script>
 
 </head>
 
@@ -52,24 +56,35 @@
   </div>
 
   <div id="nav" class="span8">
-    <div class="btn-group">
-      <a href="{link}Index{link}" class="btn" id="btnHome"><i class="icon-home"></i></a>
-      <a href="{link}Us{link}" class="btn" id="btnUs"><i class="icon-user"></i>{lang}navbutton_us{lang}</a>
-      <a href="{link}Products{link}" class="btn" id="btnProducts"><i class="icon-download"></i>{lang}navbutton_products{lang}</a>
-      <a href="{link}Services{link}" class="btn" id="btnServices"><i class="icon-cog"></i>{lang}navbutton_services{lang}</a>
-      <a href="{link}Support{link}" class="btn" id="btnSupport"><i class="icon-comment"></i>{lang}navbutton_support{lang}</a>
-    </div>
+    <ul class="nav nav-pills">
+      <li><a href="{link}Us{link}" id="btnUs">{lang}navbutton_us{lang}</a></li>
+      <li><a href="{link}Products{link}" id="btnProducts">{lang}navbutton_products{lang}</a></li>
+      <li><a href="{link}Services{link}" id="btnServices">{lang}navbutton_services{lang}</a></li>
+      <li><a href="{link}Support{link}" id="btnSupport">{lang}navbutton_support{lang}</a></li>
+      <li class="dropdown">
+        <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i></a>
+        <ul class="dropdown-menu">
+
+{ifvalue user}
+          <li><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
+          <li><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
+          <li class="divider"></li>
+          <li><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
+{else}
+          <li><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
+          <li><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
+          <li><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
+{ifvalue}
+
+        </ul>
+      </li>
+    </ul>
   </div>
 </header>
 
 <script>
 $(function() {
-  if ( '{value}current_site_application{value}' == 'Index' ) {
-    $('#btnHome').remove();
-  } else {
-    $('#btn{value}current_site_application{value}').addClass('btn-success');
-    $('#btn{value}current_site_application{value} i').addClass('icon-white');
-  }
+  $('#btn' + site_req['app']).parent().addClass('active');
 });
 </script>
 

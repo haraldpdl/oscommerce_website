@@ -1,0 +1,24 @@
+<div id="sidebar" class="span3">
+  <ul class="nav nav-list">
+    <li class="nav-header">{lang}navbutton_account{lang}</li>
+
+{ifvalue user}
+    <li id="snAccount"><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
+    <li id="snPartner"><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
+    <li id="snOkILoveYouByeBye"><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
+{else}
+    <li id="snLogin"><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
+    <li id="snCreate"><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
+    <li id="snVerify"><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
+{ifvalue}
+
+  </ul>
+</div>
+
+<script>
+$(function() {
+  var sn_active_link = ( typeof site_req['actions'][0] !== 'undefined' ) ? site_req['actions'][0] : ( $('#snAccount').length ) ? 'Account' : 'Login';
+
+  $('#sidebar #sn' + sn_active_link).addClass('active');
+});
+</script>

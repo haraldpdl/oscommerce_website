@@ -1,8 +1,8 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -12,6 +12,7 @@
   use osCommerce\OM\Core\HttpRequest;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
+
   use osCommerce\OM\Core\Site\Website\Partner;
 
   class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
@@ -32,68 +33,60 @@
     }
 
     public function runActions() {
-      $OSCOM_Template = Registry::get('Template');
-
       parent::runActions();
 
-      if ( is_null($this->getCurrentAction()) ) {
-        $action = null;
-        $action_index = 1;
-        $subaction = null;
+      $OSCOM_Template = Registry::get('Template');
+
+      if ( $this->getCurrentAction() === false ) {
+        $actions = [ ];
 
         if ( count($_GET) > 1 ) {
           $requested_action = HTML::sanitize(basename(key(array_slice($_GET, 1, 1, true))));
 
-          if ( $requested_action == OSCOM::getSiteApplication() ) {
-            $requested_action = null;
+          $index = ($requested_action == OSCOM::getSiteApplication()) ? 2 : 1;
 
-            if ( count($_GET) > 2 ) {
-              $requested_action = HTML::sanitize(basename(key(array_slice($_GET, 2, 1, true))));
-
-              $action_index = 2;
-            }
-          }
-
-          if ( !empty($requested_action) ) {
-            $requested_action = strtolower($requested_action);
-
-            if ( Partner::categoryExists($requested_action) ) {
-              $action = $requested_action;
-            } else {
-              HttpRequest::setResponseCode(404);
-            }
+          if ( count($_GET) > $index ) {
+            $actions = array_keys(array_slice($_GET, $index, 2, true));
           }
         }
 
-        if ( isset($action) ) {
-          $action_index++;
+        $category = null;
 
-          if ( $action_index < count($_GET) ) {
-            $subaction = strtolower(HTML::sanitize(basename(key(array_slice($_GET, $action_index, 1, true)))));
-          }
+        if ( !empty($actions) ) {
+          array_walk($actions, function (&$key) {
+            $key = HTML::sanitize(strtolower(basename($key)));
+          });
 
-          if ( isset($subaction) && Partner::exists($subaction, $action) ) {
-            $this->_page_contents = 'info.html';
-            $this->_page_title = OSCOM::getDef('partner_html_page_title', array(':partner_title' => Partner::get($subaction, 'title')));
+          if ( Partner::categoryExists($actions[0]) ) {
+            $category = Partner::getCategory($actions[0]);
 
-            $partner = Partner::get($subaction);
+            if ( isset($actions[1]) && Partner::exists($actions[1], $actions[0]) ) {
+              $partner = Partner::get($actions[1]);
 
-            $OSCOM_Template->setValue('partner', $partner);
-            $OSCOM_Template->setValue('partner_header', (empty($partner['image_big']) ? HTML::image(OSCOM::getPublicSiteLink($OSCOM_Template->getValue('highlights_image')), null, 940, 285) : '<a href="' . HTML::outputProtected($partner['url']) . '" target="_blank">' . HTML::image(OSCOM::getPublicSiteLink('images/partners/' . $partner['image_big']), null, 940, 285) . '</a>'));
-          } else {
-            if ( isset($subaction) ) {
-              HttpRequest::setResponseCode(404);
+              $this->_page_contents = 'info.html';
+              $this->_page_title = OSCOM::getDef('partner_html_page_title', array(':partner_title' => $partner['title']));
+
+              $OSCOM_Template->setValue('partner', $partner);
+              $OSCOM_Template->setValue('partner_header', (empty($partner['image_big']) ? HTML::image(OSCOM::getPublicSiteLink($OSCOM_Template->getValue('highlights_image')), null, 940, 285) : '<a href="' . HTML::outputProtected($partner['url']) . '" target="_blank">' . HTML::image(OSCOM::getPublicSiteLink('images/partners/' . $partner['image_big']), null, 940, 285) . '</a>'));
+            } else {
+              if ( isset($actions[1]) ) {
+                HttpRequest::setResponseCode(404);
+              }
+
+              $this->_page_contents = 'list.html';
+              $this->_page_title = OSCOM::getDef('listing_html_page_title', array(':category_title' => $category['title']));
+
+              $OSCOM_Template->setValue('page_title', $category['title']);
+              $OSCOM_Template->setValue('category_partners', Partner::getInCategory($actions[0]));
             }
 
-            $this->_page_contents = 'list.html';
-            $this->_page_title = OSCOM::getDef('listing_html_page_title', array(':category_title' => Partner::getCategory($action, 'title')));
-
-            $OSCOM_Template->setValue('page_title', Partner::getCategory($action, 'title'));
-            $OSCOM_Template->setValue('category_partners', Partner::getInCategory($action));
+            $OSCOM_Template->setValue('services_action', $actions[0], true);
+          } else {
+            HttpRequest::setResponseCode(404);
           }
+        }
 
-          $OSCOM_Template->setValue('services_action', $action, true);
-        } else {
+        if ( !isset($category) ) {
           $OSCOM_Template->setValue('partner_promotions', Partner::getPromotions());
         }
       }
