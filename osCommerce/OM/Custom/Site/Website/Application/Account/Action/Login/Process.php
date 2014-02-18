@@ -54,8 +54,8 @@
             $OSCOM_Session->recreate();
 
             if ( isset($_POST['remember_me']) && ($_POST['remember_me'] == '1') ) {
-              OSCOM::setCookie('member_id', $user['member_id'], time() + 31536000, null, null, false, true);
-              OSCOM::setCookie('pass_hash', $user['member_login_key'], time() + 604800, null, null, false, true);
+              OSCOM::setCookie('member_id', $user['id'], time() + 31536000, null, null, false, true);
+              OSCOM::setCookie('pass_hash', $user['login_key'], time() + 604800, null, null, false, true);
             } else {
               OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
               OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);

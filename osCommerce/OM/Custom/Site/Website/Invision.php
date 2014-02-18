@@ -116,7 +116,8 @@
                  'group_id' => (int)$response['member'][0]['member_group_id'],
                  'verified' => (int)$response['member'][0]['member_group_id'] !== 1,
                  'banned' => in_array((int)$response['member'][0]['member_group_id'], [2, 5]) || (!empty($response['member'][0]['temp_ban']) && ($response['member'][0]['temp_ban'] != '0')),
-                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0'))];
+                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0')),
+                 'login_key' => $response['member'][0]['member_login_key']];
 
         return $user;
       }
@@ -151,7 +152,8 @@
                  'group_id' => (int)$response['member'][0]['member_group_id'],
                  'verified' => (int)$response['member'][0]['member_group_id'] !== 1,
                  'banned' => in_array((int)$response['member'][0]['member_group_id'], [2, 5]) || (!empty($response['member'][0]['temp_ban']) && ($response['member'][0]['temp_ban'] != '0')),
-                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0'))];
+                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0')),
+                 'login_key' => $response['member'][0]['member_login_key']];
 
         return $user;
       }
