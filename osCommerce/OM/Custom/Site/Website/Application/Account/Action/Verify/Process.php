@@ -21,14 +21,19 @@
 
       $errors = [];
 
-      $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-      $user_id = isset($_POST['user_id']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['user_id'])) : '';
-      $key = isset($_POST['key']) ? preg_replace('/[^a-zA-Z0-9\-\_]/', '', $_POST['key']) : '';
+      if ( isset($_GET['id']) && isset($_GET['key']) ) {
+        $user_id = trim(str_replace(array("\r\n", "\n", "\r"), '', $_GET['id']));
+        $key = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $_GET['key']);
+      } else {
+        $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
+        $user_id = isset($_POST['user_id']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['user_id'])) : '';
+        $key = isset($_POST['key']) ? preg_replace('/[^a-zA-Z0-9\-\_]/', '', $_POST['key']) : '';
 
-      if ( $public_token !== md5($_SESSION[OSCOM::getSite()]['public_token']) ) {
-        $OSCOM_MessageStack->add('account', OSCOM::getDef('error_form_protect_general'), 'error');
+        if ( $public_token !== md5($_SESSION[OSCOM::getSite()]['public_token']) ) {
+          $OSCOM_MessageStack->add('account', OSCOM::getDef('error_form_protect_general'), 'error');
 
-        return false;
+          return false;
+        }
       }
 
       if ( !is_numeric($user_id) || ($user_id < 1) ) {
