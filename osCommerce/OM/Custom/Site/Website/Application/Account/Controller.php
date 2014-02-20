@@ -8,6 +8,7 @@
 
   namespace osCommerce\OM\Core\Site\Website\Application\Account;
 
+  use osCommerce\OM\Core\Hash;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
@@ -15,10 +16,21 @@
 
   class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
     protected function initialize() {
+      $OSCOM_Session = Registry::get('Session');
       $OSCOM_Template = Registry::get('Template');
+
+      if ( !$OSCOM_Session->hasStarted() ) {
+        $OSCOM_Session->start();
+        Registry::get('MessageStack')->loadFromSession();
+      }
+
+      if ( !isset($_SESSION[OSCOM::getSite()]['public_token']) ) {
+        $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
+      }
 
       $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow" />');
 
+      $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
       $OSCOM_Template->setValue('recaptcha_pass', isset($_SESSION[OSCOM::getSite()]['recaptcha_pass']));
 
       if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {

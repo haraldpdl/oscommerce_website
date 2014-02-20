@@ -9,7 +9,6 @@
   namespace osCommerce\OM\Core\Site\Website;
 
   use osCommerce\OM\Core\Cache;
-  use osCommerce\OM\Core\Hash;
   use osCommerce\OM\Core\HTML;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\PDO;
@@ -28,8 +27,15 @@
 
       $OSCOM_Session = Registry::get('Session');
       $OSCOM_Session->setLifeTime(3600);
-      $OSCOM_Session->start();
-      Registry::get('MessageStack')->loadFromSession();
+
+      if ( isset($_COOKIE[$OSCOM_Session->getName()]) ) {
+        $OSCOM_Session->start();
+        Registry::get('MessageStack')->loadFromSession();
+
+        if ( !isset($_SESSION[OSCOM::getSite()]['Account']) && (OSCOM::getSiteApplication() != 'Account') ) {
+          $OSCOM_Session->destroy();
+        }
+      }
 
       Registry::set('Language', new Language());
       Registry::set('Template', new Template());
@@ -39,6 +45,11 @@
           $user = Invision::canAutoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']);
 
           if ( is_array($user) && isset($user['id']) && ($user['verified'] === true) && ($user['banned'] === false) ) {
+            if ( !$OSCOM_Session->hasStarted() ) {
+              $OSCOM_Session->start();
+              Registry::get('MessageStack')->loadFromSession();
+            }
+
             $_SESSION[OSCOM::getSite()]['Account'] = $user;
 
             $OSCOM_Session->recreate();
@@ -47,10 +58,6 @@
             OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
           }
         }
-      }
-
-      if ( !isset($_SESSION[OSCOM::getSite()]['public_token']) ) {
-        $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
       }
 
       $OSCOM_Template = Registry::get('Template');
@@ -75,7 +82,6 @@
       $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
       $OSCOM_Template->setValue('current_year', date('Y'));
       $OSCOM_Template->setValue('in_ssl', OSCOM::getRequestType() == 'SSL');
-      $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
 
       if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {
         $OSCOM_Template->setValue('user', $_SESSION[OSCOM::getSite()]['Account']);
