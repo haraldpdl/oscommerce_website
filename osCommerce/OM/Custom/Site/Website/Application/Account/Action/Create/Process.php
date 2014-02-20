@@ -147,10 +147,10 @@
         if ( empty($errors) ) {
           $result = Invision::createUser($username, $email, $password);
 
-          if ( is_array($result) && isset($result['result']) && ($result['result'] === true) && isset($result['member'][0]['member_id']) && is_numeric($result['member'][0]['member_id']) && ($result['member'][0]['member_id'] > 0) && isset($result['validate_key']) && !empty($result['validate_key']) ) {
-            $result['member'][0]['validate_key'] = $result['validate_key'];
+          if ( is_array($result) && isset($result['result']) && ($result['result'] === true) && isset($result['member']['member_id']) && is_numeric($result['member']['member_id']) && ($result['member']['member_id'] > 0) && isset($result['validate_key']) && !empty($result['validate_key']) ) {
+            $result['member']['validate_key'] = $result['validate_key'];
 
-            $OSCOM_Template->setValue('new_member_reg', $result['member'][0]);
+            $OSCOM_Template->setValue('new_member_reg', $result['member']);
 
             $email_txt_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.txt');
             $email_txt = file_exists($email_txt_file) ? $OSCOM_Template->parseContent(file_get_contents($email_txt_file)) : null;
@@ -159,7 +159,7 @@
             $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
 
             if ( !empty($email_txt) || !empty($email_html) ) {
-              $OSCOM_Mail = new Mail($result['member'][0]['name'], $result['member'][0]['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
+              $OSCOM_Mail = new Mail($result['member']['name'], $result['member']['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
 
               if ( !empty($email_txt) ) {
                 $OSCOM_Mail->setBodyPlain($email_txt);

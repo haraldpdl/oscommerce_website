@@ -28,10 +28,10 @@
       $request = xmlrpc_encode_request('checkMemberExists', ['api_key' => OSCOM::getConfig('community_api_key'),
                                                              'api_module' => OSCOM::getConfig('community_api_module'),
                                                              'search_type' => $key,
-                                                             'search_string' => $search]);
+                                                             'search_string' => $search], ['encoding' => 'utf-8']);
 
-      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
-                                                          'parameters' => $request]));
+      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                        'parameters' => $request]), true);
 
       return is_array($response) && isset($response['memberExists']) && ($response['memberExists'] === true);
     }
@@ -58,10 +58,10 @@
                                                       'username' => $username,
                                                       'email' => $email,
                                                       'md5_pass' => md5($password),
-                                                      'ip' => OSCOM::getIPAddress()]);
+                                                      'ip' => OSCOM::getIPAddress()], ['encoding' => 'utf-8']);
 
-      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
-                                                          'parameters' => $request]));
+      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                        'parameters' => $request]), true);
 
       return $response;
     }
@@ -81,10 +81,10 @@
       $request = xmlrpc_encode_request('verifyUserKey', ['api_key' => OSCOM::getConfig('community_api_key'),
                                                          'api_module' => 'oscommerce',
                                                          'user_id' => $user_id,
-                                                         'key' => $key]);
+                                                         'key' => $key], ['encoding' => 'utf-8']);
 
-      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
-                                                          'parameters' => $request]));
+      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                        'parameters' => $request]), true);
 
       return $response;
     }
@@ -104,20 +104,20 @@
       $request = xmlrpc_encode_request('verifyMember', ['api_key' => OSCOM::getConfig('community_api_key'),
                                                         'api_module' => 'oscommerce',
                                                         'username' => $username,
-                                                        'password' => md5($password)]);
+                                                        'password' => md5($password)], ['encoding' => 'utf-8']);
 
-      $response = xmlrpc_decode(HttpRequest::getResponse( ['url' => OSCOM::getConfig('community_api_address'),
-                                                           'parameters' => $request] ));
+      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                        'parameters' => $request]), true);
 
-      if ( is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member'][0]['member_id']) && ($response['member'][0]['member_id'] > 0) ) {
-        $user = ['id' => (int)$response['member'][0]['member_id'],
-                 'name' => $response['member'][0]['members_display_name'],
-                 'email' => $response['member'][0]['email'],
-                 'group_id' => (int)$response['member'][0]['member_group_id'],
-                 'verified' => (int)$response['member'][0]['member_group_id'] !== 1,
-                 'banned' => in_array((int)$response['member'][0]['member_group_id'], [2, 5]) || (!empty($response['member'][0]['temp_ban']) && ($response['member'][0]['temp_ban'] != '0')),
-                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0')),
-                 'login_key' => $response['member'][0]['member_login_key']];
+      if ( is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member']['member_id']) && ($response['member']['member_id'] > 0) ) {
+        $user = ['id' => (int)$response['member']['member_id'],
+                 'name' => $response['member']['members_display_name'],
+                 'email' => $response['member']['email'],
+                 'group_id' => (int)$response['member']['member_group_id'],
+                 'verified' => (int)$response['member']['member_group_id'] !== 1,
+                 'banned' => in_array((int)$response['member']['member_group_id'], [2, 5]) || (!empty($response['member']['temp_ban']) && ($response['member']['temp_ban'] != '0')),
+                 'restricted_post' => (!empty($response['member']['restrict_post']) && ($response['member']['restrict_post'] != '0')) || (!empty($response['member']['mod_posts']) && ($response['member']['mod_posts'] != '0')),
+                 'login_key' => $response['member']['member_login_key']];
 
         return $user;
       }
@@ -140,20 +140,20 @@
       $request = xmlrpc_encode_request('canAutoLogin', ['api_key' => OSCOM::getConfig('community_api_key'),
                                                         'api_module' => 'oscommerce',
                                                         'member_id' => $id,
-                                                        'pass_hash' => $hash]);
+                                                        'pass_hash' => $hash], ['encoding' => 'utf-8']);
 
-      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
-                                                          'parameters' => $request]));
+      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                        'parameters' => $request]), true);
 
-      if ( is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member'][0]['member_id']) && ($response['member'][0]['member_id'] > 0) && ($response['member'][0]['member_id'] == $id) ) {
-        $user = ['id' => (int)$response['member'][0]['member_id'],
-                 'name' => $response['member'][0]['members_display_name'],
-                 'email' => $response['member'][0]['email'],
-                 'group_id' => (int)$response['member'][0]['member_group_id'],
-                 'verified' => (int)$response['member'][0]['member_group_id'] !== 1,
-                 'banned' => in_array((int)$response['member'][0]['member_group_id'], [2, 5]) || (!empty($response['member'][0]['temp_ban']) && ($response['member'][0]['temp_ban'] != '0')),
-                 'restricted_post' => (!empty($response['member'][0]['restrict_post']) && ($response['member'][0]['restrict_post'] != '0')) || (!empty($response['member'][0]['mod_posts']) && ($response['member'][0]['mod_posts'] != '0')),
-                 'login_key' => $response['member'][0]['member_login_key']];
+      if ( is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member']['member_id']) && ($response['member']['member_id'] > 0) && ($response['member']['member_id'] == $id) ) {
+        $user = ['id' => (int)$response['member']['member_id'],
+                 'name' => $response['member']['members_display_name'],
+                 'email' => $response['member']['email'],
+                 'group_id' => (int)$response['member']['member_group_id'],
+                 'verified' => (int)$response['member']['member_group_id'] !== 1,
+                 'banned' => in_array((int)$response['member']['member_group_id'], [2, 5]) || (!empty($response['member']['temp_ban']) && ($response['member']['temp_ban'] != '0')),
+                 'restricted_post' => (!empty($response['member']['restrict_post']) && ($response['member']['restrict_post'] != '0')) || (!empty($response['member']['mod_posts']) && ($response['member']['mod_posts'] != '0')),
+                 'login_key' => $response['member']['member_login_key']];
 
         return $user;
       }
