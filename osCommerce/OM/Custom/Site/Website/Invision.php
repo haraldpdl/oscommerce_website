@@ -13,6 +13,8 @@
 
   class Invision {
     public static function checkMemberExists($search, $key) {
+      $search = static::_parseCleanValue($search);
+
       if ( empty($search) ) {
         return false;
       }
@@ -37,19 +39,11 @@
     }
 
     public static function createUser($username, $email, $password) {
-      $username = trim(str_replace(array("\r\n", "\n", "\r"), '', $username));
-      $email = trim(str_replace(array("\r\n", "\n", "\r"), '', $email));
-      $password = str_replace(array("\r\n", "\n", "\r"), '', $password);
-
-      if ( (strlen($username) < 3) || (strlen($username) > 26) ) {
-        return false;
-      }
+      $username = static::_parseCleanValue($username);
+      $email = static::_parseCleanValue($email);
+      $password = static::_parseCleanValue($password);
 
       if ( empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
-        return false;
-      }
-
-      if ( (strlen($password) < 3) || (strlen($password) > 32) ) {
         return false;
       }
 
@@ -90,16 +84,8 @@
     }
 
     public static function canLogin($username, $password) {
-      $username = trim(str_replace(array("\r\n", "\n", "\r"), '', $username));
-      $password = str_replace(array("\r\n", "\n", "\r"), '', $password);
-
-      if ( (strlen($username) < 3) || (strlen($username) > 26) ) {
-        return false;
-      }
-
-      if ( (strlen($password) < 3) || (strlen($password) > 32) ) {
-        return false;
-      }
+      $username = static::_parseCleanValue($username);
+      $password = static::_parseCleanValue($password);
 
       $request = xmlrpc_encode_request('verifyMember', ['api_key' => OSCOM::getConfig('community_api_key'),
                                                         'api_module' => 'oscommerce',
@@ -159,6 +145,35 @@
       }
 
       return false;
+    }
+
+    protected static function _parseCleanValue($val) {
+      if ( empty($val) ) {
+        return '';
+      }
+
+      $val = preg_replace('/\\\(?!&amp;#|\?#)/', '&#092;', $val);
+
+      $val = str_replace('&#032;', ' ', $val);
+
+      $val = str_replace(array("\r\n", "\n\r", "\r"), "\n", $val);
+
+      $val = str_replace('&', '&amp;', $val);
+      $val = str_replace('<!--', '&#60;&#33;--', $val);
+      $val = str_replace('-->', '--&#62;', $val);
+      $val = str_ireplace('<script', '&#60;script', $val);
+      $val = str_replace('>', '&gt;', $val);
+      $val = str_replace('<', '&lt;', $val);
+      $val = str_replace('"', '&quot;', $val);
+      $val = str_replace("\n", '<br />', $val);
+      $val = str_replace('$', '&#036;', $val);
+      $val = str_replace('!', '&#33;', $val);
+      $val = str_replace("'", '&#39;', $val);
+
+      $val = preg_replace('/&amp;#([0-9]+);/s', "&#\\1;", $val);
+      $val = preg_replace('/&#(\d+?)([^\d;])/i', "&#\\1;\\2", $val);
+
+      return $val;
     }
   }
 ?>
