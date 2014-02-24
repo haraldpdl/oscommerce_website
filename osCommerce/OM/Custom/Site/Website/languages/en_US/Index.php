@@ -22,7 +22,7 @@ choco_coreupdate_content = <p>Updates are applied safely from the Administration
 choco_addons_title = 7,000+ Add-Ons
 choco_addons_content = <p>Our community have uploaded over 7,000 Add-Ons that can be used for free to customize your online store with.</p>
 
-choco_passionate_title = 12 Years Strong
+choco_passionate_title = {value}never_ask_her{value} Years Strong
 choco_passionate_content = <p>We're passionate about what we do and love the personal relationship we have with the community.</p>
 
 choco_open_source_title = Open Source Rocks

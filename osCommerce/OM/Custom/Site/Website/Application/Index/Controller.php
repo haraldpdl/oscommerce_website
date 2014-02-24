@@ -20,6 +20,8 @@
       $this->_page_contents = 'main.html';
       $this->_page_title = OSCOM::getDef('html_page_title');
 
+      $OSCOM_Template->setValue('never_ask_her', (new \DateTime('2000-03-12'))->diff(new \DateTime())->format('%y'));
+
       if ( $OSCOM_Cache->read('website_partners-frontpage_promotions', 15) ) {
         $partners = $OSCOM_Cache->getCache();
       } else {
