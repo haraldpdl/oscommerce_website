@@ -12,8 +12,6 @@
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
-  use osCommerce\OM\Core\Site\Website\Invision;
-
   class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
     protected function initialize() {
       $OSCOM_Session = Registry::get('Session');

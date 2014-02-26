@@ -33,7 +33,7 @@
         Registry::get('MessageStack')->loadFromSession();
 
         if ( !isset($_SESSION[OSCOM::getSite()]['Account']) && (OSCOM::getSiteApplication() != 'Account') ) {
-          $OSCOM_Session->destroy();
+          $OSCOM_Session->kill();
         }
       }
 
