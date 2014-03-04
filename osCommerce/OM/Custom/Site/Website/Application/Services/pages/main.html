@@ -14,12 +14,21 @@
       <h2>{lang}promotions_heading{lang}</h2>
 
       <div>
+        <select id="partnerPromotionFilter">
+          <option value="All">{lang}promotions_show_all{lang}</option>
 
-{loop partner_promotions}
-        <a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" style="padding: 30px;" /></a>
+{loop partner_promotion_categories}
+          <option value="#code#">#title#</option>
 {loop}
 
+        </select>
       </div>
+
+{loop partner_promotions}
+        <div class="partnerPromotionCategory_#category_code#" style="float: left; text-align: center; padding: 30px;"><a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a><br /><span class="label label-warning">#category_title#</span></div>
+{loop}
+
+      <div class="clearfix"></div>
 
       <div class="pull-right"><small><a href="{link}Account|Website|Partner|SSL{link}">{lang}dashboard_link_title{lang}</a></small></div>
     </div>
@@ -27,3 +36,16 @@
 
   {widget}services_sidebar_nav{widget}
 </div>
+
+<script>
+$(function() {
+  $('#partnerPromotionFilter').change(function() {
+    if ( this.value == 'All' ) {
+      $('[class^="partnerPromotionCategory_"]').fadeIn('fast');
+    } else {
+      $('[class^="partnerPromotionCategory_"]').fadeOut('fast');
+      $('.partnerPromotionCategory_' + this.value).fadeIn('fast');
+    }
+  });
+});
+</script>

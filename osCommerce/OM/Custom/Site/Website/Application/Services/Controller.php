@@ -88,6 +88,22 @@
 
         if ( !isset($category) ) {
           $OSCOM_Template->setValue('partner_promotions', Partner::getPromotions());
+
+          $promotion_categories = [];
+
+          foreach ( $OSCOM_Template->getValue('partner_promotions') as $p ) {
+            if ( !isset($promotion_categories[$p['category_code']]) ) {
+              $promotion_categories[$p['category_code']] = [ 'title' => $p['category_title'],
+                                                             'code' => $p['category_code'],
+                                                             'sort' => $p['category_sort_order'] ];
+            }
+          }
+
+          usort($promotion_categories, function ($a, $b) {
+            return strcmp($a['sort'], $b['sort']);
+          });
+
+          $OSCOM_Template->setValue('partner_promotion_categories', $promotion_categories);
         }
       }
     }

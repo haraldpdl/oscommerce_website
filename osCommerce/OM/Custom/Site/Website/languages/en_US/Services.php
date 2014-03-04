@@ -10,6 +10,7 @@ services_page_title = Services
 services_main_content = <p>We focus on providing you the best products possible and partner with experts around the world who focus on providing the best services for your online business.</p>
 
 promotions_heading = Promotions
+promotions_show_all = Show All
 
 cs_html_page_title = Partner With Us | osCommerce
 
