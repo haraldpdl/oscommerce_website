@@ -1,15 +1,24 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 DROP TABLE IF EXISTS osc_website_downloads;
 CREATE TABLE osc_website_downloads (
   id int unsigned NOT NULL AUTO_INCREMENT,
+  code varchar(255) NOT NULL,
   title varchar(255) NOT NULL,
+  version varchar(255) NOT NULL,
+  rel_group varchar(255) NOT NULL,
   filename varchar(255) NOT NULL,
+  date date NOT NULL,
+  type varchar(255) NOT NULL,
+  pkg_group varchar(255) NOT NULL,
   counter int unsigned DEFAULT 0,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY idx_downloads_code (code),
+  KEY idx_downloads_type (type),
+  KEY idx_downloads_pkg_group (pkg_group)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS osc_website_downloads_log;

@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 products_html_page_title = Online Merchant | osCommerce
@@ -33,3 +33,12 @@ link_github_development = Development at GitHub
 link_github_history = History at GitHub
 
 button_download = Download
+
+download_html_title = Downloading :download_file_title | osCommerce
+
+download_title = Downloading..
+download_description = Downloading {value}download_file_title{value} in <span id="redirect_counter">5</span> second(s)
+download_now_button = Skip, and download now..
+
+partner_promotions_heading = Promotions
+partner_promotions_show_all = Show All

@@ -1,0 +1,59 @@
+<div class="hero-unit" style="padding: 30px">
+  <h1>{lang}download_title{lang}</h1>
+
+  <p>{lang}download_description{lang}</p>
+
+  <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
+    <input type="hidden" name="get" value="{get}Download{get}" />
+    <input type="hidden" name="do" value="1" />
+    <button type="submit" class="btn btn-primary btn-large">{lang}download_now_button{lang}</button>
+  </form>
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="span12">
+    <div id="maincontent">
+      <h2>{lang}partner_promotions_heading{lang}</h2>
+
+      <div>
+        <select id="partnerPromotionFilter">
+          <option value="All">{lang}partner_promotions_show_all{lang}</option>
+
+{loop partner_promotion_categories}
+          <option value="#code#">#title#</option>
+{loop}
+
+        </select>
+      </div>
+
+{loop partner_promotions}
+        <div class="partnerPromotionCategory_#category_code#" style="float: left; text-align: center; padding: 30px;"><a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a><br /><span class="label label-warning">#category_title#</span></div>
+{loop}
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#partnerPromotionFilter').change(function() {
+    if ( this.value == 'All' ) {
+      $('[class^="partnerPromotionCategory_"]').fadeIn('fast');
+    } else {
+      $('[class^="partnerPromotionCategory_"]').fadeOut('fast');
+      $('.partnerPromotionCategory_' + this.value).fadeIn('fast');
+    }
+  });
+
+  var redirect_count = 5;
+  var redirect_timer = setInterval(function() {
+    if ( --redirect_count < 1 ) {
+      clearInterval(redirect_timer);
+      $('#downloadForm').submit();
+    }
+
+    $('#redirect_counter').text(redirect_count);
+  }, 1000);
+});
+</script>
