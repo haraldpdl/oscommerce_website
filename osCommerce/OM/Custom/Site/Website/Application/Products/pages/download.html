@@ -26,11 +26,14 @@
         </select>
       </div>
 
+      <div id="partnerPromotionContainer">
+
 {loop partner_promotions}
         <div class="partnerPromotionCategory_#category_code#" style="float: left; text-align: center; padding: 30px;"><a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a><br /><span class="label label-warning">#category_title#</span></div>
 {loop}
 
-      <div class="clearfix"></div>
+        <div class="clearfix"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -41,8 +44,14 @@ $(function() {
     if ( this.value == 'All' ) {
       $('[class^="partnerPromotionCategory_"]').fadeIn('fast');
     } else {
-      $('[class^="partnerPromotionCategory_"]').fadeOut('fast');
-      $('.partnerPromotionCategory_' + this.value).fadeIn('fast');
+      var selected = this;
+
+      $('#partnerPromotionContainer').css('minHeight', $('#partnerPromotionContainer').height());
+
+      $('[class^="partnerPromotionCategory_"]').fadeOut('fast').promise().done(function() {
+        $('.partnerPromotionCategory_' + selected.value).fadeIn('fast');
+        $('#partnerPromotionContainer').css('minHeight', '');
+      });
     }
   });
 
