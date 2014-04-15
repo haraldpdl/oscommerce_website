@@ -1,0 +1,22 @@
+osCommerce
+
+Partner Information Page Updated
+
+  {raw}partner_admin_name{raw},
+
+  this is a notification e-mail to inform you that your partner information
+  page has been updated by:
+
+  {raw}user_name{raw}
+
+  The changes can be viewed on the History page in the Partner Dashboard at:
+
+  {link}Account|Website|Partner&History={raw}partner_code{raw}|SSL{link}
+
+  Kind regards,
+
+  osCommerce
+
+osCommerce, http://www.oscommerce.com
+
+This is an automatically generated e-mail.

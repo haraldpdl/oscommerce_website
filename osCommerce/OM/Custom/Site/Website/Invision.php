@@ -12,6 +12,36 @@
   use osCommerce\OM\Core\OSCOM;
 
   class Invision {
+    public static function fetchMember($search, $key) {
+      $search = static::_parseCleanValue($search);
+
+      if ( empty($search) ) {
+        return false;
+      }
+
+      if ( !in_array($key, ['id', 'email', 'username']) ) {
+        return false;
+      }
+
+      if ( ($key == 'id') && !is_numeric($search) ) {
+        return false;
+      }
+
+      if ( ($key == 'email') && !filter_var($search, FILTER_VALIDATE_EMAIL) ) {
+        return false;
+      }
+
+      $request = xmlrpc_encode_request('fetchMember', ['api_key' => OSCOM::getConfig('community_api_key'),
+                                                       'api_module' => OSCOM::getConfig('community_api_module'),
+                                                       'search_type' => $key,
+                                                       'search_string' => $search], ['encoding' => 'utf-8']);
+
+      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                          'parameters' => $request]));
+
+      return $response;
+    }
+
     public static function checkMemberExists($search, $key) {
       $search = static::_parseCleanValue($search);
 
@@ -32,8 +62,8 @@
                                                              'search_type' => $key,
                                                              'search_string' => $search], ['encoding' => 'utf-8']);
 
-      $response = json_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
-                                                        'parameters' => $request]), true);
+      $response = xmlrpc_decode(HttpRequest::getResponse(['url' => OSCOM::getConfig('community_api_address'),
+                                                          'parameters' => $request]));
 
       return is_array($response) && isset($response['memberExists']) && ($response['memberExists'] === true);
     }

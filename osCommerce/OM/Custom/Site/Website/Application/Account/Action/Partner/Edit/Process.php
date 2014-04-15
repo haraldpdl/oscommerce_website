@@ -9,11 +9,13 @@
   namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Edit;
 
   use osCommerce\OM\Core\ApplicationAbstract;
+  use osCommerce\OM\Core\Mail;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
   use osCommerce\OM\Core\Upload;
 
   use osCommerce\OM\Core\Site\Website\Partner;
+  use osCommerce\OM\Core\Site\Website\Users;
 
   class Process {
     public static function execute(ApplicationAbstract $application) {
@@ -362,11 +364,50 @@
           }
         }
 
-        Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $data);
+        if ( Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $data) ) {
+          $email_txt_file = $OSCOM_Template->getPageContentsFile('email_partner_save.txt');
+          $email_txt_tmpl = file_exists($email_txt_file) ? file_get_contents($email_txt_file) : null;
 
-        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_success_save', array(':partner_link' => OSCOM::getLink(null, 'Account', 'Partner&View=' . $partner['code'], 'SSL'))), 'success');
+          $email_html_file = $OSCOM_Template->getPageContentsFile('email_partner_save.html');
+          $email_html_tmpl = file_exists($email_html_file) ? file_get_contents($email_html_file) : null;
 
-        OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner&Edit=' . $partner['code'], 'SSL'));
+          $OSCOM_Template->setValue('user_name', $_SESSION[OSCOM::getSite()]['Account']['name']);
+          $OSCOM_Template->setValue('partner_code', $partner['code']);
+
+          foreach ( Partner::getCampaignAdmins($partner['code']) as $admin_id ) {
+            $admin = Users::get($admin_id);
+            $OSCOM_Template->setValue('partner_admin_name', $admin['name'], true);
+
+            $email_txt = null;
+            $email_html = null;
+
+            if ( isset($email_txt_tmpl) ) {
+              $email_txt = $OSCOM_Template->parseContent($email_txt_tmpl);
+            }
+
+            if ( isset($email_html_tmpl) ) {
+              $email_html = $OSCOM_Template->parseContent($email_html_tmpl);
+            }
+
+            if ( !empty($email_txt) || !empty($email_html) ) {
+              $OSCOM_Mail = new Mail($admin['name'], $admin['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('email_partner_update_subject'));
+
+              if ( !empty($email_txt) ) {
+                $OSCOM_Mail->setBodyPlain($email_txt);
+              }
+
+              if ( !empty($email_html) ) {
+                $OSCOM_Mail->setBodyHTML($email_html);
+              }
+
+              $OSCOM_Mail->send();
+            }
+          }
+
+          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_success_save', array(':partner_link' => OSCOM::getLink(null, 'Account', 'Partner&Edit=' . $partner['code'], 'SSL'))), 'success');
+        }
+
+        OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner&View=' . $partner['code'], 'SSL'));
       }
     }
   }

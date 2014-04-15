@@ -15,8 +15,9 @@
 
 {loop partner_campaigns}
       <div id="partnerc_#code#">
-        <p class="pcdate label pull-right">%date_end%</p>
-        <p><a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}">#title#</a> <small>(in %category_title%)</small><br /><span class="pcdays muted"></span></p>
+        <div class="pull-right" style="text-align: right; padding-top: 5px;"><span class="pcdate label">%date_end%</span><br /><span class="pcdays muted"></span></div>
+        <h4><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <small>(in %category_title%)</small></h4>
+        <p><a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn">View</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn">Edit</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn">History</a></p>
       </div>
 {loop}
 
@@ -34,11 +35,17 @@ $(function() {
     if ( runsUntil.isBefore(partner_date_now) ) {
       $('.pcdate', this).addClass('label-important');
 
-      $('.pcdays', this).html('<small>(' + partner_date_now.diff(runsUntil, 'days') + ' days ago)</small>');
+      $('.pcdays', this).html('<small>' + partner_date_now.diff(runsUntil, 'days') + ' days ago</small>');
     } else {
-      $('.pcdate', this).addClass('label-success');
+      var daysRemaining = runsUntil.diff(partner_date_now, 'days');
 
-      $('.pcdays', this).html('<small>(' + runsUntil.diff(partner_date_now, 'days') + ' days remaining)</small>');
+      $('.pcdays', this).html('<small>' + daysRemaining + ' days remaining</small>');
+
+      if ( daysRemaining > 14 ) {
+        $('.pcdate', this).addClass('label-success');
+      } else {
+        $('.pcdate', this).addClass('label-warning');
+      }
     }
   });
 });

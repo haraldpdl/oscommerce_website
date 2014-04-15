@@ -180,6 +180,8 @@ partner_button_save = Save
 partner_button_processing = Processing..
 partner_button_cancel = Cancel
 
+button_visit_partner_website = Visit Partner Website
+
 partner_error_desc_short_empty = Short Description must be provided.
 partner_error_desc_short_length = Short Description must not be greater than 450 characters.
 partner_error_desc_long_empty = Long Description must be provided.
@@ -203,7 +205,9 @@ partner_error_banner_image_de_error = Banner Image (German) upload failed. Pleas
 partner_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 partner_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
 
-partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">View</a>
+partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
+
+email_partner_update_subject = osCommerce Partner Information Page Updated
 
 partner_view_html_title = :partner_title | osCommerce

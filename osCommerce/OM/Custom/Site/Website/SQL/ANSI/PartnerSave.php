@@ -1,8 +1,8 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -38,109 +38,119 @@
         $partner['image_promo'] = null;
       }
 
-      $OSCOM_PDO->save('website_partner', $partner, array('id' => $data['id']));
+      try {
+        $OSCOM_PDO->beginTransaction();
 
-      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = "en"');
-      $Qcheck->bindInt(':partner_id', $data['id']);
-      $Qcheck->execute();
+        $OSCOM_PDO->save('website_partner', $partner, array('id' => $data['id']));
 
-      if ( $Qcheck->fetch() !== false ) {
-        if ( !isset($data['banner_url_en']) ) {
-          $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
-        } else {
-          $banner = array('url' => $data['banner_url_en']);
+        $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = "en"');
+        $Qcheck->bindInt(':partner_id', $data['id']);
+        $Qcheck->execute();
+
+        if ( $Qcheck->fetch() !== false ) {
+          if ( !isset($data['banner_url_en']) ) {
+            $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
+          } else {
+            $banner = array('url' => $data['banner_url_en']);
+
+            if ( isset($data['banner_image_en']) ) {
+              $banner['image'] = $data['banner_image_en'];
+            }
+
+            $OSCOM_PDO->save('website_partner_banner', $banner, array('id' => $Qcheck->valueInt('id')));
+          }
+        } elseif ( isset($data['banner_url_en']) ) {
+          $banner = array('partner_id' => $data['id'],
+                          'code' => 'en',
+                          'url' => $data['banner_url_en']);
 
           if ( isset($data['banner_image_en']) ) {
             $banner['image'] = $data['banner_image_en'];
           }
 
-          $OSCOM_PDO->save('website_partner_banner', $banner, array('id' => $Qcheck->valueInt('id')));
-        }
-      } elseif ( isset($data['banner_url_en']) ) {
-        $banner = array('partner_id' => $data['id'],
-                        'code' => 'en',
-                        'url' => $data['banner_url_en']);
-
-        if ( isset($data['banner_image_en']) ) {
-          $banner['image'] = $data['banner_image_en'];
+          $OSCOM_PDO->save('website_partner_banner', $banner);
         }
 
-        $OSCOM_PDO->save('website_partner_banner', $banner);
-      }
+        $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "en"');
+        $Qcheck->bindInt(':partner_id', $data['id']);
+        $Qcheck->execute();
 
-      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "en"');
-      $Qcheck->bindInt(':partner_id', $data['id']);
-      $Qcheck->execute();
+        if ( $Qcheck->fetch() !== false ) {
+          if ( !isset($data['status_update_en']) ) {
+            $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
+          } else {
+            $status = array('status_update' => $data['status_update_en'],
+                            'date_added' => 'now()');
 
-      if ( $Qcheck->fetch() !== false ) {
-        if ( !isset($data['status_update_en']) ) {
-          $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
-        } else {
-          $status = array('status_update' => $data['status_update_en'],
+            $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+          }
+        } elseif ( isset($data['status_update_en']) ) {
+          $status = array('partner_id' => $data['id'],
+                          'code' => 'en',
+                          'status_update' => $data['status_update_en'],
                           'date_added' => 'now()');
 
-          $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+          $OSCOM_PDO->save('website_partner_status_update', $status);
         }
-      } elseif ( isset($data['status_update_en']) ) {
-        $status = array('partner_id' => $data['id'],
-                        'code' => 'en',
-                        'status_update' => $data['status_update_en'],
-                        'date_added' => 'now()');
 
-        $OSCOM_PDO->save('website_partner_status_update', $status);
-      }
+        $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = "de"');
+        $Qcheck->bindInt(':partner_id', $data['id']);
+        $Qcheck->execute();
 
-      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = "de"');
-      $Qcheck->bindInt(':partner_id', $data['id']);
-      $Qcheck->execute();
+        if ( $Qcheck->fetch() !== false ) {
+          if ( !isset($data['banner_url_de']) ) {
+            $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
+          } else {
+            $banner = array('url' => $data['banner_url_de']);
 
-      if ( $Qcheck->fetch() !== false ) {
-        if ( !isset($data['banner_url_de']) ) {
-          $OSCOM_PDO->delete('website_partner_banner', array('id' => $Qcheck->valueInt('id')));
-        } else {
-          $banner = array('url' => $data['banner_url_de']);
+            if ( isset($data['banner_image_de']) ) {
+              $banner['image'] = $data['banner_image_de'];
+            }
+
+            $OSCOM_PDO->save('website_partner_banner', $banner, array('id' => $Qcheck->valueInt('id')));
+          }
+        } elseif ( isset($data['banner_url_de']) ) {
+          $banner = array('partner_id' => $data['id'],
+                          'code' => 'de',
+                          'url' => $data['banner_url_de']);
 
           if ( isset($data['banner_image_de']) ) {
             $banner['image'] = $data['banner_image_de'];
           }
 
-          $OSCOM_PDO->save('website_partner_banner', $banner, array('id' => $Qcheck->valueInt('id')));
-        }
-      } elseif ( isset($data['banner_url_de']) ) {
-        $banner = array('partner_id' => $data['id'],
-                        'code' => 'de',
-                        'url' => $data['banner_url_de']);
-
-        if ( isset($data['banner_image_de']) ) {
-          $banner['image'] = $data['banner_image_de'];
+          $OSCOM_PDO->save('website_partner_banner', $banner);
         }
 
-        $OSCOM_PDO->save('website_partner_banner', $banner);
-      }
+        $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "de"');
+        $Qcheck->bindInt(':partner_id', $data['id']);
+        $Qcheck->execute();
 
-      $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = "de"');
-      $Qcheck->bindInt(':partner_id', $data['id']);
-      $Qcheck->execute();
+        if ( $Qcheck->fetch() !== false ) {
+          if ( !isset($data['status_update_de']) ) {
+            $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
+          } else {
+            $status = array('status_update' => $data['status_update_de'],
+                            'date_added' => 'now()');
 
-      if ( $Qcheck->fetch() !== false ) {
-        if ( !isset($data['status_update_de']) ) {
-          $OSCOM_PDO->delete('website_partner_status_update', array('id' => $Qcheck->valueInt('id')));
-        } else {
-          $status = array('status_update' => $data['status_update_de'],
+            $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+          }
+        } elseif ( isset($data['status_update_de']) ) {
+          $status = array('partner_id' => $data['id'],
+                          'code' => 'de',
+                          'status_update' => $data['status_update_de'],
                           'date_added' => 'now()');
 
-          $OSCOM_PDO->save('website_partner_status_update', $status, array('id' => $Qcheck->valueInt('id')));
+          $OSCOM_PDO->save('website_partner_status_update', $status);
         }
-      } elseif ( isset($data['status_update_de']) ) {
-        $status = array('partner_id' => $data['id'],
-                        'code' => 'de',
-                        'status_update' => $data['status_update_de'],
-                        'date_added' => 'now()');
 
-        $OSCOM_PDO->save('website_partner_status_update', $status);
+        return $OSCOM_PDO->commit();
+      } catch ( \Exception $e ) {
+        $OSCOM_PDO->rollBack();
+
+        trigger_error($e->getMessage());
       }
 
-      return true;
+      return false;
     }
   }
 ?>
