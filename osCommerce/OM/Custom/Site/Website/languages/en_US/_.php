@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 personal_html_page_title = It's personal, not business. | osCommerce
@@ -13,12 +13,11 @@ cs_html_page_title = osCommerce, Community Sponsorship
 
 cs_page_title = Community Sponsorship
 
-cs_main_content = <p>The Community Sponsorship is an all round wellness package with something in it for everyone. What started out as a way for community members to thank us for our work has been extended to highlight live shop entries, view and reply to commercial enquiries posted on the forum, and to submit support tickets for urgent matters.</p><p>Pricing starts from 10 &euro; / Month and includes:</p>
+cs_main_content = <p>The Community Sponsorship is an all round wellness package with something in it for everyone. What started out as a way for community members to thank us for our work has been extended to highlight community profiles, live shop entries, and to view and reply to commercial enquiries posted on the forum.</p><p>Pricing starts from 10 &euro; / Month and includes:</p>
 
 cs_plan_title = Community Sponsorship
 
 cs_plan_profile = Highlighted community profile
-cs_plan_tickets = Support Tickets for direct support
 cs_plan_commercial = View and reply to commercial enquiries on the forum
 cs_plan_commercial_feedback = Accept client feedback and reviews on the forum
 cs_plan_live_shop = Highlighted live shop entry
@@ -33,8 +32,6 @@ cs_pricing_6_months = 6 Months
 cs_pricing_12_months = 12 Months
 
 cs_pricing_info = All prices are in Euro. German residents will be additionally taxed 19% (MwSt.).
-
-tickets_disclaimer = <dl><dt style="padding-bottom: 10px;">Support Tickets</dt><dd><p>Support Tickets are private support enquiries regarding osCommerce Online Merchant. We may ask for FTP access to your server to aid us in identifying the cause of a problem. We will do our best to help you with a problem with an Add-On however this is not officially covered and may introduce additional reasonable costs depending on how customized your online store is. Official support hours are Monday - Friday, 9am - 6pm CET (support is also likely be provided off hours and on weekends when we are available).</p></dd></dl>
 
 cs_interested_title = Interested?
 cs_sign_up_info = Community Sponsorships are managed through our forum and are linked to community profiles to keep track of the sponsorship duration.<br /><br />A free <a href="http://forums.oscommerce.com/index.php?app=core&module=global&section=register" target="_blank">community profile</a> is required.
