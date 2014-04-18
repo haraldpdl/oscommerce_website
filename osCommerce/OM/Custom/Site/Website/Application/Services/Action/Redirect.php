@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -41,6 +41,8 @@
       if ( !isset($partner_url) || empty($partner_url) ) {
         OSCOM::redirect(OSCOM::getLink('Website', 'Services'));
       }
+
+      $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow" />');
 
       $OSCOM_Template->setValue('partner_title', $partner_title);
       $OSCOM_Template->setValue('partner_url', $partner_url);

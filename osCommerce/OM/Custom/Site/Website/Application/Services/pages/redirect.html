@@ -3,7 +3,7 @@
 
   <p>{lang}redirect_description{lang}</p>
 
-  <p><a href="{value}partner_url{value}" class="btn btn-primary btn-large">{lang}redirect_button{lang}</a></p>
+  <p><a id="redirectLink" href="{value}partner_url{value}" class="btn btn-primary btn-large">{lang}redirect_button{lang}</a></p>
 </div>
 
 <script>
@@ -17,5 +17,10 @@ $(function() {
 
     $('#redirect_counter').text(redirect_count);
   }, 1000);
+
+  $('#redirectLink').click(function() {
+    clearInterval(redirect_timer);
+    $('#redirect_counter').text(0);
+  });
 });
 </script>

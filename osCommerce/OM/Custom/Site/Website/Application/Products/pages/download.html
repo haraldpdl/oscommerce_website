@@ -64,5 +64,10 @@ $(function() {
 
     $('#redirect_counter').text(redirect_count);
   }, 1000);
+
+  $('#downloadForm').submit(function() {
+    clearInterval(redirect_timer);
+    $('#redirect_counter').text(0);
+  });
 });
 </script>
