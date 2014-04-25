@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -18,13 +18,19 @@
       $OSCOM_Template = Registry::get('Template');
 
       $group = 'en';
+      $forum_channel_id = null;
 
       if ( isset($_GET['group']) && in_array($_GET['group'], array('de')) ) {
         $group = HTML::outputProtected($_GET['group']);
       }
 
-      $Qpartners = $OSCOM_PDO->prepare('select p.title, p.image_small, b.image, b.url, su.status_update from :table_website_partner p left join :table_website_partner_status_update su on (p.id = su.partner_id and su.code = :sucode), :table_website_partner_banner b, :table_website_partner_transaction t where t.package_id = 3 and t.date_start <= now() and t.date_end >= now() and t.partner_id = p.id and p.id = b.partner_id and b.code = :code group by p.id order by rand()');
+      if ( isset($_GET['forumid']) && is_numeric($_GET['forumid']) && ($_GET['forumid'] > 0) ) {
+        $forum_channel_id = (int)$_GET['forumid'];
+      }
+
+      $Qpartners = $OSCOM_PDO->prepare('select p.title, p.image_small, b.image, b.url, su.status_update, group_concat(fc.channel_id) as channel_ids from :table_website_partner p left join :table_website_partner_status_update su on (p.id = su.partner_id and su.code = :sucode) left join :table_website_partner_forum_channels fc on (p.id = fc.partner_id and fc.code = :fccode), :table_website_partner_banner b, :table_website_partner_transaction t where t.package_id = 3 and t.date_start <= now() and t.date_end >= now() and t.partner_id = p.id and p.id = b.partner_id and b.code = :code group by p.id order by rand()');
       $Qpartners->bindValue(':sucode', $group);
+      $Qpartners->bindValue(':fccode', $group);
       $Qpartners->bindValue(':code', $group);
       $Qpartners->setCache('website_partners-all-banners-' . $group, 180);
       $Qpartners->execute();
@@ -32,6 +38,20 @@
       $data = $Qpartners->fetchAll();
 
       if ( count($data) > 0 ) {
+        if ( isset($forum_channel_id) ) {
+          $fc_koeln = array();
+
+          foreach ( $data as $p ) {
+            if ( !empty($p['channel_ids']) && in_array($forum_channel_id, explode(',', $p['channel_ids'])) ) {
+              $fc_koeln[] = $p;
+            }
+          }
+
+          if ( !empty($fc_koeln) ) {
+            $data = $fc_koeln;
+          }
+        }
+
         $data = $data[array_rand($data, 1)];
 
         $result = array('url' => HTML::outputProtected($data['url']),

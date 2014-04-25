@@ -125,6 +125,18 @@ CREATE TABLE osc_website_partner_banner (
   KEY idx_ws_partner_banner_code (code)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS osc_website_partner_forum_channels;
+CREATE TABLE osc_website_partner_forum_channels (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  channel_id int unsigned NOT NULL,
+  partner_id int unsigned NOT NULL,
+  code varchar(255) NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_ws_partner_fc_channel_id (channel_id),
+  KEY idx_ws_partner_fc_partner_id (partner_id),
+  KEY idx_ws_partner_fc_code (code)
+) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 DROP TABLE IF EXISTS osc_website_partner_transaction;
 CREATE TABLE osc_website_partner_transaction (
   id int unsigned NOT NULL AUTO_INCREMENT,
