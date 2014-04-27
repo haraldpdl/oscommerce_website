@@ -52,7 +52,11 @@
           }
         }
 
-        $data = $data[array_rand($data, 1)];
+        if ( count($data) > 1 ) {
+          $data = $data[mt_rand(0, count($data) - 1)];
+        } else {
+          $data = $data[0];
+        }
 
         $result = array('url' => HTML::outputProtected($data['url']),
                         'image' => 'http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $data['image']),
