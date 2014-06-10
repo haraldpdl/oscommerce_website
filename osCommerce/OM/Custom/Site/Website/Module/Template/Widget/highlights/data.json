@@ -1,0 +1,23 @@
+[
+  {
+    "url": "http://addons.oscommerce.com",
+    "newwin": false,
+    "image": "{publiclink}images/highlights_addons.jpg{publiclink}",
+    "title": "Over 7,000 Add-Ons available for free!",
+    "partner": false
+  },
+  {
+    "url": "https://support.sagepay.com/apply/default.aspx?PartnerID=C74D7B82-E9EB-4FBD-93DB-76F0F551C802&amp;PromotionCode=osc223",
+    "newwin": true,
+    "image": "{publiclink}images/highlights_sagepay.jpg{publiclink}",
+    "title": "Sage Pay: Sign up and receive 3 months free payment processing!",
+    "partner": true
+  },
+  {
+    "url": "{link}_|Website|Personal{link}",
+    "newwin": false,
+    "image": "{publiclink}images/highlights_personal.jpg{publiclink}",
+    "title": "This is personal, not business.",
+    "partner": false
+  }
+]
