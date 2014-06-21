@@ -1,49 +1,77 @@
-@import "../../../../../external/bootstrap/less/bootstrap.less";
+@import "../../../../../external/bootstrap/3.1.1/less/bootstrap.less";
 
-@iconSpritePath: "../../../../../external/bootstrap/img/glyphicons-halflings.png";
-@iconWhiteSpritePath: "../../../../../external/bootstrap/img/glyphicons-halflings-white.png";
+@icon-font-path: '../../../../../external/bootstrap/3.1.1/fonts/';
+@font-size-base: 16px;
 
-@baseFontSize: 16px;
+@media (min-width: @screen-lg-min) {
+  .container {
+    width: 970px;
+  }
+}
 
 body {
   background: url('../../../images/bg.png') repeat;
-}
-
-h1 {
-  padding-bottom: 0.5em;
-}
-
-h2 {
-  padding-bottom: 0.5em;
-}
-
-h3 {
-  padding-bottom: 0.4em;
+  min-width: 320px;
 }
 
 h4 {
-  padding-top: 0.29em;
-  padding-bottom: 0.3em;
   color: #999;
 }
 
 p {
-  padding-bottom: 0.8em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
   line-height: 1.6em;
 }
 
 header {
-  height: 90px;
+  padding-top: 5px;
+  height: 60px;
 
-  #logo {
-    padding-top: 15px;
+  @media (min-width: @screen-sm-min) {
+    padding-top: 10px;
+    height: 75px;
   }
 
-  #nav {
-    padding-top: 26px;
+  @media (min-width: @screen-md-min) {
+    padding-top: 15px;
+    height: 90px;
+  }
 
-    ul.nav {
-      float: right;
+  #logo {
+    padding-top: 8px;
+    max-width: 200px;
+
+    @media (min-width: 400px) {
+      padding-top: 5px;
+      max-width: 240px;
+    }
+
+    @media (min-width: @screen-md-min) {
+      padding-top: 2px;
+      max-width: 290px;
+    }
+  }
+
+  .navbar-header {
+    margin-right: -10px;
+  }
+
+  #navbarLinks {
+    padding-top: 5px;
+
+    @media (max-width: @screen-xs-max) {
+      .navbar-inverse;
+    }
+
+    @media (min-width: @screen-sm-min) {
+      ul.nav {
+        .nav-pills;
+
+        .glyphicon.glyphicon-user {
+          color: #000;
+        }
+      }
     }
   }
 }
@@ -54,7 +82,6 @@ footer {
   padding-bottom: 2em;
   text-align: center;
   font-size: 0.9em;
-  border-top: 1px dotted #aaa;
 
   p {
     padding-bottom: 0.2em;
@@ -65,29 +92,58 @@ footer {
   }
 }
 
-#logo {
-  padding-top: 10px;
-}
-
 #highlights {
-  height: 285px;
+  padding-bottom: 10px;
+
+  .carousel-control {
+    background-image: none;
+
+    @media (min-width: @screen-sm-min) {
+      margin-top: 155px;
+
+      .glyphicon.glyphicon-chevron-left {
+        .glyphicon-circle-arrow-left;
+        font-size: 1.6em;
+      }
+
+      .glyphicon.glyphicon-chevron-right {
+        .glyphicon-circle-arrow-right;
+        font-size: 1.6em;
+      }
+    }
+
+    @media (min-width: @screen-md-min) {
+      margin-top: 200px;
+
+      .glyphicon.glyphicon-chevron-left {
+        font-size: 2em;
+      }
+
+      .glyphicon.glyphicon-chevron-right {
+        font-size: 2em;
+      }
+    }
+  }
 }
 
 #maincontainer {
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
 }
 
 #maincontent {
   background-color: #fff;
-  border-right: 2px solid #d0d0d0;
-  border-bottom: 2px solid #d0d0d0;
-  padding: 1.5em;
+  padding: 0.1em 1.5em 0.5em 1.5em;
+
+  @media (min-width: @screen-sm-min) {
+    border-right: 2px solid #d0d0d0;
+    border-bottom: 2px solid #d0d0d0;
+  }
 }
 
 #sidebar {
-  padding-top: 3em;
-  padding-bottom: 1.5em;
+  @media (min-width: @screen-sm-min) {
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+  }
 
   p {
     padding-bottom: 0.4em;
@@ -105,23 +161,20 @@ footer {
 }
 
 #chocolate_side {
-  padding-top: 1em;
-  padding-bottom: 1em;
-
-  font-size: 0.96em;
+  @media (min-width: @screen-sm-min) {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
 
   ul {
     list-style-type: none;
     margin: 0;
+    padding-left: 1em;
+    padding-right: 1em;
 
     li {
       display: inline;
 
-      img {
-        float: left;
-        padding-top: 20px;
-        padding-right: 10px;
-      }
     }
   }
 }
