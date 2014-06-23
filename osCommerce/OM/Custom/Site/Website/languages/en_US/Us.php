@@ -1,6 +1,6 @@
 # osCommerce Website
 #
-# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
 # @license BSD License; http://www.oscommerce.com/bsdlicense.txt
 
 us_html_page_title = Who We Are | osCommerce
@@ -30,15 +30,18 @@ legal_html_page_title = Legal | osCommerce
 
 legal_page_title = Legal
 
-legal_trademark_policy = <h2 class="text-warning">Trademark Policy</h2>
+legal_trademark_policy = <h2>Trademark Policy</h2>
 <p>osCommerce is a registered trademark of Harald Ponce de Leon.</p><dl><dt style="padding-bottom: 10px;">Distribution</dt><dd><p>The osCommerce Online Merchant name and osCommerce logo may be used for unmodified distributions of osCommerce Online Merchant as found on the osCommerce website.</p></dd><dt style="padding-bottom: 10px;">Name and Logo</dt><dd><p>The usage of the osCommerce name must use the correct casing of letters. "osCommerce" is correctly written where "OsCommerce", "OSCommerce", and "OS Commerce" are not.</p><p>The usage of the osCommerce name and logo are not allowed to be used in conjunction with organization names, product names, and service titles.</p></dd><dt style="padding-bottom: 10px;">Linking</dt><dd><p>The osCommerce website must be linked or referenced to when using the osCommerce name or logo.</p><p>The address of the osCommerce website is: http://www.oscommerce.com</p></dd></dl>
 
-legal_copyright_policy = <h2 class="text-error">Copyright Policy</h2>
+legal_license_policy = <h2>License Policy</h2>
+<p>Our software releases are completely licensed under the following licenses:</p><dl><dt style="padding-bottom: 10px;">GNU General Public License v2</dt><dd>The Exchange Project v1.0 - v2.1</dd><dd>osCommerce Online Merchant v2.2MS1 - v2.3.x</dd><dt style="padding: 10px 0 10px 0;">BSD (3 Clause) License</dt><dd>osCommerce Online Merchant v3.x</dd><dd>osCommerce Website</dd><dd>osCommerce Library Website</dd></dl>
+
+legal_copyright_policy = <h2>Copyright Policy</h2>
 <p>The content of the osCommerce website is under the following copyright:</p>
 <p>Copyright © 2000-{value}current_year{value} osCommerce. All rights reserved.</p>
 <p>Content provided from community members are owned by their respective owners (for example, add-ons, forum postings, live shop entries, and bug reports) and may not be reproduced without permission from the respective owners. The respective owners grant osCommerce the right to reproduce and publish the content throughout the network of osCommerce websites.
 
-legal_impressum = <h2 class="text-success">Impressum</h2>
+legal_impressum = <h2>Impressum</h2>
 <p>The osCommerce website is operated by:</p>
 <p>Harald Ponce de Leon<br />Remscheider Str. 96<br />42659 Solingen<br />Germany<br /><a href="mailto:hpdl@oscommerce.com">hpdl@oscommerce.com</a></p>
 <p>We are not responsible for the content of external sites that are linked to from the osCommerce website, nor for the content the community has submited (eg, add-ons, live shops, forum postings, ..).</p>
@@ -58,4 +61,4 @@ marketing_html_page_title = Marketing Material | osCommerce
 
 marketing_page_title = Marketing
 
-marketing_main_content = <p>The osCommerce logo may be used in marketing materials following our <a href="{link}Us|Website|Legal{link}">trademark policy</a>.</p><dl><dt style="padding-bottom: 10px;">osCommerce Logo (3545 x 605 PNG)</dt><dd><p><a href="{publiclink}images/logos/oscommerce_black.png{publiclink}">Download in Black</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{publiclink}images/logos/oscommerce_white.png{publiclink}">Download in White</a></p></dd></dl>
+marketing_main_content = <p>The osCommerce logo may be used in marketing materials following our <a href="{link}Us|Website|Legal{link}">trademark policy</a>.</p><dl><dt style="padding-bottom: 10px;">osCommerce Logo (3545 x 605 PNG)</dt><dd><p><a href="{publiclink}images/logos/oscommerce_black.png{publiclink}" class="btn btn-success">Download in Black</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{publiclink}images/logos/oscommerce_white.png{publiclink}" class="btn btn-success">Download in White</a></p></dd></dl>

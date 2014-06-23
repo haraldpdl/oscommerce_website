@@ -1,7 +1,51 @@
 @import "../../../../../external/bootstrap/3.1.1/less/bootstrap.less";
-
 @icon-font-path: '../../../../../external/bootstrap/3.1.1/fonts/';
 @font-size-base: 16px;
+
+@import "../../../../../external/font-awesome/4.1.0/less/font-awesome.less";
+@fa-font-path: '../../../../../external/font-awesome/4.1.0/fonts';
+
+@font-face {
+  font-family: 'oscommerce';
+  src:url('../../../fonts/oscommerce/oscommerce.eot?e4676y');
+  src:url('../../../fonts/oscommerce/oscommerce.eot?#iefixe4676y') format('embedded-opentype'),
+    url('../../../fonts/oscommerce/oscommerce.woff?e4676y') format('woff'),
+    url('../../../fonts/oscommerce/oscommerce.ttf?e4676y') format('truetype'),
+    url('../../../fonts/oscommerce/oscommerce.svg?e4676y#oscommerce') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="osc-icon-"], [class*=" osc-icon-"] {
+  font-family: 'oscommerce';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  font-size: 1em;
+  margin-top: 10px;
+
+/* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.osc-icon-osi {
+  color: #3DA639;
+
+  &:before {
+    content: "\e601";
+  }
+}
+
+.osc-icon-spheres {
+  &:before {
+    content: "\e600";
+  }
+}
 
 @media (min-width: @screen-lg-min) {
   .container {
@@ -68,7 +112,7 @@ header {
       ul.nav {
         .nav-pills;
 
-        .glyphicon.glyphicon-user {
+        .fa.fa-user {
           color: #000;
         }
       }
@@ -87,8 +131,12 @@ footer {
     padding-bottom: 0.2em;
   }
 
-  img {
-    margin-right: 15px;
+  #footerSocialLinks a {
+    margin-right: 10px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 }
 
@@ -101,31 +149,22 @@ footer {
 
   .carousel-control {
     background-image: none;
+    position: absolute;
+    top: 72%;
+    font-size: 1em;
+
+    @media (min-width: @screen-xs-min) {
+      top: 75%;
+      font-size: 1.4em;
+    }
 
     @media (min-width: @screen-sm-min) {
-      margin-top: 155px;
-
-      .glyphicon.glyphicon-chevron-left {
-        .glyphicon-circle-arrow-left;
-        font-size: 1.6em;
-      }
-
-      .glyphicon.glyphicon-chevron-right {
-        .glyphicon-circle-arrow-right;
-        font-size: 1.6em;
-      }
+      font-size: 1.6em;
     }
 
     @media (min-width: @screen-md-min) {
-      margin-top: 200px;
-
-      .glyphicon.glyphicon-chevron-left {
-        font-size: 2em;
-      }
-
-      .glyphicon.glyphicon-chevron-right {
-        font-size: 2em;
-      }
+      top: 80%;
+      font-size: 2em;
     }
   }
 }
@@ -188,12 +227,28 @@ footer {
 }
 
 .team_profile, .partner_profile {
-  overflow: hidden;
-  padding-bottom: 20px;
+  .profileImage {
+    .img-responsive;
+    .img-circle;
 
-  img {
-    float: left;
-    margin-right: 15px;
+    margin-top: 15px;
+    min-width: 45px;
+
+    @media (min-width: @screen-sm-min) {
+      margin-top: 5px;
+    }
+
+    @media (min-width: @screen-md-min) {
+      margin-top: 15px;
+    }
+  }
+
+  .profileSocialLinks {
+    .pull-right;
+
+    a {
+      margin-left: 10px;
+    }
   }
 }
 
@@ -201,10 +256,11 @@ ul.double {
   list-style-type: none;
   overflow: hidden;
 
-  li {
-    float: left;
-    width: 50%;
-    line-height: 2em;
+  @media (min-width: @screen-md-min) {
+    li {
+      float: left;
+      width: 50%;
+    }
   }
 }
 

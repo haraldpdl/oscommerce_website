@@ -24,10 +24,9 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}" />
 
-  <script src="public/external/jquery/jquery-1.7.1.min.js"></script>
-
-  <script src="public/external/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade-20140619.css{publiclink}" />
+
+  <script src="public/external/jquery/jquery-1.7.1.min.js"></script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -52,7 +51,7 @@ var site_req = {raw json_encode}site_req{raw};
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarLinks">
               <span class="sr-only">Toggle navigation</span>
-              <span class="glyphicon glyphicon-align-justify"></span>
+              <i class="fa fa-align-justify"></i>
             </button>
 
             <a href="{link}Index{link}"><img src="{publiclink}images/oscommerce.png{publiclink}" id="logo" /></a>
@@ -65,7 +64,7 @@ var site_req = {raw json_encode}site_req{raw};
               <li><a href="{link}Services{link}" id="btnServices">{lang}navbutton_services{lang}</a></li>
               <li><a href="{link}Support{link}" id="btnSupport">{lang}navbutton_support{lang}</a></li>
               <li class="dropdown">
-                <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size: 0.77em;"></span></a>
+                <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i></a>
                 <ul class="dropdown-menu">
 
 {ifvalue user}
@@ -97,8 +96,10 @@ $(function() {
     <footer>
       {lang}copyright_footer{lang}
 
-      <p><a href="http://www.oscommerce.com/newsletter/subscribe"><img src="{publiclink}images/social/newsletter.png{publiclink}" width="32" height="32" alt="{lang}social_newsletter{lang}" title="{lang}social_newsletter_title{lang}" /></a><a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank"><img src="{publiclink}images/social/googleplus.png{publiclink}" width="32" height="32" alt="{lang}social_googleplus{lang}" title="{lang}social_googleplus_title{lang}" /></a><a href="https://twitter.com/osCommerce" target="_blank"><img src="{publiclink}images/social/twitter.png{publiclink}" width="32" height="32" alt="{lang}social_twitter{lang}" title="{lang}social_twitter_title{lang}" /></a><a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank"><img src="{publiclink}images/social/facebook.png{publiclink}" width="32" height="32" alt="{lang}social_facebook{lang}" title="{lang}social_facebook_title{lang}" /></a><a href="https://github.com/osCommerce" target="_blank"><img src="{publiclink}images/social/github.png{publiclink}" width="32" height="32" alt="{lang}social_github{lang}" title="{lang}social_github_title{lang}" /></a></p>
+      <p id="footerSocialLinks"><a href="http://www.oscommerce.com/newsletter/subscribe" title="{lang}social_newsletter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #669c41;"></i><i class="fa fa-file-text fa-stack-1x fa-inverse"></i></span></a><a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank" title="{lang}social_googleplus_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #f63e28;"></i><i class="fa fa-google-plus fa-stack-1x fa-inverse"></i></span></a><a href="https://twitter.com/osCommerce" target="_blank" title="{lang}social_twitter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #2daae1;"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a><a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{lang}social_facebook_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #3c5b9b;"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a><a href="https://github.com/osCommerce" target="_blank" title="{lang}social_github_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #000;"></i><i class="fa fa-github-alt fa-stack-1x fa-inverse"></i></span></a></p>
     </footer>
   </div>
+
+  <script src="public/external/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ navbutton_account_verify_account = Verify Account
 navbutton_account_partner_dashboard = Partner Dashboard
 navbutton_account_log_out = Log Out
 
-copyright_footer = <p>Copyright (c) {value}current_year{value} osCommerce. All rights reserved. osCommerce is a registered trademark of Harald Ponce de Leon.</p>
+copyright_footer = <p>Copyright (c) 2000-{value}current_year{value} osCommerce (<a href="{link}Us|Website|Legal{link}">legal</a>)</p>
 
 social_newsletter = Newsletter
 social_newsletter_title = Subscribe to our Newsletter
