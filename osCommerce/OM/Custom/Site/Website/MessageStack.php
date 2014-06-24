@@ -1,8 +1,8 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
+ *
+ * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -22,6 +22,10 @@
         $result = '';
 
         foreach ( $this->_data[$group] as $message ) {
+          if ( $message['type'] == 'error' ) {
+            $message['type'] = 'danger';
+          }
+
           $result .= '<div class="alert alert-' . $message['type'] . '">' . $message['text'] . '</div>';
         }
 

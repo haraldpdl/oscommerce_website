@@ -1,9 +1,5 @@
-<div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
-</div>
-
 <div class="row">
-  <div id="maincontainer" class="span9">
+  <div id="maincontainer" class="col-sm-9">
     <div id="maincontent">
       <h1>{lang}login_title{lang}</h1>
 
@@ -11,41 +7,31 @@
 
       {widget}message_stack|account{widget}
 
-      <form id="formLogin" name="login" action="{link}Account|Website|Login&Process|SSL{link}" method="post" class="form-horizontal">{formprotect}public_token{formprotect}
-        <div class="control-group">
+      <form id="formLogin" name="login" action="{link}Account|Website|Login&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="form-group">
           <label class="control-label" for="inputUsername">{lang}login_username_title{lang}</label>
 
-          <div class="controls">
-            <input type="text" id="inputUsername" name="username" value="{post}username{post}" />
-            <span id="inputUsernameAlert" class="help-block hide label label-important"></span>
-          </div>
+          <input type="text" id="inputUsername" name="username" value="{post}username{post}" class="form-control" />
+          <span id="inputUsernameAlert" class="help-block hidden small"></span>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
           <label class="control-label" for="inputPassword">{lang}login_password_title{lang}</label>
 
-          <div class="controls">
-            <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} />
-            <span id="inputPasswordAlert" class="help-block hide label label-important"></span>
-            <span class="help-block"><span class="muted"><small><a href="#" onclick="$('#inputPassword').togglePassword(); return false;" id="inputPasswordShowHide">{lang}login_password_show_hide{lang}</a></small></span></span>
-          </div>
+          <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
+          <span id="inputPasswordAlert" class="help-block hidden small"></span>
+          <span id="inputPasswordShowHide" class="help-block hidden small"><span class="text-muted"><a href="#" onclick="$('#inputPassword').togglePassword(); return false;">{lang}login_password_show_hide{lang}</a></span></span>
         </div>
 
-        <div class="control-group">
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" id="inputRememberMe" name="remember_me" value="1" checked="checked" />
-              {lang}login_remember_me_title{lang}
-            </label>
-            <span class="help-block"><span class="muted"><small>{lang}login_remember_me_note{lang}</small></span></span>
-          </div>
+        <div class="checkbox">
+          <label class="control-label">
+            <input type="checkbox" id="inputRememberMe" name="remember_me" value="1" checked="checked" />
+            {lang}login_remember_me_title{lang}
+          </label>
+          <span class="help-block"><span class="text-muted small">{lang}login_remember_me_note{lang}</span></span>
         </div>
 
-        <div class="control-group">
-          <div class="controls">
-            <button type="submit" id="loginButton" class="btn" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button>
-          </div>
-        </div>
+        <p><button type="submit" id="loginButton" class="btn btn-info" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button></p>
       </form>
     </div>
   </div>
@@ -57,45 +43,55 @@
 function checkUsername() {
   $('#inputUsername').val($('#inputUsername').val().trim());
 
-  if ( $('#inputUsernameAlert').not(':hidden') ) {
-    $('#inputUsernameAlert').hide();
+  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+    $('#inputUsernameAlert').addClass('hidden');
+    $('#inputUsername').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputUsername').val() == '' ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_required{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputUsername').val().length < 3 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_short{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_short{lang}').removeClass('hidden');
   } else if ( $('#inputUsername').val().length > 26 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_long{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_long{lang}').removeClass('hidden');
   }
 
-  return $('#inputUsernameAlert').is(':hidden');
+  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+    $('#inputUsername').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputUsernameAlert').hasClass('hidden');
 }
 
 function checkPassword() {
-  if ( $('#inputPasswordAlert').not(':hidden') ) {
-    $('#inputPasswordAlert').hide();
+  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+    $('#inputPasswordAlert').addClass('hidden');
+    $('#inputPassword').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputPassword').val() == '' ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_required{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputPassword').val().length < 3 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_short{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_short{lang}').removeClass('hidden');
   } else if ( $('#inputPassword').val().length > 32 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_long{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_long{lang}').removeClass('hidden');
   }
 
-  return $('#inputPasswordAlert').is(':hidden');
+  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+    $('#inputPassword').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputPasswordAlert').hasClass('hidden');
 }
 
 function showPasswordInfo() {
   if ( $('#inputPassword').val().length > 2 ) {
-    if ( $('#inputPasswordShowHide').is(':hidden') ) {
-      $('#inputPasswordShowHide').show();
+    if ( $('#inputPasswordShowHide').hasClass('hidden') ) {
+      $('#inputPasswordShowHide').removeClass('hidden');
     }
   } else {
-    if ( $('#inputPasswordShowHide').not(':hidden') ) {
-      $('#inputPasswordShowHide').hide();
+    if ( !$('#inputPasswordShowHide').hasClass('hidden') ) {
+      $('#inputPasswordShowHide').addClass('hidden');
     }
   }
 }

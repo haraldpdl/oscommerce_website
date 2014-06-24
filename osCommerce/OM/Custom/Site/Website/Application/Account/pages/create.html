@@ -1,9 +1,5 @@
-<div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
-</div>
-
 <div class="row">
-  <div id="maincontainer" class="span9">
+  <div id="maincontainer" class="col-sm-9">
     <div id="maincontent">
       <h1>{lang}create_title{lang}</h1>
 
@@ -11,41 +7,34 @@
 
       {widget}message_stack|account{widget}
 
-      <form id="formCreateAccount" name="create" action="{link}Account|Website|Create&Process|SSL{link}" method="post" class="form-horizontal">{formprotect}public_token{formprotect}
-        <div class="control-group">
+      <form id="formCreateAccount" name="create" action="{link}Account|Website|Create&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="form-group">
           <label class="control-label" for="inputUsername">{lang}create_username_title{lang}</label>
 
-          <div class="controls">
-            <input type="text" id="inputUsername" name="username" value="{post}username{post}" />
-            <span id="inputUsernameAlert" class="help-block hide label label-important"></span>
-            <span class="help-block"><span class="muted"><small>{lang}create_username_note{lang}</small></span></span>
-          </div>
+          <input type="text" id="inputUsername" name="username" value="{post}username{post}" class="form-control" />
+          <span id="inputUsernameAlert" class="help-block hidden small"></span>
+          <span class="help-block small"><span class="text-muted">{lang}create_username_note{lang}</span></span>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
           <label class="control-label" for="inputEmail">{lang}create_email_address_title{lang}</label>
 
-          <div class="controls">
-            <input type="text" id="inputEmail" name="email" value="{post}email{post}" />
-            <span id="inputEmailAlert" class="help-block hide label label-important"></span>
-          </div>
+          <input type="email" id="inputEmail" name="email" value="{post}email{post}" class="form-control" />
+          <span id="inputEmailAlert" class="help-block hidden small"></span>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
           <label class="control-label" for="inputPassword">{lang}create_password_title{lang}</label>
 
-          <div class="controls">
-            <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} />
-            <span id="inputPasswordAlert" class="help-block hide label label-important"></span>
-            <span class="help-block"><span class="muted"><small><span id="inputPasswordInfo">{lang}create_password_note{lang}</span><a href="#" onclick="$('#inputPassword').togglePassword(); return false;" id="inputPasswordShowHide">{lang}create_password_show_hide{lang}</a></small></span></span>
-          </div>
+          <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
+          <span id="inputPasswordAlert" class="help-block hidden small"></span>
+          <span class="help-block small"><span class="text-muted"><span id="inputPasswordInfo">{lang}create_password_note{lang}</span><a href="#" onclick="$('#inputPassword').togglePassword(); return false;" id="inputPasswordShowHide">{lang}create_password_show_hide{lang}</a></span></span>
         </div>
 
 {iffalse recaptcha_pass}
-        <div class="control-group">
+        <div class="form-group">
           <label class="control-label">{lang}create_security_check_title{lang}</label>
 
-          <div class="controls">
 <script>
 var RecaptchaOptions = {
   theme: 'white'
@@ -57,39 +46,18 @@ var RecaptchaOptions = {
   <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
   <input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
 </noscript>
-          </div>
         </div>
 {iffalse}
 
-        <div class="control-group">
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" id="inputTOS" name="agree_tos" value="1" />
-              {lang}create_tos_agree_title{lang}
-              <span id="inputTOSAlert" class="help-block hidden label label-important"></span>
-            </label>
-
-<div id="tosPane" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="tosPaneLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="tosPaneLabel">{lang}create_tos_title{lang}</h3>
-  </div>
-  <div class="modal-body">
-    {lang}create_tos_body{lang}
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">{lang}create_tos_close{lang}</button>
-  </div>
-</div>
-
-          </div>
+        <div class="checkbox">
+          <label class="control-label">
+            <input type="checkbox" id="inputTOS" name="agree_tos" value="1" />
+            {lang}create_tos_agree_title{lang}
+            <span id="inputTOSAlert" class="help-block hidden small"></span>
+          </label>
         </div>
 
-        <div class="control-group">
-          <div class="controls">
-            <button type="submit" id="createButton" class="btn" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button>
-          </div>
-        </div>
+        <p><button type="submit" id="createButton" class="btn btn-info" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button></p>
       </form>
     </div>
   </div>
@@ -97,89 +65,128 @@ var RecaptchaOptions = {
   {widget}account_sidebar_nav{widget}
 </div>
 
+<div id="tosPane" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tosPaneLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="tosPaneLabel">{lang}create_tos_title{lang}</h3>
+      </div>
+
+      <div class="modal-body">
+        {lang}create_tos_body{lang}
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">{lang}create_tos_close{lang}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 function checkUsername() {
   $('#inputUsername').val($('#inputUsername').val().trim());
 
-  if ( $('#inputUsernameAlert').not(':hidden') ) {
-    $('#inputUsernameAlert').hide();
+  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+    $('#inputUsernameAlert').addClass('hidden');
+    $('#inputUsername').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputUsername').val() == '' ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_required{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputUsername').val().length < 3 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_short{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_short{lang}').removeClass('hidden');
   } else if ( $('#inputUsername').val().length > 26 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_long{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_long{lang}').removeClass('hidden');
   } else if ( $('#inputUsername').val().match(/oscommerce/gi) !== null ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_oscommerce{lang}').show();
+    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_oscommerce{lang}').removeClass('hidden');
   }
 
-  return $('#inputUsernameAlert').is(':hidden');
+  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+    $('#inputUsername').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputUsernameAlert').hasClass('hidden');
 }
 
 function checkEmailAddress() {
   $('#inputEmail').val($('#inputEmail').val().trim());
 
-  if ( $('#inputEmailAlert').not(':hidden') ) {
-    $('#inputEmailAlert').hide();
+  if ( !$('#inputEmailAlert').hasClass('hidden') ) {
+    $('#inputEmailAlert').addClass('hidden');
+    $('#inputEmail').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputEmail').val() == '' ) {
-    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_required{lang}').show();
+    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null ) {
-    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_invalid{lang}').show();
+    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_invalid{lang}').removeClass('hidden');
   }
 
-  return $('#inputEmailAlert').is(':hidden');
+  if ( !$('#inputEmailAlert').hasClass('hidden') ) {
+    $('#inputEmail').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputEmailAlert').hasClass('hidden');
 }
 
 function checkPassword() {
-  if ( $('#inputPasswordAlert').not(':hidden') ) {
-    $('#inputPasswordAlert').hide();
+  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+    $('#inputPasswordAlert').addClass('hidden');
+    $('#inputPassword').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputPassword').val() == '' ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_required{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputPassword').val().length < 3 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_short{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_short{lang}').removeClass('hidden');
   } else if ( $('#inputPassword').val().length > 32 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_long{lang}').show();
+    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_long{lang}').removeClass('hidden');
   }
 
-  return $('#inputPasswordAlert').is(':hidden');
+  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+    $('#inputPassword').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputPasswordAlert').hasClass('hidden');
 }
 
 function showPasswordInfo() {
   if ( $('#inputPassword').val().length > 2 ) {
-    if ( $('#inputPasswordInfo').not(':hidden') ) {
-      $('#inputPasswordInfo').hide();
+    if ( !$('#inputPasswordInfo').hasClass('hidden') ) {
+      $('#inputPasswordInfo').addClass('hidden');
     }
 
-    if ( $('#inputPasswordShowHide').is(':hidden') ) {
-      $('#inputPasswordShowHide').show();
+    if ( $('#inputPasswordShowHide').hasClass('hidden') ) {
+      $('#inputPasswordShowHide').removeClass('hidden');
     }
   } else {
-    if ( $('#inputPasswordShowHide').not(':hidden') ) {
-      $('#inputPasswordShowHide').hide();
+    if ( !$('#inputPasswordShowHide').hasClass('hidden') ) {
+      $('#inputPasswordShowHide').addClass('hidden');
     }
 
-    if ( $('#inputPasswordInfo').is(':hidden') ) {
-      $('#inputPasswordInfo').show();
+    if ( $('#inputPasswordInfo').hasClass('hidden') ) {
+      $('#inputPasswordInfo').removeClass('hidden');
     }
   }
 }
 
 function checkTOS() {
-  if ( $('#inputTOSAlert').not(':hidden') ) {
-    $('#inputTOSAlert').hide();
+  if ( !$('#inputTOSAlert').hasClass('hidden') ) {
+    $('#inputTOSAlert').addClass('hidden');
+    $('#inputTOS').closest('.checkbox').removeClass('has-error');
   }
 
   if ( !$('#inputTOS').is(':checked') ) {
-    $('#inputTOSAlert').html('{lang addslashes}create_tos_agree_js_error_required{lang}').show();
+    $('#inputTOSAlert').html('{lang addslashes}create_tos_agree_js_error_required{lang}').removeClass('hidden');
   }
 
-  return $('#inputTOSAlert').is(':hidden');
+  if ( !$('#inputTOSAlert').hasClass('hidden') ) {
+    $('#inputTOS').closest('.checkbox').addClass('has-error');
+  }
+
+  return $('#inputTOSAlert').hasClass('hidden');
 }
 
 function checkForm() {
