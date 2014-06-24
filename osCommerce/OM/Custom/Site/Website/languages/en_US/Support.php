@@ -19,10 +19,10 @@ hire_developers_description = <p>Our community is full of experts you can hook i
 button_hire_developers = Post an Enquiry
 
 forum_title = Forum
-forum_description = <p>Over 1.5 Million postings have been made by over 260,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
+forum_description = <p>Over 1.5 Million postings have been made by over 270,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
 button_forum = Visit the Forum
 
 live_chat_title = Live Chat
-live_chat_description = <p>Direct communication with other community members is available in the Live Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall :-)</p>
+live_chat_description = <p>Direct communication with other community members is available in our Live Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall <i class="fa fa-smile-o"></i></p>
 <p>A free <a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=register">community forum account</a> is required to join the live chat room.</p>
 button_live_chat = Join the Live Chat
