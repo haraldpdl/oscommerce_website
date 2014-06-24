@@ -18,9 +18,9 @@
       $OSCOM_Template = Registry::get('Template');
 
       $OSCOM_Template->setValue('releases_oscom2_latest', Download::getAll('oscom2', 'latest'));
-      $OSCOM_Template->setValue('releases_oscom2_earlier', Download::getAll('oscom2', 'earlier'));
-      $OSCOM_Template->setValue('releases_oscom3_latest', Download::getAll('oscom3', 'latest'));
-      $OSCOM_Template->setValue('releases_oscom3_earlier', Download::getAll('oscom3', 'earlier'));
+//      $OSCOM_Template->setValue('releases_oscom2_earlier', Download::getAll('oscom2', 'earlier'));
+//      $OSCOM_Template->setValue('releases_oscom3_latest', Download::getAll('oscom3', 'latest'));
+//      $OSCOM_Template->setValue('releases_oscom3_earlier', Download::getAll('oscom3', 'earlier'));
       $OSCOM_Template->setValue('releases_archive_oscom', Download::getAll('archive', 'oscom'));
       $OSCOM_Template->setValue('releases_archive_tep', Download::getAll('archive', 'tep'));
 

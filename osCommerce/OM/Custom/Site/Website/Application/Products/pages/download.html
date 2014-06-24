@@ -1,18 +1,20 @@
-<div class="hero-unit" style="padding: 30px">
-  <h1>{lang}download_title{lang}</h1>
+<div class="row">
+  <div class="jumbotron">
+    <h2>{lang}download_title{lang}</h2>
 
-  <p>{lang}download_description{lang}</p>
+    <p>{lang}download_description{lang}</p>
 
-  <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
-    <input type="hidden" name="get" value="{get}Download{get}" />
-    <input type="hidden" name="do" value="1" />
-    <button type="submit" class="btn btn-primary btn-large">{lang}download_now_button{lang}</button>
-  </form>
+    <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
+      <input type="hidden" name="get" value="{get}Download{get}" />
+      <input type="hidden" name="do" value="1" />
+      <button type="submit" class="btn btn-info btn-lg">{lang}download_now_button{lang}</button>
+    </form>
+  </div>
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span12">
-    <div id="maincontent">
+  <div id="maincontainer">
+    <div id="maincontent" class="noborder">
       <h2>{lang}partner_promotions_heading{lang}</h2>
 
       <div>
