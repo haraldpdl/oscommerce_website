@@ -3,7 +3,7 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
+  <div id="maincontainer" class="col-sm-9">
     <div id="maincontent">
       <h1>{value}partner title{value}</h1>
 
@@ -15,32 +15,33 @@
       <div style="text-align: center; padding-bottom: 20px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" frameborder="0" allowfullscreen></iframe></div>
 {ifvalue}
 
-      <div class="hero-unit">
-        <p style="float: right;">
+      <address class="jumbotron">
+        <h2>{value}partner title{value}</h2>
+
+{ifvalue partner address}
+        <p>
+          {nl2br}{value}partner address{value}{nl2br}
+        </p>
+{ifvalue}
+
+        <p>
 
 {ifvalue partner telephone}
-          <i class="icon-user" style="margin-top: 3px;"></i> {value}partner telephone{value}<br />
+          <i class="fa fa-phone"></i> {value}partner telephone{value}<br />
 {ifvalue}
 
 {ifvalue partner email}
-          <i class="icon-envelope" style="margin-top: 3px;"></i> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a><br />
+          <i class="fa fa-envelope"></i> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a>
 {ifvalue}
 
-          <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-large" style="margin-top: 10px;">{lang}button_visit_partner_website{lang}</a>
         </p>
 
         <p>
-          <strong>{value}partner title{value}</strong><br />
-
-{ifvalue partner address}
-          {nl2br}{value}partner address{value}{nl2br}<br />
-{ifvalue}
-
-          <a href="{value}partner url{value}" target="_blank">{value}partner public_url{value}</a>
+          <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-lg">{lang}button_visit_partner_website{lang}</a>
         </p>
-      </div>
+      </address>
 
-      <p><a href="{link}Services|Website|{raw}services_action{raw}{link}"><i class="icon-chevron-left"></i> {lang}link_back_to_listing{lang}</a></p>
+      <p><a href="{link}Services|Website|{raw}services_action{raw}{link}"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a></p>
     </div>
   </div>
 
