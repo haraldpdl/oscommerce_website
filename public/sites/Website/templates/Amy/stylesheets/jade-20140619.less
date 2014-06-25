@@ -187,10 +187,10 @@ footer {
     border-right: 2px solid #d0d0d0;
     border-bottom: 2px solid #d0d0d0;
   }
-}
 
-.noborder {
-  border: none !important;
+  &.noborder {
+    border: none !important;
+  }
 }
 
 #sidebar {
@@ -287,9 +287,70 @@ ul.double {
   }
 }
 
+legend {
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 3px solid;
+  border-bottom: none;
+  font-size: @font-size-h4;
+
+  &.legend-warning {
+    border-left-color: @btn-warning-border;
+    background-color: @state-warning-bg;
+    color: @btn-warning-border;
+  }
+
+  .small {
+    font-size: @font-size-small;
+  }
+}
+
+// apply alignment on specific viewport sizes
+
+.col-sm-text-right {
+  @media (min-width: @screen-sm-min) {
+    .text-right;
+  }
+}
+
+// style file input fields
+
+.btn-file {
+  .btn-warning;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 999px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.btn-file-text {
+  background-color: white !important;
+  cursor: text !important;
+}
+
 // remove slide effect from modal
+
 .modal {
   &.fade .modal-dialog {
     .translate(0, 0);
   }
+}
+
+.tab-content {
+  padding-top: 15px;
 }

@@ -205,7 +205,7 @@ partner_error_banner_image_de_error = Banner Image (German) upload failed. Pleas
 partner_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 partner_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
 
-partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">Edit</a>
+partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
 
 email_partner_update_subject = osCommerce Partner Information Page Updated

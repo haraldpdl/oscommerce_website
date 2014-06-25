@@ -1,11 +1,9 @@
-<script src="public/external/momentjs/moment.min.js"></script>
-
 <div id="highlights">
   <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
+  <div id="maincontainer" class="col-sm-9">
     <div id="maincontent">
       <h1>{lang}partner_title{lang}</h1>
 
@@ -14,32 +12,43 @@
       <p>{lang}partner_introduction{lang}</p>
 
 {loop partner_campaigns}
-      <div id="partnerc_#code#">
-        <div class="pull-right" style="text-align: right; padding-top: 5px;"><span class="pcdate label">%date_end%</span><br /><span class="pcdays muted"></span></div>
-        <h4><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <small>(in %category_title%)</small></h4>
-        <p><a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn">View</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn">Edit</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn">History</a></p>
+      <div id="partnerc_#code#" class="row">
+        <div class="col-sm-7">
+          <h4><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <small>(in %category_title%)</small></h4>
+
+          <span class="pcdate label">%date_end%</span><br /><span class="pcdays text-muted small"></span>
+        </div>
+
+        <div class="col-sm-5 col-sm-text-right">
+          <p><a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn btn-info btn-xs">View</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-info btn-xs">Edit</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn btn-info btn-xs">History</a></p>
+        </div>
       </div>
 {loop}
 
-      <p align="center"><small class="text-success">{lang}partner_multiple_discount_info{lang}</small></p>
+      <p class="text-success text-center small">{lang}partner_multiple_discount_info{lang}</p>
+    </div>
+  </div>
+
+  {widget}account_sidebar_nav{widget}
+</div>
 
 <script>
-var partner_date_now = moment('{value addslashes}partner_date_now{value}');
-
 $(function() {
+  var partner_date_now = moment('{value addslashes}partner_date_now{value}');
+
   $('[id^=partnerc_]').each(function() {
     var runsUntil = moment($('.pcdate', this).text());
 
     $('.pcdate', this).text(runsUntil.format('Do MMM, YYYY'));
 
     if ( runsUntil.isBefore(partner_date_now) ) {
-      $('.pcdate', this).addClass('label-important');
+      $('.pcdate', this).addClass('label-danger');
 
-      $('.pcdays', this).html('<small>' + partner_date_now.diff(runsUntil, 'days') + ' days ago</small>');
+      $('.pcdays', this).html(partner_date_now.diff(runsUntil, 'days') + ' days ago');
     } else {
       var daysRemaining = runsUntil.diff(partner_date_now, 'days');
 
-      $('.pcdays', this).html('<small>' + daysRemaining + ' days remaining</small>');
+      $('.pcdays', this).html(daysRemaining + ' days remaining');
 
       if ( daysRemaining > 14 ) {
         $('.pcdate', this).addClass('label-success');
@@ -51,8 +60,4 @@ $(function() {
 });
 </script>
 
-    </div>
-  </div>
-
-  {widget}account_sidebar_nav{widget}
-</div>
+<script src="public/external/momentjs/moment.min.js"></script>
