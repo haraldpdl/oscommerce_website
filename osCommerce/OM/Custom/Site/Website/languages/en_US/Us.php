@@ -61,4 +61,8 @@ marketing_html_page_title = Marketing Material | osCommerce
 
 marketing_page_title = Marketing
 
-marketing_main_content = <p>The osCommerce logo may be used in marketing materials following our <a href="{link}Us|Website|Legal{link}">trademark policy</a>.</p><dl><dt style="padding-bottom: 10px;">osCommerce Logo (3545 x 605 PNG)</dt><dd><p><a href="{publiclink}images/logos/oscommerce_black.png{publiclink}" class="btn btn-success">Download in Black</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{publiclink}images/logos/oscommerce_white.png{publiclink}" class="btn btn-success">Download in White</a></p></dd></dl>
+marketing_main_content = <p>The osCommerce logo may be used in marketing materials following our <a href="{link}Us|Website|Legal{link}">trademark policy</a>.</p>
+
+marketing_download_title = osCommerce Logo <small>(3545 x 605 PNG)</small>
+marketing_download_black_button_title = Download in Black
+marketing_download_white_button_title = Download in White
