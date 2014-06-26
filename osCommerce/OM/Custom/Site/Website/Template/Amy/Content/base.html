@@ -1,22 +1,22 @@
 <!doctype html>
-
 <html {ifvalue html_tags}{raw}html_tags{raw}{ifvalue}>
-
 <head>
 
 <!--
       ________ ________  _________ ______________ _________ ________________________ _________ _________
-     _\___    |    ___/_|    _    |    _   \____ ' _______ ' ____    ___________    |    _    |    ____/ 
+     _\___    |    ___/_|    _    |    _   \____ ' _______ ' ____    ___________    |    _    |    ____/
     |    |   _|_____    |    |____|_   |    |   \ /   |   \ /   |    __/__|_   _   _|_   |____|_   __/____
     |    |   \_    |    |    |    _/   |    |    V    |    V    |    |    _/   |    _/   |    _/   |    _/
     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
     |    '    |    '    |    '    |    '    |    |    |_   |    |_   '    |    |    |    '    |    '    |
     |_________|_________|_________|_________|____|____ /___|____ /________|____|____|_________|______hp_|
-                                                     |/        |/                                     
+                                                     |/        |/
          C R E A T I N G    O N L I N E    S T O R E S    W O R L D W I D E    S I N C E    2 0 0 0 !
 //-->
 
   <meta http-equiv="Content-Type" content="text/html; charset={value}html_character_set{value}" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>{value}html_page_title{value}</title>
 
@@ -24,15 +24,15 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}" />
 
+  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade-20140626.css{publiclink}" />
+
   <script src="public/external/jquery/jquery-1.7.1.min.js"></script>
 
-<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-
-  <script src="public/external/bootstrap/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{publiclink}templates/default/stylesheets/general.css{publiclink}" />
 
   <link rel="alternate" type="application/rss+xml" href="http://www.oscommerce.com/oscommerce.rdf" title="osCommerce News" />
 
@@ -43,63 +43,87 @@
 <script>
 var site_req = {raw json_encode}site_req{raw};
 </script>
-
 </head>
-
 <body>
+  <header>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarLinks">
+            <span class="sr-only">Toggle Menu</span>
+            <i class="fa fa-bars"></i>
+          </button>
 
-<div class="container">
+          <a href="{link}Index{link}" class="navbar-brand"><img src="{publiclink}images/oscommerce.png{publiclink}" id="logo" /></a>
+        </div>
 
-<header class="row">
-  <div id="logo" class="span4">
-    <a href="{link}Index{link}"><img src="{publiclink}images/oscommerce.png{publiclink}" /></a>
-  </div>
-
-  <div id="nav" class="span8">
-    <ul class="nav nav-pills">
-      <li><a href="{link}Us{link}" id="btnUs">{lang}navbutton_us{lang}</a></li>
-      <li><a href="{link}Products{link}" id="btnProducts">{lang}navbutton_products{lang}</a></li>
-      <li><a href="{link}Services{link}" id="btnServices">{lang}navbutton_services{lang}</a></li>
-      <li><a href="{link}Support{link}" id="btnSupport">{lang}navbutton_support{lang}</a></li>
-      <li class="dropdown">
-        <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i></a>
-        <ul class="dropdown-menu">
+        <div class="collapse navbar-collapse" id="navbarLinks">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{link}Us{link}" id="btnUs">{lang}navbutton_us{lang}</a></li>
+            <li><a href="{link}Products{link}" id="btnProducts">{lang}navbutton_products{lang}</a></li>
+            <li><a href="{link}Services{link}" id="btnServices">{lang}navbutton_services{lang}</a></li>
+            <li><a href="{link}Support{link}" id="btnSupport">{lang}navbutton_support{lang}</a></li>
+            <li class="dropdown" id="btnAccountContainer">
+              <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i></a>
+              <ul class="dropdown-menu">
 
 {ifvalue user}
-          <li><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
-          <li><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
-          <li class="divider"></li>
-          <li><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
+                <li><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
+                <li><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
+                <li class="divider"></li>
+                <li><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
 {else}
-          <li><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
-          <li><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
-          <li><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
+                <li><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
+                <li><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
+                <li><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
 {ifvalue}
 
-        </ul>
-      </li>
-    </ul>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+
+{import}{value}html_page_contents_file{value}{import}
+
   </div>
-</header>
+
+  <footer>
+    <div class="container">
+      {lang}copyright_footer{lang}
+
+      <p id="footerSocialLinks"><a href="http://www.oscommerce.com/newsletter/subscribe" title="{lang}social_newsletter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #669c41;"></i><i class="fa fa-file-text fa-stack-1x fa-inverse"></i></span></a><a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank" title="{lang}social_googleplus_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #f63e28;"></i><i class="fa fa-google-plus fa-stack-1x fa-inverse"></i></span></a><a href="https://twitter.com/osCommerce" target="_blank" title="{lang}social_twitter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #2daae1;"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a><a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{lang}social_facebook_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #3c5b9b;"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a><a href="https://github.com/osCommerce" target="_blank" title="{lang}social_github_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #000;"></i><i class="fa fa-github-alt fa-stack-1x fa-inverse"></i></span></a></p>
+    </div>
+  </footer>
+
+<script src="public/external/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script>
 $(function() {
   $('#btn' + site_req['app']).parent().addClass('active');
 });
+
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(function() {
+  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+    var input = $(this).parents('.input-group').find(':text'),
+        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+    if ( input.length ) {
+      input.val(log);
+    }
+  });
+});
 </script>
-
-{import}{value}html_page_contents_file{value}{import}
-
-<footer class="row">
-  <div class="span12">
-    {lang}copyright_footer{lang}
-
-    <p><a href="http://www.oscommerce.com/newsletter/subscribe"><img src="{publiclink}images/social/newsletter.png{publiclink}" width="32" height="32" alt="{lang}social_newsletter{lang}" title="{lang}social_newsletter_title{lang}" /></a><a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank"><img src="{publiclink}images/social/googleplus.png{publiclink}" width="32" height="32" alt="{lang}social_googleplus{lang}" title="{lang}social_googleplus_title{lang}" /></a><a href="https://twitter.com/osCommerce" target="_blank"><img src="{publiclink}images/social/twitter.png{publiclink}" width="32" height="32" alt="{lang}social_twitter{lang}" title="{lang}social_twitter_title{lang}" /></a><a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank"><img src="{publiclink}images/social/facebook.png{publiclink}" width="32" height="32" alt="{lang}social_facebook{lang}" title="{lang}social_facebook_title{lang}" /></a><a href="https://github.com/osCommerce" target="_blank"><img src="{publiclink}images/social/github.png{publiclink}" width="32" height="32" alt="{lang}social_github{lang}" title="{lang}social_github_title{lang}" /></a></p>
-  </div>
-</footer>
-
-</div>
-
 </body>
-
 </html>

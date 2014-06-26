@@ -33,8 +33,8 @@
             $output .= '<li><a href="#audit' . $counter . '" data-toggle="tab">' . $a['date_added'] . '</a></li>';
           } else {
             if ( $counter === 3 ) {
-              $output .= '<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown"><b class="caret"></b></a>
-                            <ul class="dropdown-menu">';
+              $output .= '<li class="dropdown"><a href="#" id="auditMoreMenu" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="auditMoreMenu">';
             }
 
             $output .= '<li><a href="#audit' . $counter . '" data-toggle="tab">' . $a['date_added'] . '</a></li>';
@@ -58,11 +58,23 @@
                         <p>by <a href="http://forums.oscommerce.com/index.php?showuser=' . $a['user_id'] . '">' . $a['user_name'] . '</a></p>';
 
           foreach ( $a['rows'] as $row ) {
-            $output .= '<h4>' . $row['row_key'] . '</h4>
-                        <span class="label label-important">Old</span>
-                        <pre>' . HTML::outputProtected($row['old_value']) . '</pre>
-                        <span class="label label-success">New</span>
-                        <pre>' . HTML::outputProtected($row['new_value']) . '</pre>';
+            $output .= '<h3>' . $row['row_key'] . '</h3>
+                        <div class="panel panel-danger">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">Old</h4>
+                          </div>
+                          <div class="panel-body">
+                            <pre>' . HTML::outputProtected($row['old_value']) . '</pre>
+                          </div>
+                        </div>
+                        <div class="panel panel-success">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">New</h4>
+                          </div>
+                          <div class="panel-body">
+                            <pre>' . HTML::outputProtected($row['new_value']) . '</pre>
+                          </div>
+                        </div>';
           }
 
           $output .= '</div>';

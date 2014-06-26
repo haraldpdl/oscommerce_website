@@ -3,13 +3,15 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
+  {widget}services_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
       <h1>{lang}cs_page_title{lang}</h1>
 
       {lang}cs_main_content{lang}
 
-      <table border="0" width="100%" class="table-hover" cellpadding="4">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th align="left"><h4>{lang}cs_plans_title{lang}</h4></th>
@@ -20,53 +22,53 @@
         <tbody>
           <tr>
             <td>{lang}cs_plans_service_partner{lang}</td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_information_page{lang}</td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_commercial_enquiries{lang}</td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_commercial_feedback{lang}</td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_profile{lang}</td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_custom_header{lang}</td>
             <td></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_promotions{lang}</td>
             <td></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_banner{lang}</td>
             <td></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
           <tr>
             <td>{lang}cs_plans_service_adwords{lang}</td>
             <td></td>
-            <td align="center"><span class="badge badge-warning">&#10004;</span></td>
+            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
           </tr>
         </tbody>
       </table>
 
-      <table border="0" width="100%" class="table-hover" cellpadding="4">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th colspan="3" align="left"><h4>{lang}cs_pricing_title{lang}</h4></th>
@@ -96,25 +98,20 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3" align="right"><small class="muted">{lang}cs_pricing_info{lang}</small></td>
+            <td colspan="3" align="right"><small class="text-muted">{lang}cs_pricing_info{lang}</small></td>
           </tr>
         </tfood>
       </table>
 
-      <div class="hero-unit" style="margin-top: 40px;">
-        <p style="float: right; margin-top: 20px;">
-          <a href="mailto:partners@oscommerce.com" target="_blank" class="btn btn-info btn-large"><i class="icon-envelope icon-white" style="margin-top: 5px;"></i> partners@oscommerce.com</a>
-        </p>
+      <div class="jumbotron">
+        <h2>{lang}cs_enquiry_title{lang}</h2>
 
-        <p>
-          <strong>{lang}cs_enquiry_title{lang}</strong><br />
-          {lang}cs_enquiry_info{lang}
-        </p>
+        <p>{lang}cs_enquiry_info{lang}</p>
+
+        <p><a href="mailto:partners@oscommerce.com" target="_blank" class="btn btn-info btn-lg"><i class="fa fa-envelope"></i> partners@oscommerce.com</a></p>
       </div>
 
-      <p align="center"><small class="text-success">{lang}cs_enquiry_additional_discount{lang}</small></p>
+      <p class="text-center small text-success">{lang}cs_enquiry_additional_discount{lang}</p>
     </div>
   </div>
-
-  {widget}services_sidebar_nav{widget}
 </div>

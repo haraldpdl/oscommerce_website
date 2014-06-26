@@ -3,11 +3,11 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
-    <div id="maincontent">
-      <h1>News</h1>
+  {widget}us_sidebar_nav{widget}
 
-      <h2>{value}news_entry title{value}<br /><small>{value}news_entry date_added_formatted{value} {lang}news_entry_author_by{lang} <a id="newsAuthorLink" title="{lang}news_entry_author_profiles_title{lang}">{value}news_entry author_name{value}</a></small></h2>
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <h1>{value}news_entry title{value}<br /><small>{value}news_entry date_added_formatted{value} {lang}news_entry_author_by{lang} <a id="newsAuthorLink" title="{lang}news_entry_author_profiles_title{lang}">{value}news_entry author_name{value}</a></small></h1>
 
 {ifvalue news_entry image}
       <img src="{publiclink}images/news/{raw}news_entry image{raw}{publiclink}" class="thumbnail" style="float: right; margin-left: 10px; margin-bottom: 10px;" />
@@ -15,11 +15,9 @@
 
       {nl2br}{raw}news_entry body{raw}{nl2br}
 
-      <p style="padding-top: 40px;"><a href="{link}Us|Website|News#n{raw}news_entry id{raw}{link}"><i class="icon-chevron-left"></i> {lang}link_back_to_listing{lang}</a></p>
+      <p style="padding-top: 40px;"><a href="{link}Us|Website|News#n{raw}news_entry id{raw}{link}"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a></p>
     </div>
   </div>
-
-  {widget}us_sidebar_nav{widget}
 </div>
 
 <script>
@@ -28,27 +26,28 @@ $(function() {
     html: true,
     content: function() {
       return $('#newsAuthorContent').html();
-    }
+    },
+    container: 'body'
   });
 });
 </script>
 
 <div id="newsAuthorContent" style="display: none">
-  <a href="http://forums.oscommerce.com/index.php?showuser={value}news_entry author_id{value}"><img src="{publiclink}images/social/oscommerce.png{publiclink}" width="32" height="32" alt="osCommerce" title="osCommerce" /></a>
+  <a href="http://forums.oscommerce.com/index.php?showuser={value}news_entry author_id{value}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #669c41;"></i><i class="osc-icon-spheres fa-stack-1x fa-inverse"></i></span></a>
 
   {ifvalue news_entry author_google_plus_id}
-    <a href="https://plus.google.com/{value}news_entry author_google_plus_id{value}?rel=author" target="_blank"><img src="{publiclink}images/social/googleplus.png{publiclink}" width="32" height="32" alt="Google+" title="Google+" /></a>
+    <a href="https://plus.google.com/{value}news_entry author_google_plus_id{value}?rel=author" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #f63e28;"></i><i class="fa fa-google-plus fa-stack-1x fa-inverse"></i></span></a>
   {ifvalue}
 
   {ifvalue news_entry author_twitter_id}
-    <a href="https://twitter.com/{value}news_entry author_twitter_id{value}" target="_blank"><img src="{publiclink}images/social/twitter.png{publiclink}" width="32" height="32" alt="Twitter" title="Twitter" /></a>
+    <a href="https://twitter.com/{value}news_entry author_twitter_id{value}" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #2daae1;"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a>
   {ifvalue}
 
   {ifvalue news_entry author_facebook_id}
-    <a href="https://www.facebook.com/{value}news_entry author_facebook_id{value}" target="_blank"><img src="{publiclink}images/social/facebook.png{publiclink}" width="32" height="32" alt="Facebook" title="Facebook" /></a>
+    <a href="https://www.facebook.com/{value}news_entry author_facebook_id{value}" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #3c5b9b;"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a>
   {ifvalue}
 
   {ifvalue news_entry author_github_id}
-    <a href="https://github.com/{value}news_entry author_github_id{value}" target="_blank"><img src="{publiclink}images/social/github.png{publiclink}" width="32" height="32" alt="GitHub" title="GitHub" /></a>
+    <a href="https://github.com/{value}news_entry author_github_id{value}" target="_blank"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #000;"></i><i class="fa fa-github-alt fa-stack-1x fa-inverse"></i></span></a>
   {ifvalue}
 </div>

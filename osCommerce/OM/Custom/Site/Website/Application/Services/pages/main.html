@@ -3,9 +3,11 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
+  {widget}services_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
-      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-large" style="float: right; margin-top: 10px;">{lang}button_partner_with_us{lang}</a>
+      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-lg" style="float: right; margin-top: 20px;">{lang}button_partner_with_us{lang}</a>
 
       <h1>{lang}services_page_title{lang}</h1>
 
@@ -13,7 +15,7 @@
 
       <h2>{lang}promotions_heading{lang}</h2>
 
-      <div>
+      <div style="padding-bottom: 15px;">
         <select id="partnerPromotionFilter">
           <option value="All">{lang}promotions_show_all{lang}</option>
 
@@ -24,33 +26,36 @@
         </select>
       </div>
 
-      <div id="partnerPromotionContainer">
+      <div id="partnerPromotionContainer" class="row">
 
 {loop partner_promotions}
-        <div class="partnerPromotionCategory_#category_code#" style="float: left; text-align: center; padding: 30px;"><a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a><br /><span class="label label-warning">#category_title#</span></div>
+        <div class="col-xs-4 partnerPromotionCategory_#category_code#">
+          <div class="thumbnail">
+            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a>
+
+            <div class="caption text-center">
+              <span class="label label-warning">#category_title#</span>
+            </div>
+          </div>
+        </div>
 {loop}
 
-        <div class="clearfix"></div>
       </div>
-
-      <div class="pull-right"><small><a href="{link}Account|Website|Partner|SSL{link}">{lang}dashboard_link_title{lang}</a></small></div>
     </div>
   </div>
-
-  {widget}services_sidebar_nav{widget}
 </div>
 
 <script>
 $(function() {
   $('#partnerPromotionFilter').change(function() {
     if ( this.value == 'All' ) {
-      $('[class^="partnerPromotionCategory_"]').fadeIn('fast');
+      $('[class*="partnerPromotionCategory_"]').fadeIn('fast');
     } else {
       var selected = this;
 
       $('#partnerPromotionContainer').css('minHeight', $('#partnerPromotionContainer').height());
 
-      $('[class^="partnerPromotionCategory_"]').fadeOut('fast').promise().done(function() {
+      $('[class*="partnerPromotionCategory_"]').fadeOut('fast').promise().done(function() {
         $('.partnerPromotionCategory_' + selected.value).fadeIn('fast');
         $('#partnerPromotionContainer').css('minHeight', '');
       });

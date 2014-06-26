@@ -26,14 +26,14 @@ login_title = Log In
 
 login_introduction = <p>Log in and join the community.</p>
 
-login_username_title = Username:
+login_username_title = Username
 login_username_js_error_required = Required
 login_username_js_error_short = This username is too short
 login_username_js_error_long = This username is too long
 login_username_ms_error_short = Your username is too short.
 login_username_ms_error_long = Your username is too long.
 
-login_password_title = Password:
+login_password_title = Password
 login_password_show_hide = (show/hide password)
 login_password_js_error_required = Required
 login_password_js_error_short = This password is too short
@@ -42,7 +42,7 @@ login_password_ms_error_short = Your password is too short.
 login_password_ms_error_long = Your password is too long.
 
 login_remember_me_title = Remember me
-login_remember_me_note = This is not recommended for public computers
+login_remember_me_note = Remember me is not recommended for public computers
 
 login_button_title = Log In
 login_processing_button_title = Processing..
@@ -58,7 +58,7 @@ create_title = Create Account
 
 create_introduction = <p>Create a personal account and join the community.</p>
 
-create_username_title = Username:
+create_username_title = Username
 create_username_note = Between 3 and 26 characters
 create_username_js_error_required = Required
 create_username_js_error_short = This username is too short
@@ -69,14 +69,14 @@ create_username_ms_error_long = Your username is too long.
 create_username_ms_error_oscommerce = Your username must not contain the word "osCommerce".
 create_username_ms_error_exists = Your username is already used.
 
-create_email_address_title = E-Mail Address:
+create_email_address_title = E-Mail Address
 create_email_address_js_error_required = Required
 create_email_address_js_error_invalid = This address is invalid
 create_email_address_ms_error_required = Your e-mail address is required.
 create_email_address_ms_error_invalid = Your e-mail address is invalid.
 create_email_address_ms_error_exists = Your e-mail address is already used.
 
-create_password_title = New Password:
+create_password_title = New Password
 create_password_note = Between 3 and 32 characters
 create_password_show_hide = (show/hide password)
 create_password_js_error_required = Required
@@ -85,7 +85,7 @@ create_password_js_error_long = This password is too long
 create_password_ms_error_short = Your password is too short.
 create_password_ms_error_long = Your password is too long.
 
-create_security_check_title = Security Check:
+create_security_check_title = Security Check
 create_security_check_ms_error_invalid = The security check did not match. Please try the security check again.
 create_security_check_ms_error_spammer = Your account cannot be created at this time as your e-mail address and/or IP address are registered as a spammer. Please contact us to remedy this problem.
 
@@ -110,16 +110,16 @@ verify_title = Verify Account
 
 verify_introduction = <p>Please follow the instructions sent to you in an e-mail to verify and finalize your personal account.</p>
 
-verify_user_id_title = User ID:
+verify_user_id_title = User ID
 verify_user_id_js_error_required = Required
-verify_user_id_js_error_invalid = This user ID is invalid
-verify_user_id_ms_error_invalid = Your user ID is invalid.
+verify_user_id_js_error_invalid = This user ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
+verify_user_id_ms_error_invalid = Your user ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
 
-verify_key_title = Verification Key:
+verify_key_title = Verification Key
 verify_key_js_error_required = Required
 verify_key_js_error_length = Must be 32 characters
-verify_key_js_error_invalid = This key is invalid
-verify_key_ms_error_invalid = Your verification key is invalid.
+verify_key_js_error_invalid = This key is invalid. This must be 32 characters long - please use the key from the verification e-mail sent to you.
+verify_key_ms_error_invalid = Your verification key is invalid. This must be 32 characters long - please use the key from the verification e-mail sent to you.
 
 verify_button_title = Verify Account
 verify_processing_button_title = Processing..
@@ -205,7 +205,7 @@ partner_error_banner_image_de_error = Banner Image (German) upload failed. Pleas
 partner_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 partner_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
 
-partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-small pull-right">Edit</a>
+partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
 
 email_partner_update_subject = osCommerce Partner Information Page Updated

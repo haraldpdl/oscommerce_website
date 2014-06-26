@@ -3,90 +3,62 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span9">
+  {widget}products_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
       <h1>{lang}oscom_page_title{lang}</h1>
 
-      <div>
-        <h1><small>{lang}oscom2_title{lang}</small></h1>
+      <h2>{lang}oscom2_title{lang}</h2>
 
-        {lang}oscom2_main_content{lang}
+      {lang}oscom2_main_content{lang}
 
-        <div>
-          <form action="{link}Products|Website|Download{link}" method="post" class="form-inline">
-            <select name="get" class="input-xxlarge">
-              <optgroup label="{lang}optgroup_latest_version{lang}">
+      <div class="row">
+        <form action="{link}Products|Website|Download{link}" method="post">
+          <div class="col-xs-9 col-md-10">
+            <select name="get" class="form-control">
 
 {loop releases_oscom2_latest}
-                <option value="#code#">#version#</option>
+              <option value="#code#">#version#</option>
 {loop}
 
-              </optgroup>
-
-              <optgroup label="{lang}optgroup_earlier_versions{lang}">
-
-{loop releases_oscom2_earlier}
-                <option value="#code#">#version#</option>
-{loop}
-
-              </optgroup>
             </select>
+          </div>
 
+          <div class="col-xs-3 col-md-2">
             <button type="submit" class="btn btn-success">{lang}button_download{lang}</button>
-          </form>
+          </div>
 
-          <p style="text-align: center; margin-top: -15px;"><small><a href="{link}Us|Website|News=150{link}">{lang}link_latest_release_announcement{lang}</a></small><small style="padding-left: 50px; padding-right: 120px;"><a href="https://github.com/osCommerce/oscommerce2/tree/23" target="_blank">{lang}link_github_development{lang}</a></small></p>
-        </div>
+          <div class="col-xs-9 col-md-10 text-center small">
+            <div class="row">
+              <div class="col-xs-6">
+                <p><a href="{link}Us|Website|News=150{link}">{lang}link_latest_release_announcement{lang}</a></p>
+              </div>
 
-        <h4>{lang}oscom2_requirements_title{lang}</h4>
-
-        {lang}oscom2_requirements{lang}
+              <div class="col-xs-6">
+                <p><a href="https://github.com/osCommerce/oscommerce2/tree/23" target="_blank">{lang}link_github_development{lang}</a></p>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <div style="padding-top: 20px;">
-        <h1><small>{lang}oscom3_title{lang}</small></h1>
+      <h4>{lang}oscom2_requirements_title{lang}</h4>
 
-        {lang}oscom3_main_content{lang}
+      {lang}oscom2_requirements{lang}
 
-        <div>
-          <form action="{link}Products|Website|Download{link}" method="post" class="form-inline">
-            <select name="get" class="input-xxlarge">
-              <optgroup label="{lang}optgroup_latest_version{lang}">
+      <h3>{lang}oscom3_title{lang}</h3>
 
-{loop releases_oscom3_latest}
-                <option value="#code#">#version#</option>
-{loop}
+      {lang}oscom3_main_content{lang}
 
-              </optgroup>
+      <h3>{lang}z4_title{lang}</h3>
 
-              <optgroup label="{lang}optgroup_earlier_versions{lang}">
+      {lang}z4_main_content{lang}
 
-{loop releases_oscom3_earlier}
-                <option value="#code#">#version#</option>
-{loop}
-
-              </optgroup>
-            </select>
-
-            <button type="submit" class="btn btn-warning">{lang}button_download{lang}</button>
-          </form>
-
-          <p style="text-align: center; margin-top: -15px;"><small><a href="{link}Us|Website|News=138{link}">{lang}link_latest_release_announcement{lang}</a></small><small style="padding-left: 50px; padding-right: 120px;"><a href="https://github.com/osCommerce/oscommerce" target="_blank">{lang}link_github_development{lang}</a></small></p>
-        </div>
-
-        <h4>{lang}oscom3_requirements_title{lang}</h4>
-
-        {lang}oscom3_requirements{lang}
-      </div>
-
-      <div style="padding-top: 20px;">
-        <h1><small>{lang}z4_title{lang}</small></h1>
-
-        {lang}z4_main_content{lang}
-
-        <div>
-          <form action="{link}Products|Website|Download{link}" method="post" class="form-inline">
-            <select name="get" class="input-xxlarge">
+      <div class="row">
+        <form action="{link}Products|Website|Download{link}" method="post">
+          <div class="col-xs-9 col-md-10">
+            <select name="get" class="form-control">
               <optgroup label="-- osCommerce Online Merchant --">
 
 {loop releases_archive_oscom}
@@ -103,15 +75,17 @@
 
               </optgroup>
             </select>
+          </div>
 
+          <div class="col-xs-3 col-md-2">
             <button type="submit" class="btn btn-danger">{lang}button_download{lang}</button>
-          </form>
+          </div>
 
-          <p style="text-align: center; margin-top: -15px;"><small style="padding-right: 120px;"><a href="https://github.com/osCommerce/oscommerce_cvs" target="_blank">{lang}link_github_history{lang}</a></small></p>
-        </div>
+          <div class="col-xs-9 col-md-10 text-center small">
+            <p><a href="https://github.com/osCommerce/oscommerce_cvs" target="_blank">{lang}link_github_history{lang}</a></p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-
-  {widget}products_sidebar_nav{widget}
 </div>

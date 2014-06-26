@@ -1,21 +1,25 @@
-<div class="hero-unit" style="padding: 30px">
-  <h1>{lang}download_title{lang}</h1>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="jumbotron">
+      <h2>{lang}download_title{lang}</h2>
 
-  <p>{lang}download_description{lang}</p>
+      <p>{lang}download_description{lang}</p>
 
-  <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
-    <input type="hidden" name="get" value="{get}Download{get}" />
-    <input type="hidden" name="do" value="1" />
-    <button type="submit" class="btn btn-primary btn-large">{lang}download_now_button{lang}</button>
-  </form>
+      <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
+        <input type="hidden" name="get" value="{get}Download{get}" />
+        <input type="hidden" name="do" value="1" />
+        <button type="submit" class="btn btn-info btn-lg">{lang}download_now_button{lang}</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="span12">
-    <div id="maincontent">
+  <div id="maincontainer" class="col-xs-12">
+    <div id="maincontent" class="noborder">
       <h2>{lang}partner_promotions_heading{lang}</h2>
 
-      <div>
+      <div style="padding-bottom: 15px;">
         <select id="partnerPromotionFilter">
           <option value="All">{lang}partner_promotions_show_all{lang}</option>
 
@@ -26,13 +30,20 @@
         </select>
       </div>
 
-      <div id="partnerPromotionContainer">
+      <div id="partnerPromotionContainer" class="row">
 
 {loop partner_promotions}
-        <div class="partnerPromotionCategory_#category_code#" style="float: left; text-align: center; padding: 30px;"><a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a><br /><span class="label label-warning">#category_title#</span></div>
+        <div class="col-xs-4 col-md-3 partnerPromotionCategory_#category_code#">
+          <div class="thumbnail">
+            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="100" /></a>
+
+            <div class="caption text-center">
+              <span class="label label-warning">#category_title#</span>
+            </div>
+          </div>
+        </div>
 {loop}
 
-        <div class="clearfix"></div>
       </div>
     </div>
   </div>
@@ -42,13 +53,13 @@
 $(function() {
   $('#partnerPromotionFilter').change(function() {
     if ( this.value == 'All' ) {
-      $('[class^="partnerPromotionCategory_"]').fadeIn('fast');
+      $('[class*="partnerPromotionCategory_"]').fadeIn('fast');
     } else {
       var selected = this;
 
       $('#partnerPromotionContainer').css('minHeight', $('#partnerPromotionContainer').height());
 
-      $('[class^="partnerPromotionCategory_"]').fadeOut('fast').promise().done(function() {
+      $('[class*="partnerPromotionCategory_"]').fadeOut('fast').promise().done(function() {
         $('.partnerPromotionCategory_' + selected.value).fadeIn('fast');
         $('#partnerPromotionContainer').css('minHeight', '');
       });

@@ -1,9 +1,7 @@
-<div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" width="940" height="285" />
-</div>
-
 <div class="row">
-  <div id="maincontainer" class="span9">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
       <h1>{lang}verify_title{lang}</h1>
 
@@ -11,70 +9,70 @@
 
       {widget}message_stack|account{widget}
 
-      <form id="formVerifyAccount" name="verify" action="{link}Account|Website|Verify&Process|SSL{link}" method="post" class="form-horizontal">{formprotect}public_token{formprotect}
-        <div class="control-group">
+      <form id="formVerifyAccount" name="verify" action="{link}Account|Website|Verify&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="form-group">
           <label class="control-label" for="inputUserID">{lang}verify_user_id_title{lang}</label>
 
-          <div class="controls">
-            <input type="text" id="inputUserID" name="user_id" value="{post}user_id{post}" />
-            <span id="inputUserIDAlert" class="help-block hide label label-important"></span>
-          </div>
+          <input type="number" id="inputUserID" name="user_id" value="{post}user_id{post}" class="form-control" />
+          <span id="inputUserIDAlert" class="help-block hidden small"></span>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
           <label class="control-label" for="inputKey">{lang}verify_key_title{lang}</label>
 
-          <div class="controls">
-            <input type="text" id="inputKey" name="key" value="{post}key{post}" />
-            <span id="inputKeyAlert" class="help-block hide label label-important"></span>
-          </div>
+          <input type="text" id="inputKey" name="key" value="{post}key{post}" class="form-control" />
+          <span id="inputKeyAlert" class="help-block hidden small"></span>
         </div>
 
-        <div class="control-group">
-          <div class="controls">
-            <button type="submit" id="verifyButton" class="btn" data-processing-text="{lang addslashes}verify_processing_button_title{lang}">{lang}verify_button_title{lang}</button>
-          </div>
-        </div>
+        <p><button type="submit" id="verifyButton" class="btn btn-info" data-processing-text="{lang addslashes}verify_processing_button_title{lang}">{lang}verify_button_title{lang}</button></p>
       </form>
     </div>
   </div>
-
-  {widget}account_sidebar_nav{widget}
 </div>
 
 <script>
 function checkUserID() {
   $('#inputUserID').val($('#inputUserID').val().trim());
 
-  if ( $('#inputUserIDAlert').not(':hidden') ) {
-    $('#inputUserIDAlert').hide();
+  if ( !$('#inputUserIDAlert').hasClass('hidden') ) {
+    $('#inputUserIDAlert').addClass('hidden');
+    $('#inputUserID').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputUserID').val() == '' ) {
-    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_required{lang}').show();
+    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_required{lang}').removeClass('hidden');
   } else if ( ($('#inputUserID').val().match(/^\d+$/g) === null) || ($('#inputUserID').val() < 1) ) {
-    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_invalid{lang}').show();
+    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_invalid{lang}').removeClass('hidden');
   }
 
-  return $('#inputUserIDAlert').is(':hidden');
+  if ( !$('#inputUserIDAlert').hasClass('hidden') ) {
+    $('#inputUserID').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputUserIDAlert').hasClass('hidden');
 }
 
 function checkKey() {
   $('#inputKey').val($('#inputKey').val().trim());
 
-  if ( $('#inputKeyAlert').not(':hidden') ) {
-    $('#inputKeyAlert').hide();
+  if ( !$('#inputKeyAlert').hasClass('hidden') ) {
+    $('#inputKeyAlert').addClass('hidden');
+    $('#inputKey').closest('.form-group').removeClass('has-error');
   }
 
   if ( $('#inputKey').val() == '' ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_required{lang}').show();
+    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_required{lang}').removeClass('hidden');
   } else if ( $('#inputKey').val().length !== 32 ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_length{lang}').show();
+    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_length{lang}').removeClass('hidden');
   } else if ( $('#inputKey').val().match(/^[a-zA-Z0-9\-\_]+$/g) === null ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_invalid{lang}').show();
+    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_invalid{lang}').removeClass('hidden');
   }
 
-  return $('#inputKeyAlert').is(':hidden');
+  if ( !$('#inputKeyAlert').hasClass('hidden') ) {
+    $('#inputKey').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputKeyAlert').hasClass('hidden');
 }
 
 function checkForm() {

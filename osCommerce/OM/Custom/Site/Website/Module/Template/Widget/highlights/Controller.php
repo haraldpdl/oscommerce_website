@@ -32,7 +32,7 @@
 
           foreach ( $data as $p ) {
             $result .= '<div class="' . (($counter === 1) ? 'active ' : '') . 'item">
-  <a href="' . $p['url'] . '"' . (($p['newwin'] === true) ? ' target="_blank"' : '') . '>' . (($p['partner'] === true) ? '<span class="label label-warning" style="position: absolute; padding: 7px; right: 0;">' . OSCOM::getDef('tag_partner') . '</span>' : '') . '<img src="' . $p['image'] . '" ' . (!empty($p['title']) ? 'title="' . HTML::outputProtected($p['title']) . '" ' : '') . 'width="940" height="285"/></a>
+  <a href="' . $p['url'] . '"' . (($p['newwin'] === true) ? ' target="_blank"' : '') . '>' . (($p['partner'] === true) ? '<span class="label label-warning" style="position: absolute; padding: 7px; right: 0;">' . OSCOM::getDef('tag_partner') . '</span>' : '') . '<img src="' . $p['image'] . '" ' . (!empty($p['title']) ? 'title="' . HTML::outputProtected($p['title']) . '" ' : '') . ' /></a>
 </div>';
 
             $counter++;
