@@ -63,11 +63,14 @@
                         'title' => HTML::outputProtected($data['title']),
                         'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), array('url')) : null);
 
-        header('Content-Type: application/javascript');
-
         $json = json_encode($result);
 
-        $output = <<<JAVASCRIPT
+        if ( isset($_GET['onlyjson']) && ($_GET['onlyjson'] == 'true') ) {
+          $output = $json;
+        } else {
+          header('Content-Type: application/javascript');
+
+          $output = <<<JAVASCRIPT
 var oscPartner = $json
 
 function oscLoadBanner() {
@@ -86,6 +89,8 @@ document.observe('dom:loaded', function() {
   }
 });
 JAVASCRIPT;
+
+        }
 
         echo $output;
       }
