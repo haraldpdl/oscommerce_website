@@ -10,7 +10,7 @@
       <h1>{value}news_entry title{value}<br /><small>{value}news_entry date_added_formatted{value} {lang}news_entry_author_by{lang} <a id="newsAuthorLink" title="{lang}news_entry_author_profiles_title{lang}">{value}news_entry author_name{value}</a></small></h1>
 
 {ifvalue news_entry image}
-      <img src="{publiclink}images/news/{raw}news_entry image{raw}{publiclink}" class="thumbnail" style="float: right; margin-left: 10px; margin-bottom: 10px;" />
+      <img src="{publiclink}images/news/{raw}news_entry image{raw}{publiclink}" class="img-responsive thumbnail" style="float: right; margin-left: 10px; margin-bottom: 10px;" />
 {ifvalue}
 
       {nl2br}{raw}news_entry body{raw}{nl2br}
