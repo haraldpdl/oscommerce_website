@@ -171,7 +171,10 @@
                     'status_update_en' => null,
                     'banner_image_de' => null,
                     'banner_url_de' => null,
-                    'status_update_de' => null);
+                    'status_update_de' => null,
+                    'carousel_image' => null,
+                    'carousel_title' => null,
+                    'carousel_url' => null);
 
       if ( $campaign['has_gold'] == '1' ) {
         if ( isset($partner['image_promo_url']) ) {
@@ -205,6 +208,18 @@
         if ( isset($partner['status_update_de']) ) {
           $data['status_update_de'] = $partner['status_update_de'];
         }
+
+        if ( isset($partner['carousel_url']) ) {
+          $data['carousel_url'] = $partner['carousel_url'];
+
+          if ( isset($partner['carousel_image']) ) {
+            $data['carousel_image'] = $partner['carousel_image'];
+          }
+
+          if ( isset($partner['carousel_title']) ) {
+            $data['carousel_title'] = $partner['carousel_title'];
+          }
+        }
       }
 
       if ( OSCOM::callDB('Website\PartnerSave', $data, 'Site') ) {
@@ -213,6 +228,7 @@
         Cache::clear('website_partner-' . $data['code']);
         Cache::clear('website_partner_promotions');
         Cache::clear('website_partners');
+        Cache::clear('website_carousel_frontpage');
 
         return true;
       }
@@ -242,6 +258,10 @@
         unset($new['banner_image_de']);
       }
 
+      if ( $new['carousel_image'] === null ) {
+        unset($new['carousel_image']);
+      }
+
       $diff = array_diff_assoc($new, $orig);
 
 // new file uploads may share the same name as existing files so they are added manually to the array diff
@@ -263,6 +283,10 @@
 
       if ( isset($new['banner_image_de']) && ($new['banner_image_de'] == $orig['banner_image_de']) ) {
         $diff['banner_image_de'] = $new['banner_image_de'];
+      }
+
+      if ( isset($new['carousel_image']) && ($new['carousel_image'] == $orig['carousel_image']) ) {
+        $diff['carousel_image'] = $new['carousel_image'];
       }
 
       if ( !empty($diff) ) {

@@ -74,7 +74,7 @@
             <div class="input-group">
               <span class="input-group-btn">
                 <span class="btn btn-file">
-                  Browse&hellip; <input type="file" id="inputImageSmall" name="image_small" />
+                  Browse &hellip; <input type="file" id="inputImageSmall" name="image_small" />
                 </span>
               </span>
               <input type="text" class="form-control btn-file-text" readonly>
@@ -95,7 +95,7 @@
               <div class="input-group">
                 <span class="input-group-btn">
                   <span class="btn btn-file">
-                    Browse&hellip; <input type="file" id="inputImageBig" name="image_big" />
+                    Browse &hellip; <input type="file" id="inputImageBig" name="image_big" />
                   </span>
                 </span>
                 <input type="text" class="form-control btn-file-text" readonly>
@@ -121,7 +121,7 @@
               <div class="input-group">
                 <span class="input-group-btn">
                   <span class="btn btn-file">
-                    Browse&hellip; <input type="file" id="inputImagePromo" name="image_promo" />
+                    Browse &hellip; <input type="file" id="inputImagePromo" name="image_promo" />
                   </span>
                 </span>
                 <input type="text" class="form-control btn-file-text" readonly>
@@ -158,7 +158,7 @@
                   <div class="input-group">
                     <span class="input-group-btn">
                       <span class="btn btn-file">
-                        Browse&hellip; <input type="file" id="inputBannerImageEn" name="banner_image_en" />
+                        Browse &hellip; <input type="file" id="inputBannerImageEn" name="banner_image_en" />
                       </span>
                     </span>
                     <input type="text" class="form-control btn-file-text" readonly>
@@ -188,7 +188,7 @@
                   <div class="input-group">
                     <span class="input-group-btn">
                       <span class="btn btn-file">
-                        Browse&hellip; <input type="file" id="inputBannerImageDe" name="banner_image_de" />
+                        Browse &hellip; <input type="file" id="inputBannerImageDe" name="banner_image_de" />
                       </span>
                     </span>
                     <input type="text" class="form-control btn-file-text" readonly>
@@ -241,6 +241,44 @@
               </div>
             </div>
           </fieldset>
+
+          <div id="partner_carousel">
+            <fieldset>
+              <legend class="legend-warning">{lang}partner_carousel{lang}</legend>
+
+              <div class="form-group">
+                <label class="control-label" for="inputImageCarousel">{lang}partner_field_carousel_image_title{lang}</label>
+
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <span class="btn btn-file">
+                      Browse &hellip; <input type="file" id="inputImageCarousel" name="carousel_image" />
+                    </span>
+                  </span>
+                  <input type="text" class="form-control btn-file-text" readonly>
+                </div>
+                <span class="help-block small">
+                  {lang}partner_field_carousel_image_desc{lang}
+
+                  {ifvalue partner_campaign carousel_image}
+                  <a href="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
+                  {ifvalue}
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="inputCarouselTitle">{lang}partner_field_carousel_image_title_title{lang}</label>
+
+                <input type="text" id="inputCarouselTitle" name="carousel_image_title" value="{post}carousel_image_title|partner_campaign carousel_title{post}" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="inputCarouselUrl">{lang}partner_field_carousel_image_url_title{lang}</label>
+
+                <input type="text" id="inputCarouselUrl" name="carousel_image_url" value="{post}carousel_image_url|partner_campaign carousel_url{post}" class="form-control" />
+              </div>
+            </fieldset>
+          </div>
         </div>
 
         <p><button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button> <a href="{link}Account|Website|Partner{link}" class="btn btn-link">{lang}partner_button_cancel{lang}</a></p>
@@ -253,6 +291,10 @@
 $(function() {
   if ( {value}partner_campaign has_gold{value} != 1 ) {
     $('.partner_gold').remove();
+  }
+
+  if ( {value}partner_campaign has_carousel{value} != 1 ) {
+    $('#partner_carousel').remove();
   }
 
   $('#formPartnerEdit').submit(function() {

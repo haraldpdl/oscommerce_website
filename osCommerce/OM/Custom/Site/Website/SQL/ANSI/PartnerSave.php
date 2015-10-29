@@ -22,7 +22,9 @@
                        'youtube_video_id' => $data['youtube_video_id'],
                        'url' => $data['url'],
                        'public_url' => $data['public_url'],
-                       'image_promo_url' => $data['image_promo_url']);
+                       'image_promo_url' => $data['image_promo_url'],
+                       'carousel_title' => $data['carousel_title'],
+                       'carousel_url' => $data['carousel_url']);
 
       if ( isset($data['image_small']) ) {
         $partner['image_small'] = $data['image_small'];
@@ -36,6 +38,10 @@
         $partner['image_promo'] = $data['image_promo'];
       } elseif ( !isset($partner['image_promo_url']) ) {
         $partner['image_promo'] = null;
+      }
+
+      if ( isset($data['carousel_image']) ) {
+        $partner['carousel_image'] = $data['carousel_image'];
       }
 
       try {

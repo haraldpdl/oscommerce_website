@@ -142,6 +142,7 @@ partner_information_page = Partner Information Page
 partner_promotion = Promotion
 partner_banner = Banner
 partner_news = News Announcement
+partner_carousel = Front Page Carousel Promotion
 
 partner_field_desc_short_title = Short Description
 partner_field_desc_short_desc = Max 450 characters; No HTML; Line breaks ignored
@@ -171,6 +172,11 @@ partner_field_banner_url_title = URL
 
 partner_field_status_update_title = Status Update
 partner_field_status_update_desc = Max 200 characters; No HTML; Line breaks ignored; &#123;url&#125;url|title&#123;url&#125;
+
+partner_field_carousel_image_title = Image
+partner_field_carousel_image_desc = 940 x 285px; png jpg
+partner_field_carousel_image_title_title = Image Text (Mouse Popover)
+partner_field_carousel_image_url_title = URL
 
 partner_view_current_image = View Current
 partner_german_language_requirement = All fields must be in German!
@@ -204,6 +210,9 @@ partner_error_status_update_en_length = Status Update (English) must not be grea
 partner_error_banner_image_de_error = Banner Image (German) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 partner_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
 partner_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
+partner_error_carousel_image_error = Carousel Image upload failed. Please upload a 940 x 285px png or jpg image.
+partner_error_carousel_image_title_length = Carousel Image Title must not be greater than 255 characters.
+partner_error_carousel_image_url_length = Carousel Image URL must not be greater than 255 characters.
 
 partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.

@@ -171,7 +171,7 @@
 
       if ( isset($_FILES['image_small']['name']) && !empty($_FILES['image_small']['name']) ) {
         $Uimage_small = new Upload('image_small', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('jpg', 'png'), true);
-  
+
         if ( $Uimage_small->check() ) {
           $image = getimagesize($_FILES['image_small']['tmp_name']);
 
@@ -192,7 +192,7 @@
       if ( $partner['has_gold'] == '1' ) {
         if ( isset($_FILES['image_big']['name']) && !empty($_FILES['image_big']['name']) ) {
           $Uimage_big = new Upload('image_big', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('jpg', 'png'), true);
-  
+
           if ( $Uimage_big->check() ) {
             $image = getimagesize($_FILES['image_big']['tmp_name']);
 
@@ -212,7 +212,7 @@
 
         if ( isset($_FILES['image_promo']['name']) && !empty($_FILES['image_promo']['name']) ) {
           $Uimage_promo = new Upload('image_promo', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('gif', 'jpg', 'png'), true);
-  
+
           if ( $Uimage_promo->check() ) {
             $image = getimagesize($_FILES['image_promo']['tmp_name']);
 
@@ -244,7 +244,7 @@
 
         if ( isset($_FILES['banner_image_en']['name']) && !empty($_FILES['banner_image_en']['name']) ) {
           $Ubanner_image_en = new Upload('banner_image_en', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('gif', 'jpg', 'png'), true);
-  
+
           if ( $Ubanner_image_en->check() ) {
             $image = getimagesize($_FILES['banner_image_en']['tmp_name']);
 
@@ -288,7 +288,7 @@
 
         if ( isset($_FILES['banner_image_de']['name']) && !empty($_FILES['banner_image_de']['name']) ) {
           $Ubanner_image_de = new Upload('banner_image_de', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('gif', 'jpg', 'png'), true);
-  
+
           if ( $Ubanner_image_de->check() ) {
             $image = getimagesize($_FILES['banner_image_de']['tmp_name']);
 
@@ -317,17 +317,61 @@
             $data['banner_url_de'] = !empty($banner_url_de) ? $banner_url_de : null;
           }
         }
-      }
 
-      if ( isset($_POST['status_update_de']) ) {
-        $status_update_de = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['status_update_de']));
+        if ( isset($_POST['status_update_de']) ) {
+          $status_update_de = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['status_update_de']));
 
-        if ( strlen($status_update_de) > 200 ) {
-          $error = true;
+          if ( strlen($status_update_de) > 200 ) {
+            $error = true;
 
-          $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_de_length'));
-        } else {
-          $data['status_update_de'] = !empty($status_update_de) ? $status_update_de : null;
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_de_length'));
+          } else {
+            $data['status_update_de'] = !empty($status_update_de) ? $status_update_de : null;
+          }
+        }
+
+        if ( isset($_FILES['carousel_image']['name']) && !empty($_FILES['carousel_image']['name']) ) {
+          $Ucarousel_image = new Upload('carousel_image', OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners', null, array('jpg', 'png'), true);
+
+          if ( $Ucarousel_image->check() ) {
+            $image = getimagesize($_FILES['carousel_image']['tmp_name']);
+
+            if ( ($image !== false) && ($image[0] == '940') && ($image[1] == '285') ) {
+              $Ucarousel_image->setFilename($partner['code'] . '_carousel.' . $Ucarousel_image->getExtension());
+            } else {
+              $error = true;
+
+              $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_error'));
+            }
+          } else {
+            $error = true;
+
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_error'));
+          }
+        }
+
+        if ( isset($_POST['carousel_image_title']) ) {
+          $carousel_title = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['carousel_image_title']));
+
+          if ( strlen($carousel_title) > 255 ) {
+            $error = true;
+
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_title_length'));
+          } else {
+            $data['carousel_title'] = !empty($carousel_title) ? $carousel_title : null;
+          }
+        }
+
+        if ( isset($_POST['carousel_image_url']) ) {
+          $carousel_url = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['carousel_image_url']));
+
+          if ( strlen($carousel_url) > 255 ) {
+            $error = true;
+
+            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_url_length'));
+          } else {
+            $data['carousel_url'] = !empty($carousel_url) ? $carousel_url : null;
+          }
         }
       }
 
@@ -361,6 +405,12 @@
             $Ubanner_image_de->save();
 
             $data['banner_image_de'] = $Ubanner_image_de->getFilename();
+          }
+
+          if ( isset($_FILES['carousel_image']['name']) && !empty($_FILES['carousel_image']['name']) ) {
+            $Ucarousel_image->save();
+
+            $data['carousel_image'] = $Ucarousel_image->getFilename();
           }
         }
 
