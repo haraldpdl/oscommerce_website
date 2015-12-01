@@ -52,8 +52,25 @@
 
           OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Login', 'SSL'));
         } else {
-          if ( isset($result['error']) && ($result['error'] == 'invalid_key') ) {
-            $errors[] = OSCOM::getDef('verify_ms_error_no_match');
+          if ( isset($result['error']) ) {
+            switch ($result['error']) {
+              case 'invalid_key':
+                $errors[] = OSCOM::getDef('verify_ms_error_no_match');
+                break;
+
+              case 'invalid_member':
+                $errors[] = OSCOM::getDef('verify_ms_error_no_member');
+                break;
+
+              case 'already_verified':
+                $OSCOM_MessageStack->add('account', OSCOM::getDef('verify_ms_error_already_verified'), 'warning');
+
+                OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Login', 'SSL'));
+                break;
+
+              default:
+                $errors[] = OSCOM::getDef('verify_ms_error_general');
+            }
           } else {
             $errors[] = OSCOM::getDef('verify_ms_error_general');
           }

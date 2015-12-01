@@ -125,6 +125,8 @@ verify_processing_button_title = Processing..
 verify_ms_success = Thank you for verifying your e-mail address. Please log in to your account.
 verify_ms_error_general = Your account cannot be verified at this time due to a general error. Please contact us to remedy this problem.
 verify_ms_error_no_match = The verification key did not match with your account. Please try again.
+verify_ms_error_no_member = No member could be found with that User ID. Please try again.
+verify_ms_error_already_verified = That member account has already been verified. Please try and login.
 
 partner_html_title = Partner Dashboard | osCommerce
 partner_title = Partner Dashboard
