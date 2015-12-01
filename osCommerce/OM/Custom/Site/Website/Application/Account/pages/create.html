@@ -35,17 +35,7 @@
         <div class="form-group">
           <label class="control-label">{lang}create_security_check_title{lang}</label>
 
-<script>
-var RecaptchaOptions = {
-  theme: 'white'
-};
-</script>
-<script src="https://www.google.com/recaptcha/api/challenge?k={value}recaptcha_key_public{value}"></script>
-<noscript>
-  <iframe src="https://www.google.com/recaptcha/api/noscript?k={value}recaptcha_key_public{value}" height="300" width="500" frameborder="0"></iframe><br>
-  <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
-  <input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
-</noscript>
+          <div class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
         </div>
 {iffalse}
 

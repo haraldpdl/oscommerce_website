@@ -10,12 +10,9 @@
 
   use osCommerce\OM\Core\ApplicationAbstract;
   use osCommerce\OM\Core\OSCOM;
-  use osCommerce\OM\Core\Registry;
 
   class Login {
     public static function execute(ApplicationAbstract $application) {
-      $OSCOM_Template = Registry::get('Template');
-
       if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {
         OSCOM::redirect(OSCOM::getLink(null, null, null, 'SSL'));
       }

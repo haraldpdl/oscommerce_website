@@ -62,11 +62,10 @@
       if ( !isset($_SESSION[OSCOM::getSite()]['recaptcha_pass']) ) {
         $recaptcha_error = true;
 
-        if ( isset($_POST['recaptcha_challenge_field']) && !empty($_POST['recaptcha_challenge_field']) && isset($_POST['recaptcha_response_field']) && !empty($_POST['recaptcha_response_field']) ) {
-          $params = [ 'privatekey' => OSCOM::getConfig('recaptcha_key_private'),
+        if ( isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']) ) {
+          $params = [ 'secret' => OSCOM::getConfig('recaptcha_key_private'),
                       'remoteip' => OSCOM::getIPAddress(),
-                      'challenge' => $_POST['recaptcha_challenge_field'],
-                      'response' => $_POST['recaptcha_response_field'] ];
+                      'response' => $_POST['g-recaptcha-response'] ];
 
           $post_string = '';
 
@@ -76,13 +75,13 @@
 
           $post_string = substr($post_string, 0, -1);
 
-          $response = HttpRequest::getResponse( ['url' => 'http://www.google.com/recaptcha/api/verify',
+          $response = HttpRequest::getResponse( ['url' => 'https://www.google.com/recaptcha/api/siteverify',
                                                  'parameters' => $post_string] );
 
           if ( !empty($response) ) {
-            $result = explode("\n", $response, 2);
+            $result = @json_decode($response, true);
 
-            if ( isset($result[0]) && ($result[0] == 'true') ) {
+            if ( is_array($result) && isset($result['success']) && ($result['success'] === true) ) {
               $recaptcha_error = false;
 
               $_SESSION[OSCOM::getSite()]['recaptcha_pass'] = true;
