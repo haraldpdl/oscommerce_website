@@ -14,8 +14,7 @@
           <label class="control-label" for="inputUsername">{lang}create_username_title{lang}</label>
 
           <input type="text" id="inputUsername" name="username" value="{post}username{post}" class="form-control" />
-          <span id="inputUsernameAlert" class="help-block hidden small"></span>
-          <span class="help-block small"><span class="text-muted">{lang}create_username_note{lang}</span></span>
+          <span class="help-block small"><span id="inputUsernameAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_username_note{lang}</span></span>
         </div>
 
         <div class="form-group">
@@ -29,8 +28,7 @@
           <label class="control-label" for="inputPassword">{lang}create_password_title{lang}</label>
 
           <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
-          <span id="inputPasswordAlert" class="help-block hidden small"></span>
-          <span class="help-block small"><span class="text-muted"><span id="inputPasswordInfo">{lang}create_password_note{lang}</span><a href="#" onclick="$('#inputPassword').togglePassword(); return false;" id="inputPasswordShowHide">{lang}create_password_show_hide{lang}</a></span></span>
+          <span class="help-block small"><span id="inputPasswordAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_password_note{lang}</span></span>
         </div>
 
 {iffalse recaptcha_pass}
@@ -152,26 +150,6 @@ function checkPassword() {
   return $('#inputPasswordAlert').hasClass('hidden');
 }
 
-function showPasswordInfo() {
-  if ( $('#inputPassword').val().length > 2 ) {
-    if ( !$('#inputPasswordInfo').hasClass('hidden') ) {
-      $('#inputPasswordInfo').addClass('hidden');
-    }
-
-    if ( $('#inputPasswordShowHide').hasClass('hidden') ) {
-      $('#inputPasswordShowHide').removeClass('hidden');
-    }
-  } else {
-    if ( !$('#inputPasswordShowHide').hasClass('hidden') ) {
-      $('#inputPasswordShowHide').addClass('hidden');
-    }
-
-    if ( $('#inputPasswordInfo').hasClass('hidden') ) {
-      $('#inputPasswordInfo').removeClass('hidden');
-    }
-  }
-}
-
 function checkTOS() {
   if ( !$('#inputTOSAlert').hasClass('hidden') ) {
     $('#inputTOSAlert').addClass('hidden');
@@ -212,31 +190,9 @@ function checkForm() {
 }
 
 $(function() {
-  showPasswordInfo();
-
   if ( '{post}agree_tos{post}' == '1' ) {
     $('#inputTOS').prop('checked', true);
   }
-
-  $('#inputUsername').blur(function() {
-    checkUsername();
-  });
-
-  $('#inputEmail').blur(function() {
-    checkEmailAddress();
-  });
-
-  $('#inputPassword').blur(function() {
-    checkPassword();
-  });
-
-  $('#inputPassword').keyup(function() {
-    showPasswordInfo();
-  });
-
-  $('#inputTOS').change(function() {
-    checkTOS();
-  });
 
   $('#formCreateAccount').submit(function() {
     $('#createButton').button('processing');

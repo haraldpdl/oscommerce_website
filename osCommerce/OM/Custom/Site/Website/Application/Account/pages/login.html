@@ -22,7 +22,6 @@
 
           <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
           <span id="inputPasswordAlert" class="help-block hidden small"></span>
-          <span id="inputPasswordShowHide" class="help-block hidden small"><span class="text-muted"><a href="#" onclick="$('#inputPassword').togglePassword(); return false;">{lang}login_password_show_hide{lang}</a></span></span>
         </div>
 
         <div class="checkbox">
@@ -84,18 +83,6 @@ function checkPassword() {
   return $('#inputPasswordAlert').hasClass('hidden');
 }
 
-function showPasswordInfo() {
-  if ( $('#inputPassword').val().length > 2 ) {
-    if ( $('#inputPasswordShowHide').hasClass('hidden') ) {
-      $('#inputPasswordShowHide').removeClass('hidden');
-    }
-  } else {
-    if ( !$('#inputPasswordShowHide').hasClass('hidden') ) {
-      $('#inputPasswordShowHide').addClass('hidden');
-    }
-  }
-}
-
 function checkForm() {
   var has_error = false;
 
@@ -111,20 +98,6 @@ function checkForm() {
 }
 
 $(function() {
-  showPasswordInfo();
-
-  $('#inputUsername').blur(function() {
-    checkUsername();
-  });
-
-  $('#inputPassword').blur(function() {
-    checkPassword();
-  });
-
-  $('#inputPassword').keyup(function() {
-    showPasswordInfo();
-  });
-
   $('#formLogin').submit(function() {
     $('#loginButton').button('processing');
 

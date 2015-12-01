@@ -34,7 +34,6 @@ login_username_ms_error_short = Your username is too short.
 login_username_ms_error_long = Your username is too long.
 
 login_password_title = Password
-login_password_show_hide = (show/hide password)
 login_password_js_error_required = Required
 login_password_js_error_short = This password is too short
 login_password_js_error_long = This password is too long
@@ -78,7 +77,6 @@ create_email_address_ms_error_exists = Your e-mail address is already used.
 
 create_password_title = New Password
 create_password_note = Between 3 and 32 characters
-create_password_show_hide = (show/hide password)
 create_password_js_error_required = Required
 create_password_js_error_short = This password is too short
 create_password_js_error_long = This password is too long

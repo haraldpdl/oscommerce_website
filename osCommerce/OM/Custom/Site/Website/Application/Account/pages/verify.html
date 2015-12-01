@@ -90,14 +90,6 @@ function checkForm() {
 }
 
 $(function() {
-  $('#inputUserID').blur(function() {
-    checkUserID();
-  });
-
-  $('#inputKey').blur(function() {
-    checkKey();
-  });
-
   $('#formVerifyAccount').submit(function() {
     $('#verifyButton').button('processing');
 

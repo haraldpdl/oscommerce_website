@@ -20,8 +20,6 @@
         OSCOM::redirect(OSCOM::getLink(null, 'Account', null, 'SSL'));
       }
 
-      $OSCOM_Template->addHtmlHeaderTag('<script src="public/external/jquery/hideShowPassword/hideShowPassword.min.js"></script>');
-
       $application->setPageContent('create.html');
       $application->setPageTitle(OSCOM::getDef('create_html_title'));
     }
