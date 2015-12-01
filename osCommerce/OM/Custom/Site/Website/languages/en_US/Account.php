@@ -100,7 +100,7 @@ create_processing_button_title = Processing..
 
 create_email_new_account_subject = osCommerce Account Registration
 
-create_ms_success = Your personal account has been created! Please check your e-mail for instructions on how to verify your e-mail address.
+create_ms_success = Your personal account has been created! Please check your e-mail for instructions on how to verify the identity of your account.
 create_ms_error_general = Your account cannot be created at this time due to a general error. Please contact us to remedy this problem.
 
 verify_html_title = Verify Account | osCommerce
@@ -122,7 +122,7 @@ verify_key_ms_error_invalid = Your verification key is invalid. This must be 32 
 verify_button_title = Verify Account
 verify_processing_button_title = Processing..
 
-verify_ms_success = Thank you for verifying your e-mail address. Please log in to your account.
+verify_ms_success = Thank you for verifying your account. Please log in with your account credentials.
 verify_ms_error_general = Your account cannot be verified at this time due to a general error. Please contact us to remedy this problem.
 verify_ms_error_no_match = The verification key did not match with your account. Please try again.
 verify_ms_error_no_member = No member could be found with that User ID. Please try again.
