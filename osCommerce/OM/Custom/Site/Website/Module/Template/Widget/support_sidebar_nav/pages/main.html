@@ -7,3 +7,11 @@
     <li id="snLiveChat"><a href="{link}{link}#livechat">{lang}sidebar_nav_live_chat{lang}</a></li>
   </ul>
 </div>
+
+<script>
+$(function() {
+  if (typeof site_req['actions'][0] !== 'undefined' && site_req['actions'][0] == 'Chat') {
+    $('#sidebar #snLiveChat').addClass('active');
+  }
+});
+</script>

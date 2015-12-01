@@ -24,5 +24,10 @@ button_forum = Visit the Forum
 
 live_chat_title = Live Chat
 live_chat_description = <p>Direct communication with other community members is available in our Live Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall <i class="fa fa-smile-o"></i></p>
-<p>A free <a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=register">community forum account</a> is required to join the live chat room.</p>
 button_live_chat = Join the Live Chat
+
+live_chat_html_page_title = Live Chat | osCommerce
+live_chat_page_title = Live Chat
+live_chat_main_content = <p>You're welcome to join and participate in our live chat room! To join the live chat room, click on the Connect button below and a new window will open asking for a username to connect to the live chat room with.</p>
+live_chat_rules_title = Rules
+live_chat_rules_content = <p>No spamming, have fun. Don't message others directly asking for help, it's rude!</p><p>For emoticons, type : followed by at least two letters and a popup list will appear to choose from (eg, :smiley:).</p>
