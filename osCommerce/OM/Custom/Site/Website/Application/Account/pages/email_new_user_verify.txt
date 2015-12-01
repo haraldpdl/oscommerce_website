@@ -5,26 +5,26 @@ New User Registration at osCommerce
   {raw}new_member_reg name{raw},
 
   thank you for creating an account at the osCommerce website! Please verify
-  your e-mail address by following the instructions below.
+  the identity of your account by following the instructions below.
 
   If you did not sign up for an account at our website and have wrongly
   received this e-mail, please disregard and delete this e-mail. You are not in
   a mailing list and do not need to unsubscribe or take further action.
 
-Please Verify Your E-Mail Address
+Please Verify Your Account
 
   Please verify your account registration with the following link:
 
   {link}Account|Website|Verify|SSL{link}
 
-  The following information is required for a manual verification:
+  The following information is required for the verification:
 
   User ID: {raw}new_member_reg member_id{raw}
   Verification Key: {raw}new_member_reg validate_key{raw}
 
   We look forward to having you in our community!
 
-  This e-mail can be safely deleted after your e-mail address has been verified.
+  This e-mail can be safely deleted after your account has been verified.
 
   Kind regards,
 
