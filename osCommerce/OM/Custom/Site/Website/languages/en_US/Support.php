@@ -19,7 +19,7 @@ hire_developers_description = <p>Our community is full of experts you can hook i
 button_hire_developers = Post an Enquiry
 
 forum_title = Forum
-forum_description = <p>Over 1.5 Million postings have been made by over 270,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
+forum_description = <p>Over 1.6 Million postings have been made by over 280,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
 button_forum = Visit the Forum
 
 live_chat_title = Live Chat
