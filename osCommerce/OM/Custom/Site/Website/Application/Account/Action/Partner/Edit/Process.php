@@ -196,7 +196,7 @@
           if ( $Uimage_big->check() ) {
             $image = getimagesize($_FILES['image_big']['tmp_name']);
 
-            if ( ($image !== false) && ($image[0] == '940') && ($image[1] == '285') ) {
+            if ( ($image !== false) && ($image[0] == '1200') && ($image[1] == '364') ) {
               $Uimage_big->setFilename($partner['code'] . '_header.' . $Uimage_big->getExtension());
             } else {
               $error = true;
@@ -336,7 +336,7 @@
           if ( $Ucarousel_image->check() ) {
             $image = getimagesize($_FILES['carousel_image']['tmp_name']);
 
-            if ( ($image !== false) && ($image[0] == '940') && ($image[1] == '285') ) {
+            if ( ($image !== false) && ($image[0] == '1200') && ($image[1] == '364') ) {
               $Ucarousel_image->setFilename($partner['code'] . '_carousel.' . $Ucarousel_image->getExtension());
             } else {
               $error = true;
