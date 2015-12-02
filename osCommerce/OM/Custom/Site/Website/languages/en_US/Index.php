@@ -9,7 +9,7 @@ page_title = Sell Online
 
 main_content = <p>We provide you the tools to set up your very own complete and self-hosted online store website <strong>for free</strong> to market and securely sell products and services to customers worldwide.</p>
 <p>You have complete access to and total control of your online store and data.</p>
-<p>Our growing community of over 260,000 store owners, developers, and service providers are there to help you at every stage of running your online store and business. Over 7,000 free Add-Ons have been uploaded by the community to use and customize your online store with.</p>
+<p>Our growing community of over 280,000 store owners, developers, and service providers are there to help you at every stage of running your online store and business. Over 7,000 free Add-Ons have been uploaded by the community to use and customize your online store with.</p>
 <p>New here? Find out more about us <a href="{link}Us{link}">here</a>.</p>
 <p>Need help? Free and commercial support is available <a href="{link}Support{link}">here</a>.</p>
 
