@@ -28,7 +28,7 @@
       $partner = Partner::get($_GET['View']);
 
       $OSCOM_Template->setValue('partner', $partner);
-      $OSCOM_Template->setValue('partner_header', (empty($partner['image_big']) ? HTML::image(OSCOM::getPublicSiteLink($OSCOM_Template->getValue('highlights_image')), null, 940, 285) : '<a href="' . HTML::outputProtected($partner['url']) . '" target="_blank">' . HTML::image(OSCOM::getPublicSiteLink('images/partners/' . $partner['image_big']), null, 940, 285) . '</a>'));
+      $OSCOM_Template->setValue('partner_header', (empty($partner['image_big']) ? HTML::image(OSCOM::getPublicSiteLink($OSCOM_Template->getValue('highlights_image'))) : '<a href="' . HTML::outputProtected($partner['url']) . '" target="_blank">' . HTML::image(OSCOM::getPublicSiteLink('images/partners/' . $partner['image_big'])) . '</a>'));
 
       $application->setPageContent('partner_preview.html');
       $application->setPageTitle(OSCOM::getDef('partner_view_html_title', array(':partner_title' => $partner['title'])));
