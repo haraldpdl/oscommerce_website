@@ -1,7 +1,7 @@
 <?php
 /**
  * osCommerce Website
- * 
+ *
  * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
@@ -17,10 +17,10 @@
       $OSCOM_Template = Registry::get('Template');
 
       $OSCOM_Template->setValue('stats_addons', number_format(7000));
-      $OSCOM_Template->setValue('stats_sites', number_format(12800));
+      $OSCOM_Template->setValue('stats_sites', number_format(13300));
       $OSCOM_Template->setValue('stats_community_online_users', static::getOnlineUsers());
       $OSCOM_Template->setValue('stats_community_total_users', static::getTotalUsers());
-      $OSCOM_Template->setValue('stats_community_total_forum_postings', static::getTotalForumPostings());
+      $OSCOM_Template->setValue('stats_community_total_forum_postings', '1.6m' /* static::getTotalForumPostings() */);
 
       $file = OSCOM::BASE_DIRECTORY . 'Custom/Site/' . OSCOM::getSite() . '/Module/Template/Widget/index_sidebar_nav/pages/main.html';
 
@@ -93,7 +93,7 @@
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
-      $posts = 1500000;
+      $posts = 1600000;
 
       if ( OSCOM::configExists('community_api_key') ) {
         if ( $OSCOM_Cache->read('stats_community_api_fetchStats', 1440) ) {

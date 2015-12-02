@@ -1,18 +1,23 @@
 <div id="sidebar" class="col-sm-3 col-sm-push-9">
-  <ul class="nav nav-pills">
-    <li class="panel-heading">{lang}navbutton_account{lang}</li>
+  <div class="panel panel-primary">
+    <div class="panel-heading">{lang}navbutton_account{lang}</div>
+
+    <div class="panel-body">
+      <ul class="nav nav-pills">
 
 {ifvalue user}
-    <li id="snAccount"><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
-    <li id="snPartner"><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
-    <li id="snOkILoveYouByeBye"><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
+        <li id="snAccount"><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
+        <li id="snPartner"><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
+        <li id="snOkILoveYouByeBye"><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
 {else}
-    <li id="snLogin"><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
-    <li id="snCreate"><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
-    <li id="snVerify"><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
+        <li id="snLogin"><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
+        <li id="snCreate"><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
+        <li id="snVerify"><a href="{link}Account|Website|Verify|SSL{link}">{lang}navbutton_account_verify_account{lang}</a></li>
 {ifvalue}
 
-  </ul>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <script>

@@ -1,14 +1,25 @@
 <div id="highlights" class="carousel slide center-block" data-ride="carousel">
-  <div class="carousel-inner">
+  <ol class="carousel-indicators">
+  </ol>
+
+  <div class="carousel-inner" role="listbox">
     {raw}highlights_carousel_output{raw}
   </div>
 
-  <a class="carousel-control left" href="#highlights" data-slide="prev"><i class="fa fa-chevron-circle-left"></i></a>
-  <a class="carousel-control right" href="#highlights" data-slide="next"><i class="fa fa-chevron-circle-right"></i></a>
+  <a class="carousel-control left" href="#highlights" role="button" data-slide="prev"><i class="fa fa-chevron-circle-left"></i></a>
+  <a class="carousel-control right" href="#highlights" role="button" data-slide="next"><i class="fa fa-chevron-circle-right"></i></a>
 </div>
 
 <script>
 $(function() {
   $('#highlights').carousel({ interval: 8000 });
+
+  var highlightsIndicators = '';
+
+  for (var i = 0, n = $('#highlights .carousel-inner div.item').length; i < n; i++) {
+    highlightsIndicators += '<li data-target="#highlights" data-slide-to="' + i + '"' + (i == 0 ? ' class="active"' : '') + '></li>';
+  }
+
+  $('#highlights ol.carousel-indicators').html(highlightsIndicators);
 });
 </script>

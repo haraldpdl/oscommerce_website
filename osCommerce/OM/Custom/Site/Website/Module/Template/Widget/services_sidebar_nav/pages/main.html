@@ -1,13 +1,18 @@
 <div id="sidebar" class="col-sm-3 col-sm-push-9">
-  <ul class="nav nav-pills">
-    <li class="panel-heading">{lang}navbutton_services{lang}</li>
-    <li id="snIndex"><a href="{link}Services{link}">{lang}sidebar_nav_promotions{lang}</a></li>
+  <div class="panel panel-primary">
+    <div class="panel-heading">{lang}navbutton_services{lang}</div>
+
+    <div class="panel-body">
+      <ul class="nav nav-pills">
+        <li id="snIndex"><a href="{link}Services{link}">{lang}sidebar_nav_promotions{lang}</a></li>
 
 {loop partner_categories}
-    <li id="sn#code#"><a href="{link}Services|Website|%code%{link}">#title#</a></li>
+        <li id="sn#code#"><a href="{link}Services|Website|%code%{link}">#title#</a></li>
 {loop}
 
-  </ul>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <script>
