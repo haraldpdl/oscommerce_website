@@ -190,6 +190,12 @@ footer {
     width: 100%;
   }
 
+  @media (max-width: @screen-xs-max) {
+    ol.carousel-indicators {
+      .hidden;
+    }
+  }
+
   .carousel-control {
     background-image: none;
     position: absolute;
@@ -290,7 +296,6 @@ footer {
 
     li {
       display: inline;
-
     }
   }
 }
