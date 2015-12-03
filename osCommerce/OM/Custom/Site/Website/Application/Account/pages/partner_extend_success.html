@@ -1,0 +1,54 @@
+<div id="highlights">
+  {raw}partner_header{raw}
+</div>
+
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <div class="pull-right"><span class="pcdate label">{value}partner_campaign date_end{value}</span><br /><span class="pcdays text-muted small"></span></div>
+
+      <h1>{value}partner_campaign title{value}</h1>
+
+      {widget}message_stack|partner{widget}
+
+      <h2>Partnership Extension</h2>
+
+      <div class="jumbotron">
+        <h1>Thank you!</h1>
+
+        <p>Your continued support is greatly appreciated!</p>
+      </div>
+
+      <p><a href="{link}Account|Website|Partner|SSL{link}"><i class="fa fa-caret-left"></i> {lang}partner_back_to_campaigns{lang}</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  var partner_date_now = moment('{value addslashes}partner_date_now{value}');
+  var runsUntil = moment($('.pcdate').text());
+
+  $('.pcdate').text(runsUntil.format('Do MMM, YYYY'));
+
+  if (runsUntil.isBefore(partner_date_now)) {
+    $('.pcdate').addClass('label-danger');
+
+    $('.pcdays').html(runsUntil.from(partner_date_now));
+  } else {
+    var daysRemaining = runsUntil.diff(partner_date_now, 'days');
+
+    $('.pcdays').html(partner_date_now.to(runsUntil));
+
+    if ( daysRemaining > 14 ) {
+      $('.pcdate').addClass('label-success');
+    } else {
+      $('.pcdate').addClass('label-warning');
+    }
+  }
+});
+</script>
+
+<script src="public/external/momentjs/moment.min.js"></script>

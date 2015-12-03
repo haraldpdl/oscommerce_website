@@ -40,15 +40,21 @@
       return static::$_partners[$code];
     }
 
-    public static function exists($code, $category) {
-      if ( !isset(static::$_partners[$category]) ) {
-        static::$_partners[$category] = OSCOM::callDB('Website\GetPartners', array('code' => $category), 'Site');
-      }
-
-      foreach ( static::$_partners[$category] as $p ) {
-        if ( $p['code'] == $code ) {
-          return true;
+    public static function exists($code, $category = null) {
+      if (isset($category)) {
+        if ( !isset(static::$_partners[$category]) ) {
+          static::$_partners[$category] = OSCOM::callDB('Website\GetPartners', array('code' => $category), 'Site');
         }
+
+        foreach ( static::$_partners[$category] as $p ) {
+          if ( $p['code'] == $code ) {
+            return true;
+          }
+        }
+      } else {
+        $partner = static::get($code);
+
+        return is_array($partner) && !empty($partner);
       }
 
       return false;
@@ -305,6 +311,34 @@
 
         AuditLog::save($data);
       }
+    }
+
+    public static function getProductPlan($plan, $duration)
+    {
+        $result = [
+            'plan' => ($plan == 'silver' ? 'Silver' : 'Gold') . ' Level',
+            'duration' => $duration . ' ' . ($duration > 1 ? ' Months' : 'Month')
+        ];
+
+        if ($plan == 'silver') {
+            $prices = [
+                '1' => '50',
+                '3' => '140',
+                '6' => '250',
+                '12' => '500'
+            ];
+        } else {
+            $prices = [
+                '1' => '100',
+                '3' => '280',
+                '6' => '500',
+                '12' => '1000'
+            ];
+        }
+
+        $result['price'] = $prices[$duration];
+
+        return $result;
     }
   }
 ?>

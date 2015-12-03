@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-sm-5 col-sm-text-right">
-          <p><a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn btn-info btn-xs">View</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-info btn-xs">Edit</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn btn-info btn-xs">History</a></p>
+          <p><a href="{link}Account|Website|Partner&Extend=%code%|SSL{link}" class="btn btn-primary btn-xs">Extend</a> <a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn btn-info btn-xs">View</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-info btn-xs">Edit</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn btn-info btn-xs">History</a></p>
         </div>
       </div>
 {loop}
@@ -41,14 +41,14 @@ $(function() {
 
     $('.pcdate', this).text(runsUntil.format('Do MMM, YYYY'));
 
-    if ( runsUntil.isBefore(partner_date_now) ) {
+    if (runsUntil.isBefore(partner_date_now)) {
       $('.pcdate', this).addClass('label-danger');
 
-      $('.pcdays', this).html(partner_date_now.diff(runsUntil, 'days') + ' days ago');
+      $('.pcdays', this).html(runsUntil.from(partner_date_now));
     } else {
       var daysRemaining = runsUntil.diff(partner_date_now, 'days');
 
-      $('.pcdays', this).html(daysRemaining + ' days remaining');
+      $('.pcdays', this).html(partner_date_now.to(runsUntil));
 
       if ( daysRemaining > 14 ) {
         $('.pcdate', this).addClass('label-success');

@@ -1,0 +1,30 @@
+osCommerce
+
+Partnership Extension
+
+  {raw}partner_admin_name{raw},
+
+  this is a notification e-mail to inform you that your partnership has been
+  extended by:
+
+  {raw}user_name{raw}
+
+  The partnership has been extended for the following period:
+
+  {raw}partnership_extension_plan{raw}: {raw}partnership_extension_period{raw}
+
+  An invoice for the extension will be forwarded to you within 48 hours.
+
+  The Partner Dashboard page can be accessed with the following link:
+
+  {link}Account|Website|Partner|SSL{link}
+
+  Thank you for your support - it is greatly appreciated!
+
+  Kind regards,
+
+  osCommerce
+
+osCommerce, http://www.oscommerce.com
+
+This is an automatically generated e-mail.

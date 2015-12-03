@@ -7,8 +7,8 @@
 @font-size-base: 18px;
 @line-height-base: 1.6;
 
-@import "../../../../../external/font-awesome/4.1.0/less/font-awesome.less";
-@fa-font-path: '../../../../../external/font-awesome/4.1.0/fonts';
+@import "../../../../../external/font-awesome/4.5.0/less/font-awesome.less";
+@fa-font-path: '../../../../../external/font-awesome/4.5.0/fonts';
 
 @font-face {
   font-family: 'oscommerce';
@@ -382,6 +382,16 @@ legend {
   }
 }
 
+.table.table-borderless {
+  thead tr th {
+    border: none;
+  }
+
+  tbody tr td {
+    border: none;
+  }
+}
+
 // apply alignment on specific viewport sizes
 
 @media (min-width: @screen-sm-min) {
@@ -430,4 +440,10 @@ legend {
 
 .tab-content {
   padding-top: 15px;
+}
+
+// PayPal EC In-Context
+
+.paypal-button-hidden {
+  visibility: hidden;
 }
