@@ -48,6 +48,12 @@ class PartnerExtendPayment
             $partner = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
             $product = Partner::getProductPlan($_POST['plan'], $_POST['duration']);
 
+            if (OSCOM::getConfig('enable_ssl') == 'true') {
+                $base_url = OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server');
+            } else {
+                $base_url = OSCOM::getConfig('http_server') . OSCOM::getConfig('dir_ws_http_server');
+            }
+
             $params = [
                 'METHOD' => 'SetExpressCheckout',
                 'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
@@ -63,8 +69,8 @@ class PartnerExtendPayment
                 'SOLUTIONTYPE' => 'Sole',
                 'BRANDNAME' => 'osCommerce',
                 'PAYMENTREQUEST_0_CUSTOM' => $_SESSION[OSCOM::getSite()]['PartnerPayPalSecret'],
-                'RETURNURL' => OSCOM::getLink(null, null, 'Partner&Extend=' . $_GET['p'] . '&Payment&Process', 'SSL'),
-                'CANCELURL' => OSCOM::getLink(null, null, 'Partner&Extend=' . $_GET['p'] . '&Payment&Cancel', 'SSL')
+                'RETURNURL' => $base_url . 'index.php?' . OSCOM::getSiteApplication() . '&Partner&Extend=' . $_GET['p'] . '&Payment&Process',
+                'CANCELURL' => $base_url . 'index.php?' . OSCOM::getSiteApplication() . '&Partner&Extend=' . $_GET['p'] . '&Payment&Cancel'
             ];
 
             if ($partner['billing_country_iso_code_2'] == 'DE') {
