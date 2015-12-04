@@ -9,18 +9,37 @@
 namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
 use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
 class GetLiveChatOnlineUsers
 {
     public static function execute()
     {
-        $data = json_decode(file_get_contents('https://discordapp.com/api/servers/106369341515145216/widget.json'));
+        $OSCOM_Cache = Registry::get('Cache');
 
         $online = 0;
 
-        foreach ($data->members as $m) {
-            if (isset($m->status) && in_array($m->status, ['online', 'idle']) && ($m->username != 'bot')) {
-                $online += 1;
+        if ($OSCOM_Cache->read('stats_live_chat_online_users')) {
+            $online = $OSCOM_Cache->getCache();
+        }
+
+        if (!$OSCOM_Cache->read('stats_live_chat_online_users', 30)) {
+            $source = @file_get_contents('https://discordapp.com/api/servers/106369341515145216/widget.json');
+
+            if ($source !== false) {
+                $data = json_decode($source);
+
+                if (isset($data->members)) {
+                    $online = 0;
+
+                    foreach ($data->members as $m) {
+                        if (isset($m->status) && in_array($m->status, ['online', 'idle']) && ($m->username != 'bot')) {
+                            $online += 1;
+                        }
+                    }
+
+                    $OSCOM_Cache->write($online);
+                }
             }
         }
 
