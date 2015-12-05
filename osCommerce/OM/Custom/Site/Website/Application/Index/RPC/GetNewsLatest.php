@@ -25,13 +25,23 @@
 
       $json = json_encode($result);
 
-      $output = <<<JAVASCRIPT
+      if (isset($_GET['format']) && ($_GET['format'] = 'jquery')) {
+        $output = <<<JAVASCRIPT
+var oscNews = $json
+
+jQuery(document).ready(function($) {
+  $('#latest_news_content').html('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
+});
+JAVASCRIPT;
+      } else {
+        $output = <<<JAVASCRIPT
 var oscNews = $json
 
 document.observe('dom:loaded', function() {
   $('latest_news_content').update('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
 });
 JAVASCRIPT;
+      }
 
       echo $output;
     }
