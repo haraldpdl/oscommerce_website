@@ -75,14 +75,15 @@
 var oscPartner = $json
 
 function oscLoadBanner() {
-  jQuery.('#osCCS').html('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
+  $('#osCCS').html('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
 }
 
 function oscLoadStatusUpdate() {
-  jQuery.('#osCCS').append('<div id="osCCSDesc"><p><a href="' + oscPartner.url + '" target="_blank"><strong>' + oscPartner.title + '</strong></a></p><p>' + oscPartner.status_update + '</p></div>');
+  $('#osCCS').append('<div id="osCCSDesc"><p><a href="' + oscPartner.url + '" target="_blank"><strong>' + oscPartner.title + '</strong></a></p><p>' + oscPartner.status_update + '</p></div>');
 }
 
-jQuery(document).ready(function($) {
+
+$(function() {
   oscLoadBanner();
 
   if ( oscPartner.status_update != null ) {

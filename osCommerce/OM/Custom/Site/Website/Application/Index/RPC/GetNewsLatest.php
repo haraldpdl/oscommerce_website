@@ -29,7 +29,7 @@
         $output = <<<JAVASCRIPT
 var oscNews = $json
 
-jQuery(document).ready(function($) {
+$(function() {
   $('#latest_news_content').html('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
 });
 JAVASCRIPT;
