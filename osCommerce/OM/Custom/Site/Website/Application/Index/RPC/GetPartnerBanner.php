@@ -79,7 +79,7 @@ function oscLoadBanner() {
 }
 
 function oscLoadStatusUpdate() {
-  $('#osCCS').append('<div id="osCCSDesc"><p><a href="' + oscPartner.url + '" target="_blank"><strong>' + oscPartner.title + '</strong></a></p><p>' + oscPartner.status_update + '</p></div>');
+  $('#osCCS').append('<div id="osCCSDesc"><span id="osCCSDescTitle"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br />' + oscPartner.status_update + '</div>');
 }
 
 
