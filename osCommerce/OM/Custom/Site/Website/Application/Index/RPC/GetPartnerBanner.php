@@ -107,13 +107,12 @@
 var oscPartner = $json
 
 function oscLoadBanner() {
-  $('#osCCS').html('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
+  $('#osCCS').html('<div class="ipsColumn ipsColumn_veryWide" style="width: 470px;"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a></div>');
 }
 
 function oscLoadStatusUpdate() {
-  $('#osCCS').append('<div id="osCCSDesc"><span id="osCCSDescTitle"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br />' + oscPartner.status_update + '</div>');
+  $('#osCCS').append('<div id="osCCSDesc" class="ipsColumn ipsColumn_fluid"><span class="ipsType_minorHeading" style="font-weight: bold;"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br />' + oscPartner.status_update + '</div>');
 }
-
 
 $(function() {
   oscLoadBanner();
