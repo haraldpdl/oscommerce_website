@@ -91,7 +91,7 @@
         }
 
         $result = array('url' => HTML::outputProtected($data['url']),
-                        'image' => 'http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $data['image']),
+                        'image' => 'https://ssl.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $data['image']),
                         'title' => HTML::outputProtected($data['title']),
                         'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), array('url')) : null);
 
