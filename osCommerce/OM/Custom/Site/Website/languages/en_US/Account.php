@@ -234,6 +234,8 @@ cs_plans_service_custom_header = Large custom header image on partner informatio
 cs_plans_service_promotions = Show promotions on the website
 cs_plans_service_banner = Show banner on the forum with latest status update
 cs_plans_service_adwords = Authorized use of trademark in Google AdWords (min. 6 months)
+cs_plans_service_forum_channel = Own forum channel for announcements
+cs_plans_service_news_publishing = Publish articles in our news and social media sites (Q1 2016)
 
 cs_pricing_please_select = Please Select
 cs_pricing_1_month = 1 Month
