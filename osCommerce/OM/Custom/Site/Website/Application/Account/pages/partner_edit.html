@@ -11,7 +11,7 @@
 
       <h2>{value}partner_campaign title{value} <small>(in {value}partner_campaign category_title{value})</small></h2>
 
-      <form id="formPartnerEdit" action="{link}Account|Website|Partner&Edit={raw}partner_campaign code{raw}&Process{link}" method="post" enctype="multipart/form-data">{formprotect}public_token{formprotect}
+      <form id="formPartnerEdit" action="{link}Account|Website|Partner&Edit={raw}partner_campaign code{raw}&Process|SSL{link}" method="post" enctype="multipart/form-data">{formprotect}public_token{formprotect}
         <fieldset>
           <legend class="legend-warning">{lang}partner_information_page{lang} <span class="pull-right small" style="margin-top: 5px;">{lang}partner_required_fields{lang}</span></legend>
 
@@ -281,7 +281,7 @@
           </div>
         </div>
 
-        <p><button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button> <a href="{link}Account|Website|Partner{link}" class="btn btn-link">{lang}partner_button_cancel{lang}</a></p>
+        <p><button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button> <a href="{link}Account|Website|Partner|SSL{link}" class="btn btn-link">{lang}partner_button_cancel{lang}</a></p>
       </form>
     </div>
   </div>
