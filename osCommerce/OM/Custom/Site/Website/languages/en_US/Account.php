@@ -221,6 +221,9 @@ email_partner_update_subject = osCommerce Partner Information Page Updated
 
 partner_view_html_title = :partner_title | osCommerce
 
+partner_extension_title = Partnership Extension
+partner_extension_description = Please select the plan and duration to extend the partnership with.
+
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold
 
@@ -248,3 +251,7 @@ cs_pricing_info = All prices are in Euro. German residents will be additionally 
 cs_purchase_button = <i class="fa fa-paypal"></i> Pay at PayPal
 
 email_partner_extension_subject = osCommerce Partnership Extension
+
+partner_extension_after_payment_title = What happens after payment is made?
+partner_extension_after_payment_description = <p>After payment has been made, the partnership is immediately extended for the chosen amount of time. This is added to the duration of an existing and running partnership duration, or reactivates an expired partnership duration starting right now from the date the payment was made.</p>
+<p>An invoice for the partnership extension will be provided within 48 hours.</p>
