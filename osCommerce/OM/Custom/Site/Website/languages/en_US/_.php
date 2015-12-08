@@ -31,7 +31,7 @@ cs_pricing_3_months = 3 Months
 cs_pricing_6_months = 6 Months
 cs_pricing_12_months = 12 Months
 
-cs_pricing_info = All prices are in Euro. German residents will be additionally taxed 19% (MwSt.).
+cs_pricing_info = All prices are in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
 
 cs_interested_title = Interested?
 cs_sign_up_info = Community Sponsorships are managed through our forum and are linked to community profiles to keep track of the sponsorship duration.<br /><br />A free <a href="http://forums.oscommerce.com/index.php?app=core&module=global&section=register" target="_blank">community profile</a> is required.

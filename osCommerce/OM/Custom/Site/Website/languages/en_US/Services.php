@@ -40,7 +40,7 @@ cs_pricing_6_months = 6 Months
 cs_pricing_12_months = 12 Months
 cs_pricing_enquire = enquire
 
-cs_pricing_info = All prices are in Euro. German residents will be additionally taxed 19% (MwSt.).
+cs_pricing_info = All prices are in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
 
 cs_enquiry_title = Interested?
 cs_enquiry_info = Send us your enquiries at:
