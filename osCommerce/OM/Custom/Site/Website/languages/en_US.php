@@ -1,10 +1,8 @@
-# osCommerce Website
-#
-# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
-# @license BSD License; http://www.oscommerce.com/bsdlicense.txt
-
 html_lang_code = en
 html_page_title = osCommerce
+
+language_english = English
+language_german = German
 
 navbutton_us = Us
 navbutton_products = Products
@@ -30,5 +28,7 @@ social_facebook = Facebook
 social_facebook_title = Be our fan on Facebook
 social_github = GitHub
 social_github_title = Code with us on GitHub
+
+button_file_upload_label = Browse&hellip;
 
 error_form_protect_general = A general error occurred - please try again.

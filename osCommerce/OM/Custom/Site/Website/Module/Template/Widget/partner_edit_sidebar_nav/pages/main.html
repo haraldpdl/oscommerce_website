@@ -1,0 +1,35 @@
+<div id="sidebar" class="col-sm-3 col-sm-push-9">
+  <div class="panel panel-primary">
+    <div class="panel-heading">{lang}sidebar_nav_partner_title{lang}</div>
+
+    <div class="panel-body">
+      <ul class="nav nav-pills" id="pnTabs">
+        <li id="pnPage" class="active"><a href="#pPage" role="tab" data-toggle="tab">{lang}sidebar_nav_partner_page{lang}</a></li>
+        <li id="pnPromotion"><a href="#pPromotion" role="tab" data-toggle="tab">{lang}sidebar_nav_partner_promotion{lang}</a></li>
+        <li id="pnBanner"><a href="#pBanner" role="tab" data-toggle="tab">{lang}sidebar_nav_partner_banner{lang}</a></li>
+        <li id="pnStatusUpdate"><a href="#pStatusUpdate" role="tab" data-toggle="tab">{lang}sidebar_nav_partner_status_update{lang}</a></li>
+        <li id="pnCarousel"><a href="#pCarousel" role="tab" data-toggle="tab">{lang}sidebar_nav_partner_carousel{lang}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-xs-6">
+    <button id="saveButton" class="btn btn-success btn-block" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button>
+  </div>
+
+  <div class="col-xs-6">
+    <a href="{link}Account|Website|Partner|SSL{link}" class="btn btn-warning btn-block">{lang}partner_button_cancel{lang}</a>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#formPartnerEdit').submit(function() {
+    $('#saveButton').button('processing');
+  });
+
+  $('#saveButton').on('click', function(e) {
+    $('#formPartnerEdit').submit();
+  });
+});
+</script>

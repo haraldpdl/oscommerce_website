@@ -137,12 +137,20 @@ partner_empty = There are currently no campaigns available. <a href="{link}Servi
 
 partner_multiple_discount_info = Multiple partnerships are available with discounts! Enquire to find out!
 
+button_partner_extend = Extend
+button_partner_view = View
+button_partner_edit = Edit
+button_partner_history = History
+
 partner_required_fields = * Required fields
 partner_information_page = Partner Information Page
 partner_promotion = Promotion
 partner_banner = Banner
-partner_news = News Announcement
+partner_news = Status Update
 partner_carousel = Front Page Carousel Promotion
+
+partner_panel_gold_only = This panel is only available to Gold Level Partners.
+partner_panel_carousel_not_yet_enabled = The Front Page Carousel Promotion has not yet been enabled for your partnership.
 
 partner_field_desc_short_title = Short Description
 partner_field_desc_short_desc = Max 450 characters; No HTML; Line breaks ignored
@@ -255,3 +263,6 @@ email_partner_extension_subject = osCommerce Partnership Extension
 partner_extension_after_payment_title = What happens after payment is made?
 partner_extension_after_payment_description = <p>After payment has been made, the partnership is immediately extended for the chosen amount of time. This is added to the duration of an existing and running partnership duration, or reactivates an expired partnership duration starting right now from the date the payment was made.</p>
 <p>An invoice for the partnership extension will be provided within 48 hours.</p>
+
+cs_enquiry_title = Interested?
+cs_enquiry_info = Send us an enquiry at:
