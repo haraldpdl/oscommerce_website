@@ -11,12 +11,12 @@
   use osCommerce\OM\Core\OSCOM;
 
   class MessageStack extends \osCommerce\OM\Core\MessageStack {
-    public function get($group = null) {
+    public function get(string $group = null) : string {
       if ( empty($group) ) {
         $group = OSCOM::getSiteApplication();
       }
 
-      $result = false;
+      $result = '';
 
       if ( $this->exists($group) ) {
         $result = '';
