@@ -31,21 +31,19 @@
       if ( !OSCOM::isRPC() ) {
         if ( isset($_COOKIE[$OSCOM_Session->getName()]) ) {
           $OSCOM_Session->start();
-          Registry::get('MessageStack')->loadFromSession();
 
           if ( !isset($_SESSION[OSCOM::getSite()]['Account']) && (OSCOM::getSiteApplication() != 'Account') ) {
             $OSCOM_Session->kill();
           }
         }
 
-        if ( !isset($_SESSION[OSCOM::getSite()]['Account']) ) {
+        if ( !$OSCOM_Session->hasStarted() || !isset($_SESSION[OSCOM::getSite()]['Account']) ) {
           if ( isset($_COOKIE['member_id']) && is_numeric($_COOKIE['member_id']) && ($_COOKIE['member_id'] > 0) && isset($_COOKIE['pass_hash']) && (strlen($_COOKIE['pass_hash']) == 32) ) {
             $user = Invision::canAutoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']);
 
             if ( is_array($user) && isset($user['id']) && ($user['verified'] === true) && ($user['banned'] === false) ) {
               if ( !$OSCOM_Session->hasStarted() ) {
                 $OSCOM_Session->start();
-                Registry::get('MessageStack')->loadFromSession();
               }
 
               $_SESSION[OSCOM::getSite()]['Account'] = $user;
@@ -85,7 +83,7 @@
       $OSCOM_Template->setValue('current_year', date('Y'));
       $OSCOM_Template->setValue('in_ssl', OSCOM::getRequestType() == 'SSL');
 
-      if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {
+      if ( $OSCOM_Session->hasStarted() && isset($_SESSION[OSCOM::getSite()]['Account']) ) {
         $OSCOM_Template->setValue('user', $_SESSION[OSCOM::getSite()]['Account']);
       }
     }

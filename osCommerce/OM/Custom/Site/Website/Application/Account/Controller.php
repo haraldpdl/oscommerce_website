@@ -19,7 +19,6 @@
 
       if ( !$OSCOM_Session->hasStarted() ) {
         $OSCOM_Session->start();
-        Registry::get('MessageStack')->loadFromSession();
       }
 
       if ( !isset($_SESSION[OSCOM::getSite()]['public_token']) ) {
