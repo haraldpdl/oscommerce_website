@@ -29,7 +29,7 @@
         while ( $Qnews->fetch() ) {
           $news_article = nl2br($Qnews->value('body'));
 
-          if ( strlen($Qnews->value('image')) > 0 ) {
+          if ( $Qnews->hasValue('image') ) {
             $news_article = '<img src="http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/news/' . $Qnews->value('image')) . '" alt="" />' . "\n" . $news_article;
           }
 
