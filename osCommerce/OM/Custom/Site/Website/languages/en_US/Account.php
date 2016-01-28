@@ -1,8 +1,3 @@
-# osCommerce Website
-#
-# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
-# @license BSD License; http://www.oscommerce.com/bsdlicense.txt
-
 account_html_title = My Account | osCommerce
 account_title = My Account
 
@@ -224,6 +219,7 @@ partner_error_carousel_image_url_length = Carousel Image URL must not be greater
 
 partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
+partner_error_campaign_billing_not_available = Billing is not yet available for this campaign and cannot be extended at this time.
 
 email_partner_update_subject = osCommerce Partner Information Page Updated
 

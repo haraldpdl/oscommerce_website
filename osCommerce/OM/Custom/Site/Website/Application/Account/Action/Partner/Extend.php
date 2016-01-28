@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
+ * @copyright (c) 2016 osCommerce; http://www.oscommerce.com
  * @license BSD; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -28,6 +28,12 @@ class Extend
         }
 
         $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Extend']);
+
+        if ((int)$partner_campaign['billing_country_id'] < 1) {
+            Registry::get('MessageStack')->add('partner', OSCOM::getDef('partner_error_campaign_billing_not_available'), 'error');
+
+            OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner', 'SSL'));
+        }
 
         $OSCOM_Template->setValue('partner_campaign', $partner_campaign);
         $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner_campaign['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner_campaign['image_big'])));
