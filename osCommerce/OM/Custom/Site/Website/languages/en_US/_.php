@@ -65,3 +65,6 @@ paypal_app_release_compatibility = <p>The PayPal App is optimized for and will b
 
 paypal_app_button_documentation = View Documentation
 paypal_app_button_download = Download PayPal App
+
+link_partner_website = Visit :title Website
+link_contact_partner = Contact :title
