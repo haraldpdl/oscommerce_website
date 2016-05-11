@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <a href="{link}Services|Website|{raw}services_action{raw}{link}"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a>
+    <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="hidden-xs"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a>
   </div>
 
   <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
@@ -37,7 +37,7 @@
       <p>{nl2br}{parse b u i url ul}{value}partner desc_long{value}{parse}{nl2br}</p>
 
 {ifvalue partner youtube_video_id}
-      <div style="text-align: center; padding-bottom: 20px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" frameborder="0" allowfullscreen></iframe></div>
+      <div class="embed-responsive embed-responsive-16by9" style="margin-bottom: 20px;"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" allowfullscreen></iframe></div>
 {ifvalue}
 
       <address class="jumbotron">
@@ -62,6 +62,8 @@
 
         </p>
       </address>
+
+      <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="visible-xs"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a>
     </div>
   </div>
 </div>
