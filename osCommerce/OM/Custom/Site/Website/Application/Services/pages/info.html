@@ -11,8 +11,8 @@
         <ul class="nav nav-pills">
 
 {ifvalue partner app_code}
-          <li><a href="http://addons.oscommerce.com/service/{value}partner app_code{value}">View Apps</a></li>
-          <li><a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}">View Documentation</a></li>
+          <li><a href="http://addons.oscommerce.com/service/{value}partner app_code{value}">{lang}link_view_apps{lang}</a></li>
+          <li><a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}">{lang}link_view_documentation{lang}</a></li>
 {ifvalue}
 
           <li><a href="{value}partner url{value}" target="_blank">{lang}link_partner_website title="{value}partner title{value}"{lang}</a></li>
@@ -57,7 +57,7 @@
 {ifvalue}
 
 {ifvalue partner telephone}
-          <i class="fa fa-fw fa-phone"></i> <a href="tel:{value}partner telephone{value}">{value}partner telephone{value}</a>
+          <i class="fa fa-fw fa-phone"></i> {value}partner telephone{value}
 {ifvalue}
 
         </p>

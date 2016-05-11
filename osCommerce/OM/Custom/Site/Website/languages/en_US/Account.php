@@ -189,6 +189,11 @@ partner_button_save = Save
 partner_button_processing = Processing..
 partner_button_cancel = Cancel
 
+link_view_apps = View Apps
+link_view_documentation = View Documentation
+link_partner_website = Visit :title Website
+link_contact_partner = Contact :title
+
 button_visit_partner_website = Visit Partner Website
 
 partner_error_desc_short_empty = Short Description must be provided.

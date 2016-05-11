@@ -54,6 +54,8 @@ button_partner_with_us = Partner with us
 button_find_out_more = Find out more
 button_visit_partner_website = Visit Partner Website
 
+link_view_apps = View Apps
+link_view_documentation = View Documentation
 link_partner_website = Visit :title Website
 link_contact_partner = Contact :title
 link_back_to_listing = Back to listing
