@@ -136,6 +136,7 @@ button_partner_extend = Extend
 button_partner_view = View
 button_partner_edit = Edit
 button_partner_history = History
+button_partner_sites = Sites
 
 partner_required_fields = * Required fields
 partner_information_page = Partner Information Page
@@ -145,7 +146,7 @@ partner_news = Status Update
 partner_carousel = Front Page Carousel Promotion
 
 partner_panel_gold_only = This panel is only available to Gold Level Partners.
-partner_panel_carousel_not_yet_enabled = The Front Page Carousel Promotion has not yet been enabled for your partnership.
+partner_panel_carousel_not_yet_enabled = The Front Page Carousel Promotion has not yet been enabled for your partnership plan.
 
 partner_field_desc_short_title = Short Description
 partner_field_desc_short_desc = Max 450 characters; No HTML; Line breaks ignored
@@ -232,6 +233,30 @@ partner_view_html_title = :partner_title | osCommerce
 
 partner_extension_title = Partnership Extension
 partner_extension_description = Please select the plan and duration to extend the partnership with.
+
+partner_sites_title = Live Site Showcases
+
+partner_sites_not_active = Live Site Showcases is not currently enabled for your partnership plan.
+
+button_partner_visit_showcase = Visit Your Live Sites Showcase
+button_partner_visit_live_sites = Visit Live Sites
+
+partner_table_heading_showcase = Showcase
+partner_select_site_to_showcase = Select a site below to add as a showcase.
+partner_table_heading_sites = Sites
+partner_no_sites_to_add_to_showcase = No new sites are currently available.
+partner_showcase_add_site_intro = New sites can be added at the Live Sites website.
+
+partner_error_site_nonexistent = The site does not exist.
+partner_error_site_action_unknown = The requested action could not be performed. Please try again.
+partner_error_site_already_showcase = The site has already been added to the showcase.
+partner_error_site_showcase_add = The site could not be added to the showcase. Please try again.
+partner_error_site_showcase_nonexistent = The showcase site does not exist.
+partner_error_site_showcase_remove = The site could not be removed from the showcase. Please try again.
+partner_error_max_site_showcase = The maximum number of live site showcases has been reached in your partnership plan.
+
+partner_success_site_showcase_add = The site has been successfully added to the showcase.
+partner_success_site_showcase_remove = The site was successfully removed from the showcase.
 
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold

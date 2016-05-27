@@ -1,0 +1,21 @@
+<div id="highlights">
+  {raw}partner_header{raw}
+</div>
+
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <h1>{value}partner_campaign title{value} <small>(in {value}partner_campaign category_title{value})</small></h1>
+
+      <h2>{lang}partner_sites_title{lang}</h2>
+
+      {widget}message_stack|partner{widget}
+
+      <div class="alert alert-warning">{lang}partner_sites_not_active{lang}</div>
+
+      <p><a href="{link}Account|Website|Partner|SSL{link}"><i class="fa fa-caret-left"></i> {lang}partner_back_to_campaigns{lang}</a></p>
+    </div>
+  </div>
+</div>

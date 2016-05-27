@@ -1,0 +1,122 @@
+<div id="highlights">
+  {raw}partner_header{raw}
+</div>
+
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <h1>{value}partner_campaign title{value} <small>(in {value}partner_campaign category_title{value})</small></h1>
+
+      <h2>{lang}partner_sites_title{lang}</h2>
+
+      {widget}message_stack|partner{widget}
+
+      {ifvalue partner_showcase}
+      <p class="pull-right">
+        <a class="btn btn-info" href="{link}Index|Sites|Showcase&{value}partner_campaign category_code{value}&{value}partner_campaign code{value}{link}">{lang}button_partner_visit_showcase{lang}</a>
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">{lang}partner_table_heading_showcase{lang} ({value}partner_showcase_total{value} of {value}partner_showcase_max{value})</th>
+          </tr>
+        </thead>
+        <tbody>
+        {loop partner_showcase}
+          <tr>
+            <td><a href="{link}Index|Sites|Go=%public_id%{link}" rel="nofollow noopener noreferrer" target="_blank">#title#</a></td>
+            <td align="right"><a href="#" onclick="processSite(event, '#public_id#', 'remove');"><i class="fa fa-minus-circle" style="color: #d9534f;"></i></a></td>
+          </tr>
+        {loop}
+        </tbody>
+      </table>
+      {else}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{lang}partner_table_heading_showcase{lang} (max {value}partner_showcase_max{value})</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="warning">{lang}partner_select_site_to_showcase{lang}</td>
+          </tr>
+        </tbody>
+      </table>
+      {ifvalue}
+
+      {ifvalue partner_sites}
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">{lang}partner_table_heading_sites{lang}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {loop partner_sites}
+          <tr>
+            <td><a href="{link}Index|Sites|Go=%public_id%{link}" rel="nofollow noopener noreferrer" target="_blank">#title#</a></td>
+            <td align="right"><a href="#" onclick="processSite(event, '#public_id#', 'add');"><i class="fa fa-plus-circle" style="color: #5cb85c;"></i></a></td>
+          </tr>
+        {loop}
+        </tbody>
+      </table>
+      {else}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{lang}partner_table_heading_sites{lang}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="warning">{lang}partner_no_sites_to_add_to_showcase{lang}</td>
+          </tr>
+        </tbody>
+      </table>
+      {ifvalue}
+
+      <div class="bg-success" style="padding: 15px;">
+        <p>{lang}partner_showcase_add_site_intro{lang}</p>
+        <a class="btn btn-success" href="{link}Index|Sites{link}">{lang}button_partner_visit_live_sites{lang}</a>
+      </div>
+
+      <p><a href="{link}Account|Website|Partner|SSL{link}"><i class="fa fa-caret-left"></i> {lang}partner_back_to_campaigns{lang}</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function processSite(e, publicId, action) {
+  e.preventDefault();
+
+  $('<form>', {
+    'action': '{link}Account|Website|Partner&Sites={value}partner_campaign code{value}&Process{link}',
+    'method': 'post',
+    'id': 'siteProcessForm'
+    }).appendTo('body');
+
+  $('<input>', {
+    'name': 'public_token',
+    'value': '{value md5}public_token{value}',
+    'type': 'hidden'
+  }).appendTo('#siteProcessForm');
+
+  $('<input>', {
+    'name': 'public_id',
+    'value': publicId,
+    'type': 'hidden'
+  }).appendTo('#siteProcessForm');
+
+  $('<input>', {
+    'name': 'action',
+    'value': action,
+    'type': 'hidden'
+  }).appendTo('#siteProcessForm');
+
+  $('#siteProcessForm').submit();
+}
+</script>
