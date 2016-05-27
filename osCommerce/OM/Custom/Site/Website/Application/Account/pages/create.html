@@ -47,7 +47,14 @@
           </label>
         </div>
 
-        <p><button type="submit" id="createButton" class="btn btn-info" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button></p>
+        <p>
+          <button type="submit" id="createButton" class="btn btn-info" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button>
+
+{ifvalue login_redirect_cancel_text}
+          <a href="{link}Account|Website|Login&Redirect|SSL{link}" class="btn btn-link">{value}login_redirect_cancel_text{value}</a>
+{ifvalue}
+
+        </p>
       </form>
     </div>
   </div>

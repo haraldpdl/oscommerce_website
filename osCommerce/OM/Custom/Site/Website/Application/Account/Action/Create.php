@@ -2,28 +2,35 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/bsdlicense.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
+namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
 
-  use osCommerce\OM\Core\ApplicationAbstract;
-  use osCommerce\OM\Core\OSCOM;
-  use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    ApplicationAbstract,
+    OSCOM,
+    Registry
+};
 
-  class Create {
-    public static function execute(ApplicationAbstract $application) {
-      $OSCOM_Template = Registry::get('Template');
+class Create
+{
+    public static function execute(ApplicationAbstract $application)
+    {
+        $OSCOM_Template = Registry::get('Template');
 
-      if ( isset($_SESSION[OSCOM::getSite()]['Account']) ) {
-        OSCOM::redirect(OSCOM::getLink(null, 'Account', null, 'SSL'));
-      }
+        if (isset($_SESSION[OSCOM::getSite()]['Account'])) {
+            OSCOM::redirect(OSCOM::getLink(null, 'Account', null, 'SSL'));
+        }
 
-      $application->setPageContent('create.html');
-      $application->setPageTitle(OSCOM::getDef('create_html_title'));
+        if (isset($_SESSION['login_redirect']) && isset($_SESSION['login_redirect']['cancel_url']) && isset($_SESSION['login_redirect']['cancel_text'])) {
+            $OSCOM_Template->setValue('login_redirect_cancel_text', $_SESSION['login_redirect']['cancel_text']);
+        }
 
-      $OSCOM_Template->addHtmlHeaderTag('<script src="https://www.google.com/recaptcha/api.js"></script>');
+        $application->setPageContent('create.html');
+        $application->setPageTitle(OSCOM::getDef('create_html_title'));
+
+        $OSCOM_Template->addHtmlHeaderTag('<script src="https://www.google.com/recaptcha/api.js"></script>');
     }
-  }
-?>
+}

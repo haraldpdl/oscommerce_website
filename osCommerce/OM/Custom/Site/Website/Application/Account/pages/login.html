@@ -32,7 +32,14 @@
           <span class="help-block"><span class="text-muted small">{lang}login_remember_me_note{lang}</span></span>
         </div>
 
-        <p><button type="submit" id="loginButton" class="btn btn-info" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button></p>
+        <p>
+          <button type="submit" id="loginButton" class="btn btn-info" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button>
+
+{ifvalue login_redirect_cancel_text}
+          <a href="{link}Account|Website|Login&Redirect|SSL{link}" class="btn btn-link">{value}login_redirect_cancel_text{value}</a>
+{ifvalue}
+
+        </p>
       </form>
     </div>
   </div>
