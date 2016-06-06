@@ -18,7 +18,7 @@ class UserHasInvoices
 
         $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_account_invoices where user_id = :user_id limit 1');
         $Qcheck->bindInt(':user_id', $data['user_id']);
-        $Qcheck->setCache('users-' . $data['user_id'] . '-invoices-check', 1440);
+        $Qcheck->setCache('users-' . $data['user_id'] . '-invoices-check', 1440, true);
         $Qcheck->execute();
 
         return $Qcheck->fetch() !== false;
