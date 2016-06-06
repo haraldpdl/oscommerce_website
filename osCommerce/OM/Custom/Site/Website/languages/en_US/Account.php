@@ -292,3 +292,17 @@ partner_extension_after_payment_description = <p>After payment has been made, th
 
 cs_enquiry_title = Interested?
 cs_enquiry_info = Send us an enquiry at:
+
+invoices_html_title = Invoices | osCommerce
+invoices_title = Invoices
+
+invoices_list_invoice_heading = Invoice
+invoices_list_cost_heading = Cost
+
+invoices_status_pending = Pending
+invoices_status_paid = Paid
+
+invoices_empty = There are currently no invoices available to download.
+
+error_invoice_nonexistent = The requested invoice could not be found. Please try again.
+error_invoice_file_nonexistent = The requested invoice could not be downloaded. Please try again.

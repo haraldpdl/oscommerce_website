@@ -1,0 +1,50 @@
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <h1>{lang}invoices_title{lang}</h1>
+
+      {widget}message_stack|account{widget}
+
+      <table class="table table-hover table-condensed" id="invlist">
+        <thead>
+          <tr>
+            <th>{lang}invoices_list_invoice_heading{lang}</th>
+            <th>{lang}invoices_list_cost_heading{lang}</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+
+        {loop invoices}
+          <tr>
+            <td>#title# <small>#number#</small><br /><small>#date_formatted#</small></td>
+            <td>#cost_formatted#</td>
+            <td data-statuscode="#status_code#"></td>
+            <td align="right"><a href="{link}Account|Website|Invoices&Get=%number%&token={value md5}public_token{value}|SSL{link}"><i class="text-success glyphicon glyphicon-download-alt"></i></a></td>
+          </tr>
+        {loop}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#invlist tbody tr td[data-statuscode]').each(function(key, value) {
+    switch ($(this).data('statuscode')) {
+      case 'pending':
+        $(value).html('<span class="label label-warning">{lang}invoices_status_pending{lang}</span>');
+        break;
+
+      case 'paid':
+        $(value).html('<span class="label label-success">{lang}invoices_status_paid{lang}</span>');
+        break;
+    }
+  });
+});
+</script>
