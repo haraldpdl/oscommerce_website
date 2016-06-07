@@ -33,7 +33,21 @@ class Invoices
         }
 
         if (InvoicesClass::hasInvoices($_SESSION[OSCOM::getSite()]['Account']['id'])) {
-            $OSCOM_Template->setValue('invoices', InvoicesClass::getAll($_SESSION[OSCOM::getSite()]['Account']['id']));
+            $invoices = [];
+
+            foreach (InvoicesClass::getAll($_SESSION[OSCOM::getSite()]['Account']['id']) as $invoice) {
+                $invoices[] = [
+                    'year' => date_format(new \DateTime($invoice['date']), 'Y'),
+                    'number' => $invoice['number'],
+                    'date' => $invoice['date_formatted'],
+                    'title' => $invoice['title'],
+                    'cost' => $invoice['cost_formatted'],
+                    'status' => $invoice['status_code']
+                ];
+            }
+
+            $OSCOM_Template->setValue('invoices', $invoices);
+            $OSCOM_Template->setValue('invoices_link', OSCOM::getLink(null, 'Account', 'Invoices&Get=%number%&token=' . md5($OSCOM_Template->getValue('public_token')), 'SSL'));
 
             $application->setPageContent('invoices.html');
         } else {

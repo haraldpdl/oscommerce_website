@@ -7,44 +7,63 @@
 
       {widget}message_stack|account{widget}
 
-      <table class="table table-hover table-condensed" id="invlist">
-        <thead>
-          <tr>
-            <th>{lang}invoices_list_invoice_heading{lang}</th>
-            <th>{lang}invoices_list_cost_heading{lang}</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+      <p>{lang}invoices_introduction{lang}</p>
 
-        {loop invoices}
-          <tr>
-            <td>#title# <small>#number#</small><br /><small>#date_formatted#</small></td>
-            <td>#cost_formatted#</td>
-            <td data-statuscode="#status_code#"></td>
-            <td align="right"><a href="{link}Account|Website|Invoices&Get=%number%&token={value md5}public_token{value}|SSL{link}"><i class="text-success glyphicon glyphicon-download-alt"></i></a></td>
-          </tr>
-        {loop}
-
-        </tbody>
-      </table>
+      <div class="panel-group" id="invlist" role="tablist" aria-multiselectable="true"></div>
     </div>
   </div>
 </div>
 
 <script>
 $(function() {
-  $('#invlist tbody tr td[data-statuscode]').each(function(key, value) {
-    switch ($(this).data('statuscode')) {
+  var invoices = {raw json_encode}invoices{raw};
+  var invoices_link = {raw json_encode}invoices_link{raw};
+
+  var invoices_current_year = null;
+
+  for (var i = 0, n = invoices.length; i < n; i++ ) {
+    if (invoices_current_year !== invoices[i].year) {
+      invoices_current_year = invoices[i].year;
+
+      $('#invlist').append(
+        '<div id="panel' + invoices[i].year + '" class="panel panel-info">' +
+        '  <div class="panel-heading" role="tab" id="heading' + invoices[i].year + '">' +
+        '    <h4 class="panel-title">' +
+        '      <a role="button" data-toggle="collapse" data-parent="#invlist" href="#collapse' + invoices[i].year + '" aria-expanded="true" aria-controls="collapse' + invoices[i].year + '">' + invoices[i].year + '</a>' +
+        '    </h4>' +
+        '  </div>' +
+        '  <div id="collapse' + invoices[i].year + '" class="panel-collapse collapse' + (i === 0 ? ' in' : '') + '" role="tabpanel" aria-labelledby="heading' + invoices[i].year + '">' +
+        '    <div class="panel-body">' +
+        '      <table class="table table-hover table-condensed">' +
+        '        <tbody>' +
+        '        </tbody>' +
+        '      </table>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>'
+      );
+    }
+
+    var status = '';
+
+    switch (invoices[i].status) {
       case 'pending':
-        $(value).html('<span class="label label-warning">{lang}invoices_status_pending{lang}</span>');
+        status = '<span class="label label-warning">{lang}invoices_status_pending{lang}</span>';
         break;
 
       case 'paid':
-        $(value).html('<span class="label label-success">{lang}invoices_status_paid{lang}</span>');
+        status = '<span class="label label-success">{lang}invoices_status_paid{lang}</span>';
         break;
     }
-  });
+
+    $('#collapse' + invoices[i].year + ' .panel-body table tbody').append(
+      '<tr>' +
+      '  <td>' + invoices[i].title + ' <small>' + invoices[i].number + '</small><br /><small>' + invoices[i].date + '</small></td>' +
+      '  <td>' + invoices[i].cost + '</td>' +
+      '  <td>' + status + '</td>' +
+      '  <td align="right"><a href="' + invoices_link.replace('%number%', invoices[i].number) + '"><i class="text-success glyphicon glyphicon-download-alt"></i></a></td>' +
+      '</tr>'
+    );
+  }
 });
 </script>

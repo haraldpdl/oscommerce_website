@@ -296,8 +296,7 @@ cs_enquiry_info = Send us an enquiry at:
 invoices_html_title = Invoices | osCommerce
 invoices_title = Invoices
 
-invoices_list_invoice_heading = Invoice
-invoices_list_cost_heading = Cost
+invoices_introduction = The following invoices are available for download:
 
 invoices_status_pending = Pending
 invoices_status_paid = Paid
