@@ -41,6 +41,15 @@ class Template extends \osCommerce\OM\Core\Site\Admin\Template
     protected $html_elements = [];
 
 /**
+ * HPDL: Temporarily override core method to avoid double encoding with HTML::outputProtected() and template {value} tag
+ */
+
+    public function getPageTitle()
+    {
+        return $this->_application->getPageTitle();
+    }
+
+/**
  * Returns the html tags of the page
  *
  * @access public
