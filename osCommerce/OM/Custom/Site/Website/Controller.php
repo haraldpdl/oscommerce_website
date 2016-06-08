@@ -66,7 +66,7 @@
       $OSCOM_Template->addHtmlTag('dir', $OSCOM_Language->getTextDirection());
       $OSCOM_Template->addHtmlTag('lang', OSCOM::getDef('html_lang_code')); // HPDL A better solution is to define the ISO 639-1 value at the language level
 
-      $OSCOM_Template->addHtmlHeaderTag('<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '" />');
+      $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '" />');
 
       $application = 'osCommerce\\OM\\Core\\Site\\Website\\Application\\' . OSCOM::getSiteApplication() . '\\Controller';
       Registry::set('Application', new $application());
@@ -77,7 +77,7 @@
       $OSCOM_Template->setValue('html_page_title', $OSCOM_Template->getPageTitle());
       $OSCOM_Template->setValue('html_page_contents_file', $OSCOM_Template->getPageContentsFile());
       $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
-      $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlHeaderTags());
+      $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlElements('header'));
       $OSCOM_Template->setValue('site_req', [ 'site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun() ]);
       $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
       $OSCOM_Template->setValue('current_year', date('Y'));

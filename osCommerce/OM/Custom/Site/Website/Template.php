@@ -1,14 +1,17 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ *
+ * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/bsdlicense.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website;
+namespace osCommerce\OM\Core\Site\Website;
 
-  class Template extends \osCommerce\OM\Core\Site\Admin\Template {
+use osCommerce\OM\Core\HTML;
+
+class Template extends \osCommerce\OM\Core\Site\Admin\Template
+{
 
 /**
  * Holds the template name value
@@ -26,16 +29,16 @@
  * @access protected
  */
 
-    protected $_html_tags = array();
+    protected $html_tags = [];
 
 /**
- * Holds the html header tags of the page
+ * Holds the html elements of the page
  *
  * @var array
  * @access protected
  */
 
-    protected $_html_header_tags = array();
+    protected $html_elements = [];
 
 /**
  * Returns the html tags of the page
@@ -44,14 +47,15 @@
  * @return string
  */
 
-    public function getHtmlTags() {
-      $tag_string = '';
+    public function getHtmlTags()
+    {
+        $tag_string = '';
 
-      foreach ( $this->_html_tags as $key => $values) {
-        $tag_string .= $key . '="' . implode(' ', $values) . '" ';
-      }
+        foreach ($this->html_tags as $key => $values) {
+            $tag_string .= HTML::outputProtected($key) . '="' . HTML::outputProtected(implode(' ', $values)) . '" ';
+        }
 
-      return trim($tag_string);
+        return trim($tag_string);
     }
 
 /**
@@ -61,8 +65,9 @@
  * @return boolean
  */
 
-    public function hasHtmlTags() {
-      return !empty($this->_html_tags);
+    public function hasHtmlTags()
+    {
+        return !empty($this->html_tags);
     }
 
 /**
@@ -73,8 +78,9 @@
  * @param string $value The value of the html tag
  */
 
-    public function addHtmlTag($key, $value) {
-      $this->_html_tags[$key][] = $value;
+    public function addHtmlTag($key, $value)
+    {
+        $this->html_tags[$key][] = $value;
     }
 
 /**
@@ -84,8 +90,19 @@
  * @return string
  */
 
-    public function getHtmlHeaderTags() {
-      return implode("\n", $this->_html_header_tags);
+    public function getHtmlElements(string $group = null): string
+    {
+        if (isset($group)) {
+            return implode("\n", $this->html_elements[$group]);
+        }
+
+        $result = '';
+
+        foreach ($this->html_elements as $g) {
+            $result .= implode("\n", $g);
+        }
+
+        return $result;
     }
 
 /**
@@ -95,8 +112,13 @@
  * @return boolean
  */
 
-    public function hasHtmlHeaderTags() {
-      return !empty($this->_html_header_tags);
+    public function hasHtmlElements(string $group = null): bool
+    {
+        if (isset($group)) {
+            return isset($this->html_elements[$group]) && !empty($this->html_elements[$group]);
+        }
+
+        return !empty($this->html_elements);
     }
 
 /**
@@ -106,8 +128,8 @@
  * @param string $tag The value of the header tag
  */
 
-    public function addHtmlHeaderTag($tag) {
-      $this->_html_header_tags[] = $tag;
+    public function addHtmlElement(string $group, string $element)
+    {
+        $this->html_elements[$group][] = $element;
     }
-  }
-?>
+}

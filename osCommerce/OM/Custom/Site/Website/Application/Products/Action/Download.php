@@ -40,7 +40,7 @@
       }
 
       if ( !empty($_GET['Download']) && DownloadClass::exists($_GET['Download']) ) {
-        $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow" />');
+        $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow" />');
 
         $OSCOM_Template->setValue('download_file_title', DownloadClass::get($_GET['Download'], 'title') . ' ' . DownloadClass::get($_GET['Download'], 'version'));
 

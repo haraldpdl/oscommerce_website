@@ -42,7 +42,7 @@
         OSCOM::redirect(OSCOM::getLink('Website', 'Services'));
       }
 
-      $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow" />');
+      $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow" />');
 
       $OSCOM_Template->setValue('partner_title', $partner_title);
       $OSCOM_Template->setValue('partner_url', $partner_url);

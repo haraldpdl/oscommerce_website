@@ -31,6 +31,6 @@ class Create
         $application->setPageContent('create.html');
         $application->setPageTitle(OSCOM::getDef('create_html_title'));
 
-        $OSCOM_Template->addHtmlHeaderTag('<script src="https://www.google.com/recaptcha/api.js"></script>');
+        $OSCOM_Template->addHtmlElement('header', '<script src="https://www.google.com/recaptcha/api.js"></script>');
     }
 }

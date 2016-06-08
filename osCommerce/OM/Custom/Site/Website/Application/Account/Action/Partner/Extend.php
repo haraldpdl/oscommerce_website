@@ -49,9 +49,9 @@ class Extend
             ':partner_title' => $partner_campaign['title']
         ]));
 
-        $OSCOM_Template->addHtmlHeaderTag('<link rel="stylesheet" type="text/css" href="public/external/jquery/toastr/2.1.2/toastr.min.css" />');
-        $OSCOM_Template->addHtmlHeaderTag('<script src="public/external/jquery/toastr/2.1.2/toastr.min.js"></script>');
-        $OSCOM_Template->addHtmlHeaderTag('<script>
+        $OSCOM_Template->addHtmlElement('header', '<link rel="stylesheet" type="text/css" href="public/external/jquery/toastr/2.1.2/toastr.min.css" />');
+        $OSCOM_Template->addHtmlElement('header', '<script src="public/external/jquery/toastr/2.1.2/toastr.min.js"></script>');
+        $OSCOM_Template->addHtmlElement('header', '<script>
 toastr.options = {
   escapeHtml: true,
   closeButton: true,

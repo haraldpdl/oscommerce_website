@@ -25,7 +25,7 @@
         $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
       }
 
-      $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow" />');
+      $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow" />');
 
       $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
       $OSCOM_Template->setValue('recaptcha_pass', isset($_SESSION[OSCOM::getSite()]['recaptcha_pass']));
