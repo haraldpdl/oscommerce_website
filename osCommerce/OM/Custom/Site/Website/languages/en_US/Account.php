@@ -128,9 +128,9 @@ partner_title = Partner Dashboard
 
 partner_introduction = Please select a campaign to edit:
 
-partner_empty = There are currently no campaigns available. <a href="{link}Services|Website|Info{link}">Send us an enquiry</a> and we'll get back to you.
+partner_empty = There are currently no campaigns available. <a href="{link}Services|Website|Info{link}">Send us an inquiry</a> and we'll get back to you.
 
-partner_multiple_discount_info = Multiple partnerships are available with discounts! Enquire to find out!
+partner_multiple_discount_info = Multiple partnerships are available with discounts! Inquire to find out!
 
 button_partner_extend = Extend
 button_partner_view = View
@@ -263,7 +263,7 @@ cs_plans_title_gold = Gold
 
 cs_plans_service_partner = Displayed as a partner on the website
 cs_plans_service_information_page = Own partner information page
-cs_plans_service_commercial_enquiries = View and reply to commercial support enquiries on the forum
+cs_plans_service_commercial_inquiries = View and reply to commercial support inquiries on the forum
 cs_plans_service_commercial_feedback = Accept client feedback and reviews on the forum
 cs_plans_service_profile = Promoted community profile
 cs_plans_service_silver_level = Includes Silver Level
@@ -272,7 +272,8 @@ cs_plans_service_promotions = Show promotions on the website
 cs_plans_service_banner = Show banner on the forum with latest status update
 cs_plans_service_adwords = Authorized use of trademark in Google AdWords (min. 6 months)
 cs_plans_service_forum_channel = Own forum channel for announcements
-cs_plans_service_news_publishing = Publish articles in our news and social media sites (Q1 2016)
+cs_plans_service_news_publishing = Publish articles in our news and social media sites (coming soon)
+cs_plans_service_showcase_sites = Showcase customer websites
 
 cs_pricing_please_select = Please Select
 cs_pricing_1_month = 1 Month
@@ -290,8 +291,8 @@ partner_extension_after_payment_title = What happens after payment is made?
 partner_extension_after_payment_description = <p>After payment has been made, the partnership is immediately extended for the chosen amount of time. This is added to the duration of an existing and running partnership duration, or reactivates an expired partnership duration starting right now from the date the payment was made.</p>
 <p>An invoice for the partnership extension will be provided within 48 hours.</p>
 
-cs_enquiry_title = Interested?
-cs_enquiry_info = Send us an enquiry at:
+cs_inquiry_title = Interested?
+cs_inquiry_info = Send us an inquiry at:
 
 invoices_html_title = Invoices | osCommerce
 invoices_title = Invoices

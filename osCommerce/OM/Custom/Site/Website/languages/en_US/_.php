@@ -13,12 +13,12 @@ cs_html_page_title = Community Sponsorship | osCommerce
 
 cs_page_title = Community Sponsorship
 
-cs_main_content = <p>The Community Sponsorship is an all round wellness package with something in it for everyone. What started out as a way for community members to thank us for our work has been extended to highlight community profiles, live shop entries, and to view and reply to commercial enquiries posted on the forum.</p><p>Pricing starts from 10 &euro; / Month and includes:</p>
+cs_main_content = <p>The Community Sponsorship is an all round wellness package with something in it for everyone. What started out as a way for community members to thank us for our work has been extended to highlight community profiles, live shop entries, and to view and reply to commercial inquiries posted on the forum.</p><p>Pricing starts from 10 &euro; / Month and includes:</p>
 
 cs_plan_title = Community Sponsorship
 
 cs_plan_profile = Highlighted community profile
-cs_plan_commercial = View and reply to commercial enquiries on the forum
+cs_plan_commercial = View and reply to commercial inquiries on the forum
 cs_plan_commercial_feedback = Accept client feedback and reviews on the forum
 cs_plan_live_shop = Highlighted live shop entry
 cs_plan_chat = Start personal chats in the Live Chat room

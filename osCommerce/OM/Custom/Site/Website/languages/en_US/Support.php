@@ -14,9 +14,9 @@ partners_description = <p>We partner with experts around the world who focus on 
 button_partners = View our Partners
 
 hire_developers_title = Hire Developers
-hire_developers_description = <p>Our community is full of experts you can hook into and enquire about custom modifications, longer term jobs, and general help.</p>
-<p>A free <a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=register">community forum account</a> is required to submit commercial support enquiries.</p>
-button_hire_developers = Post an Enquiry
+hire_developers_description = <p>Our community is full of experts you can hook into and inquire about custom modifications, longer term jobs, and general help.</p>
+<p>A free <a href="http://forums.oscommerce.com/index.php?app=core&amp;module=global&amp;section=register">community forum account</a> is required to submit commercial support inquiries.</p>
+button_hire_developers = Post an Inquiry
 
 forum_title = Forum
 forum_description = <p>Over 1.6 Million postings have been made by over 280,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
