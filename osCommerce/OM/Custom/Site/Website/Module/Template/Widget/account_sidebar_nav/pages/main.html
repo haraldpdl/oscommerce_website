@@ -19,6 +19,10 @@
       </ul>
     </div>
   </div>
+
+{ifvalue sidebar_nav_extra_link}
+  <a href="{value}sidebar_nav_extra_link url{value}" class="hidden-xs"><i class="fa fa-caret-left"></i> {value}sidebar_nav_extra_link title{value}</a>
+{ifvalue}
 </div>
 
 <script>
