@@ -155,162 +155,109 @@
       return $result;
     }
 
-    public static function save($user_id, $code, $partner) {
-      $campaign = static::getCampaign($user_id, $code);
+    public static function save(int $user_id, string $code, array $partner): bool
+    {
+        $campaign = static::getCampaign($user_id, $code);
 
-      $data = array('id' => $campaign['id'],
-                    'code' => $code,
-                    'desc_short' => $partner['desc_short'],
-                    'desc_long' => $partner['desc_long'],
-                    'address' => isset($partner['address']) ? $partner['address'] : null,
-                    'telephone' => isset($partner['telephone']) ? $partner['telephone'] : null,
-                    'email' => isset($partner['email']) ? $partner['email'] : null,
-                    'youtube_video_id' => isset($partner['youtube_video_id']) ? $partner['youtube_video_id'] : null,
-                    'url' => $partner['url'],
-                    'public_url' => $partner['public_url'],
-                    'image_small' => isset($partner['image_small']) ? $partner['image_small'] : null,
-                    'image_big' => (($campaign['has_gold'] == '1') && isset($partner['image_big'])) ? $partner['image_big'] : null,
-                    'image_promo' => null,
-                    'image_promo_url' => null,
-                    'banner_image_en' => null,
-                    'banner_url_en' => null,
-                    'status_update_en' => null,
-                    'banner_image_de' => null,
-                    'banner_url_de' => null,
-                    'status_update_de' => null,
-                    'carousel_image' => null,
-                    'carousel_title' => null,
-                    'carousel_url' => null);
+        $fields = [
+            'desc_short' => $partner['desc_short'] ?? null,
+            'desc_long' => $partner['desc_long'] ?? null,
+            'address' => $partner['address'] ?? null,
+            'telephone' => $partner['telephone'] ?? null,
+            'email' => $partner['email'] ?? null,
+            'youtube_video_id' => $partner['youtube_video_id'] ?? null,
+            'url' => $partner['url'] ?? null,
+            'public_url' => $partner['public_url'] ?? null,
+            'image_small' => $partner['image_small'] ?? null,
+            'image_big' => $partner['image_big'] ?? null,
+            'image_promo' => $partner['image_promo'] ?? null,
+            'image_promo_url' => $partner['image_promo_url'] ?? null,
+            'banner_image_en' => $partner['banner_image_en'] ?? null,
+            'banner_url_en' => $partner['banner_url_en'] ?? null,
+            'status_update_en' => $partner['status_update_en'] ?? null,
+            'banner_image_de' => $partner['banner_image_de'] ?? null,
+            'banner_url_de' => $partner['banner_url_de'] ?? null,
+            'status_update_de' => $partner['status_update_de'] ?? null,
+            'carousel_image' => $partner['carousel_image'] ?? null,
+            'carousel_title' => $partner['carousel_title'] ?? null,
+            'carousel_url' => $partner['carousel_url'] ?? null,
+            'billing_address' => $partner['billing_address'] ?? null,
+            'billing_vat_id' => $partner['billing_vat_id'] ?? null
+        ];
 
-      if ( $campaign['has_gold'] == '1' ) {
-        if ( isset($partner['image_promo_url']) ) {
-          $data['image_promo_url'] = $partner['image_promo_url'];
+        $data = [
+            'id' => $campaign['id']
+        ];
 
-          if ( isset($partner['image_promo']) ) {
-            $data['image_promo'] = $partner['image_promo'];
-          }
+        foreach ($fields as $k => $v) {
+            if ($v !== null) {
+                $data[$k] = $v;
+            }
         }
 
-        if ( isset($partner['banner_url_en']) ) {
-          $data['banner_url_en'] = $partner['banner_url_en'];
+        if ((count($data) > 1) && (OSCOM::callDB('Website\PartnerSave', $data, 'Site') > 0)) {
+            static::auditLog($campaign, $data);
 
-          if ( isset($partner['banner_image_en']) ) {
-            $data['banner_image_en'] = $partner['banner_image_en'];
-          }
+            Cache::clear('website_partner-' . $code);
+            Cache::clear('website_partner_promotions');
+            Cache::clear('website_partners');
+            Cache::clear('website_carousel_frontpage');
+
+            return true;
         }
 
-        if ( isset($partner['status_update_en']) ) {
-          $data['status_update_en'] = $partner['status_update_en'];
-        }
-
-        if ( isset($partner['banner_url_de']) ) {
-          $data['banner_url_de'] = $partner['banner_url_de'];
-
-          if ( isset($partner['banner_image_de']) ) {
-            $data['banner_image_de'] = $partner['banner_image_de'];
-          }
-        }
-
-        if ( isset($partner['status_update_de']) ) {
-          $data['status_update_de'] = $partner['status_update_de'];
-        }
-
-        if ( isset($partner['carousel_url']) ) {
-          $data['carousel_url'] = $partner['carousel_url'];
-
-          if ( isset($partner['carousel_image']) ) {
-            $data['carousel_image'] = $partner['carousel_image'];
-          }
-
-          if ( isset($partner['carousel_title']) ) {
-            $data['carousel_title'] = $partner['carousel_title'];
-          }
-        }
-      }
-
-      if ( OSCOM::callDB('Website\PartnerSave', $data, 'Site') ) {
-        static::auditLog($campaign, $data);
-
-        Cache::clear('website_partner-' . $data['code']);
-        Cache::clear('website_partner_promotions');
-        Cache::clear('website_partners');
-        Cache::clear('website_carousel_frontpage');
-
-        return true;
-      }
-
-      return false;
+        return false;
     }
 
-    protected static function auditLog($orig, $new) {
-// file uploads are not always performed so non-uploaded file fields are removed for array_diff_assoc()
-      if ( $new['image_small'] === null ) {
-        unset($new['image_small']);
-      }
-
-      if ( $new['image_big'] === null ) {
-        unset($new['image_big']);
-      }
-
-      if ( $new['image_promo'] === null ) {
-        unset($new['image_promo']);
-      }
-
-      if ( $new['banner_image_en'] === null ) {
-        unset($new['banner_image_en']);
-      }
-
-      if ( $new['banner_image_de'] === null ) {
-        unset($new['banner_image_de']);
-      }
-
-      if ( $new['carousel_image'] === null ) {
-        unset($new['carousel_image']);
-      }
-
-      $diff = array_diff_assoc($new, $orig);
+    protected static function auditLog(array $orig, array $new)
+    {
+        $diff = array_diff_assoc($new, $orig);
 
 // new file uploads may share the same name as existing files so they are added manually to the array diff
-      if ( isset($new['image_small']) && ($new['image_small'] == $orig['image_small']) ) {
-        $diff['image_small'] = $new['image_small'];
-      }
-
-      if ( isset($new['image_big']) && ($new['image_big'] == $orig['image_big']) ) {
-        $diff['image_big'] = $new['image_big'];
-      }
-
-      if ( isset($new['image_promo']) && ($new['image_promo'] == $orig['image_promo']) ) {
-        $diff['image_promo'] = $new['image_promo'];
-      }
-
-      if ( isset($new['banner_image_en']) && ($new['banner_image_en'] == $orig['banner_image_en']) ) {
-        $diff['banner_image_en'] = $new['banner_image_en'];
-      }
-
-      if ( isset($new['banner_image_de']) && ($new['banner_image_de'] == $orig['banner_image_de']) ) {
-        $diff['banner_image_de'] = $new['banner_image_de'];
-      }
-
-      if ( isset($new['carousel_image']) && ($new['carousel_image'] == $orig['carousel_image']) ) {
-        $diff['carousel_image'] = $new['carousel_image'];
-      }
-
-      if ( !empty($diff) ) {
-        $data = [ 'action' => 'Partner',
-                  'id' => $orig['id'],
-                  'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
-                  'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
-                  'action_type' => 'update',
-                  'rows' => [ ] ];
-
-        foreach ( $diff as $key => $new_value ) {
-          $data['rows'][] = [ 'key' => $key,
-                              'old' => isset($orig[$key]) ? $orig[$key] : null,
-                              'new' => $new_value ];
+        if (isset($new['image_small']) && ($new['image_small'] == $orig['image_small'])) {
+            $diff['image_small'] = $new['image_small'];
         }
 
-        AuditLog::save($data);
-      }
+        if (isset($new['image_big']) && ($new['image_big'] == $orig['image_big'])) {
+            $diff['image_big'] = $new['image_big'];
+        }
+
+        if (isset($new['image_promo']) && ($new['image_promo'] == $orig['image_promo'])) {
+            $diff['image_promo'] = $new['image_promo'];
+        }
+
+        if (isset($new['banner_image_en']) && ($new['banner_image_en'] == $orig['banner_image_en'])) {
+            $diff['banner_image_en'] = $new['banner_image_en'];
+        }
+
+        if (isset($new['banner_image_de']) && ($new['banner_image_de'] == $orig['banner_image_de'])) {
+            $diff['banner_image_de'] = $new['banner_image_de'];
+        }
+
+        if (isset($new['carousel_image']) && ($new['carousel_image'] == $orig['carousel_image'])) {
+            $diff['carousel_image'] = $new['carousel_image'];
+        }
+
+        if (!empty($diff)) {
+            $data = [
+                'action' => 'Partner',
+                'id' => $orig['id'],
+                'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
+                'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
+                'action_type' => 'update',
+                'rows' => []
+            ];
+
+            foreach ($diff as $key => $new_value) {
+                $data['rows'][] = [
+                    'key' => $key,
+                    'old' => $orig[$key] ?? null,
+                    'new' => $new_value
+                ];
+            }
+
+            AuditLog::save($data);
+        }
     }
 
     public static function getProductPlan($plan, $duration)

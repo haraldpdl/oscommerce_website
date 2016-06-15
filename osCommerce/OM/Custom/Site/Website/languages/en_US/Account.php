@@ -137,6 +137,7 @@ button_partner_view = View
 button_partner_edit = Edit
 button_partner_history = History
 button_partner_sites = Sites
+button_partner_billing = Billing
 
 partner_required_fields = * Required fields
 partner_information_page = Partner Information Page
@@ -182,8 +183,7 @@ partner_field_carousel_image_desc = 1200 x 364px; png jpg
 partner_field_carousel_image_title_title = Image Text (Mouse Popover)
 partner_field_carousel_image_url_title = URL
 
-partner_view_current_image = View Current
-partner_german_language_requirement = All fields must be in German!
+partner_german_language_requirement = All fields optional and must be in German.
 partner_back_to_campaigns = Back to campaigns
 
 partner_button_save = Save
@@ -209,19 +209,24 @@ partner_error_public_url_empty = Public URL must be provided.
 partner_error_public_url_length = Public URL must not be greater than 255 characters.
 partner_error_url_empty = Target URL must be provided.
 partner_error_url_length = Target URL must not be greater than 255 characters.
+partner_error_url_invalid = Target URL must start with http:// or https://.
 partner_error_image_small_error = Company Logo upload failed. Please upload a 130 x 50px png or jpg image.
 partner_error_image_big_error = Header Image upload failed. Please upload a 1200 x 364px png or jpg image.
 partner_error_image_promo_error = Promotion Image upload failed. Please upload a 150 x 100px gif, png, or jpg image.
 partner_error_image_promo_url_error = Promotion Image URL must not be greater than 255 characters.
+partner_error_image_promo_url_invalid = Promotion Image URL must start with http:// or https://.
 partner_error_banner_image_en_error = Banner Image (English) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 partner_error_banner_url_en_length = Banner URL (English) must not be greater than 255 characters.
+partner_error_banner_url_en_invalid = Banner URL (English) must start with http:// or https://.
 partner_error_status_update_en_length = Status Update (English) must not be greater than 200 characters.
 partner_error_banner_image_de_error = Banner Image (German) upload failed. Please upload a 468 x 60px gif, png, or jpg image.
 partner_error_banner_url_de_length = Banner URL (German) must not be greater than 255 characters.
+partner_error_banner_url_de_invalid = Banner URL (German) must start with http:// or https://.
 partner_error_status_update_de_length = Status Update (German) must not be greater than 200 characters.
 partner_error_carousel_image_error = Carousel Image upload failed. Please upload a 1200 x 364px png or jpg image.
 partner_error_carousel_image_title_length = Carousel Image Title must not be greater than 255 characters.
 partner_error_carousel_image_url_length = Carousel Image URL must not be greater than 255 characters.
+partner_error_carousel_image_url_invalid = Carousel Image URL must start with http:// or https://.
 
 partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
@@ -257,6 +262,13 @@ partner_error_max_site_showcase = The maximum number of live site showcases has 
 
 partner_success_site_showcase_add = The site has been successfully added to the showcase.
 partner_success_site_showcase_remove = The site was successfully removed from the showcase.
+
+partner_billing_title = Billing
+
+partner_field_billing_address_title = Address
+partner_field_billing_vat_id_title = VAT ID <small>(if applicable, EU required)</small>
+
+partner_success_billing_save = The billing information has been successfully saved.
 
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold

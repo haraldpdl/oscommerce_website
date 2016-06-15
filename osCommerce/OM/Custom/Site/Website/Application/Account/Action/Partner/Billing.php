@@ -17,24 +17,24 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\Partner;
 
-class Edit
+class Billing
 {
     public static function execute(ApplicationAbstract $application)
     {
         $OSCOM_Template = Registry::get('Template');
 
-        if (empty($_GET['Edit']) || !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit'])) {
+        if (empty($_GET['Billing']) || !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Billing'])) {
             Registry::get('MessageStack')->add('partner', OSCOM::getDef('partner_error_campaign_not_available'), 'error');
 
             OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner', 'SSL'));
         }
 
-        $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit']);
+        $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Billing']);
 
         $OSCOM_Template->setValue('partner_campaign', $partner_campaign);
         $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner_campaign['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner_campaign['image_big'])));
 
-        $application->setPageContent('partner_edit.html');
+        $application->setPageContent('partner_billing.html');
 
         $application->setPageTitle(OSCOM::getDef('partner_view_html_title', [
             ':partner_title' => $partner_campaign['title']

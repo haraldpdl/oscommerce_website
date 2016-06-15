@@ -1,0 +1,43 @@
+<div id="highlights">
+  {raw}partner_header{raw}
+</div>
+
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+    <div id="maincontent">
+      <h1>{value}partner_campaign title{value}</h1>
+
+      <h2>{lang}partner_billing_title{lang}</h2>
+
+      {widget}message_stack|partner{widget}
+
+      <form id="formPartnerBilling" action="{link}Account|Website|Partner&Billing={raw}partner_campaign code{raw}&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="form-group">
+          <label class="control-label" for="inputAdress">{lang}partner_field_billing_address_title{lang}</label>
+
+          <textarea id="inputAddress" name="address" rows="6" maxlength="450" class="form-control">{post}address|partner_campaign billing_address{post}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="inputVatId">{lang}partner_field_billing_vat_id_title{lang}</label>
+
+          <input type="input" id="inputVatId" name="vat_id" value="{post}vat_id|partner_campaign billing_vat_id{post}" class="form-control" />
+        </div>
+
+        <p>
+          <button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#formPartnerBilling').submit(function() {
+    $('#saveButton').button('processing');
+  });
+});
+</script>

@@ -73,6 +73,11 @@
               <div class="form-group">
                 <label class="control-label" for="inputImageSmall">{lang}partner_field_image_small_title{lang}</label>
 
+                {ifvalue partner_campaign image_small}
+                <div class="row">
+                  <div class="col-xs-8 col-sm-10">
+                {ifvalue}
+
                 <div class="input-group">
                   <span class="input-group-btn">
                     <span class="btn btn-file">
@@ -83,15 +88,26 @@
                 </div>
                 <span class="help-block small">
                   {lang}partner_field_image_small_desc{lang}
-
-                  {ifvalue partner_campaign image_small}
-                  <a href="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                  {ifvalue}
                 </span>
+
+                {ifvalue partner_campaign image_small}
+                  </div>
+
+                  <div class="col-xs-4 col-sm-2">
+                    <a href="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" class="img-responsive" /></a>
+                  </div>
+                </div>
+                {ifvalue}
+
               </div>
 
               <div class="form-group" id="headerImageField">
                 <label class="control-label" for="inputImageBig">{lang}partner_field_image_big_title{lang}</label>
+
+                {ifvalue partner_campaign image_big}
+                <div class="row">
+                  <div class="col-xs-6 col-sm-8">
+                {ifvalue}
 
                 <div class="input-group">
                   <span class="input-group-btn">
@@ -103,11 +119,17 @@
                 </div>
                 <span class="help-block small">
                   {lang}partner_field_image_big_desc{lang}
-
-                  {ifvalue partner_campaign image_big}
-                  <a href="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                  {ifvalue}
                 </span>
+
+                {ifvalue partner_campaign image_big}
+                  </div>
+
+                  <div class="col-xs-6 col-sm-4">
+                    <a href="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" class="img-responsive" /></a>
+                  </div>
+                </div>
+                {ifvalue}
+
               </div>
             </fieldset>
           </div>
@@ -119,6 +141,11 @@
               <div class="form-group">
                 <label class="control-label" for="inputImagePromo">{lang}partner_field_image_promo_title{lang}</label>
 
+                {ifvalue partner_campaign image_promo}
+                <div class="row">
+                  <div class="col-xs-8 col-sm-10">
+                {ifvalue}
+
                 <div class="input-group">
                   <span class="input-group-btn">
                     <span class="btn btn-file">
@@ -129,11 +156,17 @@
                 </div>
                 <span class="help-block small">
                   {lang}partner_field_image_promo_desc{lang}
-
-                  {ifvalue partner_campaign image_promo}
-                  <a href="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                  {ifvalue}
                 </span>
+
+                {ifvalue partner_campaign image_promo}
+                  </div>
+
+                  <div class="col-xs-4 col-sm-2">
+                    <a href="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" class="img-responsive" /></a>
+                  </div>
+                </div>
+                {ifvalue}
+
               </div>
 
               <div class="form-group">
@@ -158,6 +191,11 @@
                   <div class="form-group">
                     <label class="control-label" for="inputBannerImageEn">{lang}partner_field_banner_image_title{lang}</label>
 
+                {ifvalue partner_campaign banner_image_en}
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-8">
+                {ifvalue}
+
                     <div class="input-group">
                       <span class="input-group-btn">
                         <span class="btn btn-file">
@@ -168,11 +206,17 @@
                     </div>
                     <span class="help-block small">
                       {lang}partner_field_banner_image_desc{lang}
-
-                      {ifvalue partner_campaign banner_image_en}
-                      <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                      {ifvalue}
                     </span>
+
+                {ifvalue partner_campaign banner_image_en}
+                      </div>
+
+                      <div class="col-xs-6 col-sm-4">
+                        <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                {ifvalue}
+
                   </div>
 
                   <div class="form-group">
@@ -188,6 +232,11 @@
                   <div class="form-group">
                     <label class="control-label" for="inputBannerImageDe">{lang}partner_field_banner_image_title{lang}</label>
 
+                {ifvalue partner_campaign banner_image_de}
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-8">
+                {ifvalue}
+
                     <div class="input-group">
                       <span class="input-group-btn">
                         <span class="btn btn-file">
@@ -198,11 +247,17 @@
                     </div>
                     <span class="help-block small">
                       {lang}partner_field_banner_image_desc{lang}
-
-                      {ifvalue partner_campaign banner_image_de}
-                      <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                      {ifvalue}
                     </span>
+
+                {ifvalue partner_campaign banner_image_de}
+                      </div>
+
+                      <div class="col-xs-6 col-sm-4">
+                        <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                {ifvalue}
+
                   </div>
 
                   <div class="form-group">
@@ -255,6 +310,11 @@
               <div class="form-group">
                 <label class="control-label" for="inputImageCarousel">{lang}partner_field_carousel_image_title{lang}</label>
 
+                {ifvalue partner_campaign carousel_image}
+                <div class="row">
+                  <div class="col-xs-6 col-sm-8">
+                {ifvalue}
+
                 <div class="input-group">
                   <span class="input-group-btn">
                     <span class="btn btn-file">
@@ -265,11 +325,17 @@
                 </div>
                 <span class="help-block small">
                   {lang}partner_field_carousel_image_desc{lang}
-
-                  {ifvalue partner_campaign carousel_image}
-                  <a href="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" target="_blank">{lang}partner_view_current_image{lang}</a>
-                  {ifvalue}
                 </span>
+
+                {ifvalue partner_campaign carousel_image}
+                  </div>
+
+                  <div class="col-xs-6 col-sm-4">
+                    <a href="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" class="img-responsive" /></a>
+                  </div>
+                </div>
+                {ifvalue}
+
               </div>
 
               <div class="form-group">

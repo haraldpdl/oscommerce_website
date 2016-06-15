@@ -10,17 +10,37 @@
       <p>{lang}partner_introduction{lang}</p>
 
 {loop partner_campaigns}
-      <div id="partnerc_#code#" class="row">
-        <div class="col-sm-7">
-          <h4><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <small>(in %category_title%)</small></h4>
-
-          <span class="pcdate label">%date_end%</span><br /><span class="pcdays text-muted small"></span>
+<div id="partnerc_#code#">
+  <div class="panel">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-7">
+          <h3 class="panel-title"><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <br class="visible-xs-block"> <small>in %category_title%</small></h3>
+          <span class="pcdate small" style="font-size: 75%;">%date_end%</span> <span class="pcdays small" style="font-size: 75%;"></span>
         </div>
 
-        <div class="col-sm-5 col-sm-text-right">
-          <p><a href="{link}Account|Website|Partner&Extend=%code%|SSL{link}" class="btn btn-primary btn-xs">{lang}button_partner_extend{lang}</a> <a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="btn btn-info btn-xs">{lang}button_partner_view{lang}</a> <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-info btn-xs">{lang}button_partner_edit{lang}</a> <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="btn btn-info btn-xs">{lang}button_partner_history{lang}</a> <a href="{link}Account|Website|Partner&Sites=%code%|SSL{link}" class="btn btn-warning btn-xs">{lang}button_partner_sites{lang}</a></p>
+        <div class="col-md-5 text-right">
+          <div class="btn-group" role="group">
+            <a href="{link}Account|Website|Partner&Extend=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_extend{lang}</a>
+            <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_edit{lang}</a>
+
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="{link}Account|Website|Partner&Sites=%code%|SSL{link}">{lang}button_partner_sites{lang}</a></li>
+                <li><a href="{link}Account|Website|Partner&History=%code%|SSL{link}">{lang}button_partner_history{lang}</a></li>
+                <li><a href="{link}Account|Website|Partner&Billing=%code%|SSL{link}">{lang}button_partner_billing{lang}</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 {loop}
 
       <p class="text-success text-center small">{lang}partner_multiple_discount_info{lang}</p>
@@ -38,18 +58,21 @@ $(function() {
     $('.pcdate', this).text(runsUntil.format('Do MMM, YYYY'));
 
     if (runsUntil.isBefore(partner_date_now)) {
-      $('.pcdate', this).addClass('label-danger');
+      $('.panel', this).addClass('panel-danger');
+      $('.panel .btn', this).addClass('btn-danger');
 
-      $('.pcdays', this).html(runsUntil.from(partner_date_now));
+      $('.pcdays', this).html('(' + runsUntil.from(partner_date_now) + ')');
     } else {
       var daysRemaining = runsUntil.diff(partner_date_now, 'days');
 
-      $('.pcdays', this).html(partner_date_now.to(runsUntil));
+      $('.pcdays', this).html('(' + partner_date_now.to(runsUntil) + ')');
 
       if ( daysRemaining > 14 ) {
-        $('.pcdate', this).addClass('label-success');
+        $('.panel', this).addClass('panel-success');
+        $('.panel .btn', this).addClass('btn-success');
       } else {
-        $('.pcdate', this).addClass('label-warning');
+        $('.panel', this).addClass('panel-warning');
+        $('.panel .btn', this).addClass('btn-warning');
       }
     }
   });
