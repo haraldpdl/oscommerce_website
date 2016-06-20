@@ -10,6 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Invoices;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    Events,
     OSCOM,
     Registry
 };
@@ -31,6 +32,8 @@ class Get
             return false;
         }
 
+        Events::fire('invoice-download-before', $invoice);
+
         if (empty($invoice) || (Invoices::exists($invoice, $_SESSION[OSCOM::getSite()]['Account']['id']) === false)) {
             $OSCOM_MessageStack->add('account', OSCOM::getDef('error_invoice_nonexistent'), 'error');
 
@@ -45,7 +48,7 @@ class Get
             return false;
         }
 
-        Invoices::logDownload($invoice, $_SESSION[OSCOM::getSite()]['Account']['id']);
+        Events::fire('invoice-download-after', $invoice);
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');

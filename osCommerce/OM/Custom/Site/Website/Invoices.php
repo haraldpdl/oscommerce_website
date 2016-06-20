@@ -76,15 +76,4 @@ class Invoices
 
         return false;
     }
-
-    public static function logDownload(string $invoice, int $user_id)
-    {
-        $data = [
-            'id' => static::get($invoice, $user_id, 'id'),
-            'user_id' => $user_id,
-            'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress()))
-        ];
-
-        return OSCOM::callDB('Website\LogInvoiceDownload', $data, 'Site');
-    }
 }

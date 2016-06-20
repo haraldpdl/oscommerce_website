@@ -10,6 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Login;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    Events,
     OSCOM,
     Registry
 };
@@ -50,6 +51,8 @@ class Process
         if (empty($errors)) {
             $user = Invision::canLogin($username, $password);
 
+            Events::fire('login-before', $user);
+
             if (is_array($user) && isset($user['id'])) {
                 if (($user['verified'] === true) && ($user['banned'] === false)) {
                     $_SESSION[OSCOM::getSite()]['Account'] = $user;
@@ -63,6 +66,8 @@ class Process
                         OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
                         OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
                     }
+
+                    Events::fire('login-after');
 
                     $redirect_url = OSCOM::getLink(null, null, null, 'SSL');
 
@@ -81,7 +86,7 @@ class Process
                     $errors[] = OSCOM::getDef('login_ms_error_banned');
                 }
             } else {
-              $errors[] = OSCOM::getDef('login_ms_error_general');
+                $errors[] = OSCOM::getDef('login_ms_error_general');
             }
         }
 

@@ -10,7 +10,9 @@ namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
     HttpRequest,
-    OSCOM
+    OSCOM,
+    PDO,
+    Registry
 };
 
 class Invision
@@ -144,40 +146,19 @@ class Invision
         return $response;
     }
 
-    public static function canLogin($username, $password)
+    public static function canLogin(string $username, string $password)
     {
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
         $username = static::parseCleanValue($username);
         $password = static::parseCleanValue($password);
 
-        $request = xmlrpc_encode_request('verifyMember', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => 'oscommerce',
-            'username' => $username,
-            'password' => md5($password)
-        ], [
-            'encoding' => 'utf-8'
-        ]);
+        $Qm = $OSCOM_IpbPdo->prepare('select member_id, members_display_name, email, member_group_id, temp_ban, restrict_post, mod_posts, member_login_key, members_pass_hash, members_pass_salt from ibf_members where members_l_username = :members_l_username');
+        $Qm->bindValue(':members_l_username', $username);
+        $Qm->execute();
 
-        $response = json_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]), true);
-
-        if (is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member']['member_id']) && ($response['member']['member_id'] > 0)) {
-            $user = [
-                'id' => (int)$response['member']['member_id'],
-                'name' => $response['member']['members_display_name'],
-                'email' => $response['member']['email'],
-                'group_id' => (int)$response['member']['member_group_id'],
-                'admin' => (int)$response['member']['member_group_id'] === 4,
-                'team' => in_array((int)$response['member']['member_group_id'], [6, 19]),
-                'verified' => (int)$response['member']['member_group_id'] !== 1,
-                'banned' => in_array((int)$response['member']['member_group_id'], [2, 5]) || (!empty($response['member']['temp_ban']) && ($response['member']['temp_ban'] != '0')),
-                'restricted_post' => (!empty($response['member']['restrict_post']) && ($response['member']['restrict_post'] != '0')) || (!empty($response['member']['mod_posts']) && ($response['member']['mod_posts'] != '0')),
-                'login_key' => $response['member']['member_login_key']
-            ];
-
-            return $user;
+        if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0) && ($Qm->value('members_pass_hash') === static::getPasswordHash($Qm->value('members_pass_salt'), $password))) {
+            return static::getUserDataArray($Qm);
         }
 
         return false;
@@ -196,38 +177,49 @@ class Invision
             return false;
         }
 
-        $request = xmlrpc_encode_request('canAutoLogin', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => 'oscommerce',
-            'member_id' => $id,
-            'pass_hash' => $hash
-        ], [
-            'encoding' => 'utf-8'
-        ]);
+        $OSCOM_IpbPdo = static::getIpbPdo();
 
-        $response = json_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]), true);
+        $Qm = $OSCOM_IpbPdo->prepare('select member_id, members_display_name, email, member_group_id, temp_ban, restrict_post, mod_posts, member_login_key from ibf_members where member_id = :member_id');
+        $Qm->bindInt(':member_id', $id);
+        $Qm->execute();
 
-        if (is_array($response) && !empty($response) && isset($response['result']) && ($response['result'] === true) && isset($response['member']['member_id']) && ($response['member']['member_id'] > 0) && ($response['member']['member_id'] == $id)) {
-            $user = [
-                'id' => (int)$response['member']['member_id'],
-                'name' => $response['member']['members_display_name'],
-                'email' => $response['member']['email'],
-                'group_id' => (int)$response['member']['member_group_id'],
-                'admin' => (int)$response['member']['member_group_id'] === 4,
-                'team' => in_array((int)$response['member']['member_group_id'], [6, 19]),
-                'verified' => (int)$response['member']['member_group_id'] !== 1,
-                'banned' => in_array((int)$response['member']['member_group_id'], [2, 5]) || (!empty($response['member']['temp_ban']) && ($response['member']['temp_ban'] != '0')),
-                'restricted_post' => (!empty($response['member']['restrict_post']) && ($response['member']['restrict_post'] != '0')) || (!empty($response['member']['mod_posts']) && ($response['member']['mod_posts'] != '0')),
-                'login_key' => $response['member']['member_login_key']
-            ];
-
-            return $user;
+        if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0) && !empty($Qm->value('member_login_key')) && ($Qm->value('member_login_key') === $hash)) {
+            return static::getUserDataArray($Qm);
         }
 
         return false;
+    }
+
+    public static function getPasswordHash(string $salt, string $password): string
+    {
+        return md5(md5($salt) . md5($password));
+    }
+
+    protected static function getIpbPdo(): \PDO
+    {
+        if (!Registry::exists('IpbPdo')) {
+            $OSCOM_IpbPdo = PDO::initialize(OSCOM::getConfig('forums_com_db_server'), OSCOM::getConfig('forums_com_db_server_username'), OSCOM::getConfig('forums_com_db_server_password'), OSCOM::getConfig('forums_com_db_database'), is_numeric(OSCOM::getConfig('forums_com_db_server_port')) ? (int)OSCOM::getConfig('forums_com_db_server_port') : null, OSCOM::getConfig('forums_com_db_driver'));
+
+            Registry::set('IpbPdo', $OSCOM_IpbPdo);
+        }
+
+        return Registry::get('IpbPdo');
+    }
+
+    protected static function getUserDataArray(\PDOStatement $Qmember): array
+    {
+        return [
+            'id' => $Qmember->valueInt('member_id'),
+            'name' => $Qmember->value('members_display_name'),
+            'email' => $Qmember->value('email'),
+            'group_id' => $Qmember->valueInt('member_group_id'),
+            'admin' => $Qmember->valueInt('member_group_id') === 4,
+            'team' => in_array($Qmember->valueInt('member_group_id'), [6, 19]),
+            'verified' => $Qmember->valueInt('member_group_id') !== 1,
+            'banned' => in_array($Qmember->valueInt('member_group_id'), [2, 5]) || ($Qmember->hasValue('temp_ban') && !empty($Qmember->value('temp_ban')) && ($Qmember->value('temp_ban') != '0')),
+            'restricted_post' => (!empty($Qmember->value('restrict_post')) && ($Qmember->value('restrict_post') != '0')) || (!empty($Qmember->value('mod_posts')) && ($Qmember->value('mod_posts') != '0')),
+            'login_key' => $Qmember->value('member_login_key')
+        ];
     }
 
     protected static function parseCleanValue($val): string

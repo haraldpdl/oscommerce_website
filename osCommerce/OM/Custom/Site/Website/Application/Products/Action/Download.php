@@ -2,13 +2,14 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/bsdlicense.txt
  */
 
   namespace osCommerce\OM\Core\Site\Website\Application\Products\Action;
 
   use osCommerce\OM\Core\ApplicationAbstract;
+  use osCommerce\OM\Core\Events;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
@@ -27,11 +28,16 @@
         $file = $_POST['get'];
       }
 
-      if ( isset($file) && DownloadClass::exists($file) ) {
-        DownloadClass::incrementDownloadCounter($file);
-        DownloadClass::logDownload($file);
+      if ( isset($file) ) {
+        Events::fire('download-before', $file);
 
-        OSCOM::redirect('http://www.oscommerce.com/files/' . rawurlencode(basename(DownloadClass::get($file, 'filename'))));
+        if ( DownloadClass::exists($file) ) {
+          DownloadClass::incrementDownloadCounter($file);
+
+          Events::fire('download-after', $file);
+
+          OSCOM::redirect('https://www.oscommerce.com/files/' . rawurlencode(basename(DownloadClass::get($file, 'filename'))));
+        }
       }
 
 // redirect to a copy friendly url

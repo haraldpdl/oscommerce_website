@@ -105,14 +105,6 @@
       return OSCOM::callDB('Website\IncrementDownloadCounter', array('id' => $id), 'Site');
     }
 
-    public static function logDownload($id) {
-      if ( !is_numeric($id) ) {
-        $id = static::getID($id);
-      }
-
-      return OSCOM::callDB('Website\LogDownload', array('id' => $id, 'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress()))), 'Site');
-    }
-
     protected static function setReleases() {
       static::$_files = OSCOM::callDB('Website\GetReleases', null, 'Site');
     }
