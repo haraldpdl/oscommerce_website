@@ -198,7 +198,7 @@ class Invision
     protected static function getIpbPdo(): \PDO
     {
         if (!Registry::exists('IpbPdo')) {
-            $OSCOM_IpbPdo = PDO::initialize(OSCOM::getConfig('forums_com_db_server'), OSCOM::getConfig('forums_com_db_server_username'), OSCOM::getConfig('forums_com_db_server_password'), OSCOM::getConfig('forums_com_db_database'), is_numeric(OSCOM::getConfig('forums_com_db_server_port')) ? (int)OSCOM::getConfig('forums_com_db_server_port') : null, OSCOM::getConfig('forums_com_db_driver'));
+            $OSCOM_IpbPdo = PDO::initialize(OSCOM::getConfig('forums_com_db_server', 'Website'), OSCOM::getConfig('forums_com_db_server_username', 'Website'), OSCOM::getConfig('forums_com_db_server_password', 'Website'), OSCOM::getConfig('forums_com_db_database', 'Website'), is_numeric(OSCOM::getConfig('forums_com_db_server_port', 'Website')) ? (int)OSCOM::getConfig('forums_com_db_server_port', 'Website') : null, OSCOM::getConfig('forums_com_db_driver', 'Website'));
 
             Registry::set('IpbPdo', $OSCOM_IpbPdo);
         }
