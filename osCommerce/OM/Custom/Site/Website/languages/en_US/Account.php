@@ -292,6 +292,8 @@ cs_pricing_1_month = 1 Month
 cs_pricing_3_months = 3 Months
 cs_pricing_6_months = 6 Months
 cs_pricing_12_months = 12 Months
+cs_pricing_18_months = 18 Months
+cs_pricing_24_months = 24 Months
 
 cs_pricing_info = All prices are in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
 

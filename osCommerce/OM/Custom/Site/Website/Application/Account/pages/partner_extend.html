@@ -122,6 +122,8 @@
                   <option value="3">{lang}cs_pricing_3_months{lang} 280 €</option>
                   <option value="6">{lang}cs_pricing_6_months{lang} 500 €</option>
                   <option value="12">{lang}cs_pricing_12_months{lang} 1,000 €</option>
+                  <option value="18">{lang}cs_pricing_18_months{lang} 1,500 €</option>
+                  <option value="24">{lang}cs_pricing_24_months{lang} 2,000 €</option>
                 </select>
               </div>
 
@@ -160,7 +162,7 @@ window.paypalCheckoutReady = function() {
 
       p.duration = $('#' + e.target.id + 'Plan').val();
 
-      if ($.inArray(p.duration, ['1', '3', '6', '12']) === -1) {
+      if ($.inArray(p.duration, ['1', '3', '6', '12', '18', '24']) === -1) {
         $('#p' + (p.plan == 'gold' ? 'Gold' : 'Silver') + 'Plan').closest('.form-group').addClass('has-error');
 
         toastr.error('There was a problem with the duration of the selected plan. Please try again.');
