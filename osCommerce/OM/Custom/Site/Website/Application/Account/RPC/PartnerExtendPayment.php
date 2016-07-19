@@ -36,7 +36,7 @@ class PartnerExtendPayment
                 !isset($_POST['plan']) ||
                 !in_array($_POST['plan'], ['silver', 'gold']) ||
                 !isset($_POST['duration']) ||
-                !in_array($_POST['duration'], ['1', '3', '6', '12'])
+                !in_array($_POST['duration'], ['1', '3', '6', '12', '18', '24'])
                ) {
                 $result['rpcStatus'] = RPC::STATUS_ERROR;
             }
