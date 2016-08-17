@@ -24,7 +24,9 @@
 
       if ( !empty($_GET['Download']) && is_numeric($_GET['Download']) && ($_GET['Download'] > 0) ) {
         $file = $_GET['Download'];
-      } elseif ( isset($_POST['get']) && !empty($_POST['get']) && isset($_POST['do']) ) {
+      } elseif ( !empty($_GET['Download']) && ($_SERVER['REQUEST_METHOD'] == 'POST') ) {
+        $file = $_GET['Download'];
+      } elseif ( isset($_POST['get']) && !empty($_POST['get']) && isset($_POST['do']) ) { //legacy
         $file = $_POST['get'];
       }
 
