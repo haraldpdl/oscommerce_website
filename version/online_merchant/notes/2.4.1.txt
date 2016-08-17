@@ -1,0 +1,4 @@
+This release introduces the following modules:
+
+- Header Tags
+-- Cookie Compliance
