@@ -28,15 +28,27 @@
         $file = $_POST['get'];
       }
 
-      if ( isset($file) ) {
+      if ( isset($file) && DownloadClass::exists($file) ) {
         Events::fire('download-before', $file);
 
-        if ( DownloadClass::exists($file) ) {
+        $file_source = OSCOM::PUBLIC_DIRECTORY . 'public/sites/Website/files/' . basename(DownloadClass::get($file, 'filename'));
+
+        if (file_exists($file_source)) {
           DownloadClass::incrementDownloadCounter($file);
 
           Events::fire('download-after', $file);
 
-          OSCOM::redirect('https://www.oscommerce.com/files/' . rawurlencode(basename(DownloadClass::get($file, 'filename'))));
+          header('Content-Description: File Transfer');
+          header('Content-Type: application/octet-stream');
+          header('Content-Disposition: attachment; filename="' . basename($file_source) . '"');
+          header('Expires: 0');
+          header('Cache-Control: must-revalidate');
+          header('Pragma: public');
+          header('Content-Length: ' . filesize($file_source));
+
+          readfile($file_source);
+
+          exit;
         }
       }
 
