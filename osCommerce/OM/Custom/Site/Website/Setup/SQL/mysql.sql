@@ -15,6 +15,7 @@ CREATE TABLE osc_website_downloads (
   type varchar(255) NOT NULL,
   pkg_group varchar(255) NOT NULL,
   counter int unsigned DEFAULT 0,
+  news_id int unsigned,
   PRIMARY KEY (id),
   KEY idx_downloads_code (code),
   KEY idx_downloads_type (type),
