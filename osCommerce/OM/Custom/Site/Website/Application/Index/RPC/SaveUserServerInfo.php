@@ -18,7 +18,11 @@
       $result = '';
 
       if ( isset($_POST['info']) && !empty($_POST['info']) ) {
-        $info = unserialize(base64_decode($_POST['info']));
+        if (isset($_GET['v']) && ($_GET['v'] == '2')) {
+          $info = json_decode($_POST['info'], true);
+        } else {
+          $info = unserialize(base64_decode($_POST['info']));
+        }
 
         if ( is_array($info) && isset($info['oscommerce']['version']) && isset($info['system']['os']) && isset($info['system']['http_server'])  && isset($info['php']['version'])  && isset($info['php']['extensions']) && isset($info['php']['sapi']) && isset($info['php']['memory_limit']) && isset($info['mysql']['version']) ) {
           $data = array('osc_version' => $info['oscommerce']['version'],
