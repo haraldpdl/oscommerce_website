@@ -10,12 +10,10 @@ namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
 use osCommerce\OM\Core\{
     Cache,
-    OSCOM
+    HttpRequest
 };
 
-use osCommerce\OM\Core\Site\Website\News;
-
-class GetLatestNews
+class GetLatestAddons
 {
     public static function execute()
     {
@@ -23,19 +21,19 @@ class GetLatestNews
 
         $OSCOM_Cache = new Cache();
 
-        if ($OSCOM_Cache->read('website-news-listing-last5', 360)) {
+        if ($OSCOM_Cache->read('website-addons-listing-last5', 60)) {
             $result = $OSCOM_Cache->getCache();
         } else {
-            $news = News::getListing();
+            $addons = HttpRequest::getResponse(['url' => 'http://addons.oscommerce.com/?action=fetchLatest']);
 
-            if (!empty($news)) {
-                $news = array_slice($news, 0, 5, true);
+            if (!empty($addons)) {
+                $addons = json_decode($addons, true);
 
-                foreach ($news as $n) {
+                foreach ($addons as $a) {
                     $result[] = [
-                        'title' => $n['title'],
-                        'link' => OSCOM::getLink(null, 'Us', 'News=' . $n['id'], 'SSL', false),
-                        'date' => $n['date_added']
+                        'title' => $a['title'],
+                        'link' => 'http://addons.oscommerce.com/info/' . (int)$a['id'],
+                        'date' => $a['date']
                     ];
                 }
 
