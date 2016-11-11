@@ -47,44 +47,82 @@
 
       {lang}oscom2_requirements{lang}
 
-      <h3>{lang}oscom3_title{lang}</h3>
+      <div class="alert alert-warning">
+        <h3>{lang}oscom24_title{lang}</h3>
 
-      {lang}oscom3_main_content{lang}
+        {lang}oscom24_main_content{lang}
 
-      <h3>{lang}z4_title{lang}</h3>
+        <div class="row">
+          <form action="{link}Products|Website|Download{link}" method="post">
+            <div class="col-xs-9 col-md-10">
+              <select name="get" class="form-control">
 
-      {lang}z4_main_content{lang}
+{loop releases_oscom24_beta}
+                <option value="#code#">#version#</option>
+{loop}
 
-      <div class="row">
-        <form action="{link}Products|Website|Download{link}" method="post">
-          <div class="col-xs-9 col-md-10">
-            <select name="get" class="form-control">
-              <optgroup label="-- osCommerce Online Merchant --">
+              </select>
+            </div>
+
+            <div class="col-xs-3 col-md-2">
+              <button type="submit" class="btn btn-warning">{lang}button_download{lang}</button>
+            </div>
+
+            <div class="col-xs-9 col-md-10 text-center small">
+              <div class="row">
+                <div class="col-xs-6">
+                  <p><a href="{link}Us|Website|News=152{link}" class="alert-link">{lang}link_latest_release_announcement{lang}</a></p>
+                </div>
+
+                <div class="col-xs-6">
+                  <p><a href="https://github.com/osCommerce/oscommerce2" class="alert-link" target="_blank">{lang}link_github_development{lang}</a></p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <h4>{lang}oscom24_requirements_title{lang}</h4>
+
+        {lang}oscom24_requirements{lang}
+      </div>
+
+      <div class="alert alert-danger">
+        <h3>{lang}z4_title{lang}</h3>
+
+        {lang}z4_main_content{lang}
+
+        <div class="row">
+          <form action="{link}Products|Website|Download{link}" method="post">
+            <div class="col-xs-9 col-md-10">
+              <select name="get" class="form-control">
+                <optgroup label="-- osCommerce Online Merchant --">
 
 {loop releases_archive_oscom}
-                <option value="#code#">#version#</option>
+                  <option value="#code#">#version#</option>
 {loop}
 
-              </optgroup>
+                </optgroup>
 
-              <optgroup label="-- The Exchange Project --">
+                <optgroup label="-- The Exchange Project --">
 
 {loop releases_archive_tep}
-                <option value="#code#">#version#</option>
+                  <option value="#code#">#version#</option>
 {loop}
 
-              </optgroup>
-            </select>
-          </div>
+                </optgroup>
+              </select>
+            </div>
 
-          <div class="col-xs-3 col-md-2">
-            <button type="submit" class="btn btn-danger">{lang}button_download{lang}</button>
-          </div>
+            <div class="col-xs-3 col-md-2">
+              <button type="submit" class="btn btn-danger">{lang}button_download{lang}</button>
+            </div>
 
-          <div class="col-xs-9 col-md-10 text-center small">
-            <p><a href="https://github.com/osCommerce/oscommerce_cvs" target="_blank">{lang}link_github_history{lang}</a></p>
-          </div>
-        </form>
+            <div class="col-xs-9 col-md-10 text-center small">
+              <p><a href="https://github.com/osCommerce/oscommerce_cvs" class="alert-link" target="_blank">{lang}link_github_history{lang}</a></p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
