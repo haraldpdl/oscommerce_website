@@ -2,7 +2,7 @@ services_html_page_title = Partner Services | osCommerce
 
 services_page_title = Services
 
-services_main_content = <p>Wir fokusieren uns darauf die best möglichen Produkte anzubieten und bauen Partnerschaften mit Firmen auf die selber fokusiert sind Ihnen den best möglichen Service für Ihre Webseite und Online Shop zu stellen.</p>
+services_main_content = <p>Wir fokusieren uns darauf die best möglichen Produkte anzubieten und bauen Partnerschaften mit Firmen auf die selber fokusiert sind Ihnen den best möglichen Service für Ihre Webseite und Online Shop zu bieten.</p>
 
 promotions_heading = Partner Aktionen
 promotions_show_all = Alle zeigen

@@ -4,14 +4,14 @@ oscom_page_title = osCommerce Online Merchant
 
 oscom2_title = osCommerce Online Merchant v2.3
 
-oscom2_main_content = <p>osCommerce Online Merchant v2.3 ist ein selbst-gehostete Online Shop Lösung mit einem komplett und vollfunktionsfähigem Shop und Administrator Seiten, dass einfach zu installieren und konfigurieren ist.</p>
+oscom2_main_content = <p>osCommerce Online Merchant v2.3 ist ein selbst-gehostete Online Shop Lösung mit einem komplett und vollfunktionsfähigem Shop- und Administratorbereichen, dass einfach zu installieren und konfigurieren ist.</p>
 
 oscom2_requirements_title = Server Anforderungen
 oscom2_requirements = <ul><li>PHP v4+ <small class="text-muted">(v5+ empfohlen)</small></li><li>MySQL v3+ <small class="text-muted">(v5+ empfohlen)</small></li></ul>
 
 oscom24_title = Online Merchant v2.4.0 Joli (Beta)
 
-oscom24_main_content = <p>osCommerce Online Merchant v2.4.0 Joli ist noch in Entwicklung und ist zur Zeit in Beta. Diese Version ist momentan nur an Entwickler zu empfehlen.</p>
+oscom24_main_content = <p>osCommerce Online Merchant v2.4.0 Joli ist noch in der Entwicklung und ist zur Zeit in Beta. Diese Version ist momentan nur an Entwickler zu empfehlen.</p>
 
 oscom24_requirements_title = Server Anforderungen
 oscom24_requirements = <ul><li>PHP v5.5+ <small class="text-muted">(v7+ empfohlen)</small></li><li>MySQL v5+ <small class="text-muted">(v5.7+ empfohlen)</small></li></ul>
