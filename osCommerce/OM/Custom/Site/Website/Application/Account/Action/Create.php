@@ -18,6 +18,7 @@ class Create
 {
     public static function execute(ApplicationAbstract $application)
     {
+        $OSCOM_Language = Registry::get('Language');
         $OSCOM_Template = Registry::get('Template');
 
         if (isset($_SESSION[OSCOM::getSite()]['Account'])) {
@@ -31,6 +32,6 @@ class Create
         $application->setPageContent('create.html');
         $application->setPageTitle(OSCOM::getDef('create_html_title'));
 
-        $OSCOM_Template->addHtmlElement('header', '<script src="https://www.google.com/recaptcha/api.js"></script>');
+        $OSCOM_Template->addHtmlElement('header', '<script src="https://www.google.com/recaptcha/api.js?hl=' . $OSCOM_Language->getCode() . '"></script>');
     }
 }

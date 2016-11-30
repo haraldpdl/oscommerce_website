@@ -5,7 +5,7 @@ account_introduction = <p>Welcome to the community! We hope you enjoy the servic
 
 account_forum_title = Forum
 account_forum_desc = Ask for or provide help and participate in discussions with others in the community.
-account_forum_link = Visit the Forum
+account_forum_links = <a class="btn btn-info" href="http://forums.oscommerce.com">Visit the Forum</a>
 account_add_ons_title = Add-Ons
 account_add_ons_desc = Upload and share your latest work at the Add-Ons site.
 account_add_ons_link = Visit the Add-Ons

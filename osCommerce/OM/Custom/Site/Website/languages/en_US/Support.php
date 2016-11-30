@@ -20,7 +20,7 @@ button_hire_developers = Post an Inquiry
 
 forum_title = Forum
 forum_description = <p>Over 1.6 Million postings have been made by over 280,000 community members consisting of store owners, developers, and service providers. Everybody helps each other out to start and improve online stores.</p>
-button_forum = Visit the Forum
+forum_button_links = <a href="http://forums.oscommerce.com" class="btn btn-success"><i class="fa fa-comments"></i> Visit the Forum</a>
 
 live_chat_title = Live Chat
 live_chat_description = <p>Direct communication with other community members is available in our Live Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall <i class="fa fa-smile-o"></i></p>

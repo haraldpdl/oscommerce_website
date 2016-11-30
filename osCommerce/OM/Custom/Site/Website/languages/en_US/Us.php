@@ -12,7 +12,7 @@ us_main_content = <p>We're geeks. And we love what we do.</p>
 <p>We want to make our products available to everyone worldwide and to make that possible we release all of our products for free with Open Source licenses.</p>
 <p>We also manage a thriving community of store owners, developers, and service providers who help each other during the many stages of an online business.</p>
 <p>We focus on what we do best and additionally partner with experts who focus on providing you the best services possible.</p>
-<p>We have been running successfully for over 12 years and have not only created hundreds of thousands of online store owners worldwide, but have also helped kickstart other companies and projects who have based their products on our work.</p>
+<p>We have been running successfully for over {value}never_ask_her{value} years and have not only created hundreds of thousands of online store owners worldwide, but have also helped kickstart other companies and projects who have based their products on our work.</p>
 <p>We've grown so much with the community and love the engagement in helping us all succeed.</p>
 <p>We're anxious to see you get involved and be part of the success!</p>
 
@@ -31,10 +31,10 @@ legal_html_page_title = Legal | osCommerce
 legal_page_title = Legal
 
 legal_trademark_policy = <h2>Trademark Policy</h2>
-<p>osCommerce is a registered trademark of Harald Ponce de Leon.</p><dl><dt style="padding-bottom: 10px;">Distribution</dt><dd><p>The osCommerce Online Merchant name and osCommerce logo may be used for unmodified distributions of osCommerce Online Merchant as found on the osCommerce website.</p></dd><dt style="padding-bottom: 10px;">Name and Logo</dt><dd><p>The usage of the osCommerce name must use the correct casing of letters. "osCommerce" is correctly written where "OsCommerce", "OSCommerce", and "OS Commerce" are not.</p><p>The usage of the osCommerce name and logo are not allowed to be used in conjunction with organization names, product names, and service titles.</p></dd><dt style="padding-bottom: 10px;">Linking</dt><dd><p>The osCommerce website must be linked or referenced to when using the osCommerce name or logo.</p><p>The address of the osCommerce website is: http://www.oscommerce.com</p></dd></dl>
+<p>osCommerce is a registered trademark of Harald Ponce de Leon.</p><dl><dt style="padding-bottom: 10px;">Distribution</dt><dd><p>The osCommerce Online Merchant name and osCommerce logo may be used for unmodified distributions of osCommerce Online Merchant as found on the osCommerce website.</p></dd><dt style="padding-bottom: 10px;">Name and Logo</dt><dd><p>The usage of the osCommerce name must use the correct casing of letters. "osCommerce" is correctly written where "OsCommerce", "OSCommerce", and "OS Commerce" are not.</p><p>The usage of the osCommerce name and logo are not allowed to be used in conjunction with organization names, product names, and service titles.</p></dd><dt style="padding-bottom: 10px;">Linking</dt><dd><p>The osCommerce website must be linked or referenced to when using the osCommerce name or logo.</p><p>The address of the osCommerce website is: https://www.oscommerce.com</p></dd></dl>
 
 legal_license_policy = <h2>License Policy</h2>
-<p>Our software releases are completely licensed under the following licenses:</p><dl><dt style="padding-bottom: 10px;">GNU General Public License v2</dt><dd>The Exchange Project v1.0 - v2.1</dd><dd>osCommerce Online Merchant v2.2MS1 - v2.3.x</dd><dt style="padding: 10px 0 10px 0;">BSD (3 Clause) License</dt><dd>osCommerce Online Merchant v3.x</dd><dd>osCommerce Website</dd><dd>osCommerce Library Website</dd></dl>
+<p>Our software releases are completely licensed under the following licenses:</p><dl><dt style="padding-bottom: 10px;">MIT License</dt><dd>osCommerce Online Merchant v2.4</dd></dt><dt style="padding: 10px 0 10px 0;">GNU General Public License v2</dt><dd>osCommerce Online Merchant v2.2MS1 - v2.3.x</dd><dd>The Exchange Project v1.0 - v2.1</dd><dt style="padding: 10px 0 10px 0;">BSD (3 Clause) License</dt><dd>osCommerce Online Merchant v3.x</dd><dd>osCommerce Website</dd><dd>osCommerce Library Website</dd><dd>osCommerce Live Sites Website</dd></dl>
 
 legal_copyright_policy = <h2>Copyright Policy</h2>
 <p>The content of the osCommerce website is under the following copyright:</p>

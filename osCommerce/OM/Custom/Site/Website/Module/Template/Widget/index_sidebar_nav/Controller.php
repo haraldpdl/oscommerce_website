@@ -14,13 +14,21 @@
 
   class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract {
     static public function execute($param = null) {
+      $OSCOM_Language = Registry::get('Language');
       $OSCOM_Template = Registry::get('Template');
 
-      $OSCOM_Template->setValue('stats_addons', number_format(7000));
-      $OSCOM_Template->setValue('stats_sites', number_format(13300));
-      $OSCOM_Template->setValue('stats_community_online_users', static::getOnlineUsers());
-      $OSCOM_Template->setValue('stats_community_total_users', static::getTotalUsers());
-      $OSCOM_Template->setValue('stats_community_total_forum_postings', '1.6m' /* static::getTotalForumPostings() */);
+      if ($OSCOM_Template->valueExists('stats_addons', false) === false) {
+        $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(static::getTotalAddOns(), 0));
+      }
+
+      $OSCOM_Template->setValue('stats_sites', $OSCOM_Language->formatNumber(13300, 0));
+      $OSCOM_Template->setValue('stats_community_online_users', $OSCOM_Language->formatNumber(static::getOnlineUsers(), 0));
+
+      if ($OSCOM_Template->valueExists('stats_community_total_users', false) === false) {
+        $OSCOM_Template->setValue('stats_community_total_users', $OSCOM_Language->formatNumber(static::getTotalUsers(), 0));
+      }
+
+      $OSCOM_Template->setValue('stats_community_total_forum_postings', $OSCOM_Language->formatNumber(static::getTotalForumPostings(), 1));
 
       $file = OSCOM::BASE_DIRECTORY . 'Custom/Site/' . OSCOM::getSite() . '/Module/Template/Widget/index_sidebar_nav/pages/main.html';
 
@@ -29,6 +37,10 @@
       }
 
       return file_get_contents($file);
+    }
+
+    static public function getTotalAddOns() {
+      return 7700;
     }
 
     static public function getOnlineUsers() {
@@ -57,14 +69,14 @@
         }
       }
 
-      return number_format($users);
+      return $users;
     }
 
     static public function getTotalUsers() {
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
-      $users = 250000;
+      $users = 280000;
 
       if ( OSCOM::configExists('community_api_key') ) {
         if ( $OSCOM_Cache->read('stats_community_api_fetchStats', 1440) ) {
@@ -86,10 +98,12 @@
         }
       }
 
-      return number_format($users);
+      return $users;
     }
 
     static public function getTotalForumPostings() {
+      return 1600000/1000000;
+
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
@@ -115,7 +129,7 @@
         }
       }
 
-      return number_format($posts);
+      return $posts;
     }
   }
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * osCommerce Website
- * 
+ *
  * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
@@ -19,19 +19,13 @@
       $this->_code = $code;
 
       if ( empty($this->_code) ) {
-        if ( isset($_COOKIE[OSCOM::getSite()]['language']) ) {
-          $this->_code = $_COOKIE[OSCOM::getSite()]['language'];
-        } else {
-          $this->_code = $this->getBrowserSetting();
+        if (OSCOM::configExists('default_language', 'Website')) {
+          $this->_code = OSCOM::getConfig('default_language', 'Website');
         }
       }
 
       if ( empty($this->_code) || !$this->exists($this->_code) ) {
         $this->_code = 'en_US';
-      }
-
-      if ( !isset($_COOKIE[OSCOM::getSite()]['language']) || ($_COOKIE[OSCOM::getSite()]['language'] != $this->_code) ) {
-        OSCOM::setCookie(OSCOM::getSite() . '[language]', $this->_code, time()+60*60*24*90);
       }
     }
   }
