@@ -48,6 +48,7 @@ Symlink the following directories from "oscommerce_website" to "oscommerce":
     ln -s ../../../oscommerce_website/public/sites/Website Website
     cd ../external
     ln -s ../../../oscommerce_website/public/external/bootstrap bootstrap
+    ln -s ../../../oscommerce_website/public/external/font-awesome font-awesome
     ln -s ../../../oscommerce_website/public/external/less less
 
 A configuration block is also required in osCommerce/OM/Config/settings.ini,
