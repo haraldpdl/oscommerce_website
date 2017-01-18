@@ -18,116 +18,43 @@
       <p>{lang}partner_extension_description{lang}</p>
 
       <div class="col-xs-6">
-        <div class="panel panel-info">
-          <div class="panel-heading text-center">
-            <h3 class="panel-title">{lang}cs_plans_title_silver{lang}</h3>
-          </div>
+        <ul id="pPlanTabs" class="nav nav-tabs" role="tablist"></ul>
 
-          <div class="panel-body">
-            <table class="table table-hover table-borderless">
-              <tbody>
-                <tr>
-                  <td>{lang}cs_plans_service_partner{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5bc0de; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_information_page{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5bc0de; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_commercial_inquiries{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5bc0de; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_commercial_feedback{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5bc0de; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_profile{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5bc0de; font-size: 1.6em;"></i></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="panel-footer text-center" style="border-top: none; background: none;">
-            <form class="form-inline">
-              <div class="form-group">
-                <select class="form-control" id="pSilverPlan">
-                  <option value="0">{lang}cs_pricing_please_select{lang}</option>
-                  <option value="1">{lang}cs_pricing_1_month{lang} 50 €</option>
-                  <option value="3">{lang}cs_pricing_3_months{lang} 140 €</option>
-                  <option value="6">{lang}cs_pricing_6_months{lang} 250 €</option>
-                  <option value="12">{lang}cs_pricing_12_months{lang} 500 €</option>
-                </select>
-              </div>
-
-              <button id="pSilver" class="btn btn-info paypal-button-hidden">{lang}cs_purchase_button{lang}</button>
-            </form>
-          </div>
-        </div>
+        <div id="pPlanTabsContent" class="tab-content"></div>
       </div>
 
       <div class="col-xs-6">
-        <div class="panel panel-success">
+        <div class="panel panel-info">
           <div class="panel-heading text-center">
-            <h3 class="panel-title">{lang}cs_plans_title_gold{lang}</h3>
+            <h3 id="pPlanTitle" class="panel-title"></h3>
           </div>
 
           <div class="panel-body">
-            <table class="table table-hover table-borderless">
-              <tbody>
-                <tr>
-                  <td>{lang}cs_plans_service_silver_level{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_custom_header{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_promotions{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_banner{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_adwords{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_forum_channel{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_news_publishing{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-                <tr>
-                  <td>{lang}cs_plans_service_showcase_sites{lang}</td>
-                  <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <form id="pForm" action="{link}Account|Website|Partner&Extend={raw}partner_campaign code{raw}&Payment&Process|SSL{link}" method="post" class="form">
+              <input type="hidden" name="plan" value="">
 
-          <div class="panel-footer text-center" style="border-top: none; background: none;">
-            <form class="form-inline">
               <div class="form-group">
-                <select class="form-control" id="pGoldPlan">
-                  <option value="0">{lang}cs_pricing_please_select{lang}</option>
-                  <option value="1">{lang}cs_pricing_1_month{lang} 100 €</option>
-                  <option value="3">{lang}cs_pricing_3_months{lang} 280 €</option>
-                  <option value="6">{lang}cs_pricing_6_months{lang} 500 €</option>
-                  <option value="12">{lang}cs_pricing_12_months{lang} 1,000 €</option>
-                  <option value="18">{lang}cs_pricing_18_months{lang} 1,500 €</option>
-                  <option value="24">{lang}cs_pricing_24_months{lang} 2,000 €</option>
-                </select>
+                <label for="pPlanSelection">{lang}cs_plans_duration_title{lang}</label>
+
+                <select id="pPlanSelection" name="duration" class="form-control"></select>
               </div>
 
-              <button id="pGold" class="btn btn-success paypal-button-hidden">{lang}cs_purchase_button{lang}</button>
+              <ul id="pPaymentMethodTabs" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#pPaymentPayPal" aria-controls="pPaymentPayPal" role="tab" data-toggle="tab">{lang}cs_payment_tab_paypal{lang}</a></li>
+                <li role="presentation"><a href="#pPaymentCc" aria-controls="pPaymentCc" role="tab" data-toggle="tab">{lang}cs_payment_tab_credit_card{lang}</a></li>
+              </ul>
+
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="pPaymentPayPal">
+                  <button type="button" id="pPayPalPayButton" class="btn btn-info paypal-button-hidden">{lang}cs_pay_paypal_button{lang}</button>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="pPaymentCc">
+                  <div id="cc-payment-form"></div>
+
+                  <button type="submit" id="pCcPayButton" class="btn btn-info hidden"></button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -145,33 +72,131 @@
 </div>
 
 <script>
+var pPackages = {
+  selected: {raw json_encode}partner_campaign pkg_code{raw},
+  plans: {raw json_encode}partner_packages{raw}
+};
+
+pPackages.plans.silver.desc = [
+  {
+    title: '{lang addslashes}cs_plans_service_partner_listing{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_commercial_inquiries{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_commercial_feedback{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_profile{lang}',
+    checked: true
+  }
+];
+
+pPackages.plans.gold.desc = [
+  {
+    title: '{lang addslashes}cs_plans_service_silver_level{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_partner_page{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_promotions{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_banner{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_forum_channel{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_showcase_sites{lang}',
+    checked: true
+  },
+  {
+    title: '{lang addslashes}cs_plans_service_extra{lang}',
+    checked: false
+  }
+];
+
+$.each(pPackages.plans, function(index, value) {
+  $('#pPlanTabs').append('<li role="presentation"><a data-target="#p' + index + 'Content" data-toggle="tab" data-code="' + index + '" aria-controls="p' + index + 'Content" role="tab">' + value.title_short + '</a></li>');
+
+  $('#pPlanTabsContent').append('<div role="tabpanel" class="tab-pane" id="p' + index + 'Content"><table class="table table-hover table-borderless"><tbody></tbody></table></div>');
+
+  $.each(value.desc, function(i, d) {
+    var row = '<tr><td>' + d.title + '</td><td align="center">';
+
+    if (d.checked === true) {
+      row += '<i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i>';
+    }
+
+    row += '</td></tr>';
+
+    $('#p' + index + 'Content table tbody').append(row);
+  });
+});
+
+$('#pPlanTabs li a[data-code="' + pPackages.selected + '"]').parent('li').addClass('active');
+$('#p' + pPackages.selected + 'Content').addClass('active');
+
+$('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
+
+$('#pForm input[name="plan"]').val(pPackages.selected);
+
+$.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
+  $('#pPlanSelection').append($('<option/>', {
+    value: lid,
+    text: lvalue.title + ' ' + lvalue.price + ' €'
+  }));
+});
+
+$('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
+
+var pPayCcButtonText = '{lang addslashes}cs_pay_credit_card_button{lang}';
+
+$('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+
+$('#pForm').on('submit', function() {
+  $('#pCcPayButton').data('orig-button-text', $('#pCcPayButton').html());
+  $('#pCcPayButton').html('{lang addslashes}cs_pay_processing_button{lang}').prop('disabled', true);
+});
+
 window.paypalCheckoutReady = function() {
   paypal.checkout.setup('{value}paypal_merchant_id{value}', {
     environment: '{value}paypal_server{value}' != 'live' ? 'sandbox' : 'production',
-    button: ['pSilver', 'pGold'],
+    button: 'pPayPalPayButton',
     click: function(e) {
       e.preventDefault();
 
-      var p = {};
+      var p = {
+        plan: pPackages.selected,
+        duration: pPackages.plans[pPackages.selected].selected.toString()
+      };
 
-      if (e.target.id == 'pGold') {
-        p.plan = 'gold';
-      } else {
-        p.plan = 'silver';
+      var keys = [];
+      for (var k in pPackages.plans[pPackages.selected].levels) {
+        keys.push(k);
       }
 
-      p.duration = $('#' + e.target.id + 'Plan').val();
+      if ($.inArray(p.duration, keys) === -1) {
+        $('#pPlanSelection').closest('.form-group').addClass('has-error');
 
-      if ($.inArray(p.duration, ['1', '3', '6', '12', '18', '24']) === -1) {
-        $('#p' + (p.plan == 'gold' ? 'Gold' : 'Silver') + 'Plan').closest('.form-group').addClass('has-error');
-
-        toastr.error('There was a problem with the duration of the selected plan. Please try again.');
+        toastr.error('{lang addslashes}error_partner_unknown_plan{lang}');
 
         return false;
       }
 
-      if ($('#pSilverPlan, #pGoldPlan').closest('.form-group').hasClass('has-error')) {
-        $('#pSilverPlan, #pGoldPlan').closest('.form-group').removeClass('has-error');
+      if ($('#pPlanSelection').closest('.form-group').hasClass('has-error')) {
+        $('#pPlanSelection').closest('.form-group').removeClass('has-error');
       }
 
       toastr.remove();
@@ -183,6 +208,10 @@ window.paypalCheckoutReady = function() {
       ppCall.done(function (data) {
         if (typeof data.token !== 'undefined') {
           paypal.checkout.startFlow('https://www.' + ('{value}paypal_server{value}' != 'live' ? 'sandbox.' : '') + 'paypal.com/checkoutnow?useraction=commit&token=' + data.token);
+        } else {
+          toastr.error('{lang addslashes}error_partner_payment_initialization{lang}');
+
+          paypal.checkout.closeFlow();
         }
       });
 
@@ -193,17 +222,54 @@ window.paypalCheckoutReady = function() {
   });
 };
 
-$(function() {
-  var highestBox = 0;
+$.getJSON('{raw addslashes}braintree_get_client_token_url{raw}', function (result) {
+  if ((typeof result.rpcStatus !== 'undefined') && (result.rpcStatus === 1) && (typeof result.token !== 'undefined')) {
+    braintree.setup(result.token, 'dropin', {
+      container: 'cc-payment-form',
+      form: 'pForm',
+      onReady: function (obj) {
+        $('#pCcPayButton').removeClass('hidden');
+      },
+      onError: function (obj) {
+        if (typeof $('#pCcPayButton').data('orig-button-text') !== 'undefined') {
+          $('#pCcPayButton').html($('#pCcPayButton').data('orig-button-text')).prop('disabled', false);
+          $('#pCcPayButton').removeData('orig-button-text');
+        }
+      }
+    });
+  }
+});
 
-  $('#maincontent .panel .panel-body').each(function() {
-    if ($(this).height() > highestBox) {
-      highestBox = $(this).height();
-    }
+$('#pPlanTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  var p = $(e.target).data('code');
+
+  pPackages.selected = p;
+
+  $('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
+
+  $('#pForm input[name="plan"]').val(pPackages.selected);
+
+  $('#pPlanSelection').find('option').remove();
+
+  $.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
+    $('#pPlanSelection').append($('<option/>', {
+      value: lid,
+      text: lvalue.title + ' ' + lvalue.price + ' €'
+    }));
   });
 
-  $('#maincontent .panel .panel-body').height(highestBox);
+  $('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
 
+  $('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+});
+
+$('#pPlanSelection').on('change', function() {
+  pPackages.plans[pPackages.selected].selected = this.value;
+
+  $('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+});
+
+$(function() {
   var partner_date_now = moment('{value addslashes}partner_date_now{value}');
   var runsUntil = moment($('.pcdate').text());
 
@@ -227,6 +293,6 @@ $(function() {
 });
 </script>
 
+<script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
 <script src="public/external/momentjs/moment.min.js"></script>
-
 <script src="https://www.paypalobjects.com/api/checkout.js" async></script>

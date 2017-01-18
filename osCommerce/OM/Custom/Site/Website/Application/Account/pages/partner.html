@@ -7,10 +7,23 @@
 
       {widget}message_stack|partner{widget}
 
-      <p>{lang}partner_introduction{lang}</p>
+      <div id="ptabs">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" id="ptabsActive"><a href="#pactive" aria-controls="pactive" role="tab" data-toggle="tab">{lang}partner_tab_active{lang} <span class="label label-success"></span></a></li>
+          <li role="presentation" id="ptabsInactive"><a href="#pinactive" aria-controls="pinactive" role="tab" data-toggle="tab">{lang}partner_tab_inactive{lang} <span class="label label-danger"></span></a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane" id="pactive"></div>
+          <div role="tabpanel" class="tab-pane" id="pinactive"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {loop partner_campaigns}
-<div id="partnerc_#code#">
+<div id="partnerc_#code#" class="hidden">
   <div class="panel">
     <div class="panel-heading">
       <div class="row">
@@ -43,11 +56,6 @@
 </div>
 {loop}
 
-      <p class="text-success text-center small">{lang}partner_multiple_discount_info{lang}</p>
-    </div>
-  </div>
-</div>
-
 <script>
 $(function() {
   var partner_date_now = moment('{value addslashes}partner_date_now{value}');
@@ -58,11 +66,15 @@ $(function() {
     $('.pcdate', this).text(runsUntil.format('Do MMM, YYYY'));
 
     if (runsUntil.isBefore(partner_date_now)) {
+      $(this).appendTo('#pinactive').removeClass('hidden');
+
       $('.panel', this).addClass('panel-danger');
       $('.panel .btn', this).addClass('btn-danger');
 
       $('.pcdays', this).html('(' + runsUntil.from(partner_date_now) + ')');
     } else {
+      $(this).appendTo('#pactive').removeClass('hidden');
+
       var daysRemaining = runsUntil.diff(partner_date_now, 'days');
 
       $('.pcdays', this).html('(' + partner_date_now.to(runsUntil) + ')');
@@ -76,6 +88,26 @@ $(function() {
       }
     }
   });
+
+  var totalActive = $('#pactive div[id^=partnerc_]').length;
+  var totalInactive = $('#pinactive div[id^=partnerc_]').length;
+
+  if (totalActive > 0) {
+    $('#ptabsActive .label').text(totalActive);
+    $('#ptabsActive, #pactive').addClass('active');
+  } else {
+    $('#ptabsActive, #pactive').addClass('hidden');
+  }
+
+  if (totalInactive > 0) {
+    $('#ptabsInactive .label').text(totalInactive);
+
+    if (totalActive < 1) {
+      $('#ptabsInactive, #pinactive').addClass('active');
+    }
+  } else {
+    $('#ptabsInactive, #pinactive').addClass('hidden');
+  }
 });
 </script>
 

@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
   namespace osCommerce\OM\Core\Site\Website;
@@ -11,6 +11,7 @@
   use osCommerce\OM\Core\AuditLog;
   use osCommerce\OM\Core\Cache;
   use osCommerce\OM\Core\OSCOM;
+  use osCommerce\OM\Core\Registry;
 
   use osCommerce\OM\Core\Site\Website\Users;
 
@@ -19,6 +20,7 @@
     protected static $_partners;
     protected static $_categories;
     protected static $_promotions;
+    protected static $packages;
 
     public static function get($code, $key = null) {
       if ( !isset(static::$_partner[$code]) ) {
@@ -74,12 +76,23 @@
       return false;
     }
 
-    public static function getCategories() {
-      if ( !isset(static::$_categories) ) {
-        static::$_categories = OSCOM::callDB('Website\GetPartnerCategories', null, 'Site');
-      }
+    public static function getCategories()
+    {
+        $OSCOM_Language = Registry::get('Language');
 
-      return static::$_categories;
+        if (!isset(static::$_categories)) {
+            $data = [
+                'default_language_id' => $OSCOM_Language->getDefaultId()
+            ];
+
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $data['language_id'] = $OSCOM_Language->getID();
+            }
+
+            static::$_categories = OSCOM::callDB('Website\GetPartnerCategories', $data, 'Site');
+        }
+
+        return static::$_categories;
     }
 
     public static function categoryExists($code) {
@@ -96,12 +109,23 @@
       return false;
     }
 
-    public static function getPromotions() {
-      if ( !isset(static::$_promotions) ) {
-        static::$_promotions = OSCOM::callDB('Website\GetPartnerPromotions', null, 'Site');
-      }
+    public static function getPromotions()
+    {
+        $OSCOM_Language = Registry::get('Language');
 
-      return static::$_promotions;
+        if (!isset(static::$_promotions)) {
+            $data = [
+                'default_language_id' => $OSCOM_Language->getDefaultId()
+            ];
+
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $data['language_id'] = $OSCOM_Language->getID();
+            }
+
+            static::$_promotions = OSCOM::callDB('Website\GetPartnerPromotions', $data, 'Site');
+        }
+
+        return static::$_promotions;
     }
 
     public static function hasCampaign($id, $code = null) {
@@ -288,6 +312,88 @@
         $result['price'] = $prices[$duration];
 
         return $result;
+    }
+
+    public static function getPackages()
+    {
+        $OSCOM_Language = Registry::get('Language');
+
+        if (isset(static::$packages)) {
+            return static::$packages;
+        }
+
+        $data = [
+            'default_language_id' => $OSCOM_Language->getDefaultId()
+        ];
+
+        if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+            $data['language_id'] = $OSCOM_Language->getID();
+        }
+
+        $packages = OSCOM::callDB('Website\GetPartnerPackages', $data, 'Site');
+
+        $result = [];
+
+        foreach ($packages as $pkg) {
+            $levels = static::getPackageLevels($pkg['code']);
+
+            $selected_id = null;
+
+            foreach ($levels as $lkey => $lvalue) {
+                if ($lvalue['default_selected'] == '1') {
+                    $selected_id = $lkey;
+                }
+
+                unset($levels[$lkey]['default_selected']);
+            }
+
+            $result[$pkg['code']] = [
+                'title' => $pkg['title'],
+                'title_short' => $pkg['title_short'],
+                'selected' => $selected_id,
+                'levels' => $levels
+            ];
+        }
+
+        static::$packages = $result;
+
+        return static::$packages;
+    }
+
+    public static function getPackageLevels($code)
+    {
+        $OSCOM_Language = Registry::get('Language');
+
+        $data = [
+            'package_code' => $code,
+            'default_language_id' => $OSCOM_Language->getDefaultId()
+        ];
+
+        if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+            $data['language_id'] = $OSCOM_Language->getID();
+        }
+
+        $levels = OSCOM::callDB('Website\GetPartnerPackageLevels', $data, 'Site');
+
+        $result = [];
+
+        foreach ($levels as $l) {
+            $result[$l['id']] = [
+                'title' => $l['title'],
+                'duration' => $l['duration_months'],
+                'price' => number_format($l['price'], 0),
+                'price_raw' => number_format($l['price'], 0, '', ''),
+                'default_selected' => $l['default_selected']
+            ];
+        }
+
+        return $result;
+    }
+
+    public static function getPackageId($code) {
+        $result = OSCOM::callDB('Website\GetPartnerPackageId', ['code' => $code], 'Site');
+
+        return $result['id'];
     }
   }
 ?>

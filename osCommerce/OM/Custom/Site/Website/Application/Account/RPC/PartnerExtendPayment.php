@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
@@ -32,11 +32,13 @@ class PartnerExtendPayment
         }
 
         if (!isset($result['rpcStatus'])) {
+            $packages = Partner::getPackages();
+
             if (
                 !isset($_POST['plan']) ||
-                !in_array($_POST['plan'], ['silver', 'gold']) ||
+                !array_key_exists($_POST['plan'], $packages) ||
                 !isset($_POST['duration']) ||
-                !in_array($_POST['duration'], ['1', '3', '6', '12', '18', '24'])
+                !array_key_exists($_POST['duration'], $packages[$_POST['plan']]['levels'])
                ) {
                 $result['rpcStatus'] = RPC::STATUS_ERROR;
             }
@@ -46,7 +48,6 @@ class PartnerExtendPayment
             $_SESSION[OSCOM::getSite()]['PartnerPayPalSecret'] = Hash::getRandomString(16, 'digits');
 
             $partner = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
-            $product = Partner::getProductPlan($_POST['plan'], $_POST['duration']);
 
             if (OSCOM::getConfig('enable_ssl') == 'true') {
                 $base_url = OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server');
@@ -57,13 +58,13 @@ class PartnerExtendPayment
             $params = [
                 'METHOD' => 'SetExpressCheckout',
                 'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-                'PAYMENTREQUEST_0_AMT' => $product['price'],
-                'PAYMENTREQUEST_0_ITEMAMT' => $product['price'],
+                'PAYMENTREQUEST_0_AMT' => $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'],
+                'PAYMENTREQUEST_0_ITEMAMT' => $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'],
                 'PAYMENTREQUEST_0_CURRENCYCODE' => 'EUR',
-                'PAYMENTREQUEST_0_DESC' => 'osCommerce Partnership Extension',
-                'L_PAYMENTREQUEST_0_NAME0' => $partner['title'] . ' ' . $product['plan'] . ' ' . $product['duration'],
-                'L_PAYMENTREQUEST_0_AMT0' => $product['price'],
-                'L_PAYMENTREQUEST_0_NUMBER0' => $_GET['p'] . '-' . $_POST['plan'] . '-' . $_POST['duration'],
+                'PAYMENTREQUEST_0_DESC' => 'osCommerce Partnership',
+                'L_PAYMENTREQUEST_0_NAME0' => $partner['title'] . ' ' . $packages[$_POST['plan']]['title'] . ' ' . $packages[$_POST['plan']]['levels'][$_POST['duration']]['title'],
+                'L_PAYMENTREQUEST_0_AMT0' => $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'],
+                'L_PAYMENTREQUEST_0_NUMBER0' => $_GET['p'] . '-' . $_POST['plan'] . '-' . $packages[$_POST['plan']]['levels'][$_POST['duration']]['duration'],
                 'NOSHIPPING' => 1,
                 'ALLOWNOTE' => 0,
                 'SOLUTIONTYPE' => 'Sole',
@@ -74,7 +75,7 @@ class PartnerExtendPayment
             ];
 
             if ($partner['billing_country_iso_code_2'] == 'DE') {
-                $params['PAYMENTREQUEST_0_TAXAMT'] = $product['price'] * 0.19;
+                $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'] * 0.19;
                 $params['PAYMENTREQUEST_0_AMT'] += $params['PAYMENTREQUEST_0_TAXAMT'];
             }
 

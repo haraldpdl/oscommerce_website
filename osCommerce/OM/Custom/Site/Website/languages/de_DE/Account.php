@@ -128,6 +128,9 @@ partner_title = Partner Dashboard
 
 partner_introduction = Please select a campaign to edit:
 
+partner_tab_active = Aktiv
+partner_tab_inactive = Inaktiv
+
 partner_empty = There are currently no campaigns available. <a href="{link}Services|Website|Info{link}">Send us an inquiry</a> and we'll get back to you.
 
 partner_multiple_discount_info = Multiple partnerships are available with discounts! Inquire to find out!
@@ -237,7 +240,7 @@ email_partner_update_subject = osCommerce Partner Information Page Updated
 partner_view_html_title = :partner_title | osCommerce
 
 partner_extension_title = Partnership Extension
-partner_extension_description = Please select the plan and duration to extend the partnership with.
+partner_extension_description = Please select the duration to extend the partnership with.
 
 partner_sites_title = Live Site Showcases
 
@@ -273,19 +276,19 @@ partner_success_billing_save = The billing information has been successfully sav
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold
 
-cs_plans_service_partner = Displayed as a partner on the website
-cs_plans_service_information_page = Own partner information page
-cs_plans_service_commercial_inquiries = View and reply to commercial support inquiries on the forum
-cs_plans_service_commercial_feedback = Accept client feedback and reviews on the forum
+cs_plans_duration_title = Duration:
+
+cs_plans_service_partner_listing = Listed and linked as a partner
+cs_plans_service_partner_page = Dedicated partner information page
+cs_plans_service_commercial_inquiries = View and reply to commercial support inquiries
+cs_plans_service_commercial_feedback = Accept client feedback and reviews
 cs_plans_service_profile = Promoted community profile
 cs_plans_service_silver_level = Includes Silver Level
-cs_plans_service_custom_header = Large custom header image on partner information page
 cs_plans_service_promotions = Show promotions on the website
 cs_plans_service_banner = Show banner on the forum with latest status update
-cs_plans_service_adwords = Authorized use of trademark in Google AdWords (min. 6 months)
 cs_plans_service_forum_channel = Own forum channel for announcements
-cs_plans_service_news_publishing = Publish articles in our news and social media sites (coming soon)
 cs_plans_service_showcase_sites = Showcase customer websites
+cs_plans_service_extra = Extra marketing available (carousel promotion, news publishing <small>(coming soon)</small>)
 
 cs_pricing_please_select = Please Select
 cs_pricing_1_month = 1 Month
@@ -295,9 +298,14 @@ cs_pricing_12_months = 12 Months
 cs_pricing_18_months = 18 Months
 cs_pricing_24_months = 24 Months
 
-cs_pricing_info = All prices are in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
+cs_pricing_info = All prices are net prices in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
 
-cs_purchase_button = <i class="fa fa-paypal"></i> Pay at PayPal
+cs_payment_tab_paypal = PayPal
+cs_payment_tab_credit_card = Kreditkarte
+
+cs_pay_paypal_button = <i class="fa fa-paypal"></i> Mit PayPal Zahlen
+cs_pay_credit_card_button = <i class="fa fa-credit-card"></i> Zahlen #amount#
+cs_pay_processing_button = <i class="fa fa-credit-card"></i> Bearbeiten..
 
 email_partner_extension_subject = osCommerce Partnership Extension
 
@@ -320,3 +328,15 @@ invoices_empty = Es stehen momentan keine Rechnungen zur Verfügung..
 
 error_invoice_nonexistent = Die angeforderte Rechnung könnte nicht gefunden werden. Bitte versuchen Sie es erneut.
 error_invoice_file_nonexistent = Die angeforderte Rechnung könnte nicht zur Verfügung gesteltt werden. Bitte versuchen Sie es erneut.
+
+success_partner_payment_processed = Die Partnerschaft wurde erfolgreich verlängert!
+error_partner_payment_cancelled = Die Zahlung wurde gecancelt. Bitte versuchen Sie es erneut.
+error_partner_payment_general = Fehler: Beim Ausführen der Zahlung ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_unknown_plan = Fehler: Die ausgewählte Verlängerung konnte nicht zu Ihrem Konto zugeordnet werden. Bitte versuchen Sie es erneut.
+error_partner_payment_cvv = Fehler: Beim Überprüfen der CVV-Informationen der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_avs = Fehler: Es wurde ein Problem beim Überprüfen der Rechnungsadresse der Karte festgestellt. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_cvv_avs = Fehler: Beim Überprüfen der CVV und der Rechnungsadresse der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_initialization = Fehler: Die Initialisierung der Zahlung konnte nicht verifiziert werden. Bitte versuchen Sie es erneut.
+error_partner_payment_verification = Fehler: Die Zahlung konnte nicht verifiziert werden. Bitte versuchen Sie es erneut.
+error_partner_payment_unkown_account = Fehler: Die Zahlung konnte nicht mit Ihrem Konto zugeordnet werden. Bitte versuchen Sie es erneut.
+error_partner_payment_total_mismatch = Fehler: Die Summe der Zahlung stimmt nicht mit der Summe der Bestellung überein. Bitte versuchen Sie es erneut.

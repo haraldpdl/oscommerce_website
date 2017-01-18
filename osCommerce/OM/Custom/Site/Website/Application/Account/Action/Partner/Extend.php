@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
@@ -38,10 +38,14 @@ class Extend
         $OSCOM_Template->setValue('partner_campaign', $partner_campaign);
         $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner_campaign['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner_campaign['image_big'])));
 
+        $OSCOM_Template->setValue('partner_packages', Partner::getPackages());
+
         $OSCOM_Template->setValue('paypal_server', OSCOM::getConfig('paypal_server'));
         $OSCOM_Template->setValue('paypal_merchant_id', OSCOM::getConfig('paypal_' . OSCOM::getConfig('paypal_server') . '_merchant_id'));
 
         $OSCOM_Template->setValue('payment_init_url', OSCOM::getRPCLink(null, null, 'PartnerExtendPayment&p=' . $partner_campaign['code'], 'SSL'));
+
+        $OSCOM_Template->setValue('braintree_get_client_token_url', OSCOM::getRPCLink(null, null, 'GetBraintreeClientToken&p=' . $partner_campaign['code'], 'SSL'));
 
         $application->setPageContent('partner_extend.html');
 

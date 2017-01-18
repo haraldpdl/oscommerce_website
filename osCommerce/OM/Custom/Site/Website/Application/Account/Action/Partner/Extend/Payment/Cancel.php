@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Extend\Payment;
@@ -26,6 +26,6 @@ class Cancel
             unset($_SESSION[OSCOM::getSite()]['PartnerPayPalSecret']);
         }
 
-        $OSCOM_MessageStack->add('partner', 'The payment transaction has been cancelled. Please try again.', 'warning');
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_partner_payment_cancelled'), 'warning');
     }
 }
