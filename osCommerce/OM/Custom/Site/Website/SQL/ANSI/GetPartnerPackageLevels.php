@@ -30,7 +30,7 @@ class GetPartnerPackageLevels
 
         $Qlevels->bindInt(':default_language_id', $data['default_language_id']);
         $Qlevels->bindValue(':package_code', $data['package_code']);
-        $Qlevels->setCache('website_partner_pkgs_lvls-lang' . ($data['language_id'] ?? $data['default_language_id']));
+        $Qlevels->setCache('website_partner_pkgs_lvls-code' . $data['package_code'] . '-lang' . ($data['language_id'] ?? $data['default_language_id']));
         $Qlevels->execute();
 
         return $Qlevels->fetchAll();
