@@ -84,8 +84,8 @@ class Braintree
                 'currency' => $response->transaction->currencyIsoCode,
                 'amount' => $response->transaction->amount,
                 'merchant_account_id' => $response->transaction->merchantAccountId,
-                'date_create' => $response->transaction->createdAt->date,
-                'company' => $response->transaction->customer->company
+                'date_create' => $response->transaction->createdAt->format('Y-m-d H:i:s T'),
+                'company' => $response->transaction->customer['company'] ?? null
             ];
         } else {
             $log = [
@@ -96,8 +96,8 @@ class Braintree
                 'currency' => $response->transaction->currencyIsoCode ?? null,
                 'amount' => $response->params['transaction']['amount'],
                 'merchant_account_id' => $response->params['transaction']['merchantAccountId'],
-                'date_create' => $response->transaction->createdAt->date ?? null,
-                'company' => $response->params['transaction']['customer']['company']
+                'date_create' => isset($response->transaction->createdAt) ? $response->transaction->createdAt->format('Y-m-d H:i:s T') : null,
+                'company' => $response->params['transaction']['customer']['company'] ?? null
             ];
         }
 
