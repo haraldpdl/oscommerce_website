@@ -38,7 +38,7 @@ class Extend
         $OSCOM_Template->setValue('partner_campaign', $partner_campaign);
         $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner_campaign['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner_campaign['image_big'])));
 
-        $OSCOM_Template->setValue('partner_packages', Partner::getPackages());
+        $OSCOM_Template->setValue('partner_packages', Partner::getPackages($_GET['Extend']));
 
         $OSCOM_Template->setValue('paypal_server', OSCOM::getConfig('paypal_server'));
         $OSCOM_Template->setValue('paypal_merchant_id', OSCOM::getConfig('paypal_' . OSCOM::getConfig('paypal_server') . '_merchant_id'));

@@ -70,6 +70,8 @@ class Process
 
         $OSCOM_PDO->save('website_partner_transaction', $data);
 
+        Partner::updatePackageLevelStatus($result['level_id']);
+
         Cache::clear('website_partner-' . $partner['code']);
         Cache::clear('website_partner_promotions');
         Cache::clear('website_partners');
@@ -231,7 +233,7 @@ class Process
             OSCOM::redirect(OSCOM::getLink(null, null, 'Partner&Extend=' . $_GET['Extend'], 'SSL'));
         }
 
-        list($partner_code, $plan, $duration) = explode('-', $_SESSION[OSCOM::getSite()]['PartnerPayPalResult']['L_PAYMENTREQUEST_0_NUMBER0'], 3);
+        list($partner_code, $plan, $level_id) = explode('-', $_SESSION[OSCOM::getSite()]['PartnerPayPalResult']['L_PAYMENTREQUEST_0_NUMBER0'], 3);
 
         if ($partner_code != $_GET['Extend']) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_partner_payment_unkown_account'), 'error');
@@ -244,16 +246,7 @@ class Process
         $partner = $OSCOM_Template->getValue('partner_campaign');
         $packages = $OSCOM_Template->getValue('partner_packages');
 
-        $level_id = null;
-
-        foreach ($packages[$plan]['levels'] as $lkey => $lvalue) {
-            if ($lvalue['duration'] == $duration) {
-                $level_id = $lkey;
-                break;
-            }
-        }
-
-        if (!isset($packages[$plan]) || !isset($level_id)) {
+        if (!isset($packages[$plan]) || !isset($packages[$plan]['levels'][$level_id])) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_partner_unknown_plan'), 'error');
 
             unset($_SESSION[OSCOM::getSite()]['PartnerPayPalResult']);

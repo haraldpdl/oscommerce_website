@@ -20,7 +20,6 @@
     protected static $_partners;
     protected static $_categories;
     protected static $_promotions;
-    protected static $packages;
 
     public static function get($code, $key = null) {
       if ( !isset(static::$_partner[$code]) ) {
@@ -284,43 +283,9 @@
         }
     }
 
-    public static function getProductPlan($plan, $duration)
-    {
-        $result = [
-            'plan' => ($plan == 'silver' ? 'Silver' : 'Gold') . ' Level',
-            'duration' => $duration . ' ' . ($duration > 1 ? ' Months' : 'Month')
-        ];
-
-        if ($plan == 'silver') {
-            $prices = [
-                '1' => '50',
-                '3' => '140',
-                '6' => '250',
-                '12' => '500'
-            ];
-        } else {
-            $prices = [
-                '1' => '100',
-                '3' => '280',
-                '6' => '500',
-                '12' => '1000',
-                '18' => '1500',
-                '24' => '2000'
-            ];
-        }
-
-        $result['price'] = $prices[$duration];
-
-        return $result;
-    }
-
-    public static function getPackages()
+    public static function getPackages($partner_code = null)
     {
         $OSCOM_Language = Registry::get('Language');
-
-        if (isset(static::$packages)) {
-            return static::$packages;
-        }
 
         $data = [
             'default_language_id' => $OSCOM_Language->getDefaultId()
@@ -335,12 +300,12 @@
         $result = [];
 
         foreach ($packages as $pkg) {
-            $levels = static::getPackageLevels($pkg['code']);
+            $levels = static::getPackageLevels($pkg['code'], $partner_code);
 
             $selected_id = null;
 
             foreach ($levels as $lkey => $lvalue) {
-                if ($lvalue['default_selected'] == '1') {
+                if (!isset($selected_id) && ($lvalue['default_selected'] == '1')) {
                     $selected_id = $lkey;
                 }
 
@@ -355,14 +320,14 @@
             ];
         }
 
-        static::$packages = $result;
-
-        return static::$packages;
+        return $result;
     }
 
-    public static function getPackageLevels($code)
+    public static function getPackageLevels($code, $partner_code = null)
     {
         $OSCOM_Language = Registry::get('Language');
+
+        $result = [];
 
         $data = [
             'package_code' => $code,
@@ -373,9 +338,25 @@
             $data['language_id'] = $OSCOM_Language->getID();
         }
 
-        $levels = OSCOM::callDB('Website\GetPartnerPackageLevels', $data, 'Site');
+        if (isset($partner_code)) {
+            $extra = array_merge($data, ['partner_id' => static::get($partner_code, 'id')]);
 
-        $result = [];
+            $levels = OSCOM::callDB('Website\GetPartnerPackageLevelsExtra', $extra, 'Site');
+
+            if (!empty($levels)) {
+                foreach ($levels as $l) {
+                    $result[$l['id']] = [
+                        'title' => $l['title'],
+                        'duration' => $l['duration_months'],
+                        'price' => number_format($l['price'], 0),
+                        'price_raw' => number_format($l['price'], 0, '', ''),
+                        'default_selected' => $l['default_selected']
+                    ];
+                }
+            }
+        }
+
+        $levels = OSCOM::callDB('Website\GetPartnerPackageLevels', $data, 'Site');
 
         foreach ($levels as $l) {
             $result[$l['id']] = [
@@ -394,6 +375,24 @@
         $result = OSCOM::callDB('Website\GetPartnerPackageId', ['code' => $code], 'Site');
 
         return $result['id'];
+    }
+
+    public static function updatePackageLevelStatus($id)
+    {
+        $OSCOM_PDO = Registry::get('PDO');
+
+        $level = OSCOM::callDB('Website\GetPartnerPackageLevel', ['id' => $id], 'Site');
+
+        if ((int)$level['usage_counter'] > 0) {
+            $counter = (int)$level['usage_counter'] - 1;
+
+            $data = [
+                'usage_counter' => $counter,
+                'status' => ($counter > 0) ? 1 : 0
+            ];
+
+            $OSCOM_PDO->save('website_partner_package_levels', $data, ['id' => $id]);
+        }
     }
   }
 ?>

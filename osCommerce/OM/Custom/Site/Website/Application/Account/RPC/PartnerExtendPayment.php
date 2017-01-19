@@ -32,7 +32,7 @@ class PartnerExtendPayment
         }
 
         if (!isset($result['rpcStatus'])) {
-            $packages = Partner::getPackages();
+            $packages = Partner::getPackages($_GET['p']);
 
             if (
                 !isset($_POST['plan']) ||
@@ -64,23 +64,20 @@ class PartnerExtendPayment
                 'PAYMENTREQUEST_0_DESC' => 'osCommerce Partnership',
                 'L_PAYMENTREQUEST_0_NAME0' => $partner['title'] . ' ' . $packages[$_POST['plan']]['title'] . ' ' . $packages[$_POST['plan']]['levels'][$_POST['duration']]['title'],
                 'L_PAYMENTREQUEST_0_AMT0' => $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'],
-                'L_PAYMENTREQUEST_0_NUMBER0' => $_GET['p'] . '-' . $_POST['plan'] . '-' . $packages[$_POST['plan']]['levels'][$_POST['duration']]['duration'],
+                'L_PAYMENTREQUEST_0_NUMBER0' => $_GET['p'] . '-' . $_POST['plan'] . '-' . $_POST['duration'],
                 'NOSHIPPING' => 1,
                 'ALLOWNOTE' => 0,
                 'SOLUTIONTYPE' => 'Sole',
                 'BRANDNAME' => 'osCommerce',
                 'PAYMENTREQUEST_0_CUSTOM' => $_SESSION[OSCOM::getSite()]['PartnerPayPalSecret'],
                 'RETURNURL' => $base_url . 'index.php?' . OSCOM::getSiteApplication() . '&Partner&Extend=' . $_GET['p'] . '&Payment&Process',
-                'CANCELURL' => $base_url . 'index.php?' . OSCOM::getSiteApplication() . '&Partner&Extend=' . $_GET['p'] . '&Payment&Cancel'
+                'CANCELURL' => $base_url . 'index.php?' . OSCOM::getSiteApplication() . '&Partner&Extend=' . $_GET['p'] . '&Payment&Cancel',
+                'HDRIMG' => OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server') . 'public/sites/Website/images/oscommerce.png'
             ];
 
             if ($partner['billing_country_iso_code_2'] == 'DE') {
                 $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'] * 0.19;
                 $params['PAYMENTREQUEST_0_AMT'] += $params['PAYMENTREQUEST_0_TAXAMT'];
-            }
-
-            if (OSCOM::getConfig('enable_ssl') == 'true') {
-                $params['HDRIMG'] = OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server') . 'public/sites/Website/images/oscommerce.png';
             }
 
             $r = PayPal::makeCall($params);
