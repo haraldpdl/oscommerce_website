@@ -55,13 +55,13 @@
 
         foreach ( $audit as $a ) {
           $output .= '<div class="tab-pane" id="audit' . $counter . '">
-                        <p>by <a href="http://forums.oscommerce.com/index.php?showuser=' . $a['user_id'] . '">' . $a['user_name'] . '</a></p>';
+                        <p>' . OSCOM::getDef('audit_by', [':user_id' => $a['user_id'], ':user_name' => $a['user_name']]) . '</p>';
 
           foreach ( $a['rows'] as $row ) {
             $output .= '<h3>' . $row['row_key'] . '</h3>
                         <div class="panel panel-danger">
                           <div class="panel-heading">
-                            <h4 class="panel-title">Old</h4>
+                            <h4 class="panel-title">' . OSCOM::getDef('audit_old') . '</h4>
                           </div>
                           <div class="panel-body">
                             <pre>' . HTML::outputProtected($row['old_value']) . '</pre>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="panel panel-success">
                           <div class="panel-heading">
-                            <h4 class="panel-title">New</h4>
+                            <h4 class="panel-title">' . OSCOM::getDef('audit_new') . '</h4>
                           </div>
                           <div class="panel-body">
                             <pre>' . HTML::outputProtected($row['new_value']) . '</pre>

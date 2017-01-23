@@ -1,6 +1,6 @@
-# osCommerce Website
-#
-# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
-# @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+audit_old = Alt
+audit_new = Neu
 
-partner_audit_log_empty = No updates have been performed yet.
+audit_by = von <a href="http://forums.oscommerce.com/index.php?showuser=:user_id">:user_name</a>
+
+partner_audit_log_empty = Sie haben bis jetzt keine Veränderungen durchgeführt.

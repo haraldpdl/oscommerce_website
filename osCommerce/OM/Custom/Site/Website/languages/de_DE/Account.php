@@ -1,25 +1,25 @@
 account_html_title = Mein Konto | osCommerce
 account_title = Mein Konto
 
-account_introduction = <p>Willkommen in der Community! Wir freuen uns auf Ihre Besuch und auf Ihre Teilnahme in der Community!</p>
+account_introduction = <p>Willkommen in der Community! Wir freuen uns auf Ihren Besuch und auf Ihre Teilnahme!</p>
 
 account_forum_title = Forum
-account_forum_desc = Frag nach oder anderen helfen und an diskussionen teilnehmen.
+account_forum_desc = Fragen stellen, anderen helfen und an Diskussionen teilnehmen.
 account_forum_links = <a class="btn btn-info" href="https://forums.oscommerce.de">Deutsche Forum</a> <a class="btn btn-info" href="http://forums.oscommerce.com">Englische Forum</a>
 account_add_ons_title = Erweiterungen
-account_add_ons_desc = Durchsuche oder teile Ihrer erweiterungen mit die Community mit.
+account_add_ons_desc = Lade herunter oder teilen Sie Ihre Erweiterungen in der Community mit.
 account_add_ons_link = Erweiterungs-Seite
 account_live_shops_title = Shop Galerie
-account_live_shops_desc = Durchsuchen oder teile Ihrer Online Shop in die Galerie mit.
+account_live_shops_desc = Stöbern oder teilen Sie Ihren Online Shop in der Galerie mit.
 account_live_shops_link = Shop Galerie
 account_partner_title = Partner Dashboard
-account_partner_desc = Präsentier Ihrer e-Commerce Produkte und Dienstleistungen zu die Community.
+account_partner_desc = Präsentieren Sie Ihre e-Commerce Produkte und Dienstleistungen an die Community.
 account_partner_link = Partner Dashboard
 
 login_html_title = Anmelden | osCommerce
 login_title = Anmelden
 
-login_introduction = <p>Melde dich an und nehme an unserer Community teil.</p><p class="alert alert-warning">Bitte melden Sie sich mit einem Konto an, die auf dieser Webseite oder auf unserem Englischen Forum erstellt worden ist. Anmeldungen auf unserer Webseite mit Benutzerkonten aus unserem Deutschen Forum sind momentan nicht möglich.</p>
+login_introduction = <p>Melden Sie sich an und nehmen Sie an unserer Community teil.</p><p class="alert alert-warning">Bitte melden Sie sich mit einem Konto an, die auf dieser Webseite oder auf unserem Englischen Forum erstellt worden ist. Anmeldungen mit Benutzerkonten aus unserem Deutschen Forum sind momentan nicht möglich.</p>
 
 login_username_title = Benutzername
 login_username_js_error_required = Erforderlich
@@ -135,12 +135,12 @@ partner_empty = There are currently no campaigns available. <a href="{link}Servi
 
 partner_multiple_discount_info = Multiple partnerships are available with discounts! Inquire to find out!
 
-button_partner_extend = Extend
-button_partner_view = View
-button_partner_edit = Edit
-button_partner_history = History
-button_partner_sites = Sites
-button_partner_billing = Billing
+button_partner_extend = Verlängern
+button_partner_view = Vorschau
+button_partner_edit = Bearbeiten
+button_partner_history = Verlauf
+button_partner_sites = Shop Galerie
+button_partner_billing = Buchungskonto
 
 partner_required_fields = * Required fields
 partner_information_page = Partner Information Page
@@ -189,9 +189,9 @@ partner_field_carousel_image_url_title = URL
 partner_german_language_requirement = All fields optional and must be in German.
 partner_back_to_campaigns = Back to campaigns
 
-partner_button_save = Save
-partner_button_processing = Processing..
-partner_button_cancel = Cancel
+partner_button_save = Speichern
+partner_button_processing = in Berabeitung..
+partner_button_cancel = Abbrechen
 
 link_view_apps = View Apps
 link_view_documentation = View Documentation
@@ -242,36 +242,36 @@ partner_view_html_title = :partner_title | osCommerce
 partner_extension_title = Partnership Extension
 partner_extension_description = Please select the duration to extend the partnership with.
 
-partner_sites_title = Live Site Showcases
+partner_sites_title = Shop Galerie
 
-partner_sites_not_active = Live Site Showcases is not currently enabled for your partnership plan.
+partner_sites_not_active = Die Shop Galerie ist momentan in Ihrer Partnerschaft nicht freigegeben.
 
-button_partner_visit_showcase = Visit Your Live Sites Showcase
-button_partner_visit_live_sites = Visit Live Sites
+button_partner_visit_showcase = Ihre Shop Galerie-Seite besuchen
+button_partner_visit_live_sites = Shop Galerie besuchen
 
-partner_table_heading_showcase = Showcase
-partner_select_site_to_showcase = Select a site below to add as a showcase.
-partner_table_heading_sites = Sites
-partner_no_sites_to_add_to_showcase = No new sites are currently available.
-partner_showcase_add_site_intro = New sites can be added at the Live Sites website.
+partner_table_heading_showcase = In Ihrer Shop Galerie
+partner_select_site_to_showcase = Wähle aus der Liste unten, um eine Seite in Ihrer Shop Galerie hervorzuheben.
+partner_table_heading_sites = Seiten
+partner_no_sites_to_add_to_showcase = Momentan sind keine neuen Seiten vorhanden.
+partner_showcase_add_site_intro = Neue Seiten können auf der Shop Galerie-Seite hinzugefügt werden.
 
-partner_error_site_nonexistent = The site does not exist.
-partner_error_site_action_unknown = The requested action could not be performed. Please try again.
-partner_error_site_already_showcase = The site has already been added to the showcase.
-partner_error_site_showcase_add = The site could not be added to the showcase. Please try again.
-partner_error_site_showcase_nonexistent = The showcase site does not exist.
-partner_error_site_showcase_remove = The site could not be removed from the showcase. Please try again.
-partner_error_max_site_showcase = The maximum number of live site showcases has been reached in your partnership plan.
+partner_error_site_nonexistent = Die Seite existiert nicht.
+partner_error_site_action_unknown = Der angeforderte Befehl konnte nicht ausgeführt werden. Bitte versuchen Sie es erneut.
+partner_error_site_already_showcase = Die Seite ist schon in Ihrer Shop Galerie hervorgehoben worden.
+partner_error_site_showcase_add = Die Seite konnte nicht hervorgehoben werden. Bitte versuchen Sie es erneut.
+partner_error_site_showcase_nonexistent = Die Seite existiert nicht.
+partner_error_site_showcase_remove = Die Seite konnte nicht aus Ihrer Shop Galerie entfernt werden. Bitte versuchen Sie es erneut.
+partner_error_max_site_showcase = In Ihrem Partnerschaft wurde die maximale Anzahl an Hervorhebungen in der Shop Galerie erreicht.
 
-partner_success_site_showcase_add = The site has been successfully added to the showcase.
-partner_success_site_showcase_remove = The site was successfully removed from the showcase.
+partner_success_site_showcase_add = Die Seite ist in Ihrer Shop Galerie erfolgreich hinzugefügt worden.
+partner_success_site_showcase_remove = Die Seite ist aus Ihrer Shop Galerie erfolgreich entfernt worden.
 
-partner_billing_title = Billing
+partner_billing_title = Buchungskonto
 
-partner_field_billing_address_title = Address
-partner_field_billing_vat_id_title = VAT ID <small>(if applicable, EU required)</small>
+partner_field_billing_address_title = Rechnungsadresse
+partner_field_billing_vat_id_title = USt-ID <small>(falls vorhanden, EU erforderlich)</small>
 
-partner_success_billing_save = The billing information has been successfully saved.
+partner_success_billing_save = Ihr Buchungskonto ist erfolgreich aktualisiert worden.
 
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold
@@ -319,15 +319,15 @@ cs_inquiry_info = Send us an inquiry at:
 invoices_html_title = Rechnungen | osCommerce
 invoices_title = Rechnungen
 
-invoices_introduction = Die folgende Rechnungen stehen zur Verfügung:
+invoices_introduction = Die folgenden Rechnungen stehen zur Verfügung:
 
 invoices_status_pending = Bevorstehend
 invoices_status_paid = Bezahlt
 
-invoices_empty = Es stehen momentan keine Rechnungen zur Verfügung..
+invoices_empty = Es stehen momentan keine Rechnungen zur Verfügung.
 
-error_invoice_nonexistent = Die angeforderte Rechnung könnte nicht gefunden werden. Bitte versuchen Sie es erneut.
-error_invoice_file_nonexistent = Die angeforderte Rechnung könnte nicht zur Verfügung gesteltt werden. Bitte versuchen Sie es erneut.
+error_invoice_nonexistent = Die angeforderte Rechnung konnte nicht gefunden werden. Bitte versuchen Sie es erneut.
+error_invoice_file_nonexistent = Die angeforderte Rechnung konnte nicht zur Verfügung gestellt werden. Bitte versuchen Sie es erneut.
 
 success_partner_payment_processed = Die Partnerschaft wurde erfolgreich verlängert!
 error_partner_payment_cancelled = Die Zahlung wurde gecancelt. Bitte versuchen Sie es erneut.
