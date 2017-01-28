@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\SQL\ANSI;
@@ -12,18 +12,27 @@ use osCommerce\OM\Core\Registry;
 
 class PartnerSave
 {
-    const LANGUAGES = [
-        'en',
-        'de'
-    ];
-
     public static function execute(array $data)
     {
         $OSCOM_PDO = Registry::get('PDO');
 
+        $result = false;
         $affected_rows = 0;
 
-        $fields = [
+        $partner_raw = [
+            'billing_address' => $data['billing_address'] ?? null,
+            'billing_vat_id' => $data['billing_vat_id'] ?? null
+        ];
+
+        $partner = [];
+
+        foreach ($partner_raw as $k => $v) {
+            if ($v !== null) {
+                $partner[$k] = $v;
+            }
+        }
+
+        $partner_info_raw = [
             'desc_short' => $data['desc_short'] ?? null,
             'desc_long' => $data['desc_long'] ?? null,
             'address' => $data['address'] ?? null,
@@ -39,117 +48,45 @@ class PartnerSave
             'carousel_image' => $data['carousel_image'] ?? null,
             'carousel_title' => $data['carousel_title'] ?? null,
             'carousel_url' => $data['carousel_url'] ?? null,
-            'billing_address' => $data['billing_address'] ?? null,
-            'billing_vat_id' => $data['billing_vat_id'] ?? null
+            'banner_image' => $data['banner_image'] ?? null,
+            'banner_url' => $data['banner_url'] ?? null,
+            'status_update' => $data['status_update'] ?? null
         ];
 
-        $partner = [];
+        $partner_info = [];
 
-        foreach ($fields as $k => $v) {
+        foreach ($partner_info_raw as $k => $v) {
             if ($v !== null) {
-                $partner[$k] = $v;
+                $partner_info[$k] = $v;
             }
         }
 
         try {
-            $OSCOM_PDO->beginTransaction();
+            if (!empty($partner) || !empty($partner_info)) {
+                $OSCOM_PDO->beginTransaction();
 
-            if (!empty($partner)) {
-                if ($OSCOM_PDO->save('website_partner', $partner, ['id' => $data['id']]) === 1) {
-                    $affected_rows += 1;
-                }
-            }
-
-            foreach (static::LANGUAGES as $lang) {
-                if (isset($data['banner_url_' . $lang]) || isset($data['banner_image_' . $lang])) {
-                    $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_banner where partner_id = :partner_id and code = :code');
-                    $Qcheck->bindInt(':partner_id', $data['id']);
-                    $Qcheck->bindValue(':code', $lang);
-                    $Qcheck->execute();
-
-                    if ($Qcheck->fetch() !== false) {
-                        if (isset($data['banner_url_' . $lang]) && empty($data['banner_url_' . $lang]) && isset($data['banner_image_' . $lang]) && empty($data['banner_image_' . $lang])) {
-                            if ($OSCOM_PDO->delete('website_partner_banner', ['id' => $Qcheck->valueInt('id')]) === 1) {
-                                $affected_rows += 1;
-                            }
-                        } else {
-                            $banner = [];
-
-                            if (isset($data['banner_url_' . $lang])) {
-                                $banner['url'] = $data['banner_url_' . $lang];
-                            }
-
-                            if (isset($data['banner_image_' . $lang])) {
-                                $banner['image'] = $data['banner_image_' . $lang];
-                            }
-
-                            if ($OSCOM_PDO->save('website_partner_banner', $banner, ['id' => $Qcheck->valueInt('id')]) === 1) {
-                                $affected_rows += 1;
-                            }
-                        }
-                    } elseif ((isset($data['banner_url_' . $lang]) && !empty($data['banner_url_' . $lang])) || (isset($data['banner_image_' . $lang]) && !empty($data['banner_image_' . $lang]))) {
-                        $banner = [
-                            'partner_id' => $data['id'],
-                            'code' => $lang
-                        ];
-
-                        if (isset($data['banner_url_' . $lang])) {
-                            $banner['url'] = $data['banner_url_' . $lang];
-                        }
-
-                        if (isset($data['banner_image_' . $lang])) {
-                            $banner['image'] = $data['banner_image_' . $lang];
-                        }
-
-                        if ($OSCOM_PDO->save('website_partner_banner', $banner) === 1) {
-                            $affected_rows += 1;
-                        }
+                if (!empty($partner)) {
+                    if ($OSCOM_PDO->save('website_partner', $partner, ['id' => $data['id']]) === 1) {
+                        $affected_rows += 1;
                     }
                 }
 
-                if (isset($data['status_update_' . $lang])) {
-                    $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_partner_status_update where partner_id = :partner_id and code = :code');
-                    $Qcheck->bindInt(':partner_id', $data['id']);
-                    $Qcheck->bindValue(':code', $lang);
-                    $Qcheck->execute();
-
-                    if ($Qcheck->fetch() !== false) {
-                        if (empty($data['status_update_' . $lang])) {
-                            if ($OSCOM_PDO->delete('website_partner_status_update', ['id' => $Qcheck->valueInt('id')]) === 1) {
-                                $affected_rows += 1;
-                            }
-                        } else {
-                            $status = [
-                                'status_update' => $data['status_update_' . $lang]
-                            ];
-
-                            if ($OSCOM_PDO->save('website_partner_status_update', $status, ['id' => $Qcheck->valueInt('id')]) === 1) {
-                                $affected_rows += 1;
-                            }
-                        }
-                    } elseif (!empty($data['status_update_' . $lang])) {
-                        $status = [
-                            'partner_id' => $data['id'],
-                            'code' => $lang,
-                            'status_update' => $data['status_update_' . $lang]
-                        ];
-
-                        if ($OSCOM_PDO->save('website_partner_status_update', $status) === 1) {
-                            $affected_rows += 1;
-                        }
+                if (!empty($partner_info)) {
+                    if ($OSCOM_PDO->save('website_partner_info', $partner_info, ['partner_id' => $data['id'], 'languages_id' => $data['language_id']]) === 1) {
+                        $affected_rows += 1;
                     }
                 }
+
+                $OSCOM_PDO->commit();
             }
 
-            if ($OSCOM_PDO->commit()) {
-                return $affected_rows;
-            }
+            $result = $affected_rows;
         } catch (\Exception $e) {
             $OSCOM_PDO->rollBack();
 
             trigger_error($e->getMessage());
         }
 
-        return false;
+        return $result;
     }
 }

@@ -1,5 +1,5 @@
 <div id="highlights">
-  {raw}partner_header{raw}
+  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
 </div>
 
 <div class="row">
@@ -7,7 +7,7 @@
 
   <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
-      <h1>{value}partner_campaign title{value}</h1>
+      <h1>{value}partner title{value}</h1>
 
       <h2>{lang}partner_sites_title{lang}</h2>
 
@@ -15,7 +15,7 @@
 
       {ifvalue partner_showcase}
       <p class="pull-right">
-        <a class="btn btn-info" href="{link}Index|Sites|Showcase&{value}partner_campaign category_code{value}&{value}partner_campaign code{value}{link}">{lang}button_partner_visit_showcase{lang}</a>
+        <a class="btn btn-info" href="{link}Index|Sites|Showcase&{value}partner category_code{value}&{value}partner code{value}{link}">{lang}button_partner_visit_showcase{lang}</a>
       </p>
 
       <table class="table">
@@ -92,7 +92,7 @@ function processSite(e, publicId, action) {
   e.preventDefault();
 
   $('<form>', {
-    'action': '{link}Account|Website|Partner&Sites={value}partner_campaign code{value}&Process{link}',
+    'action': '{link}Account|Website|Partner&Sites={value}partner code{value}&Process{link}',
     'method': 'post',
     'id': 'siteProcessForm'
     }).appendTo('body');

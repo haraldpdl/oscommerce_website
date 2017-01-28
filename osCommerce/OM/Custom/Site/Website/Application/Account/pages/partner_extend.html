@@ -1,5 +1,5 @@
 <div id="highlights">
-  {raw}partner_header{raw}
+  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
 </div>
 
 <div class="row">
@@ -9,7 +9,7 @@
     <div id="maincontent">
       <div class="pull-right"><span class="pcdate label">{value}partner_campaign date_end{value}</span><br /><span class="pcdays text-muted small"></span></div>
 
-      <h1>{value}partner_campaign title{value}</h1>
+      <h1>{value}partner title{value}</h1>
 
       {widget}message_stack|partner{widget}
 
@@ -30,7 +30,7 @@
           </div>
 
           <div class="panel-body">
-            <form id="pForm" action="{link}Account|Website|Partner&Extend={raw}partner_campaign code{raw}&Payment&Process|SSL{link}" method="post" class="form">
+            <form id="pForm" action="{link}Account|Website|Partner&Extend={raw}partner code{raw}&Payment&Process|SSL{link}" method="post" class="form">
               <input type="hidden" name="plan" value="">
 
               <div class="form-group">

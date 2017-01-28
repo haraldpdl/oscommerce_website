@@ -47,7 +47,8 @@ class PartnerExtendPayment
         if (!isset($result['rpcStatus'])) {
             $_SESSION[OSCOM::getSite()]['PartnerPayPalSecret'] = Hash::getRandomString(16, 'digits');
 
-            $partner = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
+            $partner = Partner::get($_GET['p']);
+            $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
 
             if (OSCOM::getConfig('enable_ssl') == 'true') {
                 $base_url = OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server');
@@ -75,8 +76,8 @@ class PartnerExtendPayment
                 'HDRIMG' => OSCOM::getConfig('https_server') . OSCOM::getConfig('dir_ws_https_server') . 'public/sites/Website/images/oscommerce.png'
             ];
 
-            if ($partner['billing_country_iso_code_2'] == 'DE') {
-                $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$_POST['plan']]['levels'][$_POST['duration']]['price_raw'] * 0.19;
+            if ($packages[$_POST['plan']]['levels'][$_POST['duration']]['tax'] > 0) {
+                $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$_POST['plan']]['levels'][$_POST['duration']]['tax'];
                 $params['PAYMENTREQUEST_0_AMT'] += $params['PAYMENTREQUEST_0_TAXAMT'];
             }
 

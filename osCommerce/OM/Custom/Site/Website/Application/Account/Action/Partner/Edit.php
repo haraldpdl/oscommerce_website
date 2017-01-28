@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
@@ -21,6 +21,7 @@ class Edit
 {
     public static function execute(ApplicationAbstract $application)
     {
+        $OSCOM_Language = Registry::get('Language');
         $OSCOM_Template = Registry::get('Template');
 
         if (empty($_GET['Edit']) || !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit'])) {
@@ -29,15 +30,20 @@ class Edit
             OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner', 'SSL'));
         }
 
-        $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit']);
+        $partner = Partner::get($_GET['Edit']);
 
-        $OSCOM_Template->setValue('partner_campaign', $partner_campaign);
-        $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner_campaign['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner_campaign['image_big'])));
+        $OSCOM_Template->setValue('partner', $partner);
+
+        $OSCOM_Template->setValue('partner_campaign', Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit']));
+
+        foreach ($OSCOM_Language->getAll() as $l) {
+            $OSCOM_Template->setValue('partner_campaign_' . $l['code'], Partner::getCampaignInfo($partner['id'], $l['id']));
+        }
 
         $application->setPageContent('partner_edit.html');
 
         $application->setPageTitle(OSCOM::getDef('partner_view_html_title', [
-            ':partner_title' => $partner_campaign['title']
+            ':partner_title' => $partner['title']
         ]));
     }
 }

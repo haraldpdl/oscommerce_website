@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
@@ -30,7 +30,6 @@ class History
         $partner = Partner::get($_GET['History']);
 
         $OSCOM_Template->setValue('partner', $partner);
-        $OSCOM_Template->setValue('partner_header', HTML::image(OSCOM::getPublicSiteLink(empty($partner['image_big']) ? $OSCOM_Template->getValue('highlights_image') : 'images/partners/' . $partner['image_big'])));
 
         $application->setPageContent('partner_history.html');
 

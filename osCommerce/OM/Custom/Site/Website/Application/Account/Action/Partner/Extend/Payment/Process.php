@@ -41,10 +41,11 @@ class Process
             OSCOM::redirect(OSCOM::getLink(null, null, 'Partner&Extend=' . $_GET['Extend'], 'SSL'));
         }
 
-        $partner = $OSCOM_Template->getValue('partner_campaign');
+        $partner = $OSCOM_Template->getValue('partner');
+        $partner_campaign = $OSCOM_Template->getValue('partner_campaign');
         $packages = $OSCOM_Template->getValue('partner_packages');
 
-        $date_campaign = new \DateTime($partner['date_end']);
+        $date_campaign = new \DateTime($partner_campaign['date_end']);
 
         $date_now = new \DateTime();
 
@@ -127,7 +128,8 @@ class Process
         $OSCOM_MessageStack = Registry::get('MessageStack');
         $OSCOM_Template = Registry::get('Template');
 
-        $partner = $OSCOM_Template->getValue('partner_campaign');
+        $partner = $OSCOM_Template->getValue('partner');
+        $partner_campaign = $OSCOM_Template->getValue('partner_campaign');
         $packages = $OSCOM_Template->getValue('partner_packages');
 
         $plan = $_POST['plan'];
@@ -141,8 +143,8 @@ class Process
 
         $total = $packages[$plan]['levels'][$level_id]['price_raw'];
 
-        if ($partner['billing_country_iso_code_2'] == 'DE') {
-            $total += $total * 0.19;
+        if ($packages[$plan]['levels'][$level_id]['tax'] > 0) {
+            $total += $packages[$plan]['levels'][$level_id]['tax'];
         }
 
         $data = [
@@ -243,7 +245,7 @@ class Process
             OSCOM::redirect(OSCOM::getLink(null, null, 'Partner&Extend=' . $_GET['Extend'], 'SSL'));
         }
 
-        $partner = $OSCOM_Template->getValue('partner_campaign');
+        $partner_campaign = $OSCOM_Template->getValue('partner_campaign');
         $packages = $OSCOM_Template->getValue('partner_packages');
 
         if (!isset($packages[$plan]) || !isset($packages[$plan]['levels'][$level_id])) {
@@ -256,8 +258,8 @@ class Process
 
         $total = $packages[$plan]['levels'][$level_id]['price_raw'];
 
-        if ($partner['billing_country_iso_code_2'] == 'DE') {
-            $total += $total * 0.19;
+        if ($packages[$plan]['levels'][$level_id]['tax'] > 0) {
+            $total += $packages[$plan]['levels'][$level_id]['tax'];
         }
 
         if (($_SESSION[OSCOM::getSite()]['PartnerPayPalResult']['PAYMENTREQUEST_0_AMT'] != $total) || ($_SESSION[OSCOM::getSite()]['PartnerPayPalResult']['PAYMENTREQUEST_0_CURRENCYCODE'] != 'EUR')) {
@@ -277,8 +279,8 @@ class Process
             'PAYMENTREQUEST_0_CURRENCYCODE' => 'EUR'
         ];
 
-        if ($partner['billing_country_iso_code_2'] == 'DE') {
-            $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$plan]['levels'][$level_id]['price_raw'] * 0.19;
+        if ($packages[$plan]['levels'][$level_id]['tax'] > 0) {
+            $params['PAYMENTREQUEST_0_TAXAMT'] = $packages[$plan]['levels'][$level_id]['tax'];
         }
 
         $r = PayPal::makeCall($params);

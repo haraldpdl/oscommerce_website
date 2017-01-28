@@ -23,4 +23,6 @@ choco_open_source_title = Open Source
 choco_open_source_content = <p>Wir sind für Open Source engagiert um eine wachsende und starke Community weltweit zu fördern.</p>
 
 services_promotions_title = Partner Angebote
+services_promotions_see_more = mehr Angebote ansehen
 services_partners_title = Partner
+services_partners_see_more = mehr Partner ansehen

@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Billing;
@@ -59,7 +59,7 @@ class Process
         }
 
         if (!empty($data) && ($error === false)) {
-            $partner = $OSCOM_Template->getValue('partner_campaign');
+            $partner = $OSCOM_Template->getValue('partner');
 
             if (Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $data)) {
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_success_billing_save'), 'success');

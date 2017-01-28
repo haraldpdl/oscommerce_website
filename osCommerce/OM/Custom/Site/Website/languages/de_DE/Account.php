@@ -187,18 +187,16 @@ partner_field_carousel_image_title_title = Image Text (Mouse Popover)
 partner_field_carousel_image_url_title = URL
 
 partner_german_language_requirement = All fields optional and must be in German.
-partner_back_to_campaigns = Back to campaigns
+partner_back_to_campaigns = Zurück zur Übersicht
 
 partner_button_save = Speichern
 partner_button_processing = in Berabeitung..
 partner_button_cancel = Abbrechen
 
-link_view_apps = View Apps
-link_view_documentation = View Documentation
-link_partner_website = Visit :title Website
-link_contact_partner = Contact :title
-
-button_visit_partner_website = Visit Partner Website
+link_view_apps = Apps ansehen
+link_view_documentation = Dokumentation ansehen
+link_partner_website = :title besuchen
+link_contact_partner = :title kontaktieren
 
 partner_error_desc_short_empty = Short Description must be provided.
 partner_error_desc_short_length = Short Description must not be greater than 450 characters.

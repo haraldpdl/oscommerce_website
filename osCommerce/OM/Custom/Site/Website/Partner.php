@@ -6,73 +6,193 @@
  * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website;
+namespace osCommerce\OM\Core\Site\Website;
 
-  use osCommerce\OM\Core\AuditLog;
-  use osCommerce\OM\Core\Cache;
-  use osCommerce\OM\Core\OSCOM;
-  use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\AuditLog;
+use osCommerce\OM\Core\Cache;
+use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
-  use osCommerce\OM\Core\Site\Website\Users;
+use osCommerce\OM\Core\Site\Website\Users;
 
-  class Partner {
+class Partner
+{
     protected static $_partner;
     protected static $_partners;
     protected static $_categories;
     protected static $_promotions;
 
-    public static function get($code, $key = null) {
-      if ( !isset(static::$_partner[$code]) ) {
-        static::$_partner[$code] = OSCOM::callDB('Website\GetPartner', array('code' => $code), 'Site');
-      }
+    public static function get($code, $key = null)
+    {
+        $OSCOM_Language = Registry::get('Language');
 
-      return isset($key) ? static::$_partner[$code][$key] : static::$_partner[$code];
-    }
+        if (!isset(static::$_partner[$code])) {
+            $data = [
+                'code' => $code,
+                'default_language_id' => $OSCOM_Language->getDefaultId()
+            ];
 
-    public static function getAll() {
-      return OSCOM::callDB('Website\GetPartnersAll', null, 'Site');
-    }
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $data['language_id'] = $OSCOM_Language->getID();
+            }
 
-    public static function getInCategory($code) {
-      if ( !isset(static::$_partners[$code]) ) {
-        static::$_partners[$code] = OSCOM::callDB('Website\GetPartners', array('code' => $code), 'Site');
-      }
+            $partner = OSCOM::callDB('Website\GetPartner', $data, 'Site');
 
-      return static::$_partners[$code];
-    }
+            $languages = [
+                $OSCOM_Language->getCode()
+            ];
 
-    public static function exists($code, $category = null) {
-      if (isset($category)) {
-        if ( !isset(static::$_partners[$category]) ) {
-          static::$_partners[$category] = OSCOM::callDB('Website\GetPartners', array('code' => $category), 'Site');
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $languages[] = $OSCOM_Language->getCodeFromID($OSCOM_Language->getDefaultId());
+            }
+
+            $partner['image_small_path'] = null;
+
+            if (!empty($partner['image_small'])) {
+                foreach ($languages as $l) {
+                    if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/partners/' . $l . '/' . $partner['image_small'])) {
+                        $partner['image_small_path'] = 'images/partners/' . $l . '/' . $partner['image_small'];
+
+                        break;
+                    }
+                }
+            }
+
+            $partner['image_big_path'] = null;
+
+            if (!empty($partner['image_big'])) {
+                foreach ($languages as $l) {
+                    if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/partners/' . $l . '/' . $partner['image_big'])) {
+                        $partner['image_big_path'] = 'images/partners/' . $l . '/' . $partner['image_big'];
+
+                        break;
+                    }
+                }
+            }
+
+            static::$_partner[$code] = $partner;
         }
 
-        foreach ( static::$_partners[$category] as $p ) {
-          if ( $p['code'] == $code ) {
-            return true;
-          }
-        }
-      } else {
-        $partner = static::get($code);
-
-        return is_array($partner) && !empty($partner);
-      }
-
-      return false;
+        return isset($key) ? static::$_partner[$code][$key] : static::$_partner[$code];
     }
 
-    public static function getCategory($code, $key = null) {
-      if ( !isset(static::$_categories) ) {
-        static::getCategories();
-      }
+    public static function getAll()
+    {
+        $OSCOM_Language = Registry::get('Language');
 
-      foreach ( static::$_categories as $c ) {
-        if ( $c['code'] == $code ) {
-          return isset($key) ? $c[$key] : $c;
+        $data = [
+            'default_language_id' => $OSCOM_Language->getDefaultId()
+        ];
+
+        if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+            $data['language_id'] = $OSCOM_Language->getID();
         }
-      }
 
-      return false;
+        $partners = OSCOM::callDB('Website\GetPartnersAll', $data, 'Site');
+
+        $languages = [
+            $OSCOM_Language->getCode()
+        ];
+
+        if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+            $languages[] = $OSCOM_Language->getCodeFromID($OSCOM_Language->getDefaultId());
+        }
+
+        foreach ($partners as $k => $p) {
+            $partners[$k]['image_small_path'] = null;
+
+            if (!empty($p['image_small'])) {
+                foreach ($languages as $l) {
+                    if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/partners/' . $l . '/' . $p['image_small'])) {
+                        $partners[$k]['image_small_path'] = 'images/partners/' . $l . '/' . $p['image_small'];
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $partners;
+    }
+
+    public static function getInCategory($code)
+    {
+        $OSCOM_Language = Registry::get('Language');
+
+        if (!isset(static::$_partners[$code])) {
+            $data = [
+                'code' => $code,
+                'default_language_id' => $OSCOM_Language->getDefaultId()
+            ];
+
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $data['language_id'] = $OSCOM_Language->getID();
+            }
+
+            $partners = OSCOM::callDB('Website\GetPartners', $data, 'Site');
+
+            $languages = [
+                $OSCOM_Language->getCode()
+            ];
+
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $languages[] = $OSCOM_Language->getCodeFromID($OSCOM_Language->getDefaultId());
+            }
+
+            foreach ($partners as $k => $p) {
+                $partners[$k]['image_small_path'] = null;
+
+                if (!empty($p['image_small'])) {
+                    foreach ($languages as $l) {
+                        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/partners/' . $l . '/' . $p['image_small'])) {
+                            $partners[$k]['image_small_path'] = 'images/partners/' . $l . '/' . $p['image_small'];
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            static::$_partners[$code] = $partners;
+        }
+
+        return static::$_partners[$code];
+    }
+
+    public static function exists($code, $category = null)
+    {
+        if (isset($category)) {
+            if (!isset(static::$_partners[$category])) {
+                static::getInCategory($category);
+            }
+
+            foreach (static::$_partners[$category] as $p) {
+                if ($p['code'] == $code) {
+                    return true;
+                }
+            }
+        } else {
+            $partner = static::get($code);
+
+            return is_array($partner) && !empty($partner);
+        }
+
+        return false;
+    }
+
+    public static function getCategory($code, $key = null)
+    {
+        if (!isset(static::$_categories)) {
+            static::getCategories();
+        }
+
+        foreach (static::$_categories as $c) {
+            if ($c['code'] == $code) {
+                return isset($key) ? $c[$key] : $c;
+            }
+        }
+
+        return false;
     }
 
     public static function getCategories()
@@ -94,18 +214,19 @@
         return static::$_categories;
     }
 
-    public static function categoryExists($code) {
-      if ( !isset(static::$_categories) ) {
-        static::getCategories();
-      }
-
-      foreach ( static::$_categories as $c ) {
-        if ( $c['code'] == $code ) {
-          return true;
+    public static function categoryExists($code)
+    {
+        if (!isset(static::$_categories)) {
+            static::getCategories();
         }
-      }
 
-      return false;
+        foreach (static::$_categories as $c) {
+            if ($c['code'] == $code) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function getPromotions()
@@ -121,66 +242,158 @@
                 $data['language_id'] = $OSCOM_Language->getID();
             }
 
-            static::$_promotions = OSCOM::callDB('Website\GetPartnerPromotions', $data, 'Site');
+            $partners = OSCOM::callDB('Website\GetPartnerPromotions', $data, 'Site');
+
+            $languages = [
+                $OSCOM_Language->getCode()
+            ];
+
+            if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+                $languages[] = $OSCOM_Language->getCodeFromID($OSCOM_Language->getDefaultId());
+            }
+
+            foreach ($partners as $k => $p) {
+                $partners[$k]['image_promo_path'] = null;
+
+                if (!empty($p['image_promo'])) {
+                    foreach ($languages as $l) {
+                        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/partners/' . $l . '/' . $p['image_promo'])) {
+                            $partners[$k]['image_promo_path'] = 'images/partners/' . $l . '/' . $p['image_promo'];
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            static::$_promotions = $partners;
         }
 
         return static::$_promotions;
     }
 
-    public static function hasCampaign($id, $code = null) {
-      $data = array('id' => $id);
+    public static function hasCampaign($id, $code = null)
+    {
+        $data = [
+            'id' => $id
+        ];
 
-      if ( isset($code) ) {
-        $data['code'] = $code;
-      }
-
-      return OSCOM::callDB('Website\PartnerHasCampaign', $data, 'Site');
-    }
-
-    public static function getCampaigns($id) {
-      return OSCOM::callDB('Website\PartnerGetCampaigns', array('id' => $id), 'Site');
-    }
-
-    public static function getCampaign($id, $code) {
-      return OSCOM::callDB('Website\PartnerGetCampaign', array('id' => $id, 'code' => $code), 'Site');
-    }
-
-    public static function getCampaignAdmins($code) {
-      return OSCOM::callDB('Website\PartnerGetCampaignAdmins', array('code' => $code), 'Site');
-    }
-
-    public static function getStatusUpdateUrl($code, $url_id) {
-      return OSCOM::callDB('Website\GetPartnerStatusUpdateUrl', array('partner_id' => static::get($code, 'id'), 'id' => $url_id), 'Site');
-    }
-
-    public static function getAudit($code) {
-      $OSCOM_Cache = new Cache();
-
-      $id = $code;
-
-      if ( !is_numeric($id) ) {
-        $id = static::get($id, 'id');
-      }
-
-      if ( $OSCOM_Cache->read('website_partner-' . $code . '-audit') ) {
-        $result = $OSCOM_Cache->getCache();
-      } else {
-        $result = AuditLog::getAll('Website\Account\Partner', $id, 6);
-
-        foreach ( $result as &$record ) {
-          $record['user_name'] = Users::get($record['user_id'], 'name');
-          $record['date_added'] = (new \DateTime($record['date_added']))->format('jS M Y H:i');
+        if (isset($code)) {
+            $data['code'] = $code;
         }
 
-        $OSCOM_Cache->write($result);
-      }
-
-      return $result;
+        return OSCOM::callDB('Website\PartnerHasCampaign', $data, 'Site');
     }
 
-    public static function save(int $user_id, string $code, array $partner): bool
+    public static function getCampaigns($id)
     {
-        $campaign = static::getCampaign($user_id, $code);
+        $OSCOM_Language = Registry::get('Language');
+
+        $data = [
+            'id' => $id,
+            'default_language_id' => $OSCOM_Language->getDefaultId()
+        ];
+
+        if ($OSCOM_Language->getID() != $OSCOM_Language->getDefaultId()) {
+            $data['language_id'] = $OSCOM_Language->getID();
+        }
+
+        return OSCOM::callDB('Website\PartnerGetCampaigns', $data, 'Site');
+    }
+
+    public static function getCampaign($id, $code)
+    {
+        $data = [
+            'id' => $id,
+            'code' => $code
+        ];
+
+        return OSCOM::callDB('Website\PartnerGetCampaign', $data, 'Site');
+    }
+
+    public static function getCampaignInfo($id, $language_id = null)
+    {
+        $OSCOM_Language = Registry::get('Language');
+
+        if (!isset($language_id)) {
+            $language_id = $OSCOM_Language->getID();
+        }
+
+        return OSCOM::callDB('Website\PartnerGetCampaignInfo', ['id' => $id, 'language_id' => $language_id], 'Site');
+    }
+
+    public static function getCampaignAdmins($code)
+    {
+        return OSCOM::callDB('Website\PartnerGetCampaignAdmins', ['code' => $code], 'Site');
+    }
+
+    public static function getStatusUpdateUrl($code, $url_id)
+    {
+        return OSCOM::callDB('Website\GetPartnerStatusUpdateUrl', ['partner_id' => static::get($code, 'id'), 'id' => $url_id], 'Site');
+    }
+
+    public static function getAudit($code)
+    {
+        $OSCOM_Cache = new Cache();
+
+        $id = $code;
+
+        if (!is_numeric($id)) {
+            $id = static::get($id, 'id');
+        }
+
+        if ($OSCOM_Cache->read('website_partner-' . $code . '-audit')) {
+            $result = $OSCOM_Cache->getCache();
+        } else {
+            $result = AuditLog::getAll('Website\Account\Partner', $id, 6);
+
+            foreach ($result as &$record) {
+                $record['user_name'] = Users::get($record['user_id'], 'name');
+                $record['date_added'] = (new \DateTime($record['date_added']))->format('jS M Y H:i');
+            }
+
+            $OSCOM_Cache->write($result);
+        }
+
+        return $result;
+    }
+
+    public static function save(int $user_id, string $code, array $partner, int $language_id = null): bool
+    {
+        $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        if (!isset($language_id)) {
+            $language_id = $OSCOM_Language->getId();
+        }
+
+        $partner_id = static::get($code, 'id');
+
+        $campaign = static::getCampaignInfo($partner_id, $language_id);
+
+// automatically create campaign in new language
+        if ($campaign === false) {
+            if (($language_id !== $OSCOM_Language->getDefaultId()) && $OSCOM_Language->exists($OSCOM_Language->getCodeFromID($language_id))) {
+                $orig = static::getCampaignInfo($partner_id, $OSCOM_Language->getDefaultId());
+
+                if ($orig !== false) {
+                    $o = [
+                        'partner_id' => $partner_id,
+                        'languages_id' => $language_id,
+                        'title' => $orig['title'],
+                        'code' => $orig['code']
+                    ];
+
+                    if ($OSCOM_PDO->save('website_partner_info', $o) === 1) {
+                        $campaign = static::getCampaignInfo($partner_id, $language_id);
+
+                        if ($campaign === false) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
 
         $fields = [
             'desc_short' => $partner['desc_short'] ?? null,
@@ -195,12 +408,9 @@
             'image_big' => $partner['image_big'] ?? null,
             'image_promo' => $partner['image_promo'] ?? null,
             'image_promo_url' => $partner['image_promo_url'] ?? null,
-            'banner_image_en' => $partner['banner_image_en'] ?? null,
-            'banner_url_en' => $partner['banner_url_en'] ?? null,
-            'status_update_en' => $partner['status_update_en'] ?? null,
-            'banner_image_de' => $partner['banner_image_de'] ?? null,
-            'banner_url_de' => $partner['banner_url_de'] ?? null,
-            'status_update_de' => $partner['status_update_de'] ?? null,
+            'banner_image' => $partner['banner_image'] ?? null,
+            'banner_url' => $partner['banner_url'] ?? null,
+            'status_update' => $partner['status_update'] ?? null,
             'carousel_image' => $partner['carousel_image'] ?? null,
             'carousel_title' => $partner['carousel_title'] ?? null,
             'carousel_url' => $partner['carousel_url'] ?? null,
@@ -209,7 +419,8 @@
         ];
 
         $data = [
-            'id' => $campaign['id']
+            'id' => $partner_id,
+            'language_id' => $language_id
         ];
 
         foreach ($fields as $k => $v) {
@@ -218,7 +429,7 @@
             }
         }
 
-        if ((count($data) > 1) && (OSCOM::callDB('Website\PartnerSave', $data, 'Site') > 0)) {
+        if ((count($data) > 2) && (OSCOM::callDB('Website\PartnerSave', $data, 'Site') > 0)) {
             static::auditLog($campaign, $data);
 
             Cache::clear('website_partner-' . $code);
@@ -234,6 +445,14 @@
 
     protected static function auditLog(array $orig, array $new)
     {
+        $OSCOM_Language = Registry::get('Language');
+
+        $partner_id = $new['id'];
+        $language_id = $new['language_id'];
+
+        unset($new['id']);
+        unset($new['language_id']);
+
         $diff = array_diff_assoc($new, $orig);
 
 // new file uploads may share the same name as existing files so they are added manually to the array diff
@@ -249,12 +468,8 @@
             $diff['image_promo'] = $new['image_promo'];
         }
 
-        if (isset($new['banner_image_en']) && ($new['banner_image_en'] == $orig['banner_image_en'])) {
-            $diff['banner_image_en'] = $new['banner_image_en'];
-        }
-
-        if (isset($new['banner_image_de']) && ($new['banner_image_de'] == $orig['banner_image_de'])) {
-            $diff['banner_image_de'] = $new['banner_image_de'];
+        if (isset($new['banner_image']) && ($new['banner_image'] == $orig['banner_image'])) {
+            $diff['banner_image'] = $new['banner_image'];
         }
 
         if (isset($new['carousel_image']) && ($new['carousel_image'] == $orig['carousel_image'])) {
@@ -264,7 +479,7 @@
         if (!empty($diff)) {
             $data = [
                 'action' => 'Partner',
-                'id' => $orig['id'],
+                'id' => $partner_id,
                 'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
                 'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
                 'action_type' => 'update',
@@ -273,7 +488,7 @@
 
             foreach ($diff as $key => $new_value) {
                 $data['rows'][] = [
-                    'key' => $key,
+                    'key' => $key . ' [' . $OSCOM_Language->getCodeFromID($language_id) . ']',
                     'old' => $orig[$key] ?? null,
                     'new' => $new_value
                 ];
@@ -327,6 +542,8 @@
     {
         $OSCOM_Language = Registry::get('Language');
 
+        $partner = static::get($partner_code);
+
         $result = [];
 
         $data = [
@@ -348,8 +565,9 @@
                     $result[$l['id']] = [
                         'title' => $l['title'],
                         'duration' => $l['duration_months'],
-                        'price' => number_format($l['price'], 0),
+                        'price' => number_format((($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 1.19 * $l['price'] : $l['price'], 0),
                         'price_raw' => number_format($l['price'], 0, '', ''),
+                        'tax' => (($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 0.19 * $l['price'] : 0,
                         'default_selected' => $l['default_selected']
                     ];
                 }
@@ -362,8 +580,9 @@
             $result[$l['id']] = [
                 'title' => $l['title'],
                 'duration' => $l['duration_months'],
-                'price' => number_format($l['price'], 0),
+                'price' => number_format((($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 1.19 * $l['price'] : $l['price'], 0),
                 'price_raw' => number_format($l['price'], 0, '', ''),
+                'tax' => (($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 0.19 * $l['price'] : 0,
                 'default_selected' => $l['default_selected']
             ];
         }
@@ -371,7 +590,8 @@
         return $result;
     }
 
-    public static function getPackageId($code) {
+    public static function getPackageId($code)
+    {
         $result = OSCOM::callDB('Website\GetPartnerPackageId', ['code' => $code], 'Site');
 
         return $result['id'];
@@ -394,5 +614,4 @@
             $OSCOM_PDO->save('website_partner_package_levels', $data, ['id' => $id]);
         }
     }
-  }
-?>
+}

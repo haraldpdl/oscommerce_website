@@ -15,7 +15,7 @@
       <div class="clearfix">
         <h2><a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}">#title#</a></h2>
 
-        <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}"><img src="{publiclink}images/partners/%image_small%{publiclink}" alt="" title="#title#" width="130" height="50" style="float: left; margin-right: 10px;" /></a>
+        <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}"><img data-src="#image_small_path#" alt="" title="#title#" style="width: 130px; height: 50px; float: left; margin-right: 10px;" /></a>
 
         <p>#desc_short# <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}" class="btn btn-info" style="float: right; margin-top: 15px;">{lang}button_find_out_more{lang}</a></p>
       </div>
@@ -24,3 +24,15 @@
     </div>
   </div>
 </div>
+
+<script>
+var pImageSmallPath = '{publiclink}#IMG_SRC#{publiclink}';
+
+$('#maincontent img[data-src]').each(function () {
+  if ($(this).data('src') != '') {
+    $(this).attr('src', pImageSmallPath.replace('#IMG_SRC#', $(this).data('src')));
+  } else {
+    $(this).parent('a').remove();
+  }
+});
+</script>

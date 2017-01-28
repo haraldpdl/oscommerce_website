@@ -41,11 +41,15 @@
     <div class="row">
 
 {loop random_partner_promotions}
-      <span class="col-xs-6">
-        <a href="#image_promo_url#" target="_blank" class="thumbnail" style="width: 160px; height: 110px;"><img src="{publiclink}images/partners/%image_promo%{publiclink}" alt="" title="#title#" width="150" height="50" /></a>
+      <span class="col-xs-6 text-center">
+        <a href="#image_promo_url#" target="_blank"><img src="{publiclink}%image_promo_path%{publiclink}" alt="" title="#title#" style="padding: 10px;" /></a>
       </span>
 {loop}
 
+    </div>
+
+    <div class="row" style="padding-top: 10px;">
+      <span class="col-xs-6 col-xs-offset-6 text-center small"><a href="{link}Services{link}">{lang}services_promotions_see_more{lang}</a></span>
     </div>
   </div>
 
@@ -55,11 +59,15 @@
     <div class="row">
 
 {loop random_partners}
-      <span class="col-md-4 col-xs-6">
-        <a href="{link}Services|Website|#category_code#&#code#{link}" class="thumbnail" style="width: 150px; height: 60px;"><img src="{publiclink}images/partners/#image_small#{publiclink}" alt="" title="#title#" width="130" height="50" /></a>
+      <span class="col-md-4 col-xs-6 text-center">
+        <a href="{link}Services|Website|#category_code#&#code#{link}"><img src="{publiclink}%image_small_path%{publiclink}" alt="" title="#title#" style="padding: 10px;" /></a>
       </span>
 {loop}
 
+    </div>
+
+    <div class="row" style="padding-top: 10px;">
+      <span class="col-md-4 col-md-offset-8 col-xs-6 col-xs-offset-6 text-center small"><a href="{link}Services{link}">{lang}services_partners_see_more{lang}</a></span>
     </div>
   </div>
 </div>

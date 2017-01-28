@@ -1,5 +1,5 @@
 <div id="highlights">
-  {raw}partner_header{raw}
+  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
 </div>
 
 <div class="row">
@@ -7,13 +7,13 @@
 
   <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
-      <h1>{value}partner_campaign title{value}</h1>
+      <h1>{value}partner title{value}</h1>
 
       <h2>{lang}partner_billing_title{lang}</h2>
 
       {widget}message_stack|partner{widget}
 
-      <form id="formPartnerBilling" action="{link}Account|Website|Partner&Billing={raw}partner_campaign code{raw}&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+      <form id="formPartnerBilling" action="{link}Account|Website|Partner&Billing={raw}partner code{raw}&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
         <div class="form-group">
           <label class="control-label" for="inputAdress">{lang}partner_field_billing_address_title{lang}</label>
 

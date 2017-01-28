@@ -1,38 +1,27 @@
 <div id="highlights">
-  {raw}partner_header{raw}
+  <a href="{value}partner url{value}" target="_blank"><img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" /></a>
 </div>
 
 <div class="row">
-  <div id="sidebar" class="col-sm-3 col-sm-push-9">
-    <div class="panel panel-primary">
-      <div class="panel-heading">{value}partner title{value}</div>
-
-      <div class="panel-body">
-        <ul class="nav nav-pills">
-
-{ifvalue partner app_code}
-          <li><a href="http://addons.oscommerce.com/service/{value}partner app_code{value}">{lang}link_view_apps{lang}</a></li>
-          <li><a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}">{lang}link_view_documentation{lang}</a></li>
-{ifvalue}
-
-          <li><a href="{value}partner url{value}" target="_blank">{lang}link_partner_website title="{value}partner title{value}"{lang}</a></li>
-
-{ifvalue partner email}
-          <li><a href="mailto:{value}partner email{value}">{lang}link_contact_partner title="{value}partner title{value}"{lang}</a></li>
-{ifvalue}
-
-        </ul>
-      </div>
-    </div>
-
-    <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="hidden-xs"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a>
-  </div>
-
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-xs-12">
     <div id="maincontent">
       <h1>{value}partner title{value}</h1>
 
-      <a href="{value}partner url{value}" target="_blank"><img src="{publiclink}images/partners/{raw}partner image_small{raw}{publiclink}" alt="" title="{value}partner title{value}" width="130" height="50" style="float: left; margin-right: 10px;" /></a>
+      <div class="pull-right col-xs-12 col-sm-4">
+
+{ifvalue partner app_code}
+        <a href="http://addons.oscommerce.com/service/{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
+        <a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
+{ifvalue}
+
+        <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-block">{lang}link_partner_website title="{value}partner title{value}"{lang}</a>
+
+{ifvalue partner email}
+        <a href="mailto:{value}partner email{value}" class="btn btn-info btn-block">{lang}link_contact_partner title="{value}partner title{value}"{lang}</a>
+{ifvalue}
+
+        <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="hidden-xs btn btn-link btn-block">{lang}link_back_to_listing{lang}</a>
+      </div>
 
       <p>{nl2br}{parse b u i url ul}{value}partner desc_long{value}{parse}{nl2br}</p>
 

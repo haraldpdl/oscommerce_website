@@ -198,8 +198,6 @@ link_view_documentation = View Documentation
 link_partner_website = Visit :title Website
 link_contact_partner = Contact :title
 
-button_visit_partner_website = Visit Partner Website
-
 partner_error_desc_short_empty = Short Description must be provided.
 partner_error_desc_short_length = Short Description must not be greater than 450 characters.
 partner_error_desc_long_empty = Long Description must be provided.

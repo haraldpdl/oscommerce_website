@@ -2,55 +2,125 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
+namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
-  use osCommerce\OM\Core\HTML;
-  use osCommerce\OM\Core\OSCOM;
-  use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\HTML;
+use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
-  class GetPartnerStatusUpdates {
-    public static function execute() {
-      $OSCOM_PDO = Registry::get('PDO');
-      $OSCOM_Template = Registry::get('Template');
+class GetPartnerStatusUpdates
+{
+    public static function execute()
+    {
+        $OSCOM_Cache = Registry::get('Cache');
+        $OSCOM_PDO = Registry::get('PDO');
+        $OSCOM_Template = Registry::get('Template');
 
-      $group = 'en';
+        $languages = [
+            'en' => 1,
+            'de' => 2
+        ];
 
-      if ( isset($_GET['group']) && in_array($_GET['group'], array('de')) ) {
-        $group = HTML::outputProtected($_GET['group']);
-      }
+        $group = 'en';
 
-      $Qpartners = $OSCOM_PDO->prepare('select p.code, p.title, p.url, su.status_update, c.title as category_title, c.code as category_code from :table_website_partner p, :table_website_partner_transaction t, :table_website_partner_status_update su, :table_website_partner_category c where t.package_id = 3 and t.date_start <= now() and t.date_end >= now() and t.partner_id = p.id and p.id = su.partner_id and su.code = :code and p.category_id = c.id group by p.id order by rand() limit 5');
-      $Qpartners->bindValue(':code', $group);
-      $Qpartners->setCache('website_partners-all-status_update-' . $group, 60);
-      $Qpartners->execute();
-
-      $result = array();
-
-      while ( $Qpartners->fetch() ) {
-        $status_update = $Qpartners->value('status_update');
-
-// Oh yes, I may just sneak in an old switcheroo!
-        if ( strpos($status_update, '{url}') !== false ) {
-          $status_update = preg_replace('/(\{url\})(.*)(\{url\})/s', '{partnerurl ' . $Qpartners->value('code') . '}$2{partnerurl}', $status_update);
+        if (isset($_GET['group']) && in_array($_GET['group'], ['de'])) {
+            $group = HTML::outputProtected($_GET['group']);
         }
 
-        $result[] = array('code' => $Qpartners->value('code'),
-                          'title' => $Qpartners->valueProtected('title'),
-                          'url' => OSCOM::getLink('Website', 'Services', 'Redirect=' . $Qpartners->value('code'), 'NONSSL', false),
-                          'status_update' => $OSCOM_Template->parseContent(HTML::outputProtected($status_update), array('partnerurl')),
-                          'category_title' => $Qpartners->value('category_title'),
-                          'category_code' => $Qpartners->value('category_code'));
-      }
+        if ($OSCOM_Cache->read('website_partners-all-status_update-' . $group, 60)) {
+            $statuses = $OSCOM_Cache->getCache();
+        } else {
+            $sql = <<<EOD
+select
+  p.id,
+  pi.code,
+  pi.title,
+  pi.url,
+  pi.status_update,
+  c.title as category_title,
+  c.code as category_code
+from
+  :table_website_partner p,
+  :table_website_partner_info pi,
+  :table_website_partner_transaction t,
+  :table_website_partner_category c
+where
+  t.package_id = 3 and
+  t.date_start <= now() and
+  t.date_end >= now() and
+  t.partner_id = p.id and
+  p.id = pi.partner_id and
+  pi.languages_id = :languages_id and
+  pi.status_update != '' and
+  p.category_id = c.id
+group by
+  p.id
+order by
+  rand()
+limit
+  5
+EOD;
 
-      header('Cache-Control: max-age=3600, must-revalidate');
-      header_remove('Pragma');
-      header('Content-Type: application/javascript');
+            $Qpartners = $OSCOM_PDO->prepare($sql);
+            $Qpartners->bindInt(':languages_id', $languages['en']);
+            $Qpartners->execute();
 
-      echo json_encode($result);
+            $statuses = $Qpartners->fetchAll();
+
+            if ($group != 'en') {
+                $Qpartners->bindInt(':languages_id', $languages[$group]);
+                $Qpartners->execute();
+
+                while ($Qpartners->fetch()) {
+                    $found = false;
+
+                    foreach ($statuses as $k => $v) {
+                        if ($Qpartners->value('id') == $v['id']) {
+                            $found = true;
+
+                            $statuses[$k] = $Qpartners->toArray();
+
+                            break;
+                        }
+                    }
+
+                    if ($found === false) {
+                        $statuses[] = $Qpartners->toArray();
+                    }
+                }
+            }
+
+            $OSCOM_Cache->write($statuses);
+        }
+
+        $result = [];
+
+        foreach ($statuses as $s) {
+            $status_update = $s['status_update'];
+
+// Oh yes, I may just sneak in an old switcheroo!
+            if (strpos($status_update, '{url}') !== false) {
+                $status_update = preg_replace('/(\{url\})(.*)(\{url\})/s', '{partnerurl ' . $s['code'] . '}$2{partnerurl}', $status_update);
+            }
+
+            $result[] = [
+                'code' => $s['code'],
+                'title' => HTML::outputProtected($s['title']),
+                'url' => OSCOM::getLink('Website', 'Services', 'Redirect=' . $s['code'], 'NONSSL', false),
+                'status_update' => $OSCOM_Template->parseContent(HTML::outputProtected($status_update), ['partnerurl']),
+                'category_title' => $s['category_title'],
+                'category_code' => $s['category_code']
+            ];
+        }
+
+        header('Cache-Control: max-age=3600, must-revalidate');
+        header_remove('Pragma');
+        header('Content-Type: application/javascript');
+
+        echo json_encode($result);
     }
-  }
-?>
+}

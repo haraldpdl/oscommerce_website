@@ -47,14 +47,13 @@ listing_html_page_title = :category_title Partners | osCommerce
 partner_html_page_title = :partner_title | osCommerce
 
 button_partner_with_us = Partner with us
-button_find_out_more = Find out more
-button_visit_partner_website = Visit Partner Website
+button_find_out_more = mehr herausfinden
 
-link_view_apps = View Apps
-link_view_documentation = View Documentation
-link_partner_website = Visit :title Website
-link_contact_partner = Contact :title
-link_back_to_listing = Back to listing
+link_view_apps = Apps ansehen
+link_view_documentation = Dokumentation ansehen
+link_partner_website = :title besuchen
+link_contact_partner = :title kontaktieren
+link_back_to_listing = Zurück zur Übersicht
 
 dashboard_link_title = Partner Dashboard
 

@@ -1,5 +1,5 @@
 <div id="highlights">
-  {raw}partner_header{raw}
+  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
 </div>
 
 <div class="row">
@@ -7,129 +7,255 @@
 
   <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
     <div id="maincontent">
-      <h1>{value}partner_campaign title{value}</h1>
+      <h1>{value}partner title{value}</h1>
 
       {widget}message_stack|partner{widget}
 
-      <form id="formPartnerEdit" action="{link}Account|Website|Partner&Edit={raw}partner_campaign code{raw}&Process|SSL{link}" method="post" enctype="multipart/form-data">{formprotect}public_token{formprotect}
+      <form id="formPartnerEdit" action="{link}Account|Website|Partner&Edit={raw}partner code{raw}&Process|SSL{link}" method="post" enctype="multipart/form-data">{formprotect}public_token{formprotect}
         <div class="tab-content">
           <div class="tab-pane active" id="pPage" role="tabpanel">
             <fieldset>
-              <legend class="legend-warning">{lang}partner_information_page{lang} <span class="pull-right small" style="margin-top: 5px;">{lang}partner_required_fields{lang}</span></legend>
+              <legend class="legend-warning">{lang}partner_information_page{lang}</legend>
 
-              <div class="form-group">
-                <label class="control-label" for="inputDescShort">{lang}partner_field_desc_short_title{lang} <span class="text-warning">*</span></label>
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#inputPageEnglish" data-toggle="tab">{lang}language_english{lang}</a></li>
+                <li><a href="#inputPageGerman" data-toggle="tab">{lang}language_german{lang}</a></li>
+              </ul>
 
-                <textarea id="inputDescShort" name="desc_short" rows="6" maxlength="450" class="form-control">{post}desc_short|partner_campaign desc_short{post}</textarea>
-                <span class="help-block small">{lang}partner_field_desc_short_desc{lang}</span>
-              </div>
+              <div class="tab-content">
+                <div class="tab-pane active" id="inputPageEnglish">
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputDescShortEn">{lang}partner_field_desc_short_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputDescLong">{lang}partner_field_desc_long_title{lang} <span class="text-warning">*</span></label>
+                    <textarea id="inputDescShortEn" name="desc_short_en_US" rows="6" maxlength="450" class="form-control">{post}desc_short_en_US|partner_campaign_en_US desc_short{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_desc_short_desc{lang}</span>
+                  </div>
 
-                <textarea id="inputDescLong" name="desc_long" rows="15" class="form-control">{post}desc_long|partner_campaign desc_long{post}</textarea>
-                <span class="help-block small">{lang}partner_field_desc_long_desc{lang}</span>
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputDescLongEn">{lang}partner_field_desc_long_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputAddress">{lang}partner_field_address_title{lang}</label>
+                    <textarea id="inputDescLongEn" name="desc_long_en_US" rows="15" class="form-control">{post}desc_long_en_US|partner_campaign_en_US desc_long{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_desc_long_desc{lang}</span>
+                  </div>
 
-                <textarea id="inputAddress" name="address" rows="5" maxlength="255" class="form-control">{post}address|partner_campaign address{post}</textarea>
-                <span class="help-block small">{lang}partner_field_address_desc{lang}</span>
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputAddressEn">{lang}partner_field_address_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputTelephone">{lang}partner_field_telephone_title{lang}</label>
+                    <textarea id="inputAddressEn" name="address_en_US" rows="5" maxlength="255" class="form-control">{post}address_en_US|partner_campaign_en_US address{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_address_desc{lang}</span>
+                  </div>
 
-                <input type="tel" id="inputTelephone" name="telephone" value="{post}telephone|partner_campaign telephone{post}" class="form-control" />
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputTelephoneEn">{lang}partner_field_telephone_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputEmail">{lang}partner_field_email_title{lang}</label>
+                    <input type="tel" id="inputTelephoneEn" name="telephone_en_US" value="{post}telephone_en_US|partner_campaign_en_US telephone{post}" class="form-control" />
+                  </div>
 
-                <input type="email" id="inputEmail" name="email" value="{post}email|partner_campaign email{post}" class="form-control" />
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputEmailEn">{lang}partner_field_email_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputYouTubeVideoID">{lang}partner_field_youtube_video_id_title{lang}</label>
+                    <input type="email" id="inputEmailEn" name="email_en_US" value="{post}email_en_US|partner_campaign_en_US email{post}" class="form-control" />
+                  </div>
 
-                <input type="text" id="inputYouTubeVideoID" name="youtube_video_id" value="{post}youtube_video_id|partner_campaign youtube_video_id{post}" class="form-control" />
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputYouTubeVideoIDEn">{lang}partner_field_youtube_video_id_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputPublicUrl">{lang}partner_field_public_url_title{lang} <span class="text-warning">*</span></label>
+                    <input type="text" id="inputYouTubeVideoIDEn" name="youtube_video_id_en_US" value="{post}youtube_video_id_en_US|partner_campaign_en_US youtube_video_id{post}" class="form-control" />
+                  </div>
 
-                <input type="url" id="inputPublicUrl" name="public_url" value="{post}public_url|partner_campaign public_url{post}" class="form-control" />
-                <span class="help-block small">{lang}partner_field_public_url_desc{lang}</span>
-              </div>
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputPublicUrlEn">{lang}partner_field_public_url_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputUrl">{lang}partner_field_url_title{lang} <span class="text-warning">*</span></label>
+                    <input type="url" id="inputPublicUrlEn" name="public_url_en_US" value="{post}public_url_en_US|partner_campaign_en_US public_url{post}" class="form-control" />
+                    <span class="help-block small">{lang}partner_field_public_url_desc{lang}</span>
+                  </div>
 
-                <input type="url" id="inputUrl" name="url" value="{post}url|partner_campaign url{post}" class="form-control" />
-                <span class="help-block small">{lang}partner_field_url_desc{lang}</span>
-              </div>
+                  <div class="form-group">
+                    <label class="control-label" for="inputUrlEn">{lang}partner_field_url_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputImageSmall">{lang}partner_field_image_small_title{lang}</label>
+                    <input type="url" id="inputUrlEn" name="url_en_US" value="{post}url_en_US|partner_campaign_en_US url{post}" class="form-control" />
+                    <span class="help-block small">{lang}partner_field_url_desc{lang}</span>
+                  </div>
 
-                {ifvalue partner_campaign image_small}
-                <div class="row">
-                  <div class="col-xs-8 col-sm-10">
-                {ifvalue}
+                  <div class="form-group">
+                    <label class="control-label" for="inputImageSmallEn">{lang}partner_field_image_small_title{lang}</label>
 
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <span class="btn btn-file">
-                      {lang}button_file_upload_label{lang} <input type="file" id="inputImageSmall" name="image_small" />
+                    {ifvalue partner_campaign_en_US image_small}
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-10">
+                    {ifvalue}
+
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImageSmallEn" name="image_small_en_US" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_small_desc{lang}
                     </span>
-                  </span>
-                  <input type="text" class="form-control btn-file-text" readonly />
-                </div>
-                <span class="help-block small">
-                  {lang}partner_field_image_small_desc{lang}
-                </span>
 
-                {ifvalue partner_campaign image_small}
+                    {ifvalue partner_campaign_en_US image_small}
+                      </div>
+
+                      <div class="col-xs-4 col-sm-2">
+                        <a href="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_small{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_small{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
                   </div>
 
-                  <div class="col-xs-4 col-sm-2">
-                    <a href="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_small{raw}{publiclink}" class="img-responsive" /></a>
-                  </div>
-                </div>
-                {ifvalue}
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputImageBigEn">{lang}partner_field_image_big_title{lang}</label>
 
-              </div>
+                    {ifvalue partner_campaign_en_US image_big}
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-8">
+                    {ifvalue}
 
-              <div class="form-group" id="headerImageField">
-                <label class="control-label" for="inputImageBig">{lang}partner_field_image_big_title{lang}</label>
-
-                {ifvalue partner_campaign image_big}
-                <div class="row">
-                  <div class="col-xs-6 col-sm-8">
-                {ifvalue}
-
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <span class="btn btn-file">
-                      {lang}button_file_upload_label{lang} <input type="file" id="inputImageBig" name="image_big" />
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImageBigEn" name="image_big_en_US" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_big_desc{lang}
                     </span>
-                  </span>
-                  <input type="text" class="form-control btn-file-text" readonly />
-                </div>
-                <span class="help-block small">
-                  {lang}partner_field_image_big_desc{lang}
-                </span>
 
-                {ifvalue partner_campaign image_big}
-                  </div>
+                    {ifvalue partner_campaign_en_US image_big}
+                      </div>
 
-                  <div class="col-xs-6 col-sm-4">
-                    <a href="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_big{raw}{publiclink}" class="img-responsive" /></a>
+                      <div class="col-xs-6 col-sm-4">
+                        <a href="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_big{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_big{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
                   </div>
                 </div>
-                {ifvalue}
 
+                <div class="tab-pane" id="inputPageGerman">
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputDescShortDe">{lang}partner_field_desc_short_title{lang}</label>
+
+                    <textarea id="inputDescShortDe" name="desc_short_de_DE" rows="6" maxlength="450" class="form-control">{post}desc_short_de_DE|partner_campaign_de_DE desc_short{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_desc_short_desc{lang}</span>
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputDescLongDe">{lang}partner_field_desc_long_title{lang}</label>
+
+                    <textarea id="inputDescLongDe" name="desc_long_de_DE" rows="15" class="form-control">{post}desc_long_de_DE|partner_campaign_de_DE desc_long{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_desc_long_desc{lang}</span>
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputAddressDe">{lang}partner_field_address_title{lang}</label>
+
+                    <textarea id="inputAddressDe" name="address_de_DE" rows="5" maxlength="255" class="form-control">{post}address_de_DE|partner_campaign_de_DE address{post}</textarea>
+                    <span class="help-block small">{lang}partner_field_address_desc{lang}</span>
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputTelephoneDe">{lang}partner_field_telephone_title{lang}</label>
+
+                    <input type="tel" id="inputTelephoneDe" name="telephone_de_DE" value="{post}telephone_de_DE|partner_campaign_de_DE telephone{post}" class="form-control" />
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputEmailDe">{lang}partner_field_email_title{lang}</label>
+
+                    <input type="email" id="inputEmailDe" name="email_de_DE" value="{post}email_de_DE|partner_campaign_de_DE email{post}" class="form-control" />
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputYouTubeVideoIDDe">{lang}partner_field_youtube_video_id_title{lang}</label>
+
+                    <input type="text" id="inputYouTubeVideoIDDe" name="youtube_video_id_de_DE" value="{post}youtube_video_id_de_DE|partner_campaign_de_DE youtube_video_id{post}" class="form-control" />
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputPublicUrlDe">{lang}partner_field_public_url_title{lang}</label>
+
+                    <input type="url" id="inputPublicUrlDe" name="public_url_de_DE" value="{post}public_url_de_DE|partner_campaign_de_DE public_url{post}" class="form-control" />
+                    <span class="help-block small">{lang}partner_field_public_url_desc{lang}</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label" for="inputUrlDe">{lang}partner_field_url_title{lang}</label>
+
+                    <input type="url" id="inputUrlDe" name="url_de_DE" value="{post}url_de_DE|partner_campaign_de_DE url{post}" class="form-control" />
+                    <span class="help-block small">{lang}partner_field_url_desc{lang}</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label" for="inputImageSmallDe">{lang}partner_field_image_small_title{lang}</label>
+
+                    {ifvalue partner_campaign_de_DE image_small}
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-10">
+                    {ifvalue}
+
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImageSmallDe" name="image_small_de_DE" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_small_desc{lang}
+                    </span>
+
+                    {ifvalue partner_campaign_de_DE image_small}
+                      </div>
+
+                      <div class="col-xs-4 col-sm-2">
+                        <a href="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_small{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_small{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
+                  </div>
+
+                  <div data-group="gold" class="form-group">
+                    <label class="control-label" for="inputImageBigDe">{lang}partner_field_image_big_title{lang}</label>
+
+                    {ifvalue partner_campaign_de_DE image_big}
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-8">
+                    {ifvalue}
+
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImageBigDe" name="image_big_de_DE" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_big_desc{lang}
+                    </span>
+
+                    {ifvalue partner_campaign_de_DE image_big}
+                      </div>
+
+                      <div class="col-xs-6 col-sm-4">
+                        <a href="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_big{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_big{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
+                  </div>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -138,41 +264,89 @@
             <fieldset>
               <legend class="legend-warning">{lang}partner_promotion{lang}</legend>
 
-              <div class="form-group">
-                <label class="control-label" for="inputImagePromo">{lang}partner_field_image_promo_title{lang}</label>
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#inputPromotionEnglish" data-toggle="tab">{lang}language_english{lang}</a></li>
+                <li><a href="#inputPromotionGerman" data-toggle="tab">{lang}language_german{lang}</a></li>
+              </ul>
 
-                {ifvalue partner_campaign image_promo}
-                <div class="row">
-                  <div class="col-xs-8 col-sm-10">
-                {ifvalue}
+              <div class="tab-content">
+                <div class="tab-pane active" id="inputPromotionEnglish">
+                  <div class="form-group">
+                    <label class="control-label" for="inputImagePromoEn">{lang}partner_field_image_promo_title{lang}</label>
 
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <span class="btn btn-file">
-                      {lang}button_file_upload_label{lang} <input type="file" id="inputImagePromo" name="image_promo" />
+                    {ifvalue partner_campaign_en_US image_promo}
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-10">
+                    {ifvalue}
+
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImagePromoEn" name="image_promo_en_US" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_promo_desc{lang}
                     </span>
-                  </span>
-                  <input type="text" class="form-control btn-file-text" readonly />
-                </div>
-                <span class="help-block small">
-                  {lang}partner_field_image_promo_desc{lang}
-                </span>
 
-                {ifvalue partner_campaign image_promo}
+                    {ifvalue partner_campaign_en_US image_promo}
+                      </div>
+
+                      <div class="col-xs-4 col-sm-2">
+                        <a href="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_promo{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US image_promo{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
                   </div>
 
-                  <div class="col-xs-4 col-sm-2">
-                    <a href="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign image_promo{raw}{publiclink}" class="img-responsive" /></a>
+                  <div class="form-group">
+                    <label class="control-label" for="inputPromoUrlEn">{lang}partner_field_image_promo_url_title{lang}</label>
+
+                    <input type="text" id="inputPromoUrlEn" name="image_promo_url_en_US" value="{post}image_promo_url_en_US|partner_campaign_en_US image_promo_url{post}" class="form-control" />
                   </div>
                 </div>
-                {ifvalue}
 
-              </div>
+                <div class="tab-pane" id="inputPromotionGerman">
+                  <div class="form-group">
+                    <label class="control-label" for="inputImagePromoDe">{lang}partner_field_image_promo_title{lang}</label>
 
-              <div class="form-group">
-                <label class="control-label" for="inputPromoUrl">{lang}partner_field_image_promo_url_title{lang}</label>
+                    {ifvalue partner_campaign_de_DE image_promo}
+                    <div class="row">
+                      <div class="col-xs-8 col-sm-10">
+                    {ifvalue}
 
-                <input type="text" id="inputPromoUrl" name="image_promo_url" value="{post}image_promo_url|partner_campaign image_promo_url{post}" class="form-control" />
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <span class="btn btn-file">
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputImagePromoDe" name="image_promo_de_DE" />
+                        </span>
+                      </span>
+                      <input type="text" class="form-control btn-file-text" readonly />
+                    </div>
+                    <span class="help-block small">
+                      {lang}partner_field_image_promo_desc{lang}
+                    </span>
+
+                    {ifvalue partner_campaign_de_DE image_promo}
+                      </div>
+
+                      <div class="col-xs-4 col-sm-2">
+                        <a href="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_promo{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE image_promo{raw}{publiclink}" class="img-responsive" /></a>
+                      </div>
+                    </div>
+                    {ifvalue}
+
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label" for="inputPromoUrlDe">{lang}partner_field_image_promo_url_title{lang}</label>
+
+                    <input type="text" id="inputPromoUrlDe" name="image_promo_url_de_DE" value="{post}image_promo_url_de_DE|partner_campaign_de_DE image_promo_url{post}" class="form-control" />
+                  </div>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -191,7 +365,7 @@
                   <div class="form-group">
                     <label class="control-label" for="inputBannerImageEn">{lang}partner_field_banner_image_title{lang}</label>
 
-                {ifvalue partner_campaign banner_image_en}
+                {ifvalue partner_campaign_en_US banner_image}
                     <div class="row">
                       <div class="col-xs-6 col-sm-8">
                 {ifvalue}
@@ -199,7 +373,7 @@
                     <div class="input-group">
                       <span class="input-group-btn">
                         <span class="btn btn-file">
-                          {lang}button_file_upload_label{lang} <input type="file" id="inputBannerImageEn" name="banner_image_en" />
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputBannerImageEn" name="banner_image_en_US" />
                         </span>
                       </span>
                       <input type="text" class="form-control btn-file-text" readonly />
@@ -208,11 +382,11 @@
                       {lang}partner_field_banner_image_desc{lang}
                     </span>
 
-                {ifvalue partner_campaign banner_image_en}
+                {ifvalue partner_campaign_en_US banner_image}
                       </div>
 
                       <div class="col-xs-6 col-sm-4">
-                        <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign banner_image_en{raw}{publiclink}" class="img-responsive" /></a>
+                        <a href="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US banner_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US banner_image{raw}{publiclink}" class="img-responsive" /></a>
                       </div>
                     </div>
                 {ifvalue}
@@ -222,17 +396,15 @@
                   <div class="form-group">
                     <label class="control-label" for="inputBannerUrlEn">{lang}partner_field_banner_url_title{lang}</label>
 
-                    <input type="text" id="inputBannerUrlEn" name="banner_url_en" value="{post}banner_url_en|partner_campaign banner_url_en{post}" class="form-control" />
+                    <input type="text" id="inputBannerUrlEn" name="banner_url_en_US" value="{post}banner_url_en_US|partner_campaign_en_US banner_url{post}" class="form-control" />
                   </div>
                 </div>
 
                 <div class="tab-pane" id="inputBannerGerman">
-                  <p class="small text-warning">{lang}partner_german_language_requirement{lang}</p>
-
                   <div class="form-group">
                     <label class="control-label" for="inputBannerImageDe">{lang}partner_field_banner_image_title{lang}</label>
 
-                {ifvalue partner_campaign banner_image_de}
+                {ifvalue partner_campaign_de_DE banner_image}
                     <div class="row">
                       <div class="col-xs-6 col-sm-8">
                 {ifvalue}
@@ -240,7 +412,7 @@
                     <div class="input-group">
                       <span class="input-group-btn">
                         <span class="btn btn-file">
-                          {lang}button_file_upload_label{lang} <input type="file" id="inputBannerImageDe" name="banner_image_de" />
+                          {lang}button_file_upload_label{lang} <input type="file" id="inputBannerImageDe" name="banner_image_de_DE" />
                         </span>
                       </span>
                       <input type="text" class="form-control btn-file-text" readonly />
@@ -249,11 +421,11 @@
                       {lang}partner_field_banner_image_desc{lang}
                     </span>
 
-                {ifvalue partner_campaign banner_image_de}
+                {ifvalue partner_campaign_de_DE banner_image}
                       </div>
 
                       <div class="col-xs-6 col-sm-4">
-                        <a href="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign banner_image_de{raw}{publiclink}" class="img-responsive" /></a>
+                        <a href="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE banner_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE banner_image{raw}{publiclink}" class="img-responsive" /></a>
                       </div>
                     </div>
                 {ifvalue}
@@ -263,7 +435,7 @@
                   <div class="form-group">
                     <label class="control-label" for="inputBannerUrlDe">{lang}partner_field_banner_url_title{lang}</label>
 
-                    <input type="text" id="inputBannerUrlDe" name="banner_url_de" value="{post}banner_url_de|partner_campaign banner_url_de{post}" class="form-control" />
+                    <input type="text" id="inputBannerUrlDe" name="banner_url_de_DE" value="{post}banner_url_de_DE|partner_campaign_de_DE banner_url{post}" class="form-control" />
                   </div>
                 </div>
               </div>
@@ -284,18 +456,16 @@
                   <div class="form-group">
                     <label class="control-label" for="inputStatusUpdateEn">{lang}partner_field_status_update_title{lang}</label>
 
-                    <textarea id="inputStatusUpdateEn" name="status_update_en" rows="4" maxlength="200" class="form-control">{post}status_update_en|partner_campaign status_update_en{post}</textarea>
+                    <textarea id="inputStatusUpdateEn" name="status_update_en_US" rows="4" maxlength="200" class="form-control">{post}status_update_en_US|partner_campaign_en_US status_update{post}</textarea>
                     <span class="help-block small">{lang}partner_field_status_update_desc{lang}</span>
                   </div>
                 </div>
 
                 <div class="tab-pane" id="inputNewsGerman">
-                  <p class="small text-warning">{lang}partner_german_language_requirement{lang}</p>
-
                   <div class="form-group">
                     <label class="control-label" for="inputStatusUpdateDe">{lang}partner_field_status_update_title{lang}</label>
 
-                    <textarea id="inputStatusUpdateDe" name="status_update_de" rows="4" maxlength="200" class="form-control">{post}status_update_de|partner_campaign status_update_de{post}</textarea>
+                    <textarea id="inputStatusUpdateDe" name="status_update_de_DE" rows="4" maxlength="200" class="form-control">{post}status_update_de_DE|partner_campaign_de_DE status_update{post}</textarea>
                     <span class="help-block small">{lang}partner_field_status_update_desc{lang}</span>
                   </div>
                 </div>
@@ -307,50 +477,106 @@
             <fieldset>
               <legend class="legend-warning">{lang}partner_carousel{lang}</legend>
 
-              <div class="form-group">
-                <label class="control-label" for="inputImageCarousel">{lang}partner_field_carousel_image_title{lang}</label>
+              <div data-block="fields">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#inputCarouselEnglish" data-toggle="tab">{lang}language_english{lang}</a></li>
+                  <li><a href="#inputCarouselGerman" data-toggle="tab">{lang}language_german{lang}</a></li>
+                </ul>
 
-                {ifvalue partner_campaign carousel_image}
-                <div class="row">
-                  <div class="col-xs-6 col-sm-8">
-                {ifvalue}
+                <div class="tab-content">
+                  <div class="tab-pane active" id="inputCarouselEnglish">
+                    <div class="form-group">
+                      <label class="control-label" for="inputImageCarouselEn">{lang}partner_field_carousel_image_title{lang}</label>
 
-                <div class="input-group">
-                  <span class="input-group-btn">
-                    <span class="btn btn-file">
-                      {lang}button_file_upload_label{lang} <input type="file" id="inputImageCarousel" name="carousel_image" />
-                    </span>
-                  </span>
-                  <input type="text" class="form-control btn-file-text" readonly />
-                </div>
-                <span class="help-block small">
-                  {lang}partner_field_carousel_image_desc{lang}
-                </span>
+                      {ifvalue partner_campaign_en_US carousel_image}
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-8">
+                      {ifvalue}
 
-                {ifvalue partner_campaign carousel_image}
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <span class="btn btn-file">
+                            {lang}button_file_upload_label{lang} <input type="file" id="inputImageCarouselEn" name="carousel_image_en_US" />
+                          </span>
+                        </span>
+                        <input type="text" class="form-control btn-file-text" readonly />
+                      </div>
+                      <span class="help-block small">
+                        {lang}partner_field_carousel_image_desc{lang}
+                      </span>
+
+                      {ifvalue partner_campaign_en_US carousel_image}
+                        </div>
+
+                        <div class="col-xs-6 col-sm-4">
+                          <a href="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US carousel_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/en_US/{raw}partner_campaign_en_US carousel_image{raw}{publiclink}" class="img-responsive" /></a>
+                        </div>
+                      </div>
+                      {ifvalue}
+
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label" for="inputCarouselTitleEn">{lang}partner_field_carousel_image_title_title{lang}</label>
+
+                      <input type="text" id="inputCarouselTitleEn" name="carousel_image_title_en_US" value="{post}carousel_image_title_en_US|partner_campaign_en_US carousel_title{post}" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label" for="inputCarouselUrlEn">{lang}partner_field_carousel_image_url_title{lang}</label>
+
+                      <input type="text" id="inputCarouselUrlEn" name="carousel_image_url_en_US" value="{post}carousel_image_url_en_US|partner_campaign_en_US carousel_url{post}" class="form-control" />
+                    </div>
                   </div>
 
-                  <div class="col-xs-6 col-sm-4">
-                    <a href="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/{raw}partner_campaign carousel_image{raw}{publiclink}" class="img-responsive" /></a>
+                  <div class="tab-pane" id="inputCarouselGerman">
+                    <div class="form-group">
+                      <label class="control-label" for="inputImageCarouselDe">{lang}partner_field_carousel_image_title{lang}</label>
+
+                      {ifvalue partner_campaign_de_DE carousel_image}
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-8">
+                      {ifvalue}
+
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <span class="btn btn-file">
+                            {lang}button_file_upload_label{lang} <input type="file" id="inputImageCarouselDe" name="carousel_image_de_DE" />
+                          </span>
+                        </span>
+                        <input type="text" class="form-control btn-file-text" readonly />
+                      </div>
+                      <span class="help-block small">
+                        {lang}partner_field_carousel_image_desc{lang}
+                      </span>
+
+                      {ifvalue partner_campaign_de_DE carousel_image}
+                        </div>
+
+                        <div class="col-xs-6 col-sm-4">
+                          <a href="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE carousel_image{raw}{publiclink}" target="_blank"><img src="{publiclink}images/partners/de_DE/{raw}partner_campaign_de_DE carousel_image{raw}{publiclink}" class="img-responsive" /></a>
+                        </div>
+                      </div>
+                      {ifvalue}
+
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label" for="inputCarouselTitleDe">{lang}partner_field_carousel_image_title_title{lang}</label>
+
+                      <input type="text" id="inputCarouselTitleDe" name="carousel_image_title_de_DE" value="{post}carousel_image_title_de_DE|partner_campaign_de_DE carousel_title{post}" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label" for="inputCarouselUrlDe">{lang}partner_field_carousel_image_url_title{lang}</label>
+
+                      <input type="text" id="inputCarouselUrlDe" name="carousel_image_url_de_DE" value="{post}carousel_image_url_de_DE|partner_campaign_de_DE carousel_url{post}" class="form-control" />
+                    </div>
                   </div>
                 </div>
-                {ifvalue}
-
               </div>
 
-              <div class="form-group">
-                <label class="control-label" for="inputCarouselTitle">{lang}partner_field_carousel_image_title_title{lang}</label>
-
-                <input type="text" id="inputCarouselTitle" name="carousel_image_title" value="{post}carousel_image_title|partner_campaign carousel_title{post}" class="form-control" />
-              </div>
-
-              <div class="form-group">
-                <label class="control-label" for="inputCarouselUrl">{lang}partner_field_carousel_image_url_title{lang}</label>
-
-                <input type="text" id="inputCarouselUrl" name="carousel_image_url" value="{post}carousel_image_url|partner_campaign carousel_url{post}" class="form-control" />
-              </div>
-
-              <div class="jumbotron hidden">
+              <div data-block="info" class="jumbotron hidden">
                 <h2>{lang}cs_inquiry_title{lang}</h2>
 
                 <p>{lang}cs_inquiry_info{lang}</p>
@@ -371,9 +597,9 @@ $(function() {
   var noCarouselActivation = '<div class="alert alert-warning">{lang addslashes}partner_panel_carousel_not_yet_enabled{lang}</div>';
 
   if ({value}partner_campaign has_gold{value} != 1) {
-    $('#pPage #headerImageField').hide();
+    $('#pPage div[data-group="gold"]').hide();
 
-    $('#pPromotion .form-group').hide();
+    $('#pPromotion .nav, #pPromotion .tab-content').hide();
     $('#pPromotion legend').after(onlyGoldLevel);
 
     $('#pBanner .nav, #pBanner .tab-content').hide();
@@ -384,9 +610,9 @@ $(function() {
   }
 
   if ({value}partner_campaign has_carousel{value} != 1) {
-    $('#pCarousel .form-group').hide();
+    $('#pCarousel div[data-block="fields"]').hide();
     $('#pCarousel legend').after(noCarouselActivation);
-    $('#pCarousel .jumbotron').removeClass('hidden');
+    $('#pCarousel div[data-block="info"]').removeClass('hidden');
   }
 });
 </script>

@@ -29,4 +29,6 @@ choco_open_source_title = Open Source Rocks
 choco_open_source_content = <p>Commited to Open Source to foster a strong and growing worldwide community engaged in our achievements.</p>
 
 services_promotions_title = Promotions
+services_promotions_see_more = see more promotions
 services_partners_title = Partners
+services_partners_see_more = see more partners
