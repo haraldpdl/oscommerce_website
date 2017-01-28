@@ -1,61 +1,50 @@
 <div id="highlights">
-  <a href="{value}partner url{value}" target="_blank"><img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" /></a>
+  <a id="partnerImageBigLink" target="_blank"><img id="partnerImageBig" alt="" /></a>
 </div>
 
 <div class="row">
   <div id="maincontainer" class="col-xs-12">
     <div id="maincontent">
-      <h1>{value}partner title{value}</h1>
-
       {widget}message_stack|partner{widget}
 
+      <ul id="previewLanguageTabs" class="nav nav-tabs" style="margin-bottom: 25px;">
+        <li><a href="#preview_en_US" data-toggle="tab" data-code="en_US">{lang}language_english{lang}</a></li>
+        <li><a href="#preview_de_DE" data-toggle="tab" data-code="de_DE">{lang}language_german{lang}</a></li>
+      </ul>
+
+      <h1 data-id="partnerTitle"></h1>
+
       <div class="pull-right col-xs-12 col-sm-4">
-
-{ifvalue partner app_code}
-        <a href="http://addons.oscommerce.com/service/{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
-        <a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
-{ifvalue}
-
-        <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-block">{lang}link_partner_website title="{value}partner title{value}"{lang}</a>
-
-{ifvalue partner email}
-        <a href="mailto:{value}partner email{value}" class="btn btn-info btn-block">{lang}link_contact_partner title="{value}partner title{value}"{lang}</a>
-{ifvalue}
-
+        <a id="partnerAppsLink" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
+        <a id="partnerDocsLink" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
+        <a id="partnerWebsiteLink" target="_blank" class="btn btn-info btn-block">{lang}link_partner_website title="##TITLE##"{lang}</a>
+        <a id="partnerEmailLink" class="btn btn-info btn-block">{lang}link_contact_partner title="##TITLE##"{lang}</a>
         <a href="{link}Account|Website|Partner|SSL{link}" class="hidden-xs btn btn-link btn-block">{lang}partner_back_to_campaigns{lang}</a>
       </div>
 
-      <p>{nl2br}{parse b u i url ul}{value}partner desc_long{value}{parse}{nl2br}</p>
+      <p id="partnerDescriptionLong"></p>
 
-{ifvalue partner youtube_video_id}
-      <div class="embed-responsive embed-responsive-16by9" style="margin-bottom: 20px;"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" allowfullscreen></iframe></div>
-{ifvalue}
+      <div id="partnerYoutubeVideo" class="embed-responsive embed-responsive-16by9" style="margin-bottom: 20px;"><iframe class="embed-responsive-item" allowfullscreen></iframe></div>
 
       <div class="clearfix"></div>
 
       <address class="jumbotron">
-        <h2>{value}partner title{value}</h2>
+        <h2 data-id="partnerTitle"></h2>
 
-{ifvalue partner address}
-        <p>
-          {nl2br}{value}partner address{value}{nl2br}
-        </p>
-{ifvalue}
+        <p id="partnerAddress"></p>
 
         <p>
+          <span id="partnerPublicUrl">
+            <i class="fa fa-fw fa-home"></i> <a target="_blank"></a><br />
+          </span>
 
-{ifvalue partner public_url}
-          <i class="fa fa-fw fa-home"></i> <a href="{value}partner url{value}" target="_blank">{value}partner public_url{value}</a><br />
-{ifvalue}
+          <span id="partnerEmail">
+            <i class="fa fa-fw fa-envelope"></i> <a></a><br />
+          </span>
 
-{ifvalue partner email}
-          <i class="fa fa-fw fa-envelope"></i> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a><br />
-{ifvalue}
-
-{ifvalue partner telephone}
-          <i class="fa fa-fw fa-phone"></i> {value}partner telephone{value}
-{ifvalue}
-
+          <span id="partnerTelephone">
+            <i class="fa fa-fw fa-phone"></i> <span id="partnerTelephoneContent"></span>
+          </span>
         </p>
       </address>
 
@@ -63,3 +52,137 @@
     </div>
   </div>
 </div>
+
+<script>
+var campaigns = {raw json_encode}campaign_info{raw};
+var lang = {raw json_encode}language_code{raw};
+
+function loadPreviewLanguage(code) {
+  var partner = {};
+
+  if ((code !== 'en_US') && ((campaigns.info[code].title !== null) && (campaigns.info[code].title.length > 0))) {
+    partner.title = campaigns.info[code].title;
+  } else {
+    partner.title = campaigns.info['en_US'].title;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].desc_long !== null) && (campaigns.info[code].desc_long.length > 0))) {
+    partner.desc_long = campaigns.info[code].desc_long;
+  } else {
+    partner.desc_long = campaigns.info['en_US'].desc_long;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].image_big !== null) && (campaigns.info[code].image_big.length > 0))) {
+    partner.image_big = campaigns.info[code].image_big;
+  } else {
+    partner.image_big = campaigns.info['en_US'].image_big;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].url !== null) && (campaigns.info[code].url.length > 0))) {
+    partner.url = campaigns.info[code].url;
+  } else {
+    partner.url = campaigns.info['en_US'].url;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].public_url !== null) && (campaigns.info[code].public_url.length > 0))) {
+    partner.public_url = campaigns.info[code].public_url;
+  } else {
+    partner.public_url = campaigns.info['en_US'].public_url;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].email !== null) && (campaigns.info[code].email.length > 0))) {
+    partner.email = campaigns.info[code].email;
+  } else {
+    partner.email = campaigns.info['en_US'].email;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].address !== null) && (campaigns.info[code].address.length > 0))) {
+    partner.address = campaigns.info[code].address;
+  } else {
+    partner.address = campaigns.info['en_US'].address;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].youtube_video_id !== null) && (campaigns.info[code].youtube_video_id.length > 0))) {
+    partner.youtube_video_id = campaigns.info[code].youtube_video_id;
+  } else {
+    partner.youtube_video_id = campaigns.info['en_US'].youtube_video_id;
+  }
+
+  if ((code !== 'en_US') && ((campaigns.info[code].telephone !== null) && (campaigns.info[code].telephone.length > 0))) {
+    partner.telephone = campaigns.info[code].telephone;
+  } else {
+    partner.telephone = campaigns.info['en_US'].telephone;
+  }
+
+  $('#partnerImageBigLink').prop('href', partner.url);
+
+  $('#partnerImageBig').prop({
+    'src': partner.image_big,
+    'title': partner.title
+  });
+
+  $('h1[data-id="partnerTitle"], h2[data-id="partnerTitle"]').html(partner.title);
+
+  if ((campaigns.app_code !== null) && (campaigns.app_code.length > 0)) {
+    $('#partnerAppsLink').prop('href', 'http://addons.oscommerce.com/service/' + campaigns.app_code).removeClass('hidden');
+    $('#partnerDocsLink').prop('href', 'https://library.oscommerce.com/Package&' + campaigns.app_code).removeClass('hidden');
+  } else {
+    $('#partnerAppsLink').addClass('hidden');
+    $('#partnerDocsLink').addClass('hidden');
+  }
+
+  if ((partner.url !== null) && (partner.url.length > 0)) {
+    $('#partnerWebsiteLink').prop('href', partner.url).html($('#partnerWebsiteLink').html().replace('##TITLE##', partner.title)).removeClass('hidden');
+  } else {
+    $('#partnerWebsiteLink').addClass('hidden');
+  }
+
+  if ((partner.email !== null) && (partner.email.length > 0)) {
+    $('#partnerEmailLink').prop('href', 'mailto:' + partner.email).html($('#partnerEmailLink').html().replace('##TITLE##', partner.title)).removeClass('hidden');
+
+    $('#partnerEmail a').prop('href', 'mailto:' + partner.email).html(partner.email);
+    $('#partnerEmail').removeClass('hidden');
+  } else {
+    $('#partnerEmailLink').addClass('hidden');
+
+    $('#partnerEmail').addClass('hidden');
+  }
+
+  $('#partnerDescriptionLong').html(partner.desc_long);
+
+  if ((partner.youtube_video_id !== null) && (partner.youtube_video_id.length > 0)) {
+    $('#partnerYoutubeVideo iframe').prop('src', 'https://www.youtube.com/embed/' + partner.youtube_video_id + '?rel=0');
+    $('#partnerYoutubeVideo').removeClass('hidden');
+  } else {
+    $('#partnerYoutubeVideo').addClass('hidden');
+  }
+
+  if ((partner.address !== null) && (partner.address.length > 0)) {
+    $('#partnerAddress').html(partner.address).removeClass('hidden');
+  } else {
+    $('#partnerAddress').addClass('hidden');
+  }
+
+  if ((partner.public_url !== null) && (partner.public_url.length > 0)) {
+    $('#partnerPublicUrl a').prop('href', partner.url).html(partner.public_url);
+    $('#partnerPublicUrl').removeClass('hidden');
+  } else {
+    $('#partnerPublicUrl').addClass('hidden');
+  }
+
+  if ((partner.telephone !== null) && (partner.telephone.length > 0)) {
+    $('#partnerTelephoneContent').html(partner.telephone);
+    $('#partnerTelephone').removeClass('hidden');
+  } else {
+    $('#partnerTelephone').addClass('hidden');
+  }
+};
+
+$('#previewLanguageTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  loadPreviewLanguage($(e.target).data('code'));
+});
+
+$(function() {
+  $('#previewLanguageTabs a[data-code="' + lang + '"]').tab('show');
+});
+</script>
