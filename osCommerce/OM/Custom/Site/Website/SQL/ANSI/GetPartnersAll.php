@@ -29,11 +29,11 @@ from
     left join
       :table_website_partner_info pi_lang_user
         on
-          (p.id = pi_lang_user.partner_id and pi_lang_user.languages_id = :languages_id and pi_lang_user.image_small != '')
+          (p.id = pi_lang_user.partner_id and pi_lang_user.languages_id = :languages_id)
     left join
       :table_website_partner_info pi_lang_en
         on
-          (p.id = pi_lang_en.partner_id and pi_lang_en.languages_id = :default_language_id and pi_lang_en.image_small != ''),
+          (p.id = pi_lang_en.partner_id and pi_lang_en.languages_id = :default_language_id),
   :table_website_partner_transaction t,
   :table_website_partner_package pp,
   :table_website_partner_category c
@@ -43,7 +43,10 @@ where
   t.package_id = pp.id and
   pp.status = 1 and
   t.partner_id = p.id and
-  p.category_id = c.id
+  p.category_id = c.id and
+  coalesce(pi_lang_user.image_small, pi_lang_en.image_small) != '' and
+  coalesce(pi_lang_user.desc_short, pi_lang_en.desc_short) != '' and
+  coalesce(pi_lang_user.desc_long, pi_lang_en.desc_long) != ''
 group by
   p.id
 order by
@@ -72,7 +75,10 @@ where
   t.partner_id = p.id and
   p.category_id = c.id and
   p.id = pi.partner_id and
-  pi.languages_id = :default_language_id
+  pi.languages_id = :default_language_id and
+  pi.image_small != '' and
+  pi.desc_short != '' and
+  pi.desc_long != ''
 group by
   p.id
 order by

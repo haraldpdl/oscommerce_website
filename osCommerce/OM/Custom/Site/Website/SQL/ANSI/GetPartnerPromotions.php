@@ -32,11 +32,11 @@ from
     left join
       :table_website_partner_info pi_lang_user
         on
-          (p.id = pi_lang_user.partner_id and pi_lang_user.languages_id = :languages_id and pi_lang_user.image_promo != '')
+          (p.id = pi_lang_user.partner_id and pi_lang_user.languages_id = :languages_id)
     left join
       :table_website_partner_info pi_lang_en
         on
-          (p.id = pi_lang_en.partner_id and pi_lang_en.languages_id = :default_language_id and pi_lang_en.image_promo != ''),
+          (p.id = pi_lang_en.partner_id and pi_lang_en.languages_id = :default_language_id),
   :table_website_partner_package pp,
   :table_website_partner_category c
     left join
@@ -54,7 +54,9 @@ where
   t.package_id = pp.id and
   pp.id = 3 and
   pp.status = 1 and
-  p.category_id = c.id
+  p.category_id = c.id and
+  coalesce(pi_lang_user.image_promo, pi_lang_en.image_promo) != '' and
+  coalesce(pi_lang_user.image_promo_url, pi_lang_en.image_promo_url) != ''
 group by
   p.id
 order by
@@ -79,8 +81,6 @@ from
   :table_website_partner_category c,
   :table_website_partner_category_lang cl
 where
-  pi.image_promo != '' and
-  pi.partner_id = p.id and
   p.id = t.partner_id and
   t.date_start <= now() and
   t.date_end >= now() and
@@ -90,7 +90,10 @@ where
   p.category_id = c.id and
   c.id = cl.id and
   pi.languages_id = cl.languages_id and
-  cl.languages_id = :default_language_id
+  cl.languages_id = :default_language_id and
+  p.id = pi.partner_id and
+  pi.image_promo != '' and
+  pi.image_promo_url != ''
 group by
   p.id
 order by

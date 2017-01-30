@@ -433,6 +433,7 @@ class Partner
             static::auditLog($campaign, $data);
 
             Cache::clear('website_partner-' . $code);
+            Cache::clear('website_partner_categories');
             Cache::clear('website_partner_promotions');
             Cache::clear('website_partners');
             Cache::clear('website_carousel_frontpage');
