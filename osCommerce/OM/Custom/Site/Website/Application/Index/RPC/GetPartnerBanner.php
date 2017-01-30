@@ -48,7 +48,6 @@ class GetPartnerBanner
 select
   p.id,
   pi.title,
-  pi.image_small,
   pi.banner_image as image,
   pi.banner_url as url,
   pi.status_update,
@@ -69,7 +68,8 @@ where
   t.partner_id = p.id and
   p.id = pi.partner_id and
   pi.languages_id = :languages_id and
-  pi.banner_image != ''
+  pi.banner_image != '' and
+  pi.banner_url != ''
 group by
   p.id
 order by
