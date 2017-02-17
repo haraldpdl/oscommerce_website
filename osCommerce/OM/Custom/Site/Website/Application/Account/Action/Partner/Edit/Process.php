@@ -10,6 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Edi
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    HttpRequest,
     Mail,
     OSCOM,
     Registry,
@@ -90,7 +91,7 @@ class Process
             }
 
             $input = isset($_POST['youtube_video_id_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['youtube_video_id_' . $l['code']])) : '';
-            $data[$l['code']]['youtube_video_id'] = !empty($input) ? $input : null;
+            $data[$l['code']]['youtube_video_id'] = !empty($input) ? $input : '';
 
             if (strlen($data[$l['code']]['youtube_video_id']) > 255) {
                 $error = true;
@@ -98,33 +99,15 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_length'));
             } else {
                 if (!empty($data[$l['code']]['youtube_video_id'])) {
-                    $curl = curl_init('https://gdata.youtube.com/feeds/api/videos/' . $data[$l['code']]['youtube_video_id']);
+                    $result = HttpRequest::getResponse([
+                        'url' => 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' . $data[$l['code']]['youtube_video_id'] . '&key=' . OSCOM::getConfig('youtube_api_key', 'Website')
+                    ]);
 
-                    $curl_options = [
-                        CURLOPT_HEADER => true,
-                        CURLOPT_SSL_VERIFYPEER => true,
-                        CURLOPT_SSL_VERIFYHOST => 2,
-                        CURLOPT_NOBODY => true,
-                        CURLOPT_FORBID_REUSE => true,
-                        CURLOPT_FRESH_CONNECT => true,
-                        CURLOPT_FOLLOWLOCATION => false,
-                        CURLOPT_RETURNTRANSFER => true
-                    ];
+                    if (!empty($result)) {
+                        $result = json_decode($result, true);
+                    }
 
-                    curl_setopt_array($curl, $curl_options);
-                    $result = curl_exec($curl);
-
-                    if ($result !== false) {
-                        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-                        if ($http_code !== 200) {
-                            $error = true;
-
-                            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_invalid'));
-                        } else {
-                            $data['youtube_video_id'] = $youtube_video_id;
-                        }
-                    } else {
+                    if (!is_array($result) || !isset($result['pageInfo']) || ($result['pageInfo']['totalResults'] !== 1)) {
                         $error = true;
 
                         $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_youtube_video_id_invalid'));
