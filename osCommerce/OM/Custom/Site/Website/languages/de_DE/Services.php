@@ -1,6 +1,6 @@
-services_html_page_title = Partner Services | osCommerce
+services_html_page_title = Unsere Partner | osCommerce
 
-services_page_title = Services
+services_page_title = Service
 
 services_main_content = <p>Wir fokusieren uns darauf die best möglichen Produkte anzubieten und bauen Partnerschaften mit Firmen auf die selber fokusiert sind Ihnen den best möglichen Service für Ihre Webseite und Online Shop zu bieten.</p>
 
@@ -46,7 +46,7 @@ listing_html_page_title = :category_title Partners | osCommerce
 
 partner_html_page_title = :partner_title | osCommerce
 
-button_partner_with_us = Partner with us
+button_partner_with_us = Partner werden
 button_find_out_more = mehr herausfinden
 
 link_view_apps = Apps ansehen

@@ -6,7 +6,7 @@ language_german = Deutsch
 
 navbutton_us = Über uns
 navbutton_products = Produkte
-navbutton_services = Services
+navbutton_services = Service
 navbutton_support = Hilfe
 navbutton_account = Konto
 navbutton_account_log_in = Anmelden

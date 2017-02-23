@@ -68,5 +68,5 @@ paypal_app_button_download = Download PayPal App
 
 link_view_apps = View Apps
 link_view_documentation = View Documentation
-link_partner_website = Visit :title Website
+link_partner_website = Visit :title
 link_contact_partner = Contact :title
