@@ -365,6 +365,7 @@ class Process
                     }
 
                     $pi['banner_image'] = isset($data[$l['code']]['banner_image']) ? $data[$l['code']]['banner_image']->getFilename() : null;
+                    $pi['banner_url'] = $data[$l['code']]['banner_url'];
 
                     $pi['status_update'] = $data[$l['code']]['status_update'];
                 }
