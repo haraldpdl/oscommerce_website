@@ -100,7 +100,8 @@ class Process
             } else {
                 if (!empty($data[$l['code']]['youtube_video_id'])) {
                     $result = HttpRequest::getResponse([
-                        'url' => 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' . $data[$l['code']]['youtube_video_id'] . '&key=' . OSCOM::getConfig('youtube_api_key', 'Website')
+                        'url' => 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' . $data[$l['code']]['youtube_video_id'] . '&key=' . OSCOM::getConfig('youtube_api_key', 'Website'),
+                        'method' => 'get'
                     ]);
 
                     if (!empty($result)) {
