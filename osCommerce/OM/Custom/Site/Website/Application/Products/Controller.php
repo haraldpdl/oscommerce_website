@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2017 osCommerce; http://www.oscommerce.com
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -12,9 +12,11 @@
   use osCommerce\OM\Core\Registry;
 
   use osCommerce\OM\Core\Site\Website\Download;
+  use osCommerce\OM\Core\Site\Website\Module\Template\Widget\index_sidebar_nav\Controller as WidgetIndexSidebar;
 
   class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
     protected function initialize() {
+      $OSCOM_Language = Registry::get('Language');
       $OSCOM_Template = Registry::get('Template');
 
       $OSCOM_Template->setValue('releases_oscom2_latest', Download::getAll('oscom2', 'latest'));
@@ -24,6 +26,10 @@
 //      $OSCOM_Template->setValue('releases_oscom3_earlier', Download::getAll('oscom3', 'earlier'));
       $OSCOM_Template->setValue('releases_archive_oscom', Download::getAll('archive', 'oscom'));
       $OSCOM_Template->setValue('releases_archive_tep', Download::getAll('archive', 'tep'));
+
+      if ($OSCOM_Template->valueExists('stats_addons', false) === false) {
+          $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalAddOns(), 0));
+      }
 
       $this->_page_contents = 'main.html';
       $this->_page_title = OSCOM::getDef('products_html_page_title');

@@ -2,12 +2,14 @@ products_html_page_title = osCommerce Online Merchant | osCommerce
 
 oscom_page_title = osCommerce Online Merchant
 
-oscom2_title = osCommerce Online Merchant v2.3
+oscom2_title = osCommerce Online Merchant
 
-oscom2_main_content = <p>osCommerce Online Merchant v2.3 ist ein selbst-gehostete Online Shop Lösung mit einem komplett und vollfunktionsfähigem Shop- und Administratorbereichen, dass einfach zu installieren und konfigurieren ist.</p>
+oscom2_main_content = <p>osCommerce Online Merchant ist eine Online Shop Lösung mit einem komplett und vollfunktionsfähigem Shop- und Administrationsbereich, die mit über {value}stats_addons{value} kostenlosen Erweiterungen gestaltet werden kann.</p>
 
 oscom2_requirements_title = Server Anforderungen
 oscom2_requirements = <ul><li>PHP v4+ <small class="text-muted">(v5+ empfohlen)</small></li><li>MySQL v3+ <small class="text-muted">(v5+ empfohlen)</small></li></ul>
+
+other_downloads_title = Andere Versionen
 
 oscom24_title = Online Merchant v2.4.0 Joli (Beta)
 
@@ -38,3 +40,20 @@ download_now_button = Überspringen, und sofort herunterladen..
 
 partner_promotions_heading = Partner Aktionen
 partner_promotions_show_all = Alle zeigen
+
+partner_download_title = 1&amp;1 Webseite Hosting
+partner_download_description = <p>Starten Sie mit unserem Hosting-Partner 1&amp;1 mit einem kompletten Hosting-Paket und unserer neuesten Version vorinstalliert.</p>
+
+<ul style="padding-top: 10px; padding-bottom: 15px;">
+  <li>Optimiert mit unserer neuesten Version</li>
+  <li>100% sicheres und zuverlässiges Hosting</li>
+  <li>Weltweite Rechenzentren</li>
+  <li>24/7 technische Support</li>
+</ul>
+
+partner_download_button_start = bei 1&amp;1 Starten
+partner_download_button_url = https://hosting.1und1.de/oscommerce-hosting?ac=OM.PU.PUo64K403748T7073a
+partner_download_other_partners = unsere anderen Hosting-Partner ansehen
+
+download_title = Herunterladen
+download_description = <p>Die neueste Version herunterladen und auf Ihrem eigenen Webserver installieren.</p>

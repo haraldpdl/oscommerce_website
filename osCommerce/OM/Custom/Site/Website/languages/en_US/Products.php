@@ -1,18 +1,15 @@
-# osCommerce Website
-#
-# @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
-# @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+products_html_page_title = osCommerce Online Merchant | osCommerce
 
-products_html_page_title = Online Merchant | osCommerce
+oscom_page_title = osCommerce Online Merchant
 
-oscom_page_title = Online Merchant
+oscom2_title = osCommerce Online Merchant
 
-oscom2_title = Online Merchant v2.3
-
-oscom2_main_content = <p>osCommerce Online Merchant v2.3 is a complete self-hosted online store solution that contains both a catalog frontend and an administration tool backend which can be easily installed and configured through a web-based installation procedure.</p>
+oscom2_main_content = <p>osCommerce Online Merchant is a complete online store solution that contains both a shop frontend and an administration backend which can be easily configured and customized with over {value}stats_addons{value} free add-ons.</p>
 
 oscom2_requirements_title = Server Requirements
 oscom2_requirements = <ul><li>PHP v4+ <small class="text-muted">(v5+ recommended)</small></li><li>MySQL v3+ <small class="text-muted">(v5+ recommended)</small></li></ul>
+
+other_downloads_title = Other Downloads
 
 oscom24_title = Online Merchant v2.4.0 Joli (Beta)
 
@@ -43,3 +40,20 @@ download_now_button = Skip, and download now..
 
 partner_promotions_heading = Promotions
 partner_promotions_show_all = Show All
+
+partner_download_title = 1&amp;1 Website Hosting
+partner_download_description = <p>Start with our hosting partners at 1&amp;1 with a complete hosting package pre-installed with our latest version.</p>
+
+<ul style="padding-top: 10px; padding-bottom: 15px;">
+  <li>Optimized with our latest version</li>
+  <li>100% secure and reliable hosting</li>
+  <li>Worldwide data centers available</li>
+  <li>24/7 technical support</li>
+</ul>
+
+partner_download_button_start = Start at 1&amp;1
+partner_download_button_url = https://www.1and1.com/oscommerce-hosting?ac=OM.US.USo64K403747T7073a
+partner_download_other_partners = see our other hosting partners
+
+download_title = Download
+download_description = <p>Download the latest version to install on your own web server.</p>
