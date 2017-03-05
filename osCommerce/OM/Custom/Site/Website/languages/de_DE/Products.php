@@ -55,5 +55,5 @@ partner_download_button_start = bei 1&amp;1 Starten
 partner_download_button_url = https://hosting.1und1.de/oscommerce-hosting?ac=OM.PU.PUo64K403748T7073a
 partner_download_other_partners = unsere anderen Hosting-Partner ansehen
 
-download_title = Herunterladen
-download_description = <p>Die neueste Version herunterladen und auf Ihrem eigenen Webserver installieren.</p>
+main_download_title = Herunterladen
+main_download_description = <p>Die neueste Version herunterladen und auf Ihrem eigenen Webserver installieren.</p>
