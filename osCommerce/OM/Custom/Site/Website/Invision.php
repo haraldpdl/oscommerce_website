@@ -56,8 +56,6 @@ class Invision
 
     public static function checkMemberExists($search, $key): bool
     {
-        $search = static::parseCleanValue($search);
-
         if (empty($search)) {
             return false;
         }
@@ -70,21 +68,32 @@ class Invision
             return false;
         }
 
-        $request = xmlrpc_encode_request('checkMemberExists', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => OSCOM::getConfig('community_api_module'),
-            'search_type' => $key,
-            'search_string' => $search
-        ], [
-            'encoding' => 'utf-8'
+        $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
+        $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
+
+        $url = $fc_url . '?key=' . $fc_key . '&';
+
+        if ($key == 'email') {
+            $url .= 'do=checkEmail&email=' . rawurlencode($search);
+        } else {
+            $url .= 'do=checkName&name=' . rawurlencode($search);
+        }
+
+        $result = HttpRequest::getResponse([
+            'url' => $url
         ]);
 
-        $response = xmlrpc_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]));
+        if (!empty($result)) {
+            $result = json_decode($result, true);
 
-        return is_array($response) && isset($response['memberExists']) && ($response['memberExists'] === true);
+            if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
+                if ($result['used'] == '1') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static function createUser($username, $email, $password)
@@ -92,6 +101,7 @@ class Invision
         $username = static::parseCleanValue($username);
         $email = static::parseCleanValue($email);
         $password = static::parseCleanValue($password);
+        return false;
 
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
@@ -118,6 +128,8 @@ class Invision
 
     public static function verifyUserKey($user_id, $key)
     {
+        return false;
+
         $user_id = trim(str_replace(array("\r\n", "\n", "\r"), '', $user_id));
         $key = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $key);
 
@@ -148,17 +160,66 @@ class Invision
 
     public static function canLogin(string $username, string $password)
     {
-        $OSCOM_IpbPdo = static::getIpbPdo();
+        $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
+        $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
 
-        $username = static::parseCleanValue($username);
-        $password = static::parseCleanValue($password);
+        $url = $fc_url . '?key=' . md5($fc_key . $username) . '&do=fetchSalt&idType=3&id=' . rawurlencode($username);
 
-        $Qm = $OSCOM_IpbPdo->prepare('select member_id, members_display_name, email, member_group_id, temp_ban, restrict_post, mod_posts, member_login_key, members_pass_hash, members_pass_salt from ibf_members where members_l_username = :members_l_username');
-        $Qm->bindValue(':members_l_username', $username);
-        $Qm->execute();
+        $result = HttpRequest::getResponse([
+            'url' => $url
+        ]);
 
-        if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0) && ($Qm->value('members_pass_hash') === static::getPasswordHash($Qm->value('members_pass_salt'), $password))) {
-            return static::getUserDataArray($Qm);
+        if (!empty($result)) {
+            $result = json_decode($result, true);
+
+            if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
+                $password_enc = crypt($password, '$2a$13$' . $result['pass_salt']);
+
+                $url = $fc_url . '?key=' . md5($fc_key . $username) . '&do=login&idType=3&id=' . rawurlencode($username) . '&password=' . rawurlencode($password_enc);
+
+                $result = HttpRequest::getResponse([
+                    'url' => $url
+                ]);
+
+                if (!empty($result)) {
+                    $result = json_decode($result, true);
+
+                    if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
+                        if ($result['connect_status'] == 'SUCCESS') {
+                            $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+
+                            $member_id = $result['connect_id'];
+
+                            $url = $fr_url . 'core/members/' . (int)$member_id;
+
+                            $result = HttpRequest::getResponse([
+                                'url' => $url
+                            ]);
+
+                            if (!empty($result)) {
+                                $result = json_decode($result, true);
+
+                                if (is_array($result) && isset($result['id'])) {
+                                    $user = [
+                                        'member_id' => $result['id'],
+                                        'members_display_name' => $result['name'],
+                                        'email' => $result['email'],
+                                        'member_group_id' => $result['primaryGroup']['id'],
+                                        'temp_ban' => $result['temp_ban'],
+                                        'restrict_post' => $result['restrict_post'],
+                                        'mod_posts' => $result['mod_posts'],
+                                        'member_login_key' => $result['member_login_key'],
+                                        'members_pass_hash' => $result['members_pass_hash'],
+                                        'members_pass_salt' => $result['members_pass_salt']
+                                    ];
+
+                                    return static::getUserDataArray($user);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return false;
@@ -166,6 +227,8 @@ class Invision
 
     public static function canAutoLogin($id, $hash)
     {
+        return false;
+
         $id = trim(str_replace(array("\r\n", "\n", "\r"), '', $id));
         $hash = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $hash);
 
@@ -206,19 +269,19 @@ class Invision
         return Registry::get('IpbPdo');
     }
 
-    protected static function getUserDataArray(\PDOStatement $Qmember): array
+    protected static function getUserDataArray(array $member): array
     {
         return [
-            'id' => $Qmember->valueInt('member_id'),
-            'name' => $Qmember->value('members_display_name'),
-            'email' => $Qmember->value('email'),
-            'group_id' => $Qmember->valueInt('member_group_id'),
-            'admin' => $Qmember->valueInt('member_group_id') === 4,
-            'team' => in_array($Qmember->valueInt('member_group_id'), [6, 19]),
-            'verified' => $Qmember->valueInt('member_group_id') !== 1,
-            'banned' => in_array($Qmember->valueInt('member_group_id'), [2, 5]) || ($Qmember->hasValue('temp_ban') && !empty($Qmember->value('temp_ban')) && ($Qmember->value('temp_ban') != '0')),
-            'restricted_post' => (!empty($Qmember->value('restrict_post')) && ($Qmember->value('restrict_post') != '0')) || (!empty($Qmember->value('mod_posts')) && ($Qmember->value('mod_posts') != '0')),
-            'login_key' => $Qmember->value('member_login_key')
+            'id' => (int)$member['member_id'],
+            'name' => $member['members_display_name'],
+            'email' => $member['email'],
+            'group_id' => $member['member_group_id'],
+            'admin' => (int)$member['member_group_id'] === 4,
+            'team' => in_array((int)$member['member_group_id'], [6, 19]),
+            'verified' => (int)$member['member_group_id'] !== 1,
+            'banned' => in_array((int)$member['member_group_id'], [2, 5]) || (!empty($member['temp_ban']) && ($member['temp_ban'] != '0')),
+            'restricted_post' => (!empty($member['restrict_post']) && ($member['restrict_post'] != '0')) || (!empty($member['mod_posts']) && ($member['mod_posts'] != '0')),
+            'login_key' => $member['member_login_key']
         ];
     }
 
