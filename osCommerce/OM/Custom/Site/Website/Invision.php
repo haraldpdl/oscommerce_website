@@ -9,6 +9,7 @@
 namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
+    Hash,
     HttpRequest,
     OSCOM,
     PDO,
@@ -163,22 +164,28 @@ class Invision
         $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
         $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
 
-        $url = $fc_url . '?key=' . md5($fc_key . $username) . '&do=fetchSalt&idType=3&id=' . rawurlencode($username);
-
         $result = HttpRequest::getResponse([
-            'url' => $url
+            'url' => $fc_url,
+            'parameters' => 'key=' . md5($fc_key . $username) . '&do=fetchSalt&idType=3&id=' . $username
         ]);
 
         if (!empty($result)) {
             $result = json_decode($result, true);
 
             if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
-                $password_enc = crypt($password, '$2a$13$' . $result['pass_salt']);
+                $using_legacy_password = false;
 
-                $url = $fc_url . '?key=' . md5($fc_key . $username) . '&do=login&idType=3&id=' . rawurlencode($username) . '&password=' . rawurlencode($password_enc);
+                if (strlen($result['pass_salt']) === 22) { // new password style
+                    $password_enc = static::getPasswordHash($result['pass_salt'], $password);
+                } else { // legacy password style
+                    $using_legacy_password = true;
+
+                    $password_enc = static::getLegacyPasswordHash($result['pass_salt'], $password);
+                }
 
                 $result = HttpRequest::getResponse([
-                    'url' => $url
+                    'url' => $fc_url,
+                    'parameters' => 'key=' . md5($fc_key . $username) . '&do=login&idType=3&id=' . $username . '&password=' . $password_enc
                 ]);
 
                 if (!empty($result)) {
@@ -200,6 +207,16 @@ class Invision
                                 $result = json_decode($result, true);
 
                                 if (is_array($result) && isset($result['id'])) {
+                                    if ($using_legacy_password === true) {
+                                        $pass_salt = Hash::getRandomString(22);
+                                        $pass_hash = static::getPasswordHash($pass_salt, $password);
+
+                                        HttpRequest::getResponse([
+                                            'url' => $fc_url,
+                                            'parameters' => 'key=' . md5($fc_key . $member_id) . '&do=changePassword&pass_salt=' . $pass_salt . '&pass_hash=' . $pass_hash . '&id=' . $member_id
+                                        ]);
+                                    }
+
                                     $user = [
                                         'member_id' => $result['id'],
                                         'members_display_name' => $result['name'],
@@ -254,6 +271,11 @@ class Invision
     }
 
     public static function getPasswordHash(string $salt, string $password): string
+    {
+        return crypt($password, '$2a$13$' . $salt);
+    }
+
+    public static function getLegacyPasswordHash(string $salt, string $password): string
     {
         return md5(md5($salt) . md5($password));
     }
