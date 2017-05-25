@@ -133,7 +133,7 @@ EOD;
 
             $result = [
                 'url' => HTML::outputProtected($data['url']),
-                'image' => 'https://ssl.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $language_paths[$data['languages_id']] . '/' . $data['image']),
+                'image' => 'https://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $language_paths[$data['languages_id']] . '/' . $data['image']),
                 'title' => HTML::outputProtected($data['title']),
                 'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), ['url']) : null
             ];
@@ -145,12 +145,11 @@ EOD;
             } else {
                 header('Content-Type: application/javascript');
 
-                if (isset($_GET['format']) && ($_GET['format'] = 'jquery')) {
-                    $output = <<<JAVASCRIPT
+                $output = <<<JAVASCRIPT
 var oscPartner = $json
 
 function oscLoadBanner() {
-  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn ipsColumn_veryWide"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" border="0" /></a></div>');
+  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn ipsColumn_fluid" style="width: 468px;"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="max-width: 100%;" border="0" /></a></div>');
 }
 
 function oscLoadStatusUpdate() {
@@ -165,27 +164,6 @@ $(function() {
   }
 });
 JAVASCRIPT;
-                } else {
-                    $output = <<<JAVASCRIPT
-var oscPartner = $json
-
-function oscLoadBanner() {
-  $('osCCS').update('<a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" width="468" height="60" alt="' + oscPartner.title + '" border="0" /></a>');
-}
-
-function oscLoadStatusUpdate() {
-  $('osCCS').insert('<div id="osCCSDesc"><p><a href="' + oscPartner.url + '" target="_blank"><strong>' + oscPartner.title + '</strong></a></p><p>' + oscPartner.status_update + '</p></div>');
-}
-
-document.observe('dom:loaded', function() {
-  oscLoadBanner();
-
-  if ( oscPartner.status_update != null ) {
-    oscLoadStatusUpdate();
-  }
-});
-JAVASCRIPT;
-                }
             }
 
             echo $output;
