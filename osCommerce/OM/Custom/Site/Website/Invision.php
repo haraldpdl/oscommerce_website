@@ -379,4 +379,14 @@ class Invision
             OSCOM::setCookie(static::COOKIE_PASS_HASH, '', time() - 31536000, null, null, true, true);
         }
     }
+
+    public static function getTotalOnlineUsers(): int
+    {
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $Qu = $OSCOM_IpbPdo->query('select count(*) as total from :table_core_sessions where running_time > unix_timestamp(date_sub(now(), interval 60 minute))');
+        $Qu->execute();
+
+        return $Qu->valueInt('total');
+    }
 }

@@ -12,6 +12,8 @@
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
+  use osCommerce\OM\Core\Site\Website\Invision;
+
   class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract {
     static public function execute($param = null) {
       $OSCOM_Language = Registry::get('Language');
@@ -46,26 +48,15 @@
     static public function getOnlineUsers() {
       $OSCOM_Cache = Registry::get('Cache');
 
-      $data = null;
       $users = 700;
 
-      if ( OSCOM::configExists('community_api_key') ) {
-        if ( $OSCOM_Cache->read('stats_community_api_fetchOnlineUsers', 60) ) {
-          $data = $OSCOM_Cache->getCache();
-        } else {
-          $request = xmlrpc_encode_request('fetchOnlineUsers', array('api_key' => OSCOM::getConfig('community_api_key'),
-                                                                     'api_module' => OSCOM::getConfig('community_api_module')));
+      if ( $OSCOM_Cache->read('stats_online_users', 60) ) {
+        $users = $OSCOM_Cache->getCache();
+      } else {
+        $users = Invision::getTotalOnlineUsers();
 
-          $data = xmlrpc_decode(HttpRequest::getResponse(array('url' => OSCOM::getConfig('community_api_address'),
-                                                               'parameters' => $request)));
-
-          if ( is_array($data) && !empty($data) && isset($data['TOTAL']) ) {
-            $OSCOM_Cache->write($data);
-          }
-        }
-
-        if ( isset($data) ) {
-          $users = (int)str_replace(',', '', $data['TOTAL']);
+        if (is_int($users) && ($users > 0)) {
+          $OSCOM_Cache->write($users);
         }
       }
 
