@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
  * @license BSD; https://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -18,10 +18,11 @@ use osCommerce\OM\Core\{
 
 class Invision
 {
+    const COOKIE_MEMBER_ID = 'ips4_member_id';
+    const COOKIE_PASS_HASH = 'ips4_pass_hash';
+
     public static function fetchMember($search, $key)
     {
-        $search = static::parseCleanValue($search);
-
         if (empty($search)) {
             return false;
         }
@@ -38,21 +39,53 @@ class Invision
             return false;
         }
 
-        $request = xmlrpc_encode_request('fetchMember', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => OSCOM::getConfig('community_api_module'),
-            'search_type' => $key,
-            'search_string' => $search
-        ], [
-            'encoding' => 'utf-8'
+        if (in_array($key, ['email', 'username'])) {
+            $OSCOM_IpbPdo = static::getIpbPdo();
+
+            $sql = 'select member_id from :table_core_members where ';
+
+            if ($key == 'email') {
+                $sql .= 'email = :email';
+            } else {
+                $sql .= 'name = :name';
+            }
+
+            $sql .= ' limit 1';
+
+            $Qm = $OSCOM_IpbPdo->prepare($sql);
+
+            if ($key == 'email') {
+                $Qm->bindValue(':email', $search);
+            } else {
+                $Qm->bindValue(':name', $search);
+            }
+
+            $Qm->execute();
+
+            if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0)) {
+                $search = $Qm->valueInt('member_id');
+            } else {
+                return false;
+            }
+        }
+
+        $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+
+        $url = $fr_url . 'core/members/' . (int)$search;
+
+        $result = HttpRequest::getResponse([
+            'url' => $url
         ]);
 
-        $response = xmlrpc_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]));
+        if (!empty($result)) {
+            $result = json_decode($result, true);
 
-        return $response;
+            if (is_array($result) && isset($result['id'])) {
+                return static::getUserDataArray($result);
+            }
+        }
+
+        return false;
     }
 
     public static function checkMemberExists($search, $key): bool
@@ -69,71 +102,66 @@ class Invision
             return false;
         }
 
-        $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
-        $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
+        $OSCOM_IpbPdo = static::getIpbPdo();
 
-        $url = $fc_url . '?key=' . $fc_key . '&';
+        $sql = 'select member_id from :table_core_members where ';
 
         if ($key == 'email') {
-            $url .= 'do=checkEmail&email=' . rawurlencode($search);
+            $sql .= 'email = :email';
         } else {
-            $url .= 'do=checkName&name=' . rawurlencode($search);
+            $sql .= 'name = :name';
         }
 
+        $sql .= ' limit 1';
+
+        $Qm = $OSCOM_IpbPdo->prepare($sql);
+
+        if ($key == 'email') {
+            $Qm->bindValue(':email', $search);
+        } else {
+            $Qm->bindValue(':name', $search);
+        }
+
+        $Qm->execute();
+
+        return $Qm->fetch() !== false;
+    }
+
+    public static function createUser($username, $email, $password)
+    {
+        if (empty($username) || empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($password)) {
+            return false;
+        }
+
+        $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+
+        $url = $fr_url . 'core/members';
+
+        $params = [
+            'name' => $username,
+            'email' => $email,
+            'password' => $password,
+            'group' => 3
+        ];
+
         $result = HttpRequest::getResponse([
-            'url' => $url
+            'url' => $url,
+            'parameters' => http_build_query($params, '', '&')
         ]);
 
         if (!empty($result)) {
             $result = json_decode($result, true);
 
-            if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
-                if ($result['used'] == '1') {
-                    return true;
-                }
+            if (is_array($result) && isset($result['id'])) {
+                return static::getUserDataArray($result);
             }
         }
 
         return false;
     }
 
-    public static function createUser($username, $email, $password)
-    {
-        $username = static::parseCleanValue($username);
-        $email = static::parseCleanValue($email);
-        $password = static::parseCleanValue($password);
-        return false;
-
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-
-        $request = xmlrpc_encode_request('createUser', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => 'oscommerce',
-            'username' => $username,
-            'email' => $email,
-            'md5_pass' => md5($password),
-            'ip' => OSCOM::getIPAddress()
-        ], [
-            'encoding' => 'utf-8'
-        ]);
-
-        $response = json_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]), true);
-
-        return $response;
-    }
-
     public static function verifyUserKey($user_id, $key)
     {
-        return false;
-
-        $user_id = trim(str_replace(array("\r\n", "\n", "\r"), '', $user_id));
-        $key = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $key);
-
         if (!is_numeric($user_id) || ($user_id < 1)) {
             return false;
         }
@@ -142,99 +170,129 @@ class Invision
             return false;
         }
 
-        $request = xmlrpc_encode_request('verifyUserKey', [
-            'api_key' => OSCOM::getConfig('community_api_key'),
-            'api_module' => 'oscommerce',
-            'user_id' => $user_id,
-            'key' => $key
-        ], [
-            'encoding' => 'utf-8'
-        ]);
+        $user = static::fetchMember($user_id, 'id');
 
-        $response = json_decode(HttpRequest::getResponse([
-            'url' => OSCOM::getConfig('community_api_address'),
-            'parameters' => $request
-        ]), true);
+        if (($user !== false) && is_array($user) && isset($user['id']) && ($user['id'] > 0)) {
+            if (($user['verified'] === false) && !empty($user['val_newreg_id'])) {
+                if ($user['val_newreg_id'] == $key) {
+/*
+                    $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
+                    $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
 
-        return $response;
+                    $params = [
+                        'key' => md5($fc_key . $user['id']),
+                        'do' => 'validate',
+                        'id' => $user['id']
+                    ];
+
+                    $result = HttpRequest::getResponse([
+                        'url' => $fc_url,
+                        'parameters' => http_build_query($params, '', '&')
+                    ]);
+
+                    if (!empty($result)) {
+                        $result = json_decode($result, true);
+
+                        if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
+                            return true;
+                        }
+                    }
+*/
+
+                    $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+
+                    $url = $fr_url . 'core/members/' . (int)$user['id'];
+
+                    $params = [
+                        'val_newreg_id' => 'clear'
+                    ];
+
+                    $result = HttpRequest::getResponse([
+                        'url' => $url,
+                        'parameters' => http_build_query($params, '', '&')
+                    ]);
+
+                    if (!empty($result)) {
+                        $result = json_decode($result, true);
+
+                        if (is_array($result) && isset($result['id'])) {
+                            if ($result['validating'] === false) {
+                                return true;
+                            }
+                        }
+                    }
+                } else {
+                    return [
+                        'error' => 'invalid_key'
+                    ];
+                }
+            } else {
+                return [
+                    'error' => 'already_verified'
+                ];
+            }
+        } else {
+            return [
+                'error' => 'invalid_member'
+            ];
+        }
+
+        return false;
     }
 
     public static function canLogin(string $username, string $password)
     {
-        $fc_url = OSCOM::getConfig('forum_connect_url', 'Website');
-        $fc_key = OSCOM::getConfig('forum_connect_key', 'Website');
+        $OSCOM_IpbPdo = static::getIpbPdo();
 
-        $result = HttpRequest::getResponse([
-            'url' => $fc_url,
-            'parameters' => 'key=' . md5($fc_key . $username) . '&do=fetchSalt&idType=3&id=' . $username
-        ]);
+        $check_email = false;
 
-        if (!empty($result)) {
-            $result = json_decode($result, true);
+        $sql = 'select member_id, members_pass_hash, members_pass_salt from :table_core_members where ';
 
-            if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
-                $using_legacy_password = false;
+        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+            $check_email = true;
 
-                if (strlen($result['pass_salt']) === 22) { // new password style
-                    $password_enc = static::getPasswordHash($result['pass_salt'], $password);
-                } else { // legacy password style
-                    $using_legacy_password = true;
+            $sql .= 'email = :email or ';
+        }
 
-                    $password_enc = static::getLegacyPasswordHash($result['pass_salt'], $password);
-                }
+        $sql .= 'name = :name limit 1';
 
-                $result = HttpRequest::getResponse([
-                    'url' => $fc_url,
-                    'parameters' => 'key=' . md5($fc_key . $username) . '&do=login&idType=3&id=' . $username . '&password=' . $password_enc
-                ]);
+        $Qm = $OSCOM_IpbPdo->prepare($sql);
 
-                if (!empty($result)) {
-                    $result = json_decode($result, true);
+        if ($check_email === true) {
+            $Qm->bindValue(':email', $username);
+        }
 
-                    if (!empty($result) && is_array($result) && isset($result['status']) && ($result['status'] == 'SUCCESS')) {
-                        if ($result['connect_status'] == 'SUCCESS') {
-                            $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+        $Qm->bindValue(':name', $username);
+        $Qm->execute();
 
-                            $member_id = $result['connect_id'];
+        if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0)) {
+            $using_legacy_password = false;
 
-                            $url = $fr_url . 'core/members/' . (int)$member_id;
+            if (strlen($Qm->value('members_pass_salt')) === 22) { // new password style
+                $password_enc = static::getPasswordHash($Qm->value('members_pass_salt'), $password);
+            } else { // legacy password style
+                $using_legacy_password = true;
 
-                            $result = HttpRequest::getResponse([
-                                'url' => $url
-                            ]);
+                $password_enc = static::getLegacyPasswordHash($Qm->value('members_pass_salt'), $password);
+            }
 
-                            if (!empty($result)) {
-                                $result = json_decode($result, true);
+            if ($password_enc == $Qm->value('members_pass_hash')) {
+                $user = static::fetchMember($Qm->valueInt('member_id'), 'id');
 
-                                if (is_array($result) && isset($result['id'])) {
-                                    if ($using_legacy_password === true) {
-                                        $pass_salt = Hash::getRandomString(22);
-                                        $pass_hash = static::getPasswordHash($pass_salt, $password);
+                if (($user !== false) && is_array($user) && isset($user['id']) && ($user['id'] > 0)) {
+                    if ($using_legacy_password === true) {
+                        $pass_salt = Hash::getRandomString(22);
+                        $pass_hash = static::getPasswordHash($pass_salt, $password);
 
-                                        HttpRequest::getResponse([
-                                            'url' => $fc_url,
-                                            'parameters' => 'key=' . md5($fc_key . $member_id) . '&do=changePassword&pass_salt=' . $pass_salt . '&pass_hash=' . $pass_hash . '&id=' . $member_id
-                                        ]);
-                                    }
-
-                                    $user = [
-                                        'member_id' => $result['id'],
-                                        'members_display_name' => $result['name'],
-                                        'email' => $result['email'],
-                                        'member_group_id' => $result['primaryGroup']['id'],
-                                        'temp_ban' => $result['temp_ban'],
-                                        'restrict_post' => $result['restrict_post'],
-                                        'mod_posts' => $result['mod_posts'],
-                                        'member_login_key' => $result['member_login_key'],
-                                        'members_pass_hash' => $result['members_pass_hash'],
-                                        'members_pass_salt' => $result['members_pass_salt']
-                                    ];
-
-                                    return static::getUserDataArray($user);
-                                }
-                            }
-                        }
+                        $OSCOM_IpbPdo->save('core_members', [
+                            'members_pass_salt' => $pass_salt,
+                            'members_pass_hash' => $pass_hash
+                        ], [
+                            'member_id' => $Qm->valueInt('member_id')
+                        ]);
                     }
+
+                    return $user;
                 }
             }
         }
@@ -242,29 +300,22 @@ class Invision
         return false;
     }
 
-    public static function canAutoLogin($id, $hash)
+    public static function canAutoLogin()
     {
-        return false;
+        if (isset($_COOKIE[static::COOKIE_MEMBER_ID]) && is_numeric($_COOKIE[static::COOKIE_MEMBER_ID]) && ($_COOKIE[static::COOKIE_MEMBER_ID] > 0)) {
+            if (isset($_COOKIE[static::COOKIE_PASS_HASH]) && (strlen($_COOKIE[static::COOKIE_PASS_HASH]) == 32)) {
+                $OSCOM_IpbPdo = static::getIpbPdo();
 
-        $id = trim(str_replace(array("\r\n", "\n", "\r"), '', $id));
-        $hash = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $hash);
+                $Qm = $OSCOM_IpbPdo->prepare('select member_id, member_login_key from :table_core_members where member_id = :member_id');
+                $Qm->bindInt(':member_id', $_COOKIE[static::COOKIE_MEMBER_ID]);
+                $Qm->execute();
 
-        if (!is_numeric($id) || ($id < 1)) {
-            return false;
-        }
+                if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0) && !empty($Qm->value('member_login_key')) && ($Qm->value('member_login_key') === $_COOKIE[static::COOKIE_PASS_HASH])) {
+                    return static::fetchMember($Qm->valueInt('member_id'), 'id');
+                }
 
-        if (strlen($hash) !== 32) {
-            return false;
-        }
-
-        $OSCOM_IpbPdo = static::getIpbPdo();
-
-        $Qm = $OSCOM_IpbPdo->prepare('select member_id, members_display_name, email, member_group_id, temp_ban, restrict_post, mod_posts, member_login_key from ibf_members where member_id = :member_id');
-        $Qm->bindInt(':member_id', $id);
-        $Qm->execute();
-
-        if (($Qm->fetch() !== false) && ($Qm->valueInt('member_id') > 0) && !empty($Qm->value('member_login_key')) && ($Qm->value('member_login_key') === $hash)) {
-            return static::getUserDataArray($Qm);
+                static::killCookies();
+            }
         }
 
         return false;
@@ -284,6 +335,7 @@ class Invision
     {
         if (!Registry::exists('IpbPdo')) {
             $OSCOM_IpbPdo = PDO::initialize(OSCOM::getConfig('forums_com_db_server', 'Website'), OSCOM::getConfig('forums_com_db_server_username', 'Website'), OSCOM::getConfig('forums_com_db_server_password', 'Website'), OSCOM::getConfig('forums_com_db_database', 'Website'), is_numeric(OSCOM::getConfig('forums_com_db_server_port', 'Website')) ? (int)OSCOM::getConfig('forums_com_db_server_port', 'Website') : null, OSCOM::getConfig('forums_com_db_driver', 'Website'));
+            $OSCOM_IpbPdo->setTablePrefix(OSCOM::getConfig('forums_com_db_table_prefix', 'Website'));
 
             Registry::set('IpbPdo', $OSCOM_IpbPdo);
         }
@@ -294,46 +346,37 @@ class Invision
     protected static function getUserDataArray(array $member): array
     {
         return [
-            'id' => (int)$member['member_id'],
-            'name' => $member['members_display_name'],
+            'id' => (int)$member['id'],
+            'name' => $member['name'],
+            'full_name' => $member['customFields'][2]['fields'][1]['value'],
+            'title' => $member['title'],
             'email' => $member['email'],
-            'group_id' => $member['member_group_id'],
-            'admin' => (int)$member['member_group_id'] === 4,
-            'team' => in_array((int)$member['member_group_id'], [6, 19]),
-            'verified' => (int)$member['member_group_id'] !== 1,
-            'banned' => in_array((int)$member['member_group_id'], [2, 5]) || (!empty($member['temp_ban']) && ($member['temp_ban'] != '0')),
+            'group_id' => (int)$member['primaryGroup']['id'],
+            'admin' => (int)$member['primaryGroup']['id'] === 4,
+            'team' => in_array((int)$member['primaryGroup']['id'], [6, 19]),
+            'verified' => (bool)$member['validating'] === false,
+            'banned' => in_array((int)$member['primaryGroup']['id'], [2, 5]) || (!empty($member['temp_ban']) && ($member['temp_ban'] != '0')),
             'restricted_post' => (!empty($member['restrict_post']) && ($member['restrict_post'] != '0')) || (!empty($member['mod_posts']) && ($member['mod_posts'] != '0')),
-            'login_key' => $member['member_login_key']
+            'login_key' => $member['member_login_key'],
+            'joined' => $member['joined'],
+            'posts' => (int)$member['posts'],
+            'photo_url' => $member['photoUrl'],
+            'val_newreg_id' => $member['val_newreg_id']
         ];
     }
 
-    protected static function parseCleanValue($val): string
+    public static function killCookies()
     {
-        if (empty($val)) {
-            return '';
+        if (isset($_COOKIE[static::COOKIE_MEMBER_ID])) {
+            unset($_COOKIE[static::COOKIE_MEMBER_ID]);
+
+            OSCOM::setCookie(static::COOKIE_MEMBER_ID, '', time() - 31536000, null, null, true, true);
         }
 
-        $val = preg_replace('/\\\(?!&amp;#|\?#)/', '&#092;', $val);
+        if (isset($_COOKIE[static::COOKIE_PASS_HASH])) {
+            unset($_COOKIE[static::COOKIE_PASS_HASH]);
 
-        $val = str_replace('&#032;', ' ', $val);
-
-        $val = str_replace(array("\r\n", "\n\r", "\r"), "\n", $val);
-
-        $val = str_replace('&', '&amp;', $val);
-        $val = str_replace('<!--', '&#60;&#33;--', $val);
-        $val = str_replace('-->', '--&#62;', $val);
-        $val = str_ireplace('<script', '&#60;script', $val);
-        $val = str_replace('>', '&gt;', $val);
-        $val = str_replace('<', '&lt;', $val);
-        $val = str_replace('"', '&quot;', $val);
-        $val = str_replace("\n", '<br />', $val);
-        $val = str_replace('$', '&#036;', $val);
-        $val = str_replace('!', '&#33;', $val);
-        $val = str_replace("'", '&#39;', $val);
-
-        $val = preg_replace('/&amp;#([0-9]+);/s', "&#\\1;", $val);
-        $val = preg_replace('/&#(\d+?)([^\d;])/i', "&#\\1;\\2", $val);
-
-        return $val;
+            OSCOM::setCookie(static::COOKIE_PASS_HASH, '', time() - 31536000, null, null, true, true);
+        }
     }
 }

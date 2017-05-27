@@ -19,8 +19,8 @@ Please Verify Your Account
 
   The following information is required for the verification:
 
-  User ID: {raw}new_member_reg member_id{raw}
-  Verification Key: {raw}new_member_reg validate_key{raw}
+  User ID: {raw}new_member_reg id{raw}
+  Verification Key: {raw}new_member_reg val_newreg_id{raw}
 
   We look forward to having you in our community!
 
@@ -30,5 +30,5 @@ Please Verify Your Account
 
   osCommerce
 
-osCommerce, http://www.oscommerce.com
+osCommerce, https://www.oscommerce.com
 This is an automatically generated e-mail.

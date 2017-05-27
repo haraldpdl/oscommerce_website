@@ -113,17 +113,17 @@ class Process
                     'f' => 'json'
                 ];
 
-                $get_string = '';
+                $params_string = '';
 
                 foreach ($params as $key => $value) {
-                    $get_string .= $key . '=' . urlencode(utf8_encode(trim($value))) . '&';
+                    $params_string .= $key . '=' . urlencode(utf8_encode(trim($value))) . '&';
                 }
 
-                $get_string = substr($get_string, 0, -1);
+                $params_string = substr($params_string, 0, -1);
 
                 $response = HttpRequest::getResponse([
-                    'url' => 'http://www.stopforumspam.com/api?' . $get_string,
-                    'method' => 'get'
+                    'url' => 'http://www.stopforumspam.com/api',
+                    'parameters' => $params_string
                 ]);
 
                 if (!empty($response)) {
@@ -158,10 +158,8 @@ class Process
             if (empty($errors)) {
                 $result = Invision::createUser($username, $email, $password);
 
-                if (is_array($result) && isset($result['result']) && ($result['result'] === true) && isset($result['member']['member_id']) && is_numeric($result['member']['member_id']) && ($result['member']['member_id'] > 0) && isset($result['validate_key']) && !empty($result['validate_key'])) {
-                    $result['member']['validate_key'] = $result['validate_key'];
-
-                    $OSCOM_Template->setValue('new_member_reg', $result['member']);
+                if (is_array($result) && isset($result['id']) && is_numeric($result['id']) && ($result['id'] > 0) && isset($result['val_newreg_id']) && !empty($result['val_newreg_id'])) {
+                    $OSCOM_Template->setValue('new_member_reg', $result);
 
                     $email_txt_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.txt');
                     $email_txt = file_exists($email_txt_file) ? $OSCOM_Template->parseContent(file_get_contents($email_txt_file)) : null;
@@ -170,7 +168,7 @@ class Process
                     $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
 
                     if (!empty($email_txt) || !empty($email_html)) {
-                        $OSCOM_Mail = new Mail($result['member']['name'], $result['member']['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
+                        $OSCOM_Mail = new Mail($result['name'], $result['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
 
                         if (!empty($email_txt)) {
                             $OSCOM_Mail->setBodyPlain($email_txt);

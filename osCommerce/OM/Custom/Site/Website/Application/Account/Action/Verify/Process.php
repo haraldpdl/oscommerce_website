@@ -50,7 +50,7 @@ class Process
         if (empty($errors)) {
             $result = Invision::verifyUserKey($user_id, $key);
 
-            if (is_array($result) && isset($result['result']) && ($result['result'] === true)) {
+            if ($result === true) {
                 $OSCOM_MessageStack->add('account', OSCOM::getDef('verify_ms_success'), 'success');
 
                 OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Login', 'SSL'));

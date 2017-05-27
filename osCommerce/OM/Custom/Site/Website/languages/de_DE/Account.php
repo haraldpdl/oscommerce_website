@@ -42,7 +42,7 @@ login_button_title = Anmelden
 login_processing_button_title = in Bearbeitung..
 
 login_ms_error_general = Sie konnten leider nicht wegen inkorrekter Anmeldedaten angemeldet werden. Bitte versuchen Sie es erneut und Kontaktiern Sie uns wenn das Problem weiter hin besteht.
-login_ms_error_not_verified = Sie konnten leider nicht angemeldet werden da Ihr Konto noch nicht Verifiziert ist. <a href="{link}Account||Verify|SSL{link}">Bitte besuchen Sie unsere Konto Verifizierungs-Seite um Ihr Konto zu Verifizieren.</a>
+login_ms_error_not_verified = Sie konnten leider nicht angemeldet werden da Ihr Konto noch nicht Verifiziert ist. <a href="{link}Account||Verify|SSL{link}" class="alert-link">Bitte besuchen Sie unsere Konto Verifizierungs-Seite um Ihr Konto zu Verifizieren.</a>
 login_ms_error_banned = Sie konnten leider nicht angemeldet werden da Ihr Konto zur Zeit gesperrt ist. Bitte Kontaktieren Sie uns um dieses Problem zu lösen.
 
 logout_ms_success = Sie haben sich von unserer Webseite abgemeldet. Wir freuen uns auf Ihren nächsten Besuch!

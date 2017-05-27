@@ -15,6 +15,8 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Website\Invision;
+
 class OkILoveYouByeBye
 {
     public static function execute(ApplicationAbstract $application)
@@ -30,10 +32,7 @@ class OkILoveYouByeBye
 
         $OSCOM_Session->recreate();
 
-        if (isset($_COOKIE['member_id']) && isset($_COOKIE['pass_hash'])) {
-            OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
-            OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
-        }
+        Invision::killCookies();
 
         Events::fire('logoff-after');
 

@@ -60,11 +60,13 @@ class Process
                     $OSCOM_Session->recreate();
 
                     if (isset($_POST['remember_me']) && ($_POST['remember_me'] == '1')) {
-                        OSCOM::setCookie('member_id', $user['id'], time() + 31536000, null, null, false, true);
-                        OSCOM::setCookie('pass_hash', $user['login_key'], time() + 604800, null, null, false, true);
+                        $expire = new \DateTime();
+                        $expire->add(new \DateInterval('P3M'));
+
+                        OSCOM::setCookie(Invision::COOKIE_MEMBER_ID, $user['id'], $expire->getTimestamp(), null, null, true, true);
+                        OSCOM::setCookie(Invision::COOKIE_PASS_HASH, $user['login_key'], $expire->getTimestamp(), null, null, true, true);
                     } else {
-                        OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
-                        OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
+                        Invision::killCookies();
                     }
 
                     Events::fire('login-after');

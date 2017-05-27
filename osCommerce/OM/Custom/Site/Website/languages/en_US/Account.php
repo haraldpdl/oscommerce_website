@@ -42,7 +42,7 @@ login_button_title = Log In
 login_processing_button_title = Processing..
 
 login_ms_error_general = You could not be logged in due to incorrect credentials. Please try again and contact us if problems persist.
-login_ms_error_not_verified = You could not be logged in as your account has not been verified yet. <a href="{link}Account||Verify|SSL{link}">Click here to verify your account.</a>
+login_ms_error_not_verified = You could not be logged in as your account has not been verified yet. <a href="{link}Account||Verify|SSL{link}" class="alert-link">Click here to verify your account.</a>
 login_ms_error_banned = Your could not be logged in due to your account being banned. Please contact us to solve the issue.
 
 logout_ms_success = You are now logged out. We look forward to your next visit!

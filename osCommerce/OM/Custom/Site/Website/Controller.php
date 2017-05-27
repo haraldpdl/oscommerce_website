@@ -45,12 +45,12 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
             }
 
             if (!$OSCOM_Session->hasStarted() || !isset($_SESSION[OSCOM::getSite()]['Account'])) {
-                if (isset($_COOKIE['member_id']) && is_numeric($_COOKIE['member_id']) && ($_COOKIE['member_id'] > 0) && isset($_COOKIE['pass_hash']) && (strlen($_COOKIE['pass_hash']) == 32)) {
-                    $user = Invision::canAutoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']);
+                $user = Invision::canAutoLogin();
 
+                if (is_array($user) && isset($user['id'])) {
                     Events::fire('auto_login-before', $user);
 
-                    if (is_array($user) && isset($user['id']) && ($user['verified'] === true) && ($user['banned'] === false)) {
+                    if (($user['verified'] === true) && ($user['banned'] === false)) {
                         if (!$OSCOM_Session->hasStarted()) {
                             $OSCOM_Session->start();
                         }
@@ -61,8 +61,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
                         Events::fire('auto_login-after');
                     } else {
-                        OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
-                        OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
+                        Invision::killCookies();
                     }
                 }
             }

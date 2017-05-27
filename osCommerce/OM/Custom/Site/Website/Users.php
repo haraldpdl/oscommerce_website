@@ -31,24 +31,8 @@ class Users
 
                 $result = [];
 
-                if (is_array($user) && isset($user['member_id'])) {
-                    $result = [
-                        'id' => (int)$user['member_id'],
-                        'name' => $user['members_display_name'],
-                        'full_name' => $user['field_1'],
-                        'email' => $user['email'],
-                        'group_id' => (int)$user['member_group_id'],
-                        'admin' => (int)$user['member_group_id'] === 4,
-                        'team' => in_array((int)$user['member_group_id'], [6, 19]),
-                        'verified' => (int)$user['member_group_id'] !== 1,
-                        'banned' => in_array((int)$user['member_group_id'], [2, 5]) || (!empty($user['temp_ban']) && ($user['temp_ban'] != '0')),
-                        'restricted_post' => (!empty($user['restrict_post']) && ($user['restrict_post'] != '0')) || (!empty($user['mod_posts']) && ($user['mod_posts'] != '0')),
-                        'joined' => $user['joined'],
-                        'posts' => $user['posts'],
-                        'main_photo' => $user['pp_main_photo'],
-                        'avatar_type' => $user['avatar_type'],
-                        'avatar_location' => $user['avatar_location'],
-                        'avatar_size' => $user['avatar_size']];
+                if (is_array($user) && isset($user['id'])) {
+                    $result = $user;
                 }
 
                 $OSCOM_Cache->write($result);

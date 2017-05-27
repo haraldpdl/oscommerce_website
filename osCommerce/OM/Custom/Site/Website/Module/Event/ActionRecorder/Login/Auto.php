@@ -38,13 +38,13 @@ class Auto
                 ]);
             }
         } else {
-            $user = Invision::fetchMember($_COOKIE['member_id'], 'id');
+            $user = Invision::fetchMember($_COOKIE[Invision::COOKIE_MEMBER_ID], 'id');
 
             ActionRecorder::save([
                 'action' => 'auto_login',
                 'success' => 0,
-                'identifier' => (isset($user['member_id']) && ($user['member_id'] > 0)) ? null : $_COOKIE['member_id'],
-                'user_id' => (isset($user['member_id']) && ($user['member_id'] > 0)) ? $user['member_id'] : null
+                'identifier' => (is_array($user) && isset($user['id']) && ($user['id'] > 0)) ? null : $_COOKIE[Invision::COOKIE_MEMBER_ID],
+                'user_id' => (is_array(§user) && isset($user['id']) && ($user['id'] > 0)) ? $user['id'] : null
             ]);
         }
     }

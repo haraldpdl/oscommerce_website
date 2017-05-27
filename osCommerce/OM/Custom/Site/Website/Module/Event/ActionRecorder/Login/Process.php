@@ -40,13 +40,21 @@ class Process
         } else {
             $username = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['username']));
 
-            $user = Invision::fetchMember($username, 'username');
+            $user = false;
+
+            if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+                $user = Invision::fetchMember($username, 'email');
+            }
+
+            if ($user === false) {
+                $user = Invision::fetchMember($username, 'username');
+            }
 
             ActionRecorder::save([
                 'action' => 'login',
                 'success' => 0,
-                'identifier' => (isset($user['member_id']) && ($user['member_id'] > 0)) ? null : $username,
-                'user_id' => (isset($user['member_id']) && ($user['member_id'] > 0)) ? $user['member_id'] : null
+                'identifier' => (is_array($user) && isset($user['id']) && ($user['id'] > 0)) ? null : $username,
+                'user_id' => (is_array($user) && isset($user['id']) && ($user['id'] > 0)) ? $user['id'] : null
             ]);
         }
     }
