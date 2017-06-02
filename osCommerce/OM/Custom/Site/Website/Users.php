@@ -9,8 +9,9 @@
 namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
-  OSCOM,
-  Registry
+    Cache,
+    OSCOM,
+    Registry
 };
 
 use osCommerce\OM\Core\Site\Website\Invision;
@@ -46,5 +47,12 @@ class Users
         }
 
         return static::$_users[$id];
+    }
+
+    public static function clearCache($id)
+    {
+        Cache::clear('users-' . $id);
+
+        unset(static::$_users[$id]);
     }
 }
