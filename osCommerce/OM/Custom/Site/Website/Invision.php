@@ -331,6 +331,23 @@ class Invision
         return md5(md5($salt) . md5($password));
     }
 
+    public static function findMembers(string $search): array
+    {
+        $result = [];
+
+        if (empty($search)) {
+            return $result;
+        }
+
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $Qm = $OSCOM_IpbPdo->prepare('select member_id as id, name from :table_core_members where name like :name and member_group_id not in (2, 5) order by name limit 5');
+        $Qm->bindValue(':name', $search . '%');
+        $Qm->execute();
+
+        return $Qm->fetchAll();
+    }
+
     protected static function getIpbPdo(): \PDO
     {
         if (!Registry::exists('IpbPdo')) {
