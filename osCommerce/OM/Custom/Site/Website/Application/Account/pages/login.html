@@ -5,7 +5,11 @@
     <div id="maincontent">
       <h1>{lang}login_title{lang}</h1>
 
+{ifvalue login_redirect_info_text}
+      {raw}login_redirect_info_text{raw}
+{else}
       {lang}login_introduction{lang}
+{ifvalue}
 
       {widget}message_stack|account{widget}
 

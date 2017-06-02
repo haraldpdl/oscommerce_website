@@ -24,8 +24,14 @@ class Login
             OSCOM::redirect(OSCOM::getLink(null, null, null, 'SSL'));
         }
 
-        if (isset($_SESSION['login_redirect']) && isset($_SESSION['login_redirect']['cancel_url']) && isset($_SESSION['login_redirect']['cancel_text'])) {
-            $OSCOM_Template->setValue('login_redirect_cancel_text', $_SESSION['login_redirect']['cancel_text']);
+        if (isset($_SESSION['login_redirect'])) {
+            if (isset($_SESSION['login_redirect']['info_text'])) {
+                $OSCOM_Template->setValue('login_redirect_info_text', $_SESSION['login_redirect']['info_text']);
+            }
+
+            if (isset($_SESSION['login_redirect']['cancel_url']) && isset($_SESSION['login_redirect']['cancel_text'])) {
+                $OSCOM_Template->setValue('login_redirect_cancel_text', $_SESSION['login_redirect']['cancel_text']);
+            }
         }
 
         $application->setPageContent('login.html');
