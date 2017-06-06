@@ -365,10 +365,12 @@ class Invision
         return [
             'id' => (int)$member['id'],
             'name' => $member['name'],
+            'formatted_name' => $member['formattedName'],
             'full_name' => $member['customFields'][2]['fields'][1]['value'],
             'title' => $member['title'],
             'email' => $member['email'],
             'group_id' => (int)$member['primaryGroup']['id'],
+            'is_ambassador' => (int)$member['primaryGroup']['id'] === 10,
             'admin' => (int)$member['primaryGroup']['id'] === 4,
             'team' => in_array((int)$member['primaryGroup']['id'], [6, 19]),
             'verified' => (bool)$member['validating'] === false,
