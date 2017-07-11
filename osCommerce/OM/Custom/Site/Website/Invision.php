@@ -94,7 +94,11 @@ class Invision
             return false;
         }
 
-        if (!in_array($key, ['email', 'username'])) {
+        if (!in_array($key, ['id', 'email', 'username'])) {
+            return false;
+        }
+
+        if (($key == 'id') && !is_numeric($search)) {
             return false;
         }
 
@@ -106,7 +110,9 @@ class Invision
 
         $sql = 'select member_id from :table_core_members where ';
 
-        if ($key == 'email') {
+        if ($key == 'id') {
+            $sql .= 'member_id = :member_id';
+        } elseif ($key == 'email') {
             $sql .= 'email = :email';
         } else {
             $sql .= 'name = :name';
@@ -116,7 +122,9 @@ class Invision
 
         $Qm = $OSCOM_IpbPdo->prepare($sql);
 
-        if ($key == 'email') {
+        if ($key == 'id') {
+            $Qm->bindInt(':member_id', $search);
+        } elseif ($key == 'email') {
             $Qm->bindValue(':email', $search);
         } else {
             $Qm->bindValue(':name', $search);
