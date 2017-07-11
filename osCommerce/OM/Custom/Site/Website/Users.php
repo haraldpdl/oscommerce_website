@@ -18,6 +18,14 @@ use osCommerce\OM\Core\Site\Website\Invision;
 
 class Users
 {
+    const GROUP_GUEST_ID = 2;
+    const GROUP_MEMBER_ID = 3;
+    const GROUP_ADMIN_ID = 4;
+    const GROUP_TEAM_CORE_ID = 6;
+    const GROUP_AMBASSADOR_ID = 10;
+    const GROUP_PARTNER_ID = 17;
+    const GROUP_TEAM_COMMUNITY_ID = 19;
+
     protected static $_users = [];
 
     public static function get($id, $key = null)
