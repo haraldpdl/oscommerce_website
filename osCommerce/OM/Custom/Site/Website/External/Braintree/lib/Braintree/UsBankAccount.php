@@ -6,7 +6,6 @@ namespace Braintree;
  *
  * @package    Braintree
  * @category   Resources
- * @copyright  2016 Braintree, a division of PayPal, Inc.
  */
 
 /**
@@ -17,13 +16,18 @@ namespace Braintree;
  *
  * @package    Braintree
  * @category   Resources
- * @copyright  2016 Braintree, a division of PayPal, Inc.
  *
  * @property-read string $customerId
  * @property-read string $email
  * @property-read string $token
  * @property-read string $imageUrl
+ * @property-read string $routingNumber
+ * @property-read string $accountType
+ * @property-read string $accountHolderName
+ * @property-read string $last4
  * @property-read string $bankName
+ * @property-read string $achMandate
+ * @property-read string $default
  */
 class UsBankAccount extends Base
 {
@@ -54,6 +58,11 @@ class UsBankAccount extends Base
     {
         // set the attributes
         $this->_attributes = $usBankAccountAttribs;
+
+        $achMandate = isset($usBankAccountAttribs['achMandate']) ?
+            AchMandate::factory($usBankAccountAttribs['achMandate']) :
+            null;
+        $this->_set('achMandate', $achMandate);
     }
 
     /**

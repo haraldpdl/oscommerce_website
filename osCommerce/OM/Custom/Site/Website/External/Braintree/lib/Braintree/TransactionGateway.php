@@ -14,7 +14,6 @@ use InvalidArgumentException;
  *
  * @package    Braintree
  * @category   Resources
- * @copyright  2015 Braintree, a division of PayPal, Inc.
  */
 
 class TransactionGateway
@@ -171,7 +170,14 @@ class TransactionGateway
                     'venmoSdkSession',
                     'storeShippingAddressInVault',
                     'payeeEmail',
+                    'skipAdvancedFraudChecking',
+                    'skipAvs',
+                    'skipCvv',
                     ['threeDSecure' =>
+                        ['required']
+                    ],
+                    # Included for backwards compatiblity. Remove in the next major version
+                    ['three_d_secure' =>
                         ['required']
                     ],
                     ['paypal' =>

@@ -4,8 +4,6 @@ namespace Braintree;
 /**
  * Braintree HTTP Client
  * processes Http requests using curl
- *
- * @copyright  2015 Braintree, a division of PayPal, Inc.
  */
 class Http
 {
@@ -20,7 +18,7 @@ class Http
     public function delete($path)
     {
         $response = $this->_doRequest('DELETE', $path);
-        if($response['status'] === 200) {
+        if ($response['status'] === 200) {
             return true;
         } else {
             Util::throwStatusCodeException($response['status']);
@@ -41,7 +39,7 @@ class Http
     {
         $response = $this->_doRequest('POST', $path, $this->_buildXml($params));
         $responseCode = $response['status'];
-        if($responseCode === 200 || $responseCode === 201 || $responseCode === 422 || $responseCode == 400) {
+        if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422 || $responseCode == 400) {
             return Xml::buildArrayFromXml($response['body']);
         } else {
             Util::throwStatusCodeException($responseCode);
@@ -52,7 +50,7 @@ class Http
     {
         $response = $this->_doRequest('PUT', $path, $this->_buildXml($params));
         $responseCode = $response['status'];
-        if($responseCode === 200 || $responseCode === 201 || $responseCode === 422 || $responseCode == 400) {
+        if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422 || $responseCode == 400) {
             return Xml::buildArrayFromXml($response['body']);
         } else {
             Util::throwStatusCodeException($responseCode);
@@ -107,7 +105,13 @@ class Http
         curl_setopt($curl, CURLOPT_TIMEOUT, $this->_config->timeout());
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpVerb);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
+
+        if ($this->_config->acceptGzipEncoding()) {
+            curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
+        }
+        if ($this->_config->sslVersion()) {
+            curl_setopt($curl, CURLOPT_SSLVERSION, $this->_config->sslVersion());
+        }
 
         $headers = $this->_getHeaders($curl);
         $headers[] = 'User-Agent: Braintree PHP Library ' . Version::get();
@@ -129,21 +133,21 @@ class Http
             curl_setopt($curl, CURLOPT_CAINFO, $this->getCaFile());
         }
 
-        if(!empty($requestBody)) {
+        if (!empty($requestBody)) {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
         }
 
-        if($this->_config->isUsingProxy()) {
+        if ($this->_config->isUsingProxy()) {
             $proxyHost = $this->_config->getProxyHost();
             $proxyPort = $this->_config->getProxyPort();
             $proxyType = $this->_config->getProxyType();
             $proxyUser = $this->_config->getProxyUser();
             $proxyPwd= $this->_config->getProxyPassword();
             curl_setopt($curl, CURLOPT_PROXY, $proxyHost . ':' . $proxyPort);
-            if(!empty($proxyType)) {
+            if (!empty($proxyType)) {
                 curl_setopt($curl, CURLOPT_PROXYTYPE, $proxyType);
             }
-            if($this->_config->isAuthenticatedProxy()) {
+            if ($this->_config->isAuthenticatedProxy()) {
                 curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUser . ':' . $proxyPwd);
             }
         }
@@ -152,6 +156,7 @@ class Http
         $response = curl_exec($curl);
         $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $error_code = curl_errno($curl);
+        $error = curl_error($curl);
 
         if ($error_code == 28 && $httpStatus == 0) {
             throw new Exception\Timeout();
@@ -160,9 +165,12 @@ class Http
         curl_close($curl);
         if ($this->_config->sslOn()) {
             if ($httpStatus == 0) {
-                throw new Exception\SSLCertificate();
+                throw new Exception\SSLCertificate($error, $error_code);
             }
+        } else if ($error_code) {
+            throw new Exception\Connection($error, $error_code);
         }
+
         return ['status' => $httpStatus, 'body' => $response];
     }
 
