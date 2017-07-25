@@ -11,6 +11,7 @@ namespace osCommerce\OM\Core\Site\Website;
 use osCommerce\OM\Core\{
     Cache,
     Events,
+    Hash,
     HTML,
     OSCOM,
     PDO,
@@ -56,6 +57,10 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
                         }
 
                         $_SESSION[OSCOM::getSite()]['Account'] = $user;
+
+                        if (!isset($_SESSION[OSCOM::getSite()]['public_token'])) {
+                            $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
+                        }
 
                         $OSCOM_Session->recreate();
 
