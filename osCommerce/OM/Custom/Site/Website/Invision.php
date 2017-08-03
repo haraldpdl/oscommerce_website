@@ -406,6 +406,8 @@ class Invision
             OSCOM::setCookie(static::COOKIE_PASS_HASH, '', time() - 31536000, null, null, true, true);
         }
 
+    }
+
     public static function getTotalUsers(): int
     {
         $OSCOM_IpbPdo = static::getIpbPdo();
