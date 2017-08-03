@@ -103,10 +103,10 @@ verify_title = Konto Verifizieren
 
 verify_introduction = <p>Bitte folgen Sie den Anweisungen die Ihnen in einer e-mail zugeschickt worden ist um Ihr Konto zu Verifizieren.</p>
 
-verify_user_id_title = Benutzer ID
+verify_user_id_title = Verifizierungs-ID
 verify_user_id_js_error_required = Erforderlich
-verify_user_id_js_error_invalid = Die Benutzer ID ist ungültig. Die Benutzer ID besteht aus Nummern - bitte prüfen Sie dies mit der Benutzer ID, dass Sie per e-mail erhalten haben.
-verify_user_id_ms_error_invalid = Ihre Benutzer ID ist ungültig. Die Benutzer ID besteht aus Nummern - bitte prüfen Sie dies mit der Benutzer ID, dass Sie per e-mail erhalten haben.
+verify_user_id_js_error_invalid = Die Verifizierungs-ID ist ungültig. Die Verifizierungs-ID besteht aus Nummern - bitte prüfen Sie dies mit der Verifizierungs-ID, dass Sie per e-mail erhalten haben.
+verify_user_id_ms_error_invalid = Ihre Verifizierungs-ID ist ungültig. Die Verifizierungs-ID besteht aus Nummern - bitte prüfen Sie dies mit der Verifizierungs-ID, dass Sie per e-mail erhalten haben.
 
 verify_key_title = Verifizierungs-Schlüssel
 verify_key_js_error_required = Erforderlich
@@ -120,7 +120,7 @@ verify_processing_button_title = in Bearbeitung..
 verify_ms_success = Vielen Dank das Sie Ihr Konto verifiziert haben. Bitte melden Sie sich mit Ihrem Konto jetzt an.
 verify_ms_error_general = Ihr Konto kann zur Zeit nicht verifiziert werden. Bitte Kontaktieren Sie uns um dieses Problem zu lösen.
 verify_ms_error_no_match = Der Verifizerungs-Schlüssel stimmt mit Ihrem Konto nicht überein. Bitte versuchen Sie es erneut.
-verify_ms_error_no_member = Ein Konto mit dem Benutzer ID konnte nicht gefunden werden. Bitte versuchen Sie es erneut.
+verify_ms_error_no_member = Ein Konto mit dem Verifizierungs-ID und Schlüssel konnte nicht gefunden werden. Bitte versuchen Sie es erneut.
 verify_ms_error_already_verified = Dieses Konto ist schon verifiziert. Bitte versuchen Sie sich mit dem Konto anzumelden.
 
 partner_html_title = Partner Dashboard | osCommerce

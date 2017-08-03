@@ -87,7 +87,7 @@ create_tos_agree_js_error_required = Required
 create_tos_agree_ms_error_required = Please read and accept the terms of service to create your account.
 
 create_tos_title = Terms of Use
-create_tos_body = <p>Please read the following and only proceed to create a personal account if you agree to the terms.</p><p>You agree, through your use of our website and services, that:</p><ul><li>you will not submit or post any material which is knowingly false and/or defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, or otherwise violative of any law.</li><li>you will not submit or post any copyrighted material unless the copyright is owned by you or you have the permission to do so.</li></ul><p>After your account has been created, an e-mail will be sent to you containing a verification link that must be used to verify and finalize your account.</p>
+create_tos_body = <p>Please read the following and only proceed to create a personal account if you agree to the terms.</p><p>You agree, through your use of our website and services, that:</p><ul><li>you will not submit or post any material which is knowingly false and/or defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, or otherwise violative of any law.</li><li>you will not submit or post any copyrighted material unless the copyright is owned by you or you have the permission to do so.</li></ul><p>After your account has been created, an e-mail will be sent to you containing a verification key that must be used to verify and complete your account.</p>
 create_tos_close = Close
 
 create_button_title = Create Account
@@ -103,10 +103,10 @@ verify_title = Verify Account
 
 verify_introduction = <p>Please follow the instructions sent to you in an e-mail to verify and finalize your personal account.</p>
 
-verify_user_id_title = User ID
+verify_user_id_title = Verification ID
 verify_user_id_js_error_required = Required
-verify_user_id_js_error_invalid = This user ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
-verify_user_id_ms_error_invalid = Your user ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
+verify_user_id_js_error_invalid = This Verification ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
+verify_user_id_ms_error_invalid = Your Verification ID is invalid. This must be a number - please use the ID from the verification e-mail sent to you.
 
 verify_key_title = Verification Key
 verify_key_js_error_required = Required
@@ -120,7 +120,7 @@ verify_processing_button_title = Processing..
 verify_ms_success = Thank you for verifying your account. Please log in with your account credentials.
 verify_ms_error_general = Your account cannot be verified at this time due to a general error. Please contact us to remedy this problem.
 verify_ms_error_no_match = The verification key did not match with your account. Please try again.
-verify_ms_error_no_member = No member could be found with that User ID. Please try again.
+verify_ms_error_no_member = No member could be found with that Verification ID and Key. Please try again.
 verify_ms_error_already_verified = That member account has already been verified. Please try and login.
 
 partner_html_title = Partner Dashboard | osCommerce

@@ -19,7 +19,7 @@ Please Verify Your Account
 
   The following information is required for the verification:
 
-  User ID: {raw}new_member_reg id{raw}
+  Verification ID: {raw}new_member_reg id{raw}
   Verification Key: {raw}new_member_reg val_newreg_id{raw}
 
   We look forward to having you in our community!
