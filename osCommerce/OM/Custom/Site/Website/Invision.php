@@ -405,6 +405,14 @@ class Invision
 
             OSCOM::setCookie(static::COOKIE_PASS_HASH, '', time() - 31536000, null, null, true, true);
         }
+
+    public static function getTotalUsers(): int
+    {
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $Qu = $OSCOM_IpbPdo->get('core_members', 'count(*) as total');
+
+        return $Qu->valueInt('total');
     }
 
     public static function getTotalOnlineUsers(): int
@@ -415,5 +423,15 @@ class Invision
         $Qu->execute();
 
         return $Qu->valueInt('total');
+    }
+
+    public static function getTotalPostings(): int
+    {
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $Qp = $OSCOM_IpbPdo->query('select (select count(*) from :table_forums_posts) + (select count(*) from :table_forums_archive_posts) as total');
+        $Qp->execute();
+
+        return $Qp->valueInt('total');
     }
 }

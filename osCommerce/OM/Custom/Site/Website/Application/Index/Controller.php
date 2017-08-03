@@ -26,7 +26,7 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
         $this->_page_title = OSCOM::getDef('html_page_title');
 
         if ($OSCOM_Template->valueExists('stats_addons', false) === false) {
-            $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalAddOns(), 0));
+            $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalApps(), 0));
         }
 
         if ($OSCOM_Template->valueExists('stats_community_total_users', false) === false) {

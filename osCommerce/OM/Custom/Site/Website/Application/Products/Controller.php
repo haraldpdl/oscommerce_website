@@ -28,7 +28,7 @@
       $OSCOM_Template->setValue('releases_archive_tep', Download::getAll('archive', 'tep'));
 
       if ($OSCOM_Template->valueExists('stats_addons', false) === false) {
-          $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalAddOns(), 0));
+          $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalApps(), 0));
       }
 
       $this->_page_contents = 'main.html';

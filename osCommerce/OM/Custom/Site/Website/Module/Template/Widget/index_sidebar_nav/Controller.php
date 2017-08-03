@@ -10,6 +10,7 @@
 
   use osCommerce\OM\Core\HttpRequest;
   use osCommerce\OM\Core\OSCOM;
+  use osCommerce\OM\Core\PDO;
   use osCommerce\OM\Core\Registry;
 
   use osCommerce\OM\Core\Site\Website\Invision;
@@ -20,17 +21,17 @@
       $OSCOM_Template = Registry::get('Template');
 
       if ($OSCOM_Template->valueExists('stats_addons', false) === false) {
-        $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(static::getTotalAddOns(), 0));
+        $OSCOM_Template->setValue('stats_addons', $OSCOM_Language->formatNumber(static::getTotalApps(), 0));
       }
 
-      $OSCOM_Template->setValue('stats_sites', $OSCOM_Language->formatNumber(13300, 0));
+      $OSCOM_Template->setValue('stats_sites', $OSCOM_Language->formatNumber(static::getTotalSites(), 0));
       $OSCOM_Template->setValue('stats_community_online_users', $OSCOM_Language->formatNumber(static::getOnlineUsers(), 0));
 
       if ($OSCOM_Template->valueExists('stats_community_total_users', false) === false) {
         $OSCOM_Template->setValue('stats_community_total_users', $OSCOM_Language->formatNumber(static::getTotalUsers(), 0));
       }
 
-      $OSCOM_Template->setValue('stats_community_total_forum_postings', $OSCOM_Language->formatNumber(static::getTotalForumPostings(), 1));
+      $OSCOM_Template->setValue('stats_community_total_forum_postings', $OSCOM_Language->formatNumber(static::getTotalForumPostings() / 1000000, 1));
 
       $file = OSCOM::BASE_DIRECTORY . 'Custom/Site/' . OSCOM::getSite() . '/Module/Template/Widget/index_sidebar_nav/pages/main.html';
 
@@ -41,23 +42,77 @@
       return file_get_contents($file);
     }
 
-    static public function getTotalAddOns() {
-      return 7700;
+    static public function getTotalApps() {
+      $OSCOM_Cache = Registry::get('Cache');
+
+      $data = null;
+      $apps = 7800;
+
+      if ( $OSCOM_Cache->read('stats_total_apps', 1440) ) {
+        $data = $OSCOM_Cache->getCache();
+      } else {
+        $PDO_OLD = PDO::initialize(OSCOM::getConfig('legacy_db_server', 'Apps'), OSCOM::getConfig('legacy_db_server_username', 'Apps'), OSCOM::getConfig('legacy_db_server_password', 'Apps'), OSCOM::getConfig('legacy_db_database', 'Apps'));
+
+        $Qa = $PDO_OLD->get('contrib_packages', 'count(*) as total', null, null, null, ['prefix_tables' => false]);
+
+        $data = $Qa->valueInt('total');
+
+        if (is_int($data) && ($data > 0)) {
+          $OSCOM_Cache->write($data);
+        }
+      }
+
+      if (is_int($data) && ($data > 0)) {
+        $apps = $data;
+      }
+
+      return $apps;
+    }
+
+    static public function getTotalSites() {
+      $OSCOM_Cache = Registry::get('Cache');
+      $OSCOM_PDO = Registry::get('PDO');
+
+      $data = null;
+      $sites = 20000;
+
+      if ( $OSCOM_Cache->read('stats_total_sites', 1440) ) {
+        $data = $OSCOM_Cache->getCache();
+      } else {
+        $Qs = $OSCOM_PDO->get('website_live_shops', 'count(*) as total');
+
+        $data = $Qs->valueInt('total');
+
+        if (is_int($data) && ($data > 0)) {
+          $OSCOM_Cache->write($data);
+        }
+      }
+
+      if (is_int($data) && ($data > 0)) {
+        $sites = $data;
+      }
+
+      return $sites;
     }
 
     static public function getOnlineUsers() {
       $OSCOM_Cache = Registry::get('Cache');
 
+      $data = null;
       $users = 700;
 
       if ( $OSCOM_Cache->read('stats_online_users', 60) ) {
-        $users = $OSCOM_Cache->getCache();
+        $data = $OSCOM_Cache->getCache();
       } else {
-        $users = Invision::getTotalOnlineUsers();
+        $data = Invision::getTotalOnlineUsers();
 
-        if (is_int($users) && ($users > 0)) {
-          $OSCOM_Cache->write($users);
+        if (is_int($data) && ($data > 0)) {
+          $OSCOM_Cache->write($data);
         }
+      }
+
+      if (is_int($data) && ($data > 0)) {
+        $users = $data;
       }
 
       return $users;
@@ -69,55 +124,41 @@
       $data = null;
       $users = 280000;
 
-      if ( OSCOM::configExists('community_api_key') ) {
-        if ( $OSCOM_Cache->read('stats_community_api_fetchStats', 1440) ) {
-          $data = $OSCOM_Cache->getCache();
-        } else {
-          $request = xmlrpc_encode_request('fetchStats', array('api_key' => OSCOM::getConfig('community_api_key'),
-                                                               'api_module' => OSCOM::getConfig('community_api_module')));
+      if ( $OSCOM_Cache->read('stats_total_users', 1440) ) {
+        $data = $OSCOM_Cache->getCache();
+      } else {
+        $data = Invision::getTotalUsers();
 
-          $data = xmlrpc_decode(HttpRequest::getResponse(array('url' => OSCOM::getConfig('community_api_address'),
-                                                               'parameters' => $request)));
-
-          if ( is_array($data) && !empty($data) && isset($data['total_members']) ) {
-            $OSCOM_Cache->write($data);
-          }
+        if (is_int($data) && ($data > 0)) {
+          $OSCOM_Cache->write($data);
         }
+      }
 
-        if ( isset($data) ) {
-          $users = (int)str_replace(',', '', $data['total_members']);
-        }
+      if (is_int($data) && ($data > 0)) {
+        $users = $data;
       }
 
       return $users;
     }
 
     static public function getTotalForumPostings() {
-      return 1600000/1000000;
-
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
       $posts = 1600000;
 
-      if ( OSCOM::configExists('community_api_key') ) {
-        if ( $OSCOM_Cache->read('stats_community_api_fetchStats', 1440) ) {
-          $data = $OSCOM_Cache->getCache();
-        } else {
-          $request = xmlrpc_encode_request('fetchStats', array('api_key' => OSCOM::getConfig('community_api_key'),
-                                                               'api_module' => OSCOM::getConfig('community_api_module')));
+      if ( $OSCOM_Cache->read('stats_total_postings', 10080) ) {
+        $data = $OSCOM_Cache->getCache();
+      } else {
+        $data = Invision::getTotalPostings();
 
-          $data = xmlrpc_decode(HttpRequest::getResponse(array('url' => OSCOM::getConfig('community_api_address'),
-                                                               'parameters' => $request)));
-
-          if ( is_array($data) && !empty($data) && isset($data['total_posts']) ) {
-            $OSCOM_Cache->write($data);
-          }
+        if (is_int($data) && ($data > 0)) {
+          $OSCOM_Cache->write($data);
         }
+      }
 
-        if ( isset($data) ) {
-          $posts = (int)str_replace(',', '', $data['total_posts']);
-        }
+      if (is_int($data) && ($data > 0)) {
+        $posts = $data;
       }
 
       return $posts;
