@@ -248,6 +248,48 @@ class Invision
         return false;
     }
 
+    public static function saveUser(int $id, array $data)
+    {
+        $params = [];
+
+        if (isset($data['name'])) {
+            $params['name'] = $data['name'];
+        }
+
+        if (isset($data['email'])) {
+            $params['email'] = $data['email'];
+        }
+
+        if (isset($data['password'])) {
+            $params['password'] = $data['password'];
+        }
+
+        if (isset($data['group'])) {
+            $params['group'] = $data['group'];
+        }
+
+        if (!empty($params)) {
+            $fr_url = OSCOM::getConfig('forum_rest_url', 'Website');
+
+            $url = $fr_url . 'core/members/' . $id;
+
+            $result = HttpRequest::getResponse([
+                'url' => $url,
+                'parameters' => http_build_query($params, '', '&')
+            ]);
+
+            if (!empty($result)) {
+                $result = json_decode($result, true);
+
+                if (is_array($result) && isset($result['id'])) {
+                    return static::getUserDataArray($result);
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static function canLogin(string $username, string $password)
     {
         $OSCOM_IpbPdo = static::getIpbPdo();

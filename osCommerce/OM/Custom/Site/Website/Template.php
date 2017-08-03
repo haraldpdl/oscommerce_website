@@ -102,7 +102,7 @@ class Template extends \osCommerce\OM\Core\Site\Admin\Template
     public function getHtmlElements(string $group = null): string
     {
         if (isset($group)) {
-            return implode("\n", $this->html_elements[$group]);
+            return implode("\n", $this->html_elements[$group] ?? []);
         }
 
         $result = '';

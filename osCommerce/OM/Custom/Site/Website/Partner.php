@@ -348,7 +348,7 @@ class Partner
             $result = AuditLog::getAll('Website\Account\Partner', $id, 6);
 
             foreach ($result as &$record) {
-                $record['user_name'] = Users::get($record['user_id'], 'name');
+                $record['user_name'] = Users::get((int)$record['user_id'], 'name');
                 $record['date_added'] = (new \DateTime($record['date_added']))->format('jS M Y H:i');
             }
 

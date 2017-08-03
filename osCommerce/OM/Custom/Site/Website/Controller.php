@@ -41,7 +41,11 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
                 $OSCOM_Session->start();
 
                 if (!isset($_SESSION[OSCOM::getSite()]['Account']) && (OSCOM::getSiteApplication() != 'Account')) {
-                    $OSCOM_Session->kill();
+                    $req_sig = implode('&', array_keys($_GET));
+
+                    if (!isset($_SESSION[OSCOM::getSite()]['keepAlive']) || !in_array($req_sig, $_SESSION[OSCOM::getSite()]['keepAlive'])) {
+                        $OSCOM_Session->kill();
+                    }
                 }
             }
 
@@ -95,6 +99,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         $OSCOM_Template->setValue('html_page_contents_file', $OSCOM_Template->getPageContentsFile());
         $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
         $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlElements('header'));
+        $OSCOM_Template->setValue('html_footer_tags', $OSCOM_Template->getHtmlElements('footer'));
         $OSCOM_Template->setValue('site_req', [ 'site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun() ]);
         $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
         $OSCOM_Template->setValue('current_year', date('Y'));

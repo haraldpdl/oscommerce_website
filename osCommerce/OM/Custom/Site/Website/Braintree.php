@@ -8,9 +8,12 @@
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\HttpRequest;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    HttpRequest,
+    OSCOM,
+    Registry,
+    TransactionId
+};
 
 if (!class_exists('\Braintree')) {
     include(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/Braintree/lib/autoload.php');
@@ -18,6 +21,9 @@ if (!class_exists('\Braintree')) {
 
 class Braintree
 {
+    const WEB_VERSION = '3.21.1';
+    const WEB_DROPIN_VERSION = '1.5.0';
+
     protected static $has_setup = false;
 
     public static function setupCredentials()
@@ -47,7 +53,7 @@ class Braintree
         return $client_token;
     }
 
-    public static function doSale($params)
+    public static function doSale($params, $log_params)
     {
         if (static::$has_setup === false) {
             static::setupCredentials();
@@ -56,17 +62,19 @@ class Braintree
         $server = OSCOM::getConfig('braintree_server');
 
         $data = [
-            'paymentMethodNonce' => $params['nonce'],
-            'amount' => $params['amount'],
             'merchantAccountId' => OSCOM::getConfig('braintree_' . $server . '_merchant_account_id'),
             'options' => [
                 'submitForSettlement' => true
             ]
         ];
 
-        if (isset($params['company'])) {
-            $data['customer']['company'] = $params['company'];
+        $data = array_merge($data, $params);
+
+        if (!isset($data['orderId'])) {
+            $data['orderId'] = TransactionId::get('btr');
         }
+
+        $order_id = $data['orderId'];
 
         $response = \Braintree\Transaction::sale($data);
 
@@ -79,34 +87,44 @@ class Braintree
         if ($result === 1) {
             $log = [
                 'id' => $response->transaction->id,
+                'payment_type' => $response->transaction->paymentInstrumentType,
+                'order_id' => $response->transaction->orderId,
                 'status' => $response->transaction->status,
                 'type' => $response->transaction->type,
                 'currency' => $response->transaction->currencyIsoCode,
                 'amount' => $response->transaction->amount,
                 'merchant_account_id' => $response->transaction->merchantAccountId,
-                'date_create' => $response->transaction->createdAt->format('Y-m-d H:i:s T'),
-                'company' => $response->transaction->customer['company'] ?? null
+                'date_create' => $response->transaction->createdAt->format('Y-m-d H:i:s T')
             ];
+
+            if (isset($response->transaction->customer['company'])) {
+                $log['company'] = $response->transaction->customer['company'];
+            }
         } else {
             $log = [
-                'message' => $response->message,
+                'message' => $response->message . (isset($response->transaction->gatewayRejectionReason) && !empty($response->transaction->gatewayRejectionReason) ? ' (' . $response->transaction->gatewayRejectionReason . ')' : ''),
                 'id' => $response->transaction->id ?? null,
+                'payment_type' => $response->transaction->paymentInstrumentType ?? null,
+                'order_id' => $response->params['transaction']['orderId'],
                 'status' => $response->transaction->status ?? null,
                 'type' => $response->params['transaction']['type'],
                 'currency' => $response->transaction->currencyIsoCode ?? null,
                 'amount' => $response->params['transaction']['amount'],
                 'merchant_account_id' => $response->params['transaction']['merchantAccountId'],
-                'date_create' => isset($response->transaction->createdAt) ? $response->transaction->createdAt->format('Y-m-d H:i:s T') : null,
-                'company' => $response->params['transaction']['customer']['company'] ?? null
+                'date_create' => isset($response->transaction->createdAt) ? $response->transaction->createdAt->format('Y-m-d H:i:s T') : null
             ];
+
+            if (isset($response->params['transaction']['customer']['company'])) {
+                $log['company'] = $response->params['transaction']['customer']['company'];
+            }
         }
 
-        static::log($result, $data, $log);
+        static::log($log_params, $result, $data, $log);
 
         return $response;
     }
 
-    protected static function log($result, $request, $response)
+    protected static function log(array $params, int $result, array $request, array $response)
     {
         $OSCOM_PDO = Registry::get('PDO');
 
@@ -130,10 +148,10 @@ class Braintree
 
         $OSCOM_PDO->save('website_api_transaction_log', [
             'app' => 'braintree',
-            'user_group' => 'partner',
+            'user_group' => $params['user_group'],
             'user_id' => isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? $_SESSION[OSCOM::getSite()]['Account']['id'] : null,
-            'module' => 'partnership',
-            'action' => 'extension',
+            'module' => $params['module'],
+            'action' => $params['action'],
             'result' => $result,
             'server' => (OSCOM::getConfig('braintree_server') == 'production') ? 1 : -1,
             'request' => $request_string,

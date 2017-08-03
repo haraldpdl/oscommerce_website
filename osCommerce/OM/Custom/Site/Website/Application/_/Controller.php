@@ -16,10 +16,12 @@
     }
 
     public function runActions() {
-      parent::runActions();
+      if (!OSCOM::isRPC()) {
+        parent::runActions();
 
-      if ( $this->getCurrentAction() === false ) {
-        OSCOM::redirect(OSCOM::getLink(null, 'Index'));
+        if ( $this->getCurrentAction() === false ) {
+          OSCOM::redirect(OSCOM::getLink(null, 'Index'));
+        }
       }
     }
   }

@@ -148,15 +148,21 @@ class Process
         }
 
         $data = [
-            'nonce' => $_POST['payment_method_nonce'],
+            'paymentMethodNonce' => $_POST['payment_method_nonce'],
             'amount' => $total,
-            'company' => $partner['title']
+            'customer' => [
+                'company' => $partner['title']
+            ]
         ];
 
         $error = false;
 
         try {
-            $braintree_result = Braintree::doSale($data);
+            $braintree_result = Braintree::doSale($data, [
+                'user_group' => 'partner',
+                'module' => 'partnership',
+                'action' => 'extension'
+            ]);
         } catch (\Exception $e) {
             $error = true;
         }
