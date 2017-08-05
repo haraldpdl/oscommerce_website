@@ -149,7 +149,7 @@ EOD;
 var oscPartner = $json
 
 function oscLoadBanner() {
-  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn ipsColumn_fluid" style="width: 468px;"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="max-width: 100%;" border="0" /></a></div>');
+  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn cuddleMeNice"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="width: 100%; max-width: 468px;" border="0" /></a></div>');
 }
 
 function oscLoadStatusUpdate() {
