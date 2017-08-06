@@ -22,7 +22,7 @@ if (!class_exists('\Braintree')) {
 class Braintree
 {
     const WEB_VERSION = '3.21.1';
-    const WEB_DROPIN_VERSION = '1.5.0';
+    const WEB_DROPIN_VERSION = '1.6.0';
 
     protected static $has_setup = false;
 
