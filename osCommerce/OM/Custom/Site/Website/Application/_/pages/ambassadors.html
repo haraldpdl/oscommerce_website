@@ -15,20 +15,24 @@
 
       <div class="row" style="padding-bottom: 20px;">
         <div class="col-md-6 col-md-push-6">
-          <div id="ambStart" class="jumbotron">
-            <div class="text-center">
-              <h1>{lang}amb_price{lang}<sup style="vertical-align: top; font-size: 0.25em; top: 20px;">*</sup> <small>{lang}lifetime{lang}</small></h1>
+          <div id="ambStart">
+            <div class="jumbotron" style="margin-bottom: 0px;">
+              <div class="text-center">
+                <h1>{lang}amb_price{lang}<sup style="vertical-align: top; font-size: 0.25em; top: 20px;">*</sup> <small>{lang}lifetime{lang}</small></h1>
 
-              {iftrue is_ambassador}
-              <p>{lang}welcome_boost{lang}</p>
+                {iftrue is_ambassador}
+                <p>{lang}welcome_boost{lang}</p>
 
-              <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_boost_ambassador_level{lang}</a></p>
-              {else}
-              <p>{lang}welcome_start{lang}</p>
+                <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_boost_ambassador_level{lang}</a></p>
+                {else}
+                <p>{lang}welcome_start{lang}</p>
 
-              <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_become_an_ambassador{lang}</a></p>
-              {iftrue}
+                <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_become_an_ambassador{lang}</a></p>
+                {iftrue}
+              </div>
             </div>
+
+            <p class="text-muted text-center" style="padding: 10px 20px; font-size: 0.85em;">{lang}amb_pricing_info{lang}</p>
           </div>
 
           <div id="ambLogin" class="hidden" style="background-color: #eee; border-radius: 6px; padding: 25px 25px;">
@@ -329,7 +333,15 @@
         </div>
       </div>
 
-      <p><small class="text-muted">{lang}amb_pricing_info{lang}</small></p>
+      <h3>{lang}amb_newest_ambassadors_title{lang}</h3>
+
+      <div class="row">
+        {loop amb_members}
+        <div class="col-xs-3 col-sm-2 col-lg-1">
+          <a href="https://forums.oscommerce.com/profile/#id#-#name_slug#/"><img src="#photo#" class="img-circle center-block" style="margin-top: 10px; margin-bottom: 10px; width: 75px; height: 75px;" title="#name#"></a>
+        </div>
+        {loop}
+      </div>
 
       <h3>{lang}amb_payment_acceptance_title{lang}</h3>
 

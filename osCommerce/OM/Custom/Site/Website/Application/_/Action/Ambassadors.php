@@ -23,6 +23,8 @@ use osCommerce\OM\Core\Site\Website\{
     Users
 };
 
+use Cocur\Slugify\Slugify;
+
 class Ambassadors
 {
     const COUNTRIES_WITH_ZONES = ['AU', 'CA', 'DE', 'US'];
@@ -63,6 +65,23 @@ class Ambassadors
         $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['group_id'] === Users::GROUP_AMBASSADOR_ID)));
 
         $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/three-d-secure.min.js"></script>');
+
+        $slugify = new Slugify();
+
+        $amb_members = [];
+
+        foreach (Users::getNewestAmbassadors(12) as $a) {
+            $m = Users::get($a);
+
+            $amb_members[] = [
+                'id' => $m['id'],
+                'name' => $m['name'],
+                'name_slug' => $slugify->slugify($m['name']),
+                'photo' => $m['photo_url']
+            ];
+        }
+
+        $OSCOM_Template->setValue('amb_members', $amb_members);
 
         $countries = [
             [

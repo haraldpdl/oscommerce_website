@@ -22,7 +22,9 @@ lifetime = lifetime!
 button_become_an_ambassador = Become an Ambassador ♥
 button_boost_ambassador_level = Boost Ambassador Level ♥
 
-amb_pricing_info = <sup>*</sup> Prices are in Euro. German residents will be additionally charged 19% tax (MwSt.).
+amb_pricing_info = <sup>*</sup> German residents will be additionally charged 19% tax (MwSt.).
+
+amb_newest_ambassadors_title = Our newest Ambassadors
 
 amb_payment_acceptance_title = What payment methods are accepted?
 amb_payment_acceptance_description = <p>Payments are securely processed with Braintree - all major card payments and PayPal are accepted.</p>

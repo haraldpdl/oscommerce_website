@@ -218,6 +218,44 @@ class Users
         return false;
     }
 
+    public static function getNewestAmbassadors(int $limit = 12): array
+    {
+        $CACHE_Ambassadors = new Cache('ambassadors-newest-NS-limit' . $limit);
+
+        if (($result = $CACHE_Ambassadors->get()) === false) {
+            $data = [
+                'limit' => $limit
+            ];
+
+            $result = OSCOM::callDB('Website\GetNewestAmbassadors', $data, 'Site');
+
+            if (($limit > 0) && (count($result < $limit))) {
+                $sponsors = [
+                    182953,
+                    249059,
+                    102418,
+                    36315,
+                    1916,
+                    15542,
+                    184805,
+                    2212,
+                    74962,
+                    14259,
+                    211496,
+                    68771
+                ];
+
+                $add = array_slice($sponsors, 0, $limit - count($result));
+
+                $result = array_merge($result, $add);
+            }
+
+            $CACHE_Ambassadors->set($result);
+        }
+
+        return $result;
+    }
+
     public static function clearCache(int $id)
     {
         $OSCOM_Cache = new Cache();
