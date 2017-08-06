@@ -229,6 +229,8 @@ class Users
 
             $result = OSCOM::callDB('Website\GetNewestAmbassadors', $data, 'Site');
 
+            $result = array_values($result);
+
             if (($limit > 0) && (count($result < $limit))) {
                 $sponsors = [
                     182953,
