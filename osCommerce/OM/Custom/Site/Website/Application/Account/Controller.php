@@ -8,7 +8,6 @@
 
   namespace osCommerce\OM\Core\Site\Website\Application\Account;
 
-  use osCommerce\OM\Core\Hash;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\Registry;
 
@@ -21,8 +20,8 @@
         $OSCOM_Session->start();
       }
 
-      if ( !isset($_SESSION[OSCOM::getSite()]['public_token']) ) {
-        $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
+      if (!isset($_SESSION[OSCOM::getSite()]['keepAlive']) || !in_array(OSCOM::getSiteApplication(), $_SESSION[OSCOM::getSite()]['keepAlive'])) {
+        $_SESSION[OSCOM::getSite()]['keepAlive'][] = OSCOM::getSiteApplication();
       }
 
       $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow" />');

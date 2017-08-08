@@ -10,7 +10,6 @@ namespace osCommerce\OM\Core\Site\Website\Application\_\Action;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
-    Hash,
     HTML,
     OSCOM,
     Registry
@@ -43,10 +42,6 @@ class Ambassadors
 
         if (!isset($_SESSION[OSCOM::getSite()]['keepAlive']) || !in_array($req_sig, $_SESSION[OSCOM::getSite()]['keepAlive'])) {
             $_SESSION[OSCOM::getSite()]['keepAlive'][] = $req_sig;
-        }
-
-        if (!isset($_SESSION[OSCOM::getSite()]['public_token'])) {
-            $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
         }
 
         $OSCOM_Language->loadIniFile('pages/ambassadors.php');

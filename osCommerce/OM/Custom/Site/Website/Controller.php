@@ -29,6 +29,8 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         Registry::set('MessageStack', new MessageStack());
         Registry::set('Cache', new Cache());
         Registry::set('PDO', PDO::initialize());
+        Registry::set('Language', new Language());
+        Registry::set('Template', new Template());
         Registry::set('Session', Session::load());
 
         $OSCOM_Session = Registry::get('Session');
@@ -36,62 +38,80 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
         Events::scan();
 
+        Events::watch('session_started', function() {
+            if (!isset($_SESSION[OSCOM::getSite()]['public_token'])) {
+                $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
+            }
+        });
+
         if (!OSCOM::isRPC()) {
             if (isset($_COOKIE[$OSCOM_Session->getName()])) {
                 $OSCOM_Session->start();
 
-                if (!isset($_SESSION[OSCOM::getSite()]['Account']) && (OSCOM::getSiteApplication() != 'Account')) {
-                    $req_sig = implode('&', array_keys($_GET));
+                if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
+                    $user = Invision::canAutoLogin();
 
-                    if (!isset($_SESSION[OSCOM::getSite()]['keepAlive']) || !in_array($req_sig, $_SESSION[OSCOM::getSite()]['keepAlive'])) {
-                        $OSCOM_Session->kill();
-                    }
-                }
-            }
+                    if (is_array($user) && isset($user['id'])) {
+                        Events::fire('auto_login-before', $user);
 
-            if (!$OSCOM_Session->hasStarted() || !isset($_SESSION[OSCOM::getSite()]['Account'])) {
-                $user = Invision::canAutoLogin();
+                        if (($user['verified'] === true) && ($user['banned'] === false)) {
+                            $_SESSION[OSCOM::getSite()]['Account'] = $user;
 
-                if (is_array($user) && isset($user['id'])) {
-                    Events::fire('auto_login-before', $user);
+                            $OSCOM_Session->recreate();
 
-                    if (($user['verified'] === true) && ($user['banned'] === false)) {
-                        if (!$OSCOM_Session->hasStarted()) {
-                            $OSCOM_Session->start();
+                            Events::fire('auto_login-after');
+                        } else {
+                            Invision::killCookies();
                         }
-
-                        $_SESSION[OSCOM::getSite()]['Account'] = $user;
-
-                        if (!isset($_SESSION[OSCOM::getSite()]['public_token'])) {
-                            $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
-                        }
-
-                        $OSCOM_Session->recreate();
-
-                        Events::fire('auto_login-after');
-                    } else {
-                        Invision::killCookies();
                     }
                 }
             }
         }
 
-        Registry::set('Language', new Language());
-        Registry::set('Template', new Template());
+        $application = 'osCommerce\\OM\\Core\\Site\\Website\\Application\\' . OSCOM::getSiteApplication() . '\\Controller';
+        Registry::set('Application', new $application());
+        Registry::get('Application')->runActions();
+
+        if ($OSCOM_Session->hasStarted()) {
+            if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
+                $keep_alive = false;
+
+                $req_sig = array_keys($_GET);
+
+                if (isset($req_sig[0]) && ($req_sig[0] == 'RPC')) {
+                    array_shift($req_sig);
+                }
+
+                if (isset($req_sig[0]) && ($req_sig[0] == OSCOM::getSite())) {
+                    array_shift($req_sig);
+                }
+
+                $req_sig = implode('&', $req_sig);
+
+                if (isset($_SESSION[OSCOM::getSite()]['keepAlive'])) {
+                    foreach ($_SESSION[OSCOM::getSite()]['keepAlive'] as $ka) {
+                        if (strpos($req_sig, $ka) === 0) {
+                            $keep_alive = true;
+                            break;
+                        }
+                    }
+                }
+
+                if ($keep_alive === false) {
+                    $OSCOM_Session->kill();
+                }
+            }
+        }
 
         $OSCOM_Template = Registry::get('Template');
         $OSCOM_Language = Registry::get('Language');
+
+        $OSCOM_Template->setApplication(Registry::get('Application'));
 
         $OSCOM_Template->addHtmlTag('dir', $OSCOM_Language->getTextDirection());
         $OSCOM_Template->addHtmlTag('lang', OSCOM::getDef('html_lang_code')); // HPDL A better solution is to define the ISO 639-1 value at the language level
 
         $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '" />');
-
-        $application = 'osCommerce\\OM\\Core\\Site\\Website\\Application\\' . OSCOM::getSiteApplication() . '\\Controller';
-        Registry::set('Application', new $application());
-        Registry::get('Application')->runActions();
-
-        $OSCOM_Template->setApplication(Registry::get('Application'));
 
         $OSCOM_Template->setValue('html_tags', $OSCOM_Template->getHtmlTags());
         $OSCOM_Template->setValue('html_character_set', $OSCOM_Language->getCharacterSet());
