@@ -1,0 +1,238 @@
+StartFontMetrics 4.1
+Notice Converted by PHP-font-lib
+Comment https://github.com/PhenX/php-font-lib
+EncodingScheme FontSpecific
+FontName Poppins
+FontSubfamily Regular
+UniqueID 2.001;ITFO;Poppins-Regular
+FullName Poppins Regular
+Version Version 2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.3)
+PostScriptName Poppins-Regular
+LicenseURL http://scripts.sil.org/OFL
+Weight Medium
+ItalicAngle 0
+IsFixedPitch false
+UnderlineThickness 50
+UnderlinePosition -125
+FontHeightOffset 0
+Ascender 1115
+Descender -525
+FontBBox -535 -439 2606 1076
+StartCharMetrics 220
+U 0 ; WX 0 ; N uni0000 ; G 3
+U 13 ; WX 300 ; N uni000d ; G 4
+U 32 ; WX 300 ; N uni0020 ; G 5
+U 33 ; WX 410 ; N uni0021 ; G 6
+U 34 ; WX 286 ; N uni0022 ; G 7
+U 35 ; WX 848 ; N uni0023 ; G 8
+U 36 ; WX 652 ; N uni0024 ; G 9
+U 37 ; WX 684 ; N uni0025 ; G 10
+U 38 ; WX 668 ; N uni0026 ; G 11
+U 39 ; WX 151 ; N uni0027 ; G 12
+U 40 ; WX 561 ; N uni0028 ; G 13
+U 41 ; WX 562 ; N uni0029 ; G 14
+U 42 ; WX 492 ; N uni002a ; G 15
+U 43 ; WX 741 ; N uni002b ; G 16
+U 44 ; WX 186 ; N uni002c ; G 17
+U 45 ; WX 587 ; N uni002d ; G 18
+U 46 ; WX 226 ; N uni002e ; G 19
+U 47 ; WX 539 ; N uni002f ; G 20
+U 48 ; WX 636 ; N uni0030 ; G 21
+U 49 ; WX 321 ; N uni0031 ; G 22
+U 50 ; WX 579 ; N uni0032 ; G 23
+U 51 ; WX 589 ; N uni0033 ; G 24
+U 52 ; WX 634 ; N uni0034 ; G 25
+U 53 ; WX 634 ; N uni0035 ; G 26
+U 54 ; WX 644 ; N uni0036 ; G 27
+U 55 ; WX 560 ; N uni0037 ; G 28
+U 56 ; WX 635 ; N uni0038 ; G 29
+U 57 ; WX 635 ; N uni0039 ; G 30
+U 58 ; WX 302 ; N uni003a ; G 31
+U 59 ; WX 276 ; N uni003b ; G 32
+U 60 ; WX 636 ; N uni003c ; G 33
+U 61 ; WX 771 ; N uni003d ; G 34
+U 62 ; WX 603 ; N uni003e ; G 35
+U 63 ; WX 626 ; N uni003f ; G 36
+U 64 ; WX 1157 ; N uni0040 ; G 37
+U 65 ; WX 691 ; N uni0041 ; G 38
+U 66 ; WX 612 ; N uni0042 ; G 39
+U 67 ; WX 777 ; N uni0043 ; G 40
+U 68 ; WX 696 ; N uni0044 ; G 41
+U 69 ; WX 505 ; N uni0045 ; G 42
+U 70 ; WX 490 ; N uni0046 ; G 43
+U 71 ; WX 777 ; N uni0047 ; G 44
+U 72 ; WX 682 ; N uni0048 ; G 45
+U 73 ; WX 241 ; N uni0049 ; G 46
+U 74 ; WX 552 ; N uni004a ; G 47
+U 75 ; WX 598 ; N uni004b ; G 48
+U 76 ; WX 429 ; N uni004c ; G 49
+U 77 ; WX 857 ; N uni004d ; G 50
+U 78 ; WX 698 ; N uni004e ; G 51
+U 79 ; WX 782 ; N uni004f ; G 52
+U 80 ; WX 578 ; N uni0050 ; G 53
+U 81 ; WX 785 ; N uni0051 ; G 54
+U 82 ; WX 617 ; N uni0052 ; G 55
+U 83 ; WX 587 ; N uni0053 ; G 56
+U 84 ; WX 546 ; N uni0054 ; G 57
+U 85 ; WX 673 ; N uni0055 ; G 58
+U 86 ; WX 680 ; N uni0056 ; G 59
+U 87 ; WX 980 ; N uni0057 ; G 60
+U 88 ; WX 629 ; N uni0058 ; G 61
+U 89 ; WX 572 ; N uni0059 ; G 62
+U 90 ; WX 542 ; N uni005a ; G 63
+U 91 ; WX 474 ; N uni005b ; G 64
+U 92 ; WX 683 ; N uni005c ; G 65
+U 93 ; WX 474 ; N uni005d ; G 66
+U 94 ; WX 632 ; N uni005e ; G 67
+U 95 ; WX 806 ; N uni005f ; G 68
+U 96 ; WX 239 ; N uni0060 ; G 69
+U 97 ; WX 670 ; N uni0061 ; G 70
+U 98 ; WX 670 ; N uni0062 ; G 71
+U 99 ; WX 600 ; N uni0063 ; G 72
+U 100 ; WX 670 ; N uni0064 ; G 73
+U 101 ; WX 611 ; N uni0065 ; G 74
+U 102 ; WX 330 ; N uni0066 ; G 75
+U 103 ; WX 670 ; N uni0067 ; G 76
+U 104 ; WX 628 ; N uni0068 ; G 77
+U 105 ; WX 241 ; N uni0069 ; G 78
+U 106 ; WX 241 ; N uni006a ; G 79
+U 107 ; WX 513 ; N uni006b ; G 80
+U 108 ; WX 241 ; N uni006c ; G 81
+U 109 ; WX 1020 ; N uni006d ; G 82
+U 110 ; WX 628 ; N uni006e ; G 83
+U 111 ; WX 632 ; N uni006f ; G 84
+U 112 ; WX 670 ; N uni0070 ; G 85
+U 113 ; WX 670 ; N uni0071 ; G 86
+U 114 ; WX 368 ; N uni0072 ; G 87
+U 115 ; WX 526 ; N uni0073 ; G 88
+U 116 ; WX 355 ; N uni0074 ; G 89
+U 117 ; WX 628 ; N uni0075 ; G 90
+U 118 ; WX 556 ; N uni0076 ; G 91
+U 119 ; WX 808 ; N uni0077 ; G 92
+U 120 ; WX 478 ; N uni0078 ; G 93
+U 121 ; WX 557 ; N uni0079 ; G 94
+U 122 ; WX 453 ; N uni007a ; G 95
+U 123 ; WX 550 ; N uni007b ; G 96
+U 124 ; WX 301 ; N uni007c ; G 97
+U 125 ; WX 547 ; N uni007d ; G 98
+U 126 ; WX 520 ; N uni007e ; G 99
+U 160 ; WX 300 ; N uni00a0 ; G 100
+U 161 ; WX 424 ; N uni00a1 ; G 101
+U 162 ; WX 715 ; N uni00a2 ; G 102
+U 163 ; WX 639 ; N uni00a3 ; G 103
+U 164 ; WX 537 ; N uni00a4 ; G 104
+U 165 ; WX 572 ; N uni00a5 ; G 105
+U 166 ; WX 301 ; N uni00a6 ; G 106
+U 167 ; WX 574 ; N uni00a7 ; G 107
+U 168 ; WX 289 ; N uni00a8 ; G 108
+U 169 ; WX 790 ; N uni00a9 ; G 109
+U 170 ; WX 450 ; N uni00aa ; G 110
+U 171 ; WX 461 ; N uni00ab ; G 111
+U 172 ; WX 738 ; N uni00ac ; G 112
+U 173 ; WX 587 ; N uni00ad ; G 113
+U 174 ; WX 790 ; N uni00ae ; G 114
+U 175 ; WX 372 ; N uni00af ; G 115
+U 176 ; WX 412 ; N uni00b0 ; G 116
+U 177 ; WX 744 ; N uni00b1 ; G 117
+U 178 ; WX 322 ; N uni00b2 ; G 118
+U 179 ; WX 329 ; N uni00b3 ; G 119
+U 180 ; WX 233 ; N uni00b4 ; G 120
+U 181 ; WX 633 ; N uni00b5 ; G 121
+U 182 ; WX 598 ; N uni00b6 ; G 122
+U 183 ; WX 230 ; N uni00b7 ; G 123
+U 184 ; WX 266 ; N uni00b8 ; G 124
+U 185 ; WX 192 ; N uni00b9 ; G 125
+U 186 ; WX 436 ; N uni00ba ; G 126
+U 187 ; WX 461 ; N uni00bb ; G 127
+U 188 ; WX 639 ; N uni00bc ; G 128
+U 189 ; WX 652 ; N uni00bd ; G 129
+U 190 ; WX 681 ; N uni00be ; G 130
+U 191 ; WX 626 ; N uni00bf ; G 131
+U 192 ; WX 691 ; N uni00c0 ; G 132
+U 193 ; WX 691 ; N uni00c1 ; G 133
+U 194 ; WX 691 ; N uni00c2 ; G 134
+U 195 ; WX 691 ; N uni00c3 ; G 135
+U 196 ; WX 691 ; N uni00c4 ; G 136
+U 197 ; WX 691 ; N uni00c5 ; G 137
+U 198 ; WX 896 ; N uni00c6 ; G 138
+U 199 ; WX 777 ; N uni00c7 ; G 139
+U 200 ; WX 505 ; N uni00c8 ; G 140
+U 201 ; WX 505 ; N uni00c9 ; G 141
+U 202 ; WX 505 ; N uni00ca ; G 142
+U 203 ; WX 505 ; N uni00cb ; G 143
+U 204 ; WX 241 ; N uni00cc ; G 144
+U 205 ; WX 241 ; N uni00cd ; G 145
+U 206 ; WX 241 ; N uni00ce ; G 146
+U 207 ; WX 241 ; N uni00cf ; G 147
+U 208 ; WX 712 ; N uni00d0 ; G 148
+U 209 ; WX 698 ; N uni00d1 ; G 149
+U 210 ; WX 782 ; N uni00d2 ; G 150
+U 211 ; WX 782 ; N uni00d3 ; G 151
+U 212 ; WX 782 ; N uni00d4 ; G 152
+U 213 ; WX 782 ; N uni00d5 ; G 153
+U 214 ; WX 782 ; N uni00d6 ; G 154
+U 215 ; WX 719 ; N uni00d7 ; G 155
+U 216 ; WX 782 ; N uni00d8 ; G 156
+U 217 ; WX 673 ; N uni00d9 ; G 157
+U 218 ; WX 673 ; N uni00da ; G 158
+U 219 ; WX 673 ; N uni00db ; G 159
+U 220 ; WX 673 ; N uni00dc ; G 160
+U 221 ; WX 572 ; N uni00dd ; G 161
+U 222 ; WX 578 ; N uni00de ; G 162
+U 223 ; WX 655 ; N uni00df ; G 163
+U 224 ; WX 670 ; N uni00e0 ; G 164
+U 225 ; WX 670 ; N uni00e1 ; G 165
+U 226 ; WX 670 ; N uni00e2 ; G 166
+U 227 ; WX 670 ; N uni00e3 ; G 167
+U 228 ; WX 670 ; N uni00e4 ; G 168
+U 229 ; WX 670 ; N uni00e5 ; G 169
+U 230 ; WX 1084 ; N uni00e6 ; G 170
+U 231 ; WX 600 ; N uni00e7 ; G 171
+U 232 ; WX 611 ; N uni00e8 ; G 172
+U 233 ; WX 611 ; N uni00e9 ; G 173
+U 234 ; WX 611 ; N uni00ea ; G 174
+U 235 ; WX 611 ; N uni00eb ; G 175
+U 236 ; WX 241 ; N uni00ec ; G 176
+U 237 ; WX 241 ; N uni00ed ; G 177
+U 238 ; WX 241 ; N uni00ee ; G 178
+U 239 ; WX 241 ; N uni00ef ; G 179
+U 240 ; WX 630 ; N uni00f0 ; G 180
+U 241 ; WX 628 ; N uni00f1 ; G 181
+U 242 ; WX 632 ; N uni00f2 ; G 182
+U 243 ; WX 632 ; N uni00f3 ; G 183
+U 244 ; WX 632 ; N uni00f4 ; G 184
+U 245 ; WX 632 ; N uni00f5 ; G 185
+U 246 ; WX 632 ; N uni00f6 ; G 186
+U 247 ; WX 708 ; N uni00f7 ; G 187
+U 248 ; WX 632 ; N uni00f8 ; G 188
+U 249 ; WX 628 ; N uni00f9 ; G 189
+U 250 ; WX 628 ; N uni00fa ; G 190
+U 251 ; WX 628 ; N uni00fb ; G 191
+U 252 ; WX 628 ; N uni00fc ; G 192
+U 253 ; WX 557 ; N uni00fd ; G 193
+U 254 ; WX 670 ; N uni00fe ; G 194
+U 255 ; WX 557 ; N uni00ff ; G 195
+U 305 ; WX 241 ; N uni0131 ; G 196
+U 338 ; WX 1081 ; N uni0152 ; G 197
+U 339 ; WX 1071 ; N uni0153 ; G 198
+U 710 ; WX 297 ; N uni02c6 ; G 199
+U 730 ; WX 229 ; N uni02da ; G 200
+U 732 ; WX 334 ; N uni02dc ; G 201
+U 8211 ; WX 714 ; N uni2013 ; G 202
+U 8212 ; WX 921 ; N uni2014 ; G 203
+U 8216 ; WX 152 ; N uni2018 ; G 204
+U 8217 ; WX 152 ; N uni2019 ; G 205
+U 8218 ; WX 186 ; N uni201a ; G 206
+U 8220 ; WX 287 ; N uni201c ; G 207
+U 8221 ; WX 287 ; N uni201d ; G 208
+U 8222 ; WX 186 ; N uni201e ; G 209
+U 8226 ; WX 446 ; N uni2022 ; G 210
+U 8230 ; WX 601 ; N uni2026 ; G 211
+U 8249 ; WX 280 ; N uni2039 ; G 212
+U 8250 ; WX 280 ; N uni203a ; G 213
+U 8260 ; WX 594 ; N uni2044 ; G 214
+U 8364 ; WX 798 ; N uni20ac ; G 215
+U 8722 ; WX 587 ; N uni2212 ; G 216
+U 8725 ; WX 539 ; N uni2215 ; G 217
+EndCharMetrics
+EndFontMetrics
