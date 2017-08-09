@@ -149,7 +149,7 @@ class Invision
             'name' => $username,
             'email' => $email,
             'password' => $password,
-            'group' => 3
+            'group' => Users::GROUP_MEMBER_ID
         ];
 
         $result = HttpRequest::getResponse([
@@ -266,6 +266,10 @@ class Invision
 
         if (isset($data['group'])) {
             $params['group'] = $data['group'];
+        }
+
+        if (isset($data['customFields'])) {
+            $params['customFields'] = $data['customFields'];
         }
 
         if (!empty($params)) {
@@ -420,12 +424,13 @@ class Invision
             'title' => $member['title'],
             'email' => $member['email'],
             'group_id' => (int)$member['primaryGroup']['id'],
-            'is_ambassador' => (int)$member['primaryGroup']['id'] === 10,
-            'admin' => (int)$member['primaryGroup']['id'] === 4,
-            'team' => in_array((int)$member['primaryGroup']['id'], [6, 19]),
+            'is_ambassador' => (int)$member['primaryGroup']['id'] === Users::GROUP_AMBASSADOR_ID,
+            'amb_level' => (int)$member['customFields'][3]['fields'][23]['value'] ?? 0,
+            'admin' => (int)$member['primaryGroup']['id'] === Users::GROUP_ADMIN_ID,
+            'team' => in_array((int)$member['primaryGroup']['id'], [Users::GROUP_TEAM_CORE_ID, Users::GROUP_TEAM_COMMUNITY_ID]),
             'verified' => (bool)$member['validating'] === false,
-            'banned' => in_array((int)$member['primaryGroup']['id'], [2, 5]) || (!empty($member['temp_ban']) && ($member['temp_ban'] != '0')),
-            'restricted_post' => (!empty($member['restrict_post']) && ($member['restrict_post'] != '0')) || (!empty($member['mod_posts']) && ($member['mod_posts'] != '0')),
+            'banned' => (int)$member['temp_ban'] !== 0,
+            'restricted_post' => ((int)$member['restrict_post'] !== 0) || ((int)$member['mod_posts'] !== 0),
             'login_key' => $member['member_login_key'],
             'joined' => $member['joined'],
             'posts' => (int)$member['posts'],

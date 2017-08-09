@@ -12,6 +12,16 @@ use osCommerce\OM\Core\OSCOM;
 
 class Invoices
 {
+    const STATUS_PENDING = 1;
+    const STATUS_PAID = 2;
+    const STATUS_LEGACY = 3;
+    const STATUS_NEW = 4;
+
+    const STATUS_PUBLIC = [
+        self::STATIC_PENDING,
+        self::STATIC_PAID
+    ];
+
     public static function hasInvoices(int $user_id)
     {
         $data = [
@@ -75,5 +85,26 @@ class Invoices
         }
 
         return false;
+    }
+
+    public static function save(array $params)
+    {
+        $data = [
+            'invoice_number' => $params['invoice_number'] ?? null,
+            'transaction_number' => $params['transaction_number'] ?? null,
+            'user_id' => $params['user_id'],
+            'title' => $params['title'],
+            'billing_address' => $params['billing_address'],
+            'items' => $params['items'],
+            'totals' => $params['totals'],
+            'cost' => $params['cost'],
+            'currency_id' => $params['currency_id'],
+            'language_id' => $params['language_id'],
+            'status' => $params['status'],
+            'api_transaction_id' => $params['api_transaction_id'] ?? null,
+            'partner_transaction_id' => $params['partner_transaction_id'] ?? null
+        ];
+
+        return OSCOM::callDB('Website\SaveInvoice', $data, 'Site');
     }
 }

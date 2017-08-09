@@ -240,20 +240,7 @@
 
             <address id="orderBillingAddress"></address>
 
-            <table class="table">
-              <tr id="orderProduct">
-                <td>osCommerce Ambassador<br><span style="font-size: 0.8em;">{lang}payment_product_for{lang} <span id="orderProductForName">{value}user name{value}</span></span></td>
-                <td align="right" data-content="price"></td>
-              </tr>
-              <tr id="orderTax" class="hidden">
-                <td align="right" data-content="taxdesc"></td>
-                <td align="right" data-content="tax"></td>
-              </tr>
-              <tr id="orderTotal">
-                <td align="right">{lang}payment_order_total{lang}</td>
-                <td align="right" data-content="total"></td>
-              </tr>
-            </table>
+            <table id="orderTable" class="table"></table>
 
             <div class="alert alert-danger hidden" role="alert" style="font-size: 0.9em;"></div>
 
@@ -426,6 +413,7 @@ $(function() {
 
   var error_login_general = {lang json_encode}login_ms_error_general{lang};
   var error_create_general = {lang json_encode}create_ms_error_general{lang};
+  var error_verify_general = {lang json_encode}verify_ms_error_general{lang};
   var error_payment_general = {lang json_encode}payment_ms_error_general{lang};
 
   if ('MutationObserver' in window) {
@@ -620,8 +608,6 @@ $(function() {
               prefillBillingAddress();
             }
 
-            $('#orderProductForName').html(result.name);
-
             showPanel('BillingAddress');
           } else {
             if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'not_verified')) {
@@ -718,8 +704,6 @@ $(function() {
 
                     prefillBillingAddress();
                   }
-
-                  $('#orderProductForName').html(login_result.name);
 
                   showPanel('BillingAddress');
                 } else {
@@ -952,17 +936,16 @@ $(function() {
     $.post('{rpclink}GetBraintreeClientToken|_|Website{rpclink}', address, function (result) {
       if ((typeof result.rpcStatus !== 'undefined') && (result.rpcStatus === 1) && (typeof result.token !== 'undefined')) {
         $('#orderBillingAddress').html(result.addressFormatted);
-        $('#orderProduct td[data-content="price"]').html(result.price + ' €');
 
-        if ('tax' in result) {
-          $('#orderTax td[data-content="taxdesc"]').html(result.tax_desc);
-          $('#orderTax td[data-content="tax"]').html(result.tax + ' €');
-          $('#orderTax').removeClass('hidden');
-        }
+        $.each(result.items, function(i, value) {
+          $('#orderTable').append('<tr><td>' + value.title + '</td><td align="right">' + value.cost + '</td></tr>');
+        });
+
+        $.each(result.totals, function(i, value) {
+          $('#orderTable').append('<tr><td align="right">' + value.title + ':</td><td align="right">' + value.cost + '</td></tr>');
+        });
 
         var blush = 'Uh, thanks for reading this <3 #vollgerne';
-
-        $('#orderTotal td[data-content="total"]').html(result.total + ' €');
 
         showPanel('Payment');
 
@@ -1006,6 +989,8 @@ $(function() {
   }
 
   function createDropinInstance(result) {
+    total_raw = result.totals.total.cost_raw;
+
     braintree.dropin.create({
       authorization: result.token,
       container: '#ambBtForm',
@@ -1017,7 +1002,7 @@ $(function() {
 */
       paypal: {
         flow: 'checkout',
-        amount: result.total_raw,
+        amount: total_raw,
         currency: 'EUR',
         displayName: 'osCommerce',
         enableShippingAddress: false,
@@ -1034,11 +1019,9 @@ $(function() {
         return false;
       }
 
-      total_raw = result.total_raw;
-
       btDropinInstance = instance;
 
-      $('#ambPaymentButton').html(paymentButtonText + ' ' + result.total + ' €').removeClass('hidden');
+      $('#ambPaymentButton').html(paymentButtonText + ' ' + result.totals.total.cost).removeClass('hidden');
       $('#ambPaymentTerms').removeClass('hidden');
 
       if (btDropinInstance.isPaymentMethodRequestable()) {

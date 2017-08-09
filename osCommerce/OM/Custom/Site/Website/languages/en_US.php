@@ -32,4 +32,7 @@ social_github_title = Code with us on GitHub
 
 button_file_upload_label = Browse&hellip;
 
+purchase_item_total = Total
+purchase_tax_DE19MWST_title = 19% MwSt.
+
 error_form_protect_general = A general error occurred - please try again.

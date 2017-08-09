@@ -36,6 +36,8 @@ class GetBraintreeClientToken
             $OSCOM_Session->start();
         }
 
+        $OSCOM_Language->loadIniFile('pages/ambassadors.php');
+
         $result = [];
 
         if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
@@ -111,14 +113,38 @@ class GetBraintreeClientToken
                     'postcode' => $cZip
                 ], '<br>');
 
-                $result['price'] = $result['total'] = $OSCOM_Language->formatNumber(49, 2);
-                $result['total_raw'] = number_format(49, 2);
+                $result['items'] = [
+                    [
+                        'title' => OSCOM::getDef('purchase_item_title', [
+                            ':name' => $_SESSION[OSCOM::getSite()]['Account']['name']
+                        ]),
+                        'cost' => $OSCOM_Language->formatNumber(49, 2) . ' €',
+                        'cost_raw' => number_format(49, 2)
+                    ]
+                ];
+
+                $result['totals'] = [
+                    'total' => [
+                        'title' => OSCOM::getDef('purchase_item_total'),
+                        'cost' => $result['items'][0]['cost'],
+                        'cost_raw' => $result['items'][0]['cost_raw']
+                    ]
+                ];
 
                 if ($cCountry == 'DE') {
-                    $result['tax'] = $OSCOM_Language->formatNumber(0.19 * 49, 2);
-                    $result['tax_desc'] = '19% MwSt.:';
-                    $result['total'] = $OSCOM_Language->formatNumber(49 * 1.19, 2);
-                    $result['total_raw'] = number_format(49 * 1.19, 2);
+                    $result['items'][0]['tax']['DE19MWST'] = $OSCOM_Language->formatNumber(0.19 * 49, 2) . ' €';
+                    $result['items'][0]['tax_raw']['DE19MWST'] = number_format(0.19 * 49, 2);
+
+                    $result['totals']['total']['cost'] = $OSCOM_Language->formatNumber(1.19 * 49, 2) . ' €';
+                    $result['totals']['total']['cost_raw'] = number_format(1.19 * 49, 2);
+
+                    $result['totals'] = [
+                        'tax_DE19MWST' => [
+                            'title' => OSCOM::getDef('purchase_tax_DE19MWST_title'),
+                            'cost' => $result['items'][0]['tax']['DE19MWST'],
+                            'cost_raw' => $result['items'][0]['tax_raw']['DE19MWST']
+                        ]
+                    ] + $result['totals']; // preprend 'tax' to $result['totals'] array
                 }
 
                 $result['token'] = Braintree::getClientToken();

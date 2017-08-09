@@ -30,6 +30,8 @@ class Users
     const GROUP_PARTNER_ID = 17;
     const GROUP_TEAM_COMMUNITY_ID = 19;
 
+    const CUSTOMFIELD_AMBASSADOR_LEVEL_ID = 23;
+
     protected static $users = [];
 
     public static function get(int $id, string $key = null)

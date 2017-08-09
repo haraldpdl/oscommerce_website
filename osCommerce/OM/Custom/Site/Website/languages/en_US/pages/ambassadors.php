@@ -93,6 +93,8 @@ verify_key_title = Verification Key
 verify_button_title = Verify Account
 verify_processing_button_title = Processing..
 
+verify_ms_error_general = Your account cannot be verified at this time due to a general error. Please contact us to remedy this problem.
+
 billing_address_title = Billing Address
 
 billing_address_introduction = This is needed for your invoice.
@@ -135,3 +137,7 @@ success_description = <p>It feels great being an Ambassador!</p>
 success_visit_forum_button_title = Visit the Community Forum
 
 select_please_select = Please Select
+
+purchase_title = Ambassador
+purchase_item_title = Ambassador<br><span style="font-size: 0.8em;">for :name</span>
+purchase_item_title_raw = Ambassador (for :name)

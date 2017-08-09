@@ -9,11 +9,12 @@
 namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
-    HttpRequest,
     OSCOM,
     Registry,
     TransactionId
 };
+
+use osCommerce\OM\Core\Site\Website\Invoices;
 
 if (!class_exists('\Braintree')) {
     include(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/Braintree/lib/autoload.php');
@@ -53,7 +54,7 @@ class Braintree
         return $client_token;
     }
 
-    public static function doSale($params, $log_params)
+    public static function doSale($params, $log_params, array $invoice = null)
     {
         if (static::$has_setup === false) {
             static::setupCredentials();
@@ -119,12 +120,28 @@ class Braintree
             }
         }
 
-        static::log($log_params, $result, $data, $log);
+        $api_id = static::log($log_params, $result, $data, $log);
+
+        if (($result === 1) && isset($invoice)) {
+            Invoices::save([
+                'transaction_number' => $order_id,
+                'user_id' => $invoice['user_id'],
+                'title' => $invoice['title'],
+                'billing_address' => json_encode($invoice['billing_address'], JSON_PRETTY_PRINT),
+                'items' => json_encode($invoice['items'], JSON_PRETTY_PRINT),
+                'totals' => json_encode($invoice['totals'], JSON_PRETTY_PRINT),
+                'cost' => $invoice['cost'],
+                'currency_id' => $invoice['currency_id'],
+                'language_id' => $invoice['language_id'],
+                'status' => $invoice['status'],
+                'api_transaction_id' => $api_id
+            ]);
+        }
 
         return $response;
     }
 
-    protected static function log(array $params, int $result, array $request, array $response)
+    protected static function log(array $params, int $result, array $request, array $response): int
     {
         $OSCOM_PDO = Registry::get('PDO');
 
@@ -159,5 +176,7 @@ class Braintree
             'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
             'date_added' => 'now()'
         ]);
+
+        return $OSCOM_PDO->lastInsertId();
     }
 }
