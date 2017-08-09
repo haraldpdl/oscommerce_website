@@ -8,7 +8,6 @@
 
   namespace osCommerce\OM\Core\Site\Website\Module\Template\Widget\index_sidebar_nav;
 
-  use osCommerce\OM\Core\HttpRequest;
   use osCommerce\OM\Core\OSCOM;
   use osCommerce\OM\Core\PDO;
   use osCommerce\OM\Core\Registry;
