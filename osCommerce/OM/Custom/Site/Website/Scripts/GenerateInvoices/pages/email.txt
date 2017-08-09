@@ -1,0 +1,16 @@
+osCommerce
+
+{lang}invoice_email_title{lang}
+
+  {value}user_name{value},
+
+  {lang}invoice_email_description invoice_number="{value}invoice_number{value}"{lang}
+
+  {link}Account|Website|Invoices{link}
+
+  {lang}kind_regards{lang}
+
+  osCommerce
+
+osCommerce, https://www.oscommerce.com
+{lang}automatically_generated_email{lang}

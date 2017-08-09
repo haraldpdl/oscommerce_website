@@ -1,0 +1,76 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="{value}html_base_href{value}{publiclink}external/purecss-1.0.0/tables-min.css{publiclink}" rel="stylesheet">
+<style>
+@page {
+  margin: 2.5cm;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+}
+</style>
+</head>
+<body>
+<div style="padding-bottom: 30px; text-align: right;">
+  <img src="{value}html_base_href{value}{publiclink}images/oscommerce.png{publiclink}" height="60px;">
+</div>
+
+<table style="width: 100%;">
+  <tr>
+    <td valign="top">
+      <p style="white-space: nowrap;">{raw}billing_address{raw}</p>
+    </td>
+    <td valign="top" style="width: 100%;"></td>
+    <td valign="top">
+      <p style="white-space: nowrap;">osCommerce<br>Harald Ponce de Leon<br>Remscheider Str. 96<br>42659 Solingen<br>Germany</p>
+
+      <p style="white-space: nowrap;">{lang}tax_id number="DE231718459"{lang}</p>
+    </td>
+  </tr>
+</table>
+
+<table style="width: 100%; padding-top: 30px; padding-bottom: 30px;">
+  <tr>
+    <td><h2 style="color: #305B7C;">{lang}invoice_title{lang}</h2></td>
+    <td style="text-align: right">{lang}invoice_number number="{value}invoice_number{value}"{lang}<br>{lang}invoice_date date="{value}invoice_date{value}"{lang}</td>
+  </tr>
+</table>
+
+<p style="text-align: right;"><small style="font-weight: lighter; color: #666;">{lang}prices_shown_in_euros{lang}</small></p>
+
+<table class="pure-table pure-table-horizontal" style="width: 100%;">
+  <thead>
+    <tr>
+      <th>{lang}table_products_title{lang}</th>
+      <th align="right">{lang}table_price_title{lang}</th>
+    </tr>
+  </thead>
+  <tbody>
+{loop invoice_items}
+    <tr>
+      <td>#title#</td>
+      <td style="text-align: right;">#cost_formatted#</td>
+    </tr>
+{loop}
+  </tbody>
+</table>
+
+<table class="pure-table" style="width: 100%; padding-top: 10px; border: none;">
+  <tbody>
+{loop invoice_totals}
+    <tr>
+      <td style="text-align: right; width: 80%; border: none; font-weight: bold;">#title#:</td>
+      <td style="text-align: right; border: none; font-weight: bold;">#cost_formatted#</td>
+    </tr>
+{loop}
+  </tbody>
+</table>
+
+<p style="padding-top: 60px;">{lang}purchase_date date="{value}purchase_date{value}"{lang}</p>
+
+<p style="padding-top: 40px;">{lang}thank_you{lang}</p>
+</body>
+</html>
