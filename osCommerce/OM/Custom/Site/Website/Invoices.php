@@ -87,20 +87,46 @@ class Invoices
         return false;
     }
 
+    public static function saveUser(array $params)
+    {
+        $data = [
+            'invoice_number' => $params['invoice_number'],
+            'date' => $params['date'],
+            'title' => $params['title'],
+            'cost' => $params['cost'],
+            'currency_id' => $params['currency_id'],
+            'status' => $params['status'],
+            'user_id' => $params['user_id'],
+            'partner_transaction_id' => $params['partner_transaction_id']
+        ];
+
+        return OSCOM::callDB('Website\SaveUserInvoice', $data, 'Site');
+    }
+
+    public static function getNew()
+    {
+        $data = [
+            'status' => static::STATUS_NEW
+        ];
+
+        return OSCOM::callDB('Website\GetNewInvoices', $data, 'Site');
+    }
+
     public static function save(array $params)
     {
         $data = [
+            'id' => $params['id'] ?? null,
             'invoice_number' => $params['invoice_number'] ?? null,
             'transaction_number' => $params['transaction_number'] ?? null,
-            'user_id' => $params['user_id'],
-            'title' => $params['title'],
-            'billing_address' => $params['billing_address'],
-            'items' => $params['items'],
-            'totals' => $params['totals'],
-            'cost' => $params['cost'],
-            'currency_id' => $params['currency_id'],
-            'language_id' => $params['language_id'],
-            'status' => $params['status'],
+            'user_id' => $params['user_id'] ?? null,
+            'title' => $params['title'] ?? null,
+            'billing_address' => $params['billing_address'] ?? null,
+            'items' => $params['items'] ?? null,
+            'totals' => $params['totals'] ?? null,
+            'cost' => $params['cost'] ?? null,
+            'currency_id' => $params['currency_id'] ?? null,
+            'language_id' => $params['language_id'] ?? null,
+            'status' => $params['status'] ?? null,
             'api_transaction_id' => $params['api_transaction_id'] ?? null,
             'partner_transaction_id' => $params['partner_transaction_id'] ?? null
         ];
