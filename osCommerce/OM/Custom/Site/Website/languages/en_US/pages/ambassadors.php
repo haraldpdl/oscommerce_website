@@ -31,8 +31,8 @@ amb_payment_acceptance_description = <p>Payments are securely processed with Bra
 <p><img src="{publiclink}images/payment_acceptance.png{publiclink}" alt="All major cards and PayPal are accepted" border="0"></p>
 
 amb_after_payment_title = What happens after payment is made?
-amb_after_payment_description = <p>After payment has been made, your user account is immediately upgraded to the Ambassador group level. This takes affect immediately on our forums however may take up to 24 hours to appear as an Ambassador throughout our network of websites.</p>
-<p>An invoice for the purchase will be provided within two business days. We're working hard on improving this to a matter of minutes. An e-mail will be sent out as soon as the invoice has been added to your account area.</p>
+amb_after_payment_description = <p>After payment has been made, your user account is immediately upgraded to the Ambassador group level. This takes affect immediately on our forums however may take up to 24 hours to appear as an Ambassador throughout our websites.</p>
+<p>An invoice for the purchase will be available within a few minutes. An e-mail will be sent out as soon as the invoice has been added to your account area.</p>
 
 welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We can't wait to see you as an Ambassador!
 welcome_boost = Hi {value}user name{value}! Ready to boost your Ambassador level?
