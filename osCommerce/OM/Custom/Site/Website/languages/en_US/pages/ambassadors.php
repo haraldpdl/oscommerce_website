@@ -102,7 +102,7 @@ billing_address_introduction = This is needed for your invoice.
 billing_firstname_title = First Name
 billing_lastname_title = Last Name
 billing_street_address_title = Street Address
-billing_street_address2_title = (Apt, Suite, Building, etc)
+billing_street_address2_title = (Apt, Suite, <span class="hidden-md">Building,</span> etc)
 billing_city_title = City
 billing_zip_title = Zip/Post Code
 billing_country_title = Country

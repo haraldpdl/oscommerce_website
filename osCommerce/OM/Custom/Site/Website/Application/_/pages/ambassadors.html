@@ -42,7 +42,7 @@
 
             <form id="ambLoginForm">{formprotect}public_token{formprotect}
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label for="cUsername" class="control-label" style="font-size: 0.9em;">{lang}login_username_title{lang}</label>
                     <input type="input" class="form-control" id="cUsername">
@@ -50,7 +50,7 @@
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label for="cPassword" class="control-label" style="font-size: 0.9em;">{lang}login_password_title{lang}</label>
                     <input type="password" class="form-control" id="cPassword">
@@ -59,7 +59,7 @@
                 </div>
               </div>
 
-              <p class="text-right"><button type="submit" id="ambLoginButton" class="btn btn-success" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button></p>
+              <p><button type="submit" id="ambLoginButton" class="btn btn-info" data-processing-text="{lang addslashes}login_processing_button_title{lang}">{lang}login_button_title{lang}</button></p>
             </form>
 
             <p style="font-size: 0.9em;">{lang}login_account_required_reason{lang}</p>
@@ -74,7 +74,7 @@
 
             <form id="ambCreateAccountForm">{formprotect}public_token{formprotect}
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label for="cnUsername" class="control-label" style="font-size: 0.9em;">{lang}create_username_title{lang}</label>
                     <input type="input" class="form-control" id="cnUsername">
@@ -82,7 +82,7 @@
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label for="cnEmail" class="control-label" style="font-size: 0.9em;">{lang}create_email_address_title{lang}</label>
                     <input type="email" class="form-control" id="cnEmail">
@@ -117,7 +117,7 @@
                 </div>
               </div>
 
-              <p class="text-right"><button type="submit" id="ambCreateAccountButton" class="btn btn-success" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button></p>
+              <p><button type="submit" id="ambCreateAccountButton" class="btn btn-info" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button></p>
             </form>
 
             <p style="font-size: 0.9em;"><a id="ambLoginLink" role="button">{lang}create_login_link{lang}</a></p>
@@ -134,7 +134,7 @@
 
             <form id="ambVerifyAccountForm">{formprotect}public_token{formprotect}
               <div class="row">
-                <div class="col-xs-4">
+                <div class="col-lg-4">
                   <div class="form-group">
                     <label for="cvUserId" class="control-label" style="font-size: 0.9em;">{lang}verify_user_id_title{lang}</label>
                     <input type="tel" class="form-control" id="cvUserId">
@@ -142,7 +142,7 @@
                   </div>
                 </div>
 
-                <div class="col-xs-8">
+                <div class="col-lg-8">
                   <div class="form-group">
                     <label for="cvKey" class="control-label" style="font-size: 0.9em;">{lang}verify_key_title{lang}</label>
                     <input type="input" class="form-control" id="cvKey">
@@ -151,7 +151,7 @@
                 </div>
               </div>
 
-              <p class="text-right"><button type="submit" id="ambVerifyAccountButton" class="btn btn-success" data-processing-text="{lang addslashes}verify_processing_button_title{lang}">{lang}verify_button_title{lang}</button></p>
+              <p><button type="submit" id="ambVerifyAccountButton" class="btn btn-info" data-processing-text="{lang addslashes}verify_processing_button_title{lang}">{lang}verify_button_title{lang}</button></p>
             </form>
           </div>
 
@@ -164,14 +164,14 @@
 
             <form id="ambBillingAddressForm">
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cFirstName" class="control-label" style="font-size: 0.9em;">{lang}billing_firstname_title{lang}</label>
                     <input type="input" class="form-control" id="cFirstName">
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cLastName" class="control-label" style="font-size: 0.9em;">{lang}billing_lastname_title{lang}</label>
                     <input type="input" class="form-control" id="cLastName">
@@ -180,14 +180,14 @@
               </div>
 
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cStreetAddress" class="control-label" style="font-size: 0.9em;">{lang}billing_street_address_title{lang}</label>
                     <input type="input" class="form-control" id="cStreetAddress">
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cStreetAddress2" class="control-label" style="font-size: 0.9em;">{lang}billing_street_address2_title{lang}</label>
                     <input type="input" class="form-control" id="cStreetAddress2" placeholder="optional">
@@ -196,14 +196,14 @@
               </div>
 
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cCity" class="control-label" style="font-size: 0.9em;">{lang}billing_city_title{lang}</label>
                     <input type="input" class="form-control" id="cCity">
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cZip" class="control-label" style="font-size: 0.9em;">{lang}billing_zip_title{lang}</label>
                     <input type="input" class="form-control" id="cZip">
@@ -212,14 +212,14 @@
               </div>
 
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="cCountry" class="control-label" style="font-size: 0.9em;">{lang}billing_country_title{lang}</label>
                     {raw}field_countries{raw}
                   </div>
                 </div>
 
-                <div class="col-xs-6">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label class="control-label" style="font-size: 0.9em;">{lang}billing_state_title{lang}</label>
                     <input type="input" class="form-control hidden" id="cState">
@@ -234,11 +234,15 @@
           </div>
 
           <div id="ambPayment" class="hidden" style="background-color: #eee; border-radius: 6px; padding: 25px 25px;">
-            <div id="btBranding" class="pull-right">
-              <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height ="32px" border="0" alt="Payments by Braintree">
-            </div>
+            <div class="row">
+              <div class="col-sm-6 col-sm-push-6 text-right">
+                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height ="32px" border="0" alt="Payments by Braintree" style="margin-bottom: 10px;">
+              </div>
 
-            <address id="orderBillingAddress"></address>
+              <div class="col-sm-6 col-sm-pull-6">
+                <address id="orderBillingAddress"></address>
+              </div>
+            </div>
 
             <table id="orderTable" class="table"></table>
 
