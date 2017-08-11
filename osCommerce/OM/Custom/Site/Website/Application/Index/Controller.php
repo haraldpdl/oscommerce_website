@@ -33,8 +33,6 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
             $OSCOM_Template->setValue('stats_community_total_users', $OSCOM_Language->formatNumber(WidgetIndexSidebar::getTotalUsers(), 0));
         }
 
-        $OSCOM_Template->setValue('never_ask_her', (new \DateTime('2000-03-12'))->diff(new \DateTime())->format('%y'));
-
         if ($OSCOM_Cache->read('website_partners-frontpage_promotions-lang' . $OSCOM_Language->getID(), 15)) {
             $partners = $OSCOM_Cache->getCache();
         } else {

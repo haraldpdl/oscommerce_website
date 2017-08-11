@@ -34,6 +34,10 @@ amb_after_payment_title = What happens after payment is made?
 amb_after_payment_description = <p>After payment has been made, your user account is immediately upgraded to the Ambassador group level. This takes affect immediately on our forums however may take up to 24 hours to appear as an Ambassador throughout our websites.</p>
 <p>An invoice for the purchase will be available within a few minutes. An e-mail will be sent out as soon as the invoice has been added to your account area.</p>
 
+amb_lifetime_title = Lifetime is a long time!
+amb_lifetime_description = <p>Indeed it is. We've been here for over {value}never_ask_her{value} years and with dedicated members, customers, and partners in our community, have outgrown our previous monthly and yearly Community Sponsorship subscription plans. This is our gift to you, for life, for continuing to support us all of these years.</p>
+<p>As lifetime is a long time, we'll strive to always provide the same - and even better - benefits when our websites and services are updated in the future. The terms and conditions of the <a href="#ambTosPane" data-toggle="modal">Ambassador membership can be read here</a>.</p>
+
 welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We can't wait to see you as an Ambassador!
 welcome_boost = Hi {value}user name{value}! Ready to boost your Ambassador level?
 
@@ -122,7 +126,7 @@ payment_processing_button_title = Processing..
 payment_tos_agree = By clicking the Pay Now button and purchasing membership, you agree to the <a href="#ambTosPane" data-toggle="modal">terms and conditions</a> of the osCommerce Ambassador membership program.
 
 payment_tos_title = osCommerce Ambassador
-payment_tos_body = <p><strong>Terms and Conditions</strong></p><p>The osCommerce Ambassador membership program is a lifetime membership tied to one osCommerce user account. The following terms are agreed to by acquiring membership:</p><ul><li>Purchasing membership is not refundable.</li><li>The benefits of the Ambassador program may change in the future. We will try our best to always match the benefits when changes are performed.</li><li>Transferring membership from an account that is no longer accessible will be considered.</li><li>The rules and guidelines of our websites still apply. If a rule was broken that led to the banning of a user account, contact us and we will consider reinstating the banned user account.</li><li>It is possible to purchase multiple memberships and gain Ambassador Levels. Extra benefits will be introduced in the future including gifting membership to another person (an awesome way to say thanks!).</li></ul>
+payment_tos_body = <p><strong>Terms and Conditions</strong></p><p>The osCommerce Ambassador membership program is a lifetime membership tied to one osCommerce user account. The following terms are agreed to by acquiring membership:</p><ul><li>Purchasing membership is not refundable.</li><li>The benefits of the Ambassador program may change in the future. We will try our best to always match the benefits when changes are performed.</li><li>Transferring membership from an account that is no longer accessible will be considered.</li><li>The rules and guidelines of our websites still apply. If a rule was broken that led to the banning of a user account, contact us and we will consider reinstating the banned user account.</li><li>It is possible to purchase multiple memberships and gain Ambassador Levels <img height="12" title="Ambassador Level 2" src="https://www.oscommerce.com/public/sites/Website/images/ambassadors/level2.png">. Extra benefits will be introduced in the future including gifting membership to another person (an awesome way to say thanks!).</li></ul>
 payment_tos_close = Close
 
 payment_ms_error_general = A problem was encountered during the payment procedure. Please try again or contact us for further help.
