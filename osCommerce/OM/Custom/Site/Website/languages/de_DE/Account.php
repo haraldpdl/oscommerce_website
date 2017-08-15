@@ -296,7 +296,7 @@ cs_pricing_12_months = 12 Months
 cs_pricing_18_months = 18 Months
 cs_pricing_24_months = 24 Months
 
-cs_pricing_info = All prices are net prices in Euro. German residents will be additionally charged 19% tax (MwSt.). Payments are one time and are not in a subscription plan.
+cs_pricing_info = German residents will be additionally charged 19% tax (MwSt.).
 
 cs_payment_tab_paypal = PayPal
 cs_payment_tab_credit_card = Kreditkarte
@@ -309,7 +309,7 @@ email_partner_extension_subject = osCommerce Partnership Extension
 
 partner_extension_after_payment_title = What happens after payment is made?
 partner_extension_after_payment_description = <p>After payment has been made, the partnership is immediately extended for the chosen amount of time. This is added to the duration of an existing and running partnership duration, or reactivates an expired partnership duration starting right now from the date the payment was made.</p>
-<p>An invoice for the partnership extension will be provided within 48 hours.</p>
+<p>An invoice for the partnership extension will be available within a few minutes. An e-mail will be sent out as soon as the invoice has been added to your account area.</p>
 
 cs_inquiry_title = Interested?
 cs_inquiry_info = Send us an inquiry at:
