@@ -566,11 +566,21 @@ class Partner
                     $result[$l['id']] = [
                         'title' => $l['title'],
                         'duration' => $l['duration_months'],
-                        'price' => number_format((($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 1.19 * $l['price'] : $l['price'], 0),
-                        'price_raw' => number_format($l['price'], 0, '', ''),
-                        'tax' => (($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 0.19 * $l['price'] : 0,
+                        'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
+                        'price_raw' => number_format($l['price'], 2, '.', ''),
                         'default_selected' => $l['default_selected']
                     ];
+
+                    $result[$l['id']]['total'] = $result[$l['id']]['price'];
+                    $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
+
+                    if ($partner['billing_country_iso_code_2'] == 'DE') {
+                        $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
+                        $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+
+                        $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
+                        $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                    }
                 }
             }
         }
@@ -581,11 +591,21 @@ class Partner
             $result[$l['id']] = [
                 'title' => $l['title'],
                 'duration' => $l['duration_months'],
-                'price' => number_format((($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 1.19 * $l['price'] : $l['price'], 0),
-                'price_raw' => number_format($l['price'], 0, '', ''),
-                'tax' => (($partner['billing_country_iso_code_2'] == 'DE') && empty($partner['billing_vat_id'])) ? 0.19 * $l['price'] : 0,
+                'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
+                'price_raw' => number_format($l['price'], 2, '.', ''),
                 'default_selected' => $l['default_selected']
             ];
+
+            $result[$l['id']]['total'] = $result[$l['id']]['price'];
+            $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
+
+            if ($partner['billing_country_iso_code_2'] == 'DE') {
+                $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
+                $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+
+                $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
+                $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+            }
         }
 
         return $result;

@@ -11,8 +11,13 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Bil
 use osCommerce\OM\Core\{
     ApplicationAbstract,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
+
+use osCommerce\OM\Core\Site\Shop\Address;
+
+use osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Billing;
 
 use osCommerce\OM\Core\Site\Website\Partner;
 
@@ -26,7 +31,7 @@ class Process
         $data = [];
         $error = false;
 
-        $public_token = isset($_POST['public_token']) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['public_token'])) : '';
+        $public_token = Sanitize::simple($_POST['public_token'] ?? null);
 
         if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_form_protect_general'), 'error');
@@ -34,31 +39,67 @@ class Process
             return false;
         }
 
-        if (isset($_POST['address'])) {
-            $address = trim($_POST['address']);
+        $pCompany = Sanitize::simple($_POST['company'] ?? null);
+        $pFirstName = Sanitize::simple($_POST['firstname'] ?? null);
+        $pLastName = Sanitize::simple($_POST['lastname'] ?? null);
+        $pStreet = Sanitize::simple($_POST['street'] ?? null);
+        $pStreet2 = Sanitize::simple($_POST['street2'] ?? null);
+        $pCity = Sanitize::simple($_POST['city'] ?? null);
+        $pZip = Sanitize::simple($_POST['zip'] ?? null);
+        $pCountry = Sanitize::simple($_POST['country'] ?? null);
+        $pZone = Sanitize::simple($_POST['zone_code'] ?? null);
+        $pState = Sanitize::simple($_POST['state'] ?? null);
+        $pZoneId = null;
+        $pVatId = Sanitize::simple($_POST['vat_id'] ?? null);
 
-            if (strlen($address) > 255) {
-                $error = true;
+        if (empty($pStreet) || empty($pCity) || empty($pZip) || empty($pCountry)) {
+            $error = true;
+        }
 
-                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_billing_address_length'));
+        if ($error === false) {
+            if (Address::countryExists($pCountry)) {
+                $country_id = Address::getCountryId($pCountry);
+
+                if (in_array($pCountry, Billing::COUNTRIES_WITH_ZONES)) {
+                    foreach (Address::getZones($country_id) as $z) {
+                        if ($z['code'] == $pZone) {
+                            $pZoneId = $z['id'];
+
+                            break;
+                        }
+                    }
+
+                    if (!isset($pZoneId)) {
+                        $error = true;
+                    }
+                }
             } else {
-                $data['billing_address'] = $address;
+                $error = true;
             }
         }
 
-        if (isset($_POST['vat_id']) ) {
-            $vat_id = trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['vat_id']));
+        if ($error === false) {
+            $address = [
+                'gender' => null,
+                'company' => !empty($pCompany) ? $pCompany : null,
+                'firstname' => !empty($pFirstName) ? $pFirstName : null,
+                'lastname' => !empty($pLastName) ? $pLastName : null,
+                'street_address' => $pStreet,
+                'street_address_2' => !empty($pStreet2) ? $pStreet2 : null,
+                'suburb' => null,
+                'postcode' => $pZip,
+                'city' => $pCity,
+                'state' => !isset($pZoneId) && !empty($pState) ? $pState : null,
+                'country_id' => $country_id,
+                'zone_id' => $pZoneId ?? null,
+                'telephone' => null,
+                'fax' => null,
+                'other_info' => null
+            ];
 
-            if (strlen($vat_id) > 32) {
-                $error = true;
+            $data['billing_address'] = json_encode($address);
+            $data['billing_vat_id'] = $pVatId;
 
-                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_billing_vat_id_length'));
-            } else {
-                $data['billing_vat_id'] = $vat_id;
-            }
-        }
-
-        if (!empty($data) && ($error === false)) {
             $partner = $OSCOM_Template->getValue('partner');
 
             if (Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $data)) {
@@ -67,5 +108,9 @@ class Process
 
             OSCOM::redirect(OSCOM::getLink(null, 'Account', 'Partner&Billing=' . $partner['code'], 'SSL'));
         }
+
+        $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_billing_missing_address_fields'), 'error');
+
+        $OSCOM_Template->setValue('form_verify_fields_js', true);
     }
 }

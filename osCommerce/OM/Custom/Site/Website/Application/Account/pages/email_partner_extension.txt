@@ -13,7 +13,7 @@ Partnership Extension
 
   {raw}partnership_extension_plan{raw}: {raw}partnership_extension_period{raw}
 
-  An invoice for the extension will be forwarded to you within 48 hours.
+  An invoice for the extension will be made available in your account area in a few minutes.
 
   The Partner Dashboard page can be accessed with the following link:
 
@@ -25,6 +25,6 @@ Partnership Extension
 
   osCommerce
 
-osCommerce, http://www.oscommerce.com
+osCommerce, https://www.oscommerce.com
 
 This is an automatically generated e-mail.

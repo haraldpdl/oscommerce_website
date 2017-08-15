@@ -17,6 +17,8 @@ navbutton_account_invoices = Invoices
 navbutton_account_partner_dashboard = Partner Dashboard
 navbutton_account_log_out = Log Out
 
+select_option_please_select = Please Select
+
 copyright_footer = <p>Copyright (c) 2000-{value}current_year{value} osCommerce (<a href="{link}Us|Website|Legal{link}">legal</a>)</p>
 
 social_newsletter = Newsletter

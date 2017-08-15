@@ -232,6 +232,7 @@ partner_error_carousel_image_url_invalid = Carousel Image URL must start with ht
 partner_success_save = Partner information has been updated! <a href=":partner_link" class="btn btn-xs btn-success pull-right">Edit</a>
 partner_error_campaign_not_available = Campaign not available.
 partner_error_campaign_billing_not_available = Billing is not yet available for this campaign and cannot be extended at this time.
+partner_warning_campaign_billing_address_required = A billing address is required to extend the partnership duration.
 
 email_partner_update_subject = osCommerce Partner Information Page Updated
 
@@ -266,10 +267,22 @@ partner_success_site_showcase_remove = The site was successfully removed from th
 
 partner_billing_title = Billing
 
-partner_field_billing_address_title = Address
+partner_field_billing_address_company_title = Company
+partner_field_billing_address_firstname_title = First Name
+partner_field_billing_address_lastname_title = Last Name
+partner_field_billing_address_street_address_title = Street Address
+partner_field_billing_address_street_address2_title = (Apt, Suite, <span class="hidden-md">Building,</span> etc)
+partner_field_billing_address_city_title = City
+partner_field_billing_address_zip_title = Zip/Post Code
+partner_field_billing_address_country_title = Country
+partner_field_billing_address_state_title = State
+partner_field_billing_address_country_select_first = Please select country first
+
 partner_field_billing_vat_id_title = VAT ID <small>(if applicable, EU required)</small>
 
 partner_success_billing_save = The billing information has been successfully saved.
+
+partner_error_billing_missing_address_fields = Please enter the required fields for the billing address.
 
 cs_plans_title_silver = Silver
 cs_plans_title_gold = Gold
@@ -305,6 +318,10 @@ cs_pay_paypal_button = <i class="fa fa-paypal"></i> Pay at PayPal
 cs_pay_credit_card_button = <i class="fa fa-credit-card"></i> Pay #amount#
 cs_pay_processing_button = <i class="fa fa-credit-card"></i> Processing..
 
+cs_purchase_item = Partnership (:title; :period)
+cs_purchase_total = Total
+cs_purchase_title = Partnership
+
 email_partner_extension_subject = osCommerce Partnership Extension
 
 partner_extension_after_payment_title = What happens after payment is made?
@@ -328,13 +345,7 @@ error_invoice_nonexistent = The requested invoice could not be found. Please try
 error_invoice_file_nonexistent = The requested invoice could not be downloaded. Please try again.
 
 success_partner_payment_processed = The partnership has been successfully extended!
-error_partner_payment_cancelled = The payment has been cancelled. Please try again.
-error_partner_payment_general = Error: There was a problem performing the payment. Please try again or with another payment method.
-error_partner_unknown_plan = Error: The selected partnership plan and duration could not be associated with your partner account. Please try again.
-error_partner_payment_cvv = Error: There was a problem verifying the card CVV information. Please try again or with another payment method.
-error_partner_payment_avs = Error: There was a problem verifying the card billing address information. Please try again or with another payment method.
-error_partner_payment_cvv_avs = Error: There was a problem verifying the card CVV and billing address information. Please try again or with another payment method.
-error_partner_payment_initialization = Error: The initialization of the payment could not be verified. Please try again.
-error_partner_payment_verification = Error: The payment could not be verified. Please try again.
-error_partner_payment_unkown_account = Error: The payment could not be associated with your account. Please try again.
-error_partner_payment_total_mismatch = Error: The total of the payment did not match the partnership total. Please try again.
+error_partner_payment_general = A problem was encountered during the payment procedure. Please try again or contact us for further help.
+error_partner_payment_cvv = There was a problem verifying the card CVV information. Please try again or with another payment method.
+error_partner_payment_avs = There was a problem verifying the card billing address information. Please try again or with another payment method.
+error_partner_payment_cvv_avs = There was a problem verifying the card CVV and billing address information. Please try again or with another payment method.

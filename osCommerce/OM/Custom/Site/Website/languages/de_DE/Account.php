@@ -328,13 +328,7 @@ error_invoice_nonexistent = Die angeforderte Rechnung konnte nicht gefunden werd
 error_invoice_file_nonexistent = Die angeforderte Rechnung konnte nicht zur Verfügung gestellt werden. Bitte versuchen Sie es erneut.
 
 success_partner_payment_processed = Die Partnerschaft wurde erfolgreich verlängert!
-error_partner_payment_cancelled = Die Zahlung wurde gecancelt. Bitte versuchen Sie es erneut.
-error_partner_payment_general = Fehler: Beim Ausführen der Zahlung ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
-error_partner_unknown_plan = Fehler: Die ausgewählte Verlängerung konnte nicht zu Ihrem Konto zugeordnet werden. Bitte versuchen Sie es erneut.
-error_partner_payment_cvv = Fehler: Beim Überprüfen der CVV-Informationen der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
-error_partner_payment_avs = Fehler: Es wurde ein Problem beim Überprüfen der Rechnungsadresse der Karte festgestellt. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
-error_partner_payment_cvv_avs = Fehler: Beim Überprüfen der CVV und der Rechnungsadresse der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
-error_partner_payment_initialization = Fehler: Die Initialisierung der Zahlung konnte nicht verifiziert werden. Bitte versuchen Sie es erneut.
-error_partner_payment_verification = Fehler: Die Zahlung konnte nicht verifiziert werden. Bitte versuchen Sie es erneut.
-error_partner_payment_unkown_account = Fehler: Die Zahlung konnte nicht mit Ihrem Konto zugeordnet werden. Bitte versuchen Sie es erneut.
-error_partner_payment_total_mismatch = Fehler: Die Summe der Zahlung stimmt nicht mit der Summe der Bestellung überein. Bitte versuchen Sie es erneut.
+error_partner_payment_general = Beim Ausführen der Zahlung ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_cvv = Beim Überprüfen der CVV-Informationen der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_avs = Es wurde ein Problem beim Überprüfen der Rechnungsadresse der Karte festgestellt. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.
+error_partner_payment_cvv_avs = Beim Überprüfen der CVV und der Rechnungsadresse der Karte ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder mit einer anderen Zahlungsmethode.

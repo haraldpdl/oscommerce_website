@@ -10,8 +10,10 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 
 use osCommerce\OM\Core\OSCOM;
 
-use osCommerce\OM\Core\Site\Website\Braintree;
-use osCommerce\OM\Core\Site\Website\Partner;
+use osCommerce\OM\Core\Site\Website\{
+    Braintree,
+    Partner
+};
 
 use osCommerce\OM\Core\Site\RPC\Controller as RPC;
 

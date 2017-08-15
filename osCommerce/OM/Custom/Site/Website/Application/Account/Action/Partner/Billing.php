@@ -17,8 +17,12 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\Partner;
 
+use osCommerce\OM\Core\Site\Shop\Address;
+
 class Billing
 {
+    const COUNTRIES_WITH_ZONES = ['AU', 'CA', 'DE', 'US'];
+
     public static function execute(ApplicationAbstract $application)
     {
         $OSCOM_Template = Registry::get('Template');
@@ -34,6 +38,43 @@ class Billing
         $OSCOM_Template->setValue('partner', $partner);
 
         $OSCOM_Template->setValue('partner_campaign', Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Billing']));
+
+        $partner_billing_address = json_decode($OSCOM_Template->getValue('partner_campaign')['billing_address'], true);
+
+        if (isset($partner_billing_address['zone_id']) && ((int)$partner_billing_address['zone_id'] > 0)) {
+            $partner_billing_address['zone_code'] = Address::getZoneCode($partner_billing_address['zone_id']);
+        }
+
+        $OSCOM_Template->setValue('partner_billing_address', $partner_billing_address);
+
+        $countries = [
+            [
+                'id' => '',
+                'text' => OSCOM::getDef('select_option_please_select')
+            ]
+        ];
+
+        foreach (Address::getCountries() as $c) {
+            $countries[$c['id']] = [
+                'id' => $c['iso_2'],
+                'text' => $c['name']
+            ];
+        }
+
+        $countries_field = HTML::selectMenu('country', $countries, Address::getCountryIsoCode2($partner_billing_address['country_id']), 'id="pCountry" class="form-control"');
+
+        $OSCOM_Template->setValue('field_countries', $countries_field);
+
+        $zones = [];
+
+        foreach (Address::getZones(static::COUNTRIES_WITH_ZONES) as $z) {
+            $zones[$countries[$z['country_id']]['id']][] = [
+                'code' => $z['code'],
+                'title' => $z['name']
+            ];
+        }
+
+        $OSCOM_Template->setValue('select_zones', $zones);
 
         $application->setPageContent('partner_billing.html');
 

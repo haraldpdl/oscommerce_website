@@ -30,8 +30,8 @@
           </div>
 
           <div class="panel-body">
-            <form id="pForm" action="{link}Account|Website|Partner&Extend={raw}partner code{raw}&Payment&Process|SSL{link}" method="post" class="form">
-              <input type="hidden" name="plan" value="">
+            <form id="pForm" class="form">
+              <address style="font-size: 0.8em;">{raw}partner_billing_address_formatted{raw}</address>
 
               <div class="form-group">
                 <label for="pPlanSelection">{lang}cs_plans_duration_title{lang}</label>
@@ -39,22 +39,23 @@
                 <select id="pPlanSelection" name="duration" class="form-control"></select>
               </div>
 
-              <ul id="pPaymentMethodTabs" class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#pPaymentPayPal" aria-controls="pPaymentPayPal" role="tab" data-toggle="tab">{lang}cs_payment_tab_paypal{lang}</a></li>
-                <li role="presentation"><a href="#pPaymentCc" aria-controls="pPaymentCc" role="tab" data-toggle="tab">{lang}cs_payment_tab_credit_card{lang}</a></li>
-              </ul>
+              <table id="orderTable" class="table table-condensed table-borderless">
+                <tr id="orderTableTaxRow" class="hidden">
+                  <td style="width: 70%;" id="orderTableTaxTitle" align="right"></td>
+                  <td style="width: 30%;" id="orderTableTax" align="right"></td>
+                </tr>
+                <tr>
+                  <td style="width: 70%;" align="right">{lang}purchase_item_total{lang}:</td>
+                  <td style="width: 30%;" id="orderTableTotal" align="right"></td>
+                </tr>
+              </table>
 
-              <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="pPaymentPayPal">
-                  <button type="button" id="pPayPalPayButton" class="btn btn-info paypal-button-hidden">{lang}cs_pay_paypal_button{lang}</button>
-                </div>
+              <div id="pPayAlert" class="alert alert-danger hidden" role="alert"></div>
 
-                <div role="tabpanel" class="tab-pane" id="pPaymentCc">
-                  <div id="cc-payment-form"></div>
+              <i id="pBtFormIndicator" class="fa fa-spinner fa-spin"></i>
+              <div id="pBtForm"></div>
 
-                  <button type="submit" id="pCcPayButton" class="btn btn-info hidden"></button>
-                </div>
-              </div>
+              <p><button type="button" id="pPayButton" class="btn btn-info hidden" data-processing="{escape}{lang}cs_pay_processing_button{lang}{escape}" disabled></button></p>
             </form>
           </div>
         </div>
@@ -71,7 +72,32 @@
   </div>
 </div>
 
+<div id="bt3dsmodal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
 <script>
+var btClientInstance;
+var btThreeDSecureInstance;
+var btDropinInstance;
+var bt3dsModalOpen = false;
+
+var total_raw;
+
+var error_payment_general = {lang json_encode}error_partner_payment_general{lang};
+
+function showMessage(message) {
+  $('#pPayAlert').append('<p>' + message + '</p>').removeClass('hidden');
+}
+
+var taxDescriptions = {
+  'DE19MWST': {lang json_encode}purchase_tax_DE19MWST_title{lang}
+};
+
 var pPackages = {
   selected: {raw json_encode}partner_campaign pkg_code{raw},
   plans: {raw json_encode}partner_packages{raw}
@@ -79,50 +105,50 @@ var pPackages = {
 
 pPackages.plans.silver.desc = [
   {
-    title: '{lang addslashes}cs_plans_service_partner_listing{lang}',
+    title: {lang json_encode}cs_plans_service_partner_listing{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_commercial_inquiries{lang}',
+    title: {lang json_encode}cs_plans_service_commercial_inquiries{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_commercial_feedback{lang}',
+    title: {lang json_encode}cs_plans_service_commercial_feedback{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_profile{lang}',
+    title: {lang json_encode}cs_plans_service_profile{lang},
     checked: true
   }
 ];
 
 pPackages.plans.gold.desc = [
   {
-    title: '{lang addslashes}cs_plans_service_silver_level{lang}',
+    title: {lang json_encode}cs_plans_service_silver_level{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_partner_page{lang}',
+    title: {lang json_encode}cs_plans_service_partner_page{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_promotions{lang}',
+    title: {lang json_encode}cs_plans_service_promotions{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_banner{lang}',
+    title: {lang json_encode}cs_plans_service_banner{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_forum_channel{lang}',
+    title: {lang json_encode}cs_plans_service_forum_channel{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_showcase_sites{lang}',
+    title: {lang json_encode}cs_plans_service_showcase_sites{lang},
     checked: true
   },
   {
-    title: '{lang addslashes}cs_plans_service_extra{lang}',
+    title: {lang json_encode}cs_plans_service_extra{lang},
     checked: false
   }
 ];
@@ -150,95 +176,30 @@ $('#p' + pPackages.selected + 'Content').addClass('active');
 
 $('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
 
-$('#pForm input[name="plan"]').val(pPackages.selected);
-
 $.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
   $('#pPlanSelection').append($('<option/>', {
     value: lid,
-    text: lvalue.title + ' ' + lvalue.price + ' €'
+    text: lvalue.title + ' ' + lvalue.price
   }));
 });
 
 $('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
 
-var pPayCcButtonText = '{lang addslashes}cs_pay_credit_card_button{lang}';
+var pPayButtonText = {lang json_encode}cs_pay_credit_card_button{lang};
 
-$('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
+  var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
 
-$('#pForm').on('submit', function() {
-  $('#pCcPayButton').data('orig-button-text', $('#pCcPayButton').html());
-  $('#pCcPayButton').html('{lang addslashes}cs_pay_processing_button{lang}').prop('disabled', true);
-});
+  $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
+  $('#orderTableTax').html(t[Object.keys(t)[0]]);
+  $('#orderTableTaxRow').removeClass('hidden');
+} else {
+  $('#orderTableTaxRow').addClass('hidden');
+}
 
-window.paypalCheckoutReady = function() {
-  paypal.checkout.setup('{value}paypal_merchant_id{value}', {
-    environment: '{value}paypal_server{value}' != 'live' ? 'sandbox' : 'production',
-    button: 'pPayPalPayButton',
-    click: function(e) {
-      e.preventDefault();
+$('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
 
-      var p = {
-        plan: pPackages.selected,
-        duration: pPackages.plans[pPackages.selected].selected.toString()
-      };
-
-      var keys = [];
-      for (var k in pPackages.plans[pPackages.selected].levels) {
-        keys.push(k);
-      }
-
-      if ($.inArray(p.duration, keys) === -1) {
-        $('#pPlanSelection').closest('.form-group').addClass('has-error');
-
-        toastr.error('{lang addslashes}error_partner_unknown_plan{lang}');
-
-        return false;
-      }
-
-      if ($('#pPlanSelection').closest('.form-group').hasClass('has-error')) {
-        $('#pPlanSelection').closest('.form-group').removeClass('has-error');
-      }
-
-      toastr.remove();
-
-      paypal.checkout.initXO();
-
-      var ppCall = $.post('{raw addslashes}payment_init_url{raw}', p, null, 'json');
-
-      ppCall.done(function (data) {
-        if (typeof data.token !== 'undefined') {
-          paypal.checkout.startFlow('https://www.' + ('{value}paypal_server{value}' != 'live' ? 'sandbox.' : '') + 'paypal.com/checkoutnow?useraction=commit&token=' + data.token);
-        } else {
-          toastr.error('{lang addslashes}error_partner_payment_initialization{lang}');
-
-          paypal.checkout.closeFlow();
-        }
-      });
-
-      ppCall.fail(function () {
-        paypal.checkout.closeFlow();
-      });
-    }
-  });
-};
-
-$.getJSON('{raw addslashes}braintree_get_client_token_url{raw}', function (result) {
-  if ((typeof result.rpcStatus !== 'undefined') && (result.rpcStatus === 1) && (typeof result.token !== 'undefined')) {
-    braintree.setup(result.token, 'dropin', {
-      container: 'cc-payment-form',
-      form: 'pForm',
-      onReady: function (obj) {
-        $('#pCcPayButton').removeClass('hidden');
-      },
-      onError: function (obj) {
-        if (typeof $('#pCcPayButton').data('orig-button-text') !== 'undefined') {
-          $('#pCcPayButton').html($('#pCcPayButton').data('orig-button-text')).prop('disabled', false);
-          $('#pCcPayButton').removeData('orig-button-text');
-        }
-      }
-    });
-  }
-});
+$('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
 
 $('#pPlanTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   var p = $(e.target).data('code');
@@ -247,30 +208,290 @@ $('#pPlanTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
   $('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
 
-  $('#pForm input[name="plan"]').val(pPackages.selected);
-
   $('#pPlanSelection').find('option').remove();
 
   $.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
     $('#pPlanSelection').append($('<option/>', {
       value: lid,
-      text: lvalue.title + ' ' + lvalue.price + ' €'
+      text: lvalue.title + ' ' + lvalue.price
     }));
   });
 
   $('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
 
-  $('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+  if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
+    var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
+
+    $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
+    $('#orderTableTax').html(t[Object.keys(t)[0]]);
+    $('#orderTableTaxRow').removeClass('hidden');
+  } else {
+    $('#orderTableTaxRow').addClass('hidden');
+  }
+
+  $('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
+
+  $('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
+
+  if (typeof btDropinInstance !== 'undefined') {
+    btDropinInstance.updateConfiguration('paypal', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
+  }
 });
 
 $('#pPlanSelection').on('change', function() {
   pPackages.plans[pPackages.selected].selected = this.value;
 
-  $('#pCcPayButton').html(pPayCcButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price) + ' €');
+  total_raw = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw;
+
+  if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
+    var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
+
+    $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
+    $('#orderTableTax').html(t[Object.keys(t)[0]]);
+    $('#orderTableTaxRow').removeClass('hidden');
+  } else {
+    $('#orderTableTaxRow').addClass('hidden');
+  }
+
+  $('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
+
+  $('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
+
+  if (typeof btDropinInstance !== 'undefined') {
+    btDropinInstance.updateConfiguration('paypal', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
+  }
+});
+
+function initializeBt() {
+  $('#pPayButton').addClass('hidden').prop('disabled', true);
+  $('#pBtFormIndicator').removeClass('hidden')
+
+  if ($('#pPayButton').data('orig-text')) {
+    $('#pPayButton').html($('#pPayButton').data('orig-text')).removeData('orig-text').removeAttr('data-orig-text');
+  }
+
+  $.getJSON({raw json_encode}braintree_get_client_token_url{raw}, function (result) {
+    if ((typeof result.rpcStatus !== 'undefined') && (result.rpcStatus === 1) && (typeof result.token !== 'undefined')) {
+      braintree.client.create({
+        authorization: result.token
+      }, function (clientErr, clientInstance) {
+        $('#pBtFormIndicator').addClass('hidden');
+
+        if (clientErr) {
+          showMessage(error_payment_general);
+
+          return false;
+        }
+
+        btClientInstance = clientInstance;
+
+        try {
+          braintree.threeDSecure.create({
+            client: btClientInstance
+          }, function (threeDSecureErr, threeDSecureInstance) {
+            if (threeDSecureErr) {
+              showMessage(error_payment_general);
+
+              return false;
+            }
+
+            btThreeDSecureInstance = threeDSecureInstance;
+
+            createDropinInstance(result);
+          });
+        } catch (err) {
+          showMessage(error_payment_general);
+
+          return false;
+        }
+      });
+    }
+  });
+}
+
+function createDropinInstance(result) {
+  total_raw = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw;
+
+  braintree.dropin.create({
+    authorization: result.token,
+    container: '#pBtForm',
+    paymentOptionPriority: ['paypal', 'card'],
+/*
+    card: {
+      cardholderName: true
+    },
+*/
+    paypal: {
+      flow: 'checkout',
+      amount: total_raw,
+      currency: 'EUR',
+      displayName: 'osCommerce',
+      enableShippingAddress: false,
+      buttonStyle: {
+        size: 'small',
+        color: 'blue',
+        shape: 'rect'
+      }
+    }
+  }, function (createErr, instance) {
+    if (createErr) {
+      showMessage(error_payment_general);
+
+      return false;
+    }
+
+    btDropinInstance = instance;
+
+    $('#pPayButton').removeClass('hidden');
+
+    if (btDropinInstance.isPaymentMethodRequestable()) {
+      $('#pPayButton').prop('disabled', false);
+    }
+
+    btDropinInstance.on('paymentMethodRequestable', function (event) {
+      if ($('#pPayButton').html() != $('#pPayButton').data('processing')) {
+        $('#pPayButton').prop('disabled', false);
+      }
+    });
+
+    btDropinInstance.on('noPaymentMethodRequestable', function () {
+      $('#pPayButton').prop('disabled', true);
+    });
+  });
+}
+
+$('#pPayButton').on('click', function(e) {
+  e.preventDefault();
+
+  $('#pPayAlert').empty().addClass('hidden');
+
+  $('#pPayButton').data('orig-text', $('#pPayButton').html()).html($('#pPayButton').data('processing')).prop('disabled', true);
+
+  btDropinInstance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+    if (requestPaymentMethodErr) {
+      showMessage(error_payment_general);
+
+      if ($('#pPayButton').data('orig-text')) {
+        $('#pPayButton').html($('#pPayButton').data('orig-text')).removeData('orig-text').removeAttr('data-orig-text');
+      }
+
+      $('#pPayButton').prop('disabled', false);
+
+      return false;
+    }
+
+    $('#pBtForm div[data-braintree-id="toggle"]').addClass('hidden');
+
+    if (payload.type !== 'CreditCard') {
+      processTransaction(payload.nonce);
+    } else {
+      verify3DSCard(payload);
+    }
+  });
+});
+
+function verify3DSCard(payload) {
+  btThreeDSecureInstance.verifyCard({
+    amount: total_raw,
+    nonce: payload.nonce,
+    addFrame: function (err, iframe) {
+      bt3dsCancelledByUser = true;
+
+      $('#bt3dsmodal .modal-body').html(iframe);
+      $('#bt3dsmodal').modal();
+    },
+    removeFrame: function () {
+      bt3dsCancelledByUser = false;
+
+//        $('#bt3dsmodal .modal-body').html('');
+//        $('#bt3dsmodal').modal('hide');
+    }
+  }, function (error, response) {
+    if (error) {
+      reinitializeBt();
+
+      showMessage(error_payment_general);
+
+      return false;
+    }
+
+    processTransaction(response.nonce);
+  });
+}
+
+function processTransaction(nonce) {
+  var params = {
+    nonce: nonce,
+    plan: pPackages.selected,
+    duration: $('#pPlanSelection').val()
+  };
+
+  $.post('{rpclink}ProcessBraintree&partner={raw}partner code{raw}|Account|Website{rpclink}', params, function (result) {
+    if (typeof result.rpcStatus !== 'undefined') {
+      if (result.rpcStatus === 1) {
+        window.location = '{link}Account|Website|Partner&Extend={raw}partner code{raw}&Payment&Success|SSL{link}';
+      } else {
+        reinitializeBt();
+
+        showMessage({lang json_encode}payment_transaction_error{lang} + ' ' + result.errorMessage);
+      }
+    } else {
+      reinitializeBt();
+
+      showMessage(error_payment_general);
+    }
+  }, 'json').fail(function() {
+    reinitializeBt();
+
+    showMessage(error_payment_general);
+  });
+}
+
+function reinitializeBt() {
+  if (bt3dsModalOpen === true) {
+    bt3dsCancelledByUser = true;
+
+    $('#bt3dsmodal .modal-body').html('');
+    $('#bt3dsmodal').modal('hide');
+  } else {
+    btDropinInstance.teardown(function(err) {
+//        if (err) {
+//          console.log(err);
+//          return;
+//        }
+
+      initializeBt();
+    });
+  }
+}
+
+$('#bt3dsmodal').on('show.bs.modal', function (e) {
+  bt3dsModalOpen = true;
+
+  $('.modal-backdrop').css('backgroundColor', '#000');
+});
+
+$('#bt3dsmodal').on('hidden.bs.modal', function (e) {
+  bt3dsModalOpen = false;
+
+  $('.modal-backdrop').css('backgroundColor', '');
+
+  if (bt3dsCancelledByUser === true) {
+    btThreeDSecureInstance.cancelVerifyCard(function (err, payload) {
+//        if (err) {
+//          console.log(err);
+//          return;
+//        }
+
+      reinitializeBt();
+    });
+  }
 });
 
 $(function() {
-  var partner_date_now = moment('{value addslashes}partner_date_now{value}');
+  initializeBt();
+
+  var partner_date_now = moment({raw json_encode}partner_date_now{raw});
   var runsUntil = moment($('.pcdate').text());
 
   $('.pcdate').text(runsUntil.format('Do MMM, YYYY'));
@@ -292,7 +513,3 @@ $(function() {
   }
 });
 </script>
-
-<script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
-<script src="public/external/momentjs/moment.min.js"></script>
-<script src="https://www.paypalobjects.com/api/checkout.js" async></script>
