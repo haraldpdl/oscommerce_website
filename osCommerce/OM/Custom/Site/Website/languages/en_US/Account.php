@@ -309,7 +309,7 @@ cs_pricing_12_months = 12 Months
 cs_pricing_18_months = 18 Months
 cs_pricing_24_months = 24 Months
 
-cs_pricing_info = German residents will be additionally charged 19% tax (MwSt.).
+cs_pricing_info = All prices are net prices for businesses. German businesses will be additionally charged 19% tax (MwSt.).
 
 cs_payment_tab_paypal = PayPal
 cs_payment_tab_credit_card = Credit Card
