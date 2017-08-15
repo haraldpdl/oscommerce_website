@@ -55,7 +55,7 @@
               <i id="pBtFormIndicator" class="fa fa-spinner fa-spin"></i>
               <div id="pBtForm"></div>
 
-              <p><button type="button" id="pPayButton" class="btn btn-info hidden" data-processing="{escape}{lang}cs_pay_processing_button{lang}{escape}" disabled></button></p>
+              <p class="text-right"><i class="fa fa-long-arrow-right text-success hidden" style="padding: 6px 12px; font-size: 18px;"></i> <button id="pPayButton" class="btn btn-success hidden" type="button" data-processing="{escape}{lang}cs_pay_processing_button{lang}{escape}" disabled></button></p>
             </form>
           </div>
         </div>
@@ -263,6 +263,7 @@ $('#pPlanSelection').on('change', function() {
 });
 
 function initializeBt() {
+  $('#pPayButton').siblings('i').addClass('hidden');
   $('#pPayButton').addClass('hidden').prop('disabled', true);
   $('#pBtFormIndicator').removeClass('hidden')
 
@@ -353,16 +354,19 @@ function createDropinInstance(result) {
     $('#pPayButton').removeClass('hidden');
 
     if (btDropinInstance.isPaymentMethodRequestable()) {
+      $('#pPayButton').siblings('i').removeClass('hidden');
       $('#pPayButton').prop('disabled', false);
     }
 
     btDropinInstance.on('paymentMethodRequestable', function (event) {
       if ($('#pPayButton').html() != $('#pPayButton').data('processing')) {
+        $('#pPayButton').siblings('i').removeClass('hidden');
         $('#pPayButton').prop('disabled', false);
       }
     });
 
     btDropinInstance.on('noPaymentMethodRequestable', function () {
+      $('#pPayButton').siblings('i').addClass('hidden');
       $('#pPayButton').prop('disabled', true);
     });
   });
@@ -373,6 +377,7 @@ $('#pPayButton').on('click', function(e) {
 
   $('#pPayAlert').empty().addClass('hidden');
 
+  $('#pPayButton').siblings('i').addClass('hidden');
   $('#pPayButton').data('orig-text', $('#pPayButton').html()).html($('#pPayButton').data('processing')).prop('disabled', true);
 
   btDropinInstance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
@@ -383,6 +388,7 @@ $('#pPayButton').on('click', function(e) {
         $('#pPayButton').html($('#pPayButton').data('orig-text')).removeData('orig-text').removeAttr('data-orig-text');
       }
 
+      $('#pPayButton').siblings('i').removeClass('hidden');
       $('#pPayButton').prop('disabled', false);
 
       return false;
