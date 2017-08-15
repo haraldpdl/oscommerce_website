@@ -305,7 +305,15 @@ function initializeBt() {
           return false;
         }
       });
+    } else {
+      $('#pBtFormIndicator').addClass('hidden');
+
+      showMessage(error_payment_general);
     }
+  }).fail(function() {
+    $('#pBtFormIndicator').addClass('hidden');
+
+    showMessage(error_payment_general);
   });
 }
 
