@@ -134,6 +134,7 @@ foreach (Invoices::getNew() as $i) {
         $dompdf = new Dompdf();
         $dompdf->setPaper('a4', 'portrait');
         $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->set_option('isFontSubsettingEnabled', true);
         $dompdf->set_option('fontHeightRatio', 0.9);
 
         $dompdf->loadHtml($content);
