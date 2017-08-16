@@ -205,7 +205,7 @@ class ProcessBraintree
                 Cache::clear('website_partner-' . $partner['code']);
                 Cache::clear('website_partner_promotions');
                 Cache::clear('website_partners');
-                Cache::clear('website_carousel_frontpage');
+                Cache::clear('carousel-website-frontpage');
 
                 $email_txt_file = $OSCOM_Template->getPageContentsFile('email_partner_extension.txt');
                 $email_txt_tmpl = file_exists($email_txt_file) ? file_get_contents($email_txt_file) : null;

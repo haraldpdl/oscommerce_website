@@ -34,6 +34,7 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         }
 
         $data = [
+            'type' => 'website-frontpage',
             'default_language_id' => $OSCOM_Language->getDefaultId()
         ];
 

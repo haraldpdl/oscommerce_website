@@ -34,7 +34,7 @@ from
         on
           (c.partner_id = pi_lang_en.partner_id and pi_lang_en.languages_id = :default_language_id)
 where
-  c.status = 1
+  c.status = 1 and c.type = :type
 order by
   c.sort_order
 EOD;
@@ -52,7 +52,7 @@ from
         on
           (c.partner_id = pi.partner_id and pi.languages_id = :default_language_id)
 where
-  c.status = 1
+  c.status = 1 and c.type = :type
 order by
   c.sort_order
 EOD;
@@ -64,8 +64,9 @@ EOD;
             $Q->bindInt(':languages_id', $data['language_id']);
         }
 
+        $Q->bindValue(':type', $data['type']);
         $Q->bindInt(':default_language_id', $data['default_language_id']);
-        $Q->setCache('website_carousel_frontpage-lang' . ($data['language_id'] ?? $data['default_language_id']));
+        $Q->setCache('carousel-' . $data['type'] . '-lang' . ($data['language_id'] ?? $data['default_language_id']));
         $Q->execute();
 
         return $Q->fetchAll();

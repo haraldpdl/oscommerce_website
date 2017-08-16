@@ -436,7 +436,7 @@ class Partner
             Cache::clear('website_partner_categories');
             Cache::clear('website_partner_promotions');
             Cache::clear('website_partners');
-            Cache::clear('website_carousel_frontpage');
+            Cache::clear('carousel-website-frontpage');
 
             return true;
         }
