@@ -21,6 +21,10 @@ class Invision
     const COOKIE_MEMBER_ID = 'ips4_member_id';
     const COOKIE_PASS_HASH = 'ips4_pass_hash';
 
+    const FORUM_ADDONS_CATEGORY_IDS = [
+        51
+    ];
+
     public static function fetchMember($search, $key)
     {
         if (empty($search)) {
@@ -400,6 +404,102 @@ class Invision
         $Qm->execute();
 
         return $Qm->fetchAll();
+    }
+
+    public static function findMemberTopics(int $user_id, string $search, array $forum_filter = null): array
+    {
+        $result = [];
+
+        if (empty($search)) {
+            return $result;
+        }
+
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $sql_query = 'select t.tid as id, t.title, t.title_seo, t.forum_id, l.word_default as forum_title from :table_forums_topics t, :table_core_sys_lang_words l where t.starter_id = :starter_id and t.title like :title and t.state = "open" ';
+
+        if (!empty($forum_filter)) {
+            $ids = [];
+
+            foreach ($forum_filter as $filter) {
+                if (is_numeric($filter) && !in_array((int)$filter, $ids)) {
+                    $ids[] = (int)$filter;
+                }
+            }
+
+            if (!empty($ids)) {
+                $filter_ids = implode(', ', $ids);
+
+                $sql_query .= <<<EOD
+and t.forum_id in (
+  select id from :table_forums_forums where parent_id in ({$filter_ids})
+    UNION
+      select id from :table_forums_forums where parent_id in (select id from :table_forums_forums where parent_id in ({$filter_ids}))
+)
+EOD;
+            }
+        }
+
+        $sql_query .= ' and l.word_key = concat("forums_forum_", t.forum_id) order by title limit 5';
+
+        $Qt = $OSCOM_IpbPdo->prepare($sql_query);
+        $Qt->bindInt(':starter_id', $user_id);
+        $Qt->bindValue(':title', '%' . $search . '%');
+        $Qt->execute();
+
+        $r = $Qt->fetchAll();
+
+        if (!empty($r)) {
+            $result = $r;
+        }
+
+        return $result;
+    }
+
+    public static function getMemberTopic(int $user_id, int $topic_id, array $forum_filter = null): array
+    {
+        $OSCOM_IpbPdo = static::getIpbPdo();
+
+        $result = [];
+
+        $sql_query = 'select t.tid as id, t.title, t.title_seo, t.forum_id, l.word_default as forum_title from :table_forums_topics t, :table_core_sys_lang_words l where t.tid = :tid and t.starter_id = :starter_id and t.state = "open" ';
+
+        if (!empty($forum_filter)) {
+            $ids = [];
+
+            foreach ($forum_filter as $filter) {
+                if (is_numeric($filter) && !in_array((int)$filter, $ids)) {
+                    $ids[] = (int)$filter;
+                }
+            }
+
+            if (!empty($ids)) {
+                $filter_ids = implode(', ', $ids);
+
+                $sql_query .= <<<EOD
+and t.forum_id in (
+  select id from :table_forums_forums where parent_id in ({$filter_ids})
+    UNION
+      select id from :table_forums_forums where parent_id in (select id from :table_forums_forums where parent_id in ({$filter_ids}))
+)
+EOD;
+            }
+        }
+
+        $sql_query .= ' and l.word_key = concat("forums_forum_", t.forum_id)';
+
+        $Qt = $OSCOM_IpbPdo->prepare($sql_query);
+        $Qt->bindInt(':starter_id', $user_id);
+        $Qt->bindInt(':tid', $topic_id);
+        $Qt->execute();
+
+        $r = $Qt->fetch();
+
+        if (!empty($r)) {
+            $result = $r;
+        }
+
+        return $result;
     }
 
     protected static function getIpbPdo(): PDO
