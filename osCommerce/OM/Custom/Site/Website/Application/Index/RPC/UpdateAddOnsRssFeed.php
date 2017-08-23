@@ -17,8 +17,8 @@
       $result = array();
 
       if ( isset($_POST['key']) && ($_POST['key'] == OSCOM::getConfig('cron_key')) ) {
-        $feed_1 = HttpRequest::getResponse(array('url' => 'http://addons.oscommerce.com/rss/addons.rdf'));
-        $feed_2 = HttpRequest::getResponse(array('url' => 'http://addons.oscommerce.com/rss/packages.rdf'));
+        $feed_1 = HttpRequest::getResponse(array('url' => 'https://www.oscommerce.com/public/sites/Website/rss/legacy_addons.rdf'));
+        $feed_2 = HttpRequest::getResponse(array('url' => 'https://www.oscommerce.com/public/sites/Website/rss/legacy_packages.rdf'));
 
         if ( !empty($feed_1) && !empty($feed_2) ) {
           if ( (file_put_contents(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/rss/addons.xml', $feed_1, LOCK_EX) !== false) && (file_put_contents(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/rss/addons_packages.xml', $feed_2, LOCK_EX) !== false) ) {

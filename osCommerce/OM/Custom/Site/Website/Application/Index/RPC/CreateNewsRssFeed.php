@@ -30,15 +30,15 @@
           $news_article = nl2br($Qnews->value('body'));
 
           if ( $Qnews->hasValue('image') ) {
-            $news_article = '<img src="http://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/news/' . $Qnews->value('image')) . '" alt="" />' . "\n" . $news_article;
+            $news_article = '<img src="https://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/news/' . $Qnews->value('image')) . '" alt="" />' . "\n" . $news_article;
           }
 
           $news .= '    <item>' . "\n" .
                    '      <title>' . htmlentities($Qnews->value('title')) . '</title>' . "\n" .
-                   '      <link>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</link>' . "\n" .
+                   '      <link>https://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</link>' . "\n" .
                    '      <description><![CDATA[' . $news_article . ']]></description>' . "\n" .
                    '      <pubDate>' . $Qnews->value('date_added_formatted') . '</pubDate>' . "\n" .
-                   '      <guid>http://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</guid>' . "\n" .
+                   '      <guid>https://www.oscommerce.com/Us&amp;News=' . $Qnews->valueInt('id') . '</guid>' . "\n" .
                    '    </item>' . "\n";
         }
 
@@ -49,12 +49,12 @@
                   '    <title>osCommerce News</title>' . "\n" .
                   '    <language>en</language>' . "\n" .
                   '    <description>Official osCommerce news and announcements</description>' . "\n" .
-                  '    <link>http://www.oscommerce.com</link>' . "\n" .
+                  '    <link>https://www.oscommerce.com</link>' . "\n" .
                   '    <copyright>Copyright (c) ' . date('Y') . ' osCommerce</copyright>' . "\n" .
                   '    <image>' . "\n" .
                   '      <title>osCommerce</title>' . "\n" .
-                  '      <url>http://www.oscommerce.com/images/oscommerce_88x31.gif</url>' . "\n" .
-                  '      <link>http://www.oscommerce.com</link>' . "\n" .
+                  '      <url>https://www.oscommerce.com/public/sites/Website/images/oscommerce.png</url>' . "\n" .
+                  '      <link>https://www.oscommerce.com</link>' . "\n" .
                   '    </image>' . "\n" .
                   $news .
                   '  </channel>' . "\n" .
@@ -78,8 +78,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>osCommerce News and Blog Announcements</title>
-    <link>http://www.oscommerce.com</link>
-    <atom:link href="http://www.oscommerce.com/public/sites/Website/rss/news_and_blogs.xml" rel="self" type="application/rss+xml" />
+    <link>https://www.oscommerce.com</link>
+    <atom:link href="https://www.oscommerce.com/public/sites/Website/rss/news_and_blogs.xml" rel="self" type="application/rss+xml" />
     <description>An aggregated feed of osCommerce news and blog announcements.</description>
     <pubDate>' . date('D, d M Y H:i:s O') . '</pubDate>
     <language>en-us</language>' . "\n";
