@@ -10,13 +10,19 @@ namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
 use osCommerce\OM\Core\{
     Cache,
-    HttpRequest
+    OSCOM,
+    PDO,
+    Registry
 };
+
+use osCommerce\OM\Core\Site\Apps\Apps;
 
 class GetLatestAddons
 {
     public static function execute()
     {
+        Registry::set('PDO_OLD', PDO::initialize(OSCOM::getConfig('legacy_db_server', 'Apps'), OSCOM::getConfig('legacy_db_server_username', 'Apps'), OSCOM::getConfig('legacy_db_server_password', 'Apps'), OSCOM::getConfig('legacy_db_database', 'Apps')));
+
         $result = [];
 
         $OSCOM_Cache = new Cache();
@@ -24,17 +30,25 @@ class GetLatestAddons
         if ($OSCOM_Cache->read('website-addons-listing-last5', 60)) {
             $result = $OSCOM_Cache->getCache();
         } else {
-            $addons = HttpRequest::getResponse(['url' => 'http://addons.oscommerce.com/?action=fetchLatest']);
+            $listing = Apps::getListing();
 
-            if (!empty($addons)) {
-                $addons = json_decode($addons, true);
+            if (isset($listing['entries']) && !empty($listing['entries'])) {
+                $counter = 0;
 
-                foreach ($addons as $a) {
+                foreach ($listing['entries'] as $l) {
+                    $counter += 1;
+
+                    $date = \DateTime::createFromFormat('Ymd His', $l['last_update_date']);
+
                     $result[] = [
-                        'title' => $a['title'],
-                        'link' => 'http://addons.oscommerce.com/info/' . (int)$a['id'],
-                        'date' => $a['date']
+                        'title' => $l['title'],
+                        'link' => 'https://apps.oscommerce.com/' . $l['public_id'],
+                        'date' => $date->format('Y-m-d H:i:s')
                     ];
+
+                    if ($counter === 5) {
+                        break;
+                    }
                 }
 
                 if (count($result) === 5) {
