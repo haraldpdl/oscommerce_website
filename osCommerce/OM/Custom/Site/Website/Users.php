@@ -235,7 +235,7 @@ class Users
                 $result[] = $a['user_id'];
             }
 
-            if (($limit > 0) && (count($result < $limit))) {
+            if (($limit > 0) && (count($result) < $limit)) {
                 $sponsors = [
                     182953,
                     249059,
