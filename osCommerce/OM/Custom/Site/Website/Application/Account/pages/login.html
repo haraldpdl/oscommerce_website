@@ -11,21 +11,23 @@
       {lang}login_introduction{lang}
 {ifvalue}
 
-      {widget}message_stack|account{widget}
+      <form id="formLogin">{formprotect}public_token{formprotect}
+        {widget}message_stack|account{widget}
 
-      <form id="formLogin" name="login" action="{link}Account|Website|Login&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="alert alert-danger hidden" role="alert"></div>
+
         <div class="form-group">
           <label class="control-label" for="inputUsername">{lang}login_username_title{lang}</label>
 
-          <input type="text" id="inputUsername" name="username" value="{post}username{post}" class="form-control" />
+          <input type="text" id="inputUsername" name="username" class="form-control" />
           <span id="inputUsernameAlert" class="help-block hidden small"></span>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="inputPassword">{lang}login_password_title{lang}</label>
 
-          <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
-          <span id="inputPasswordAlert" class="help-block hidden small"></span>
+          <input type="password" id="inputPassword" name="password" class="form-control" autocomplete="current-password" />
+          <span class="help-block small"><span id="inputPasswordAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted"><a href="{link}Account|Website|ResetPassword|SSL{link}">{lang}login_password_forgotten_link{lang}</a></span></span>
         </div>
 
         <div class="checkbox">
@@ -45,6 +47,10 @@
 
         </p>
       </form>
+
+      <div id="accountVerificationInfo" class="alert alert-warning hidden">
+        {lang}login_verify_account_requirement{lang}
+      </div>
     </div>
   </div>
 </div>
@@ -59,11 +65,11 @@ function checkUsername() {
   }
 
   if ( $('#inputUsername').val() == '' ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_required{lang}').removeClass('hidden');
+    $('#inputUsernameAlert').html({lang json_encode}login_username_js_error_required{lang}).removeClass('hidden');
   } else if ( $('#inputUsername').val().length < 3 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_short{lang}').removeClass('hidden');
+    $('#inputUsernameAlert').html({lang json_encode}login_username_js_error_short{lang}).removeClass('hidden');
   } else if ( $('#inputUsername').val().length > 26 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}login_username_js_error_long{lang}').removeClass('hidden');
+    $('#inputUsernameAlert').html({lang json_encode}login_username_js_error_long{lang}).removeClass('hidden');
   }
 
   if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
@@ -80,11 +86,11 @@ function checkPassword() {
   }
 
   if ( $('#inputPassword').val() == '' ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_required{lang}').removeClass('hidden');
+    $('#inputPasswordAlert').html({lang json_encode}login_password_js_error_required{lang}).removeClass('hidden');
   } else if ( $('#inputPassword').val().length < 3 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_short{lang}').removeClass('hidden');
+    $('#inputPasswordAlert').html({lang json_encode}login_password_js_error_short{lang}).removeClass('hidden');
   } else if ( $('#inputPassword').val().length > 32 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}login_password_js_error_long{lang}').removeClass('hidden');
+    $('#inputPasswordAlert').html({lang json_encode}login_password_js_error_long{lang}).removeClass('hidden');
   }
 
   if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
@@ -109,16 +115,62 @@ function checkForm() {
 }
 
 $(function() {
-  $('#formLogin').submit(function() {
-    $('#loginButton').button('processing');
+  var error_login_general = {lang json_encode}login_ms_error_general{lang};
 
-    var result = checkForm();
+  $('#formLogin').submit(function(e) {
+    e.preventDefault();
 
-    if ( result === false ) {
-      $('#loginButton').button('reset');
+    if ($('#loginButton').prop('disabled') === true) {
+      return false;
     }
 
-    return result;
+    $('#formLogin div.alert').empty().addClass('hidden');
+
+    $('#loginButton').button('processing').prop('disabled', true);
+
+    if (!checkForm()) {
+      $('#loginButton').button('reset').prop('disabled', false);
+    } else {
+      var params = {
+        public_token: $('#formLogin input[name="public_token"]').val(),
+        username: $('#inputUsername').val(),
+        password: $('#inputPassword').val(),
+        sendVerification: '1'
+      };
+
+      $.post('{rpclink}Login|Account|Website{rpclink}', params, function (result) {
+        if (typeof result.rpcStatus !== 'undefined') {
+          if ((result.rpcStatus === 1) && (typeof result.redirect !== 'undefined')) {
+            window.location = result.redirect;
+          } else {
+            if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'not_verified')) {
+              $('#formLogin').addClass('hidden');
+
+              $('#verifyEmailAddress').html(result.email);
+              $('#accountVerificationInfo').removeClass('hidden');
+            } else if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'already_logged_in')) {
+              window.location = {json}{link}Account|Website|ms=already_logged_in|SSL{link}{json};
+            } else {
+              var e = (typeof result.errors !== 'undefined') ? result.errors : [];
+
+              if (e.length < 1) {
+                e.push(error_login_general);
+              }
+
+              e.forEach(function(v) {
+                $('#formLogin div.alert-danger').append('<p>' + v + '</p>').removeClass('hidden');
+              });
+            }
+          }
+        } else {
+          $('#formLogin div.alert-danger').append('<p>' + error_login_general + '</p>').removeClass('hidden');
+        }
+      }, 'json').fail(function() {
+        $('#formLogin div.alert-danger').append('<p>' + error_login_general + '</p>').removeClass('hidden');
+      }).always(function() {
+        $('#loginButton').button('reset').prop('disabled', false);
+      });
+    }
   });
 });
 </script>

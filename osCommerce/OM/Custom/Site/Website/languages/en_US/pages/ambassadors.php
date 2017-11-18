@@ -7,20 +7,20 @@ amb_main_content = <p>The osCommerce Ambassador program is a membership for thos
 amb_plan_title = osCommerce Ambassador
 
 amb_plan_profile = Highlighted community profile
-amb_plan_apps = Promote Apps in Marketplace profile
-amb_plan_sites = Promote website in Live Sites Showcase (Q3 2017)
+amb_plan_apps = Promote uploaded Apps in Apps Marketplace profile
+amb_plan_sites = Promote websites in Live Sites Showcase<br><small>One website per Ambassador level</small>
 amb_plan_commercial = View commercial inquiries on the forum
 amb_plan_commercial_feedback = Accept client feedback and reviews on the forum
 amb_plan_search = Lowered search flood protection on the forum
-amb_plan_pm = Increased Personal Message storage
+amb_plan_pm = Increased Personal Message storage in forum
 amb_plan_forum_channel = Access to the Ambassadors forum channel
-amb_plan_gift_membership = Gift membership to another person (Q4 2017)
-amb_plan_multi_levels = Multiple membership levels with more perks (Q4 2017)
+amb_plan_gift_membership = Gift membership to another person <small>(coming soon)</small>
+amb_plan_multi_levels = Multiple membership levels with more perks <small>(coming soon)</small>
 amb_price = 49€
 lifetime = lifetime!
 
 button_become_an_ambassador = Become an Ambassador ♥
-button_boost_ambassador_level = Boost Ambassador Level ♥
+button_boost_ambassador_level = Boost to Level :next_level ♥
 
 amb_pricing_info = <sup>*</sup> German residents will be additionally charged 19% tax (MwSt.).
 
@@ -47,6 +47,7 @@ login_username_title = Username
 login_username_js_error = Between 3 and 26 characters
 
 login_password_title = Password
+login_password_forgotten_link = Password forgotten?
 login_password_js_error = Between 3 and 32 characters
 
 login_button_title = Log In
@@ -139,6 +140,7 @@ success_description = <p>It feels great being an Ambassador!</p>
 <p>Thanks for supporting us and for representing the community!</p>
 
 success_visit_forum_button_title = Visit the Community Forum
+success_visit_account_area = or <a href="{link}Account{link}">visit your account area</a>
 
 select_please_select = Please Select
 

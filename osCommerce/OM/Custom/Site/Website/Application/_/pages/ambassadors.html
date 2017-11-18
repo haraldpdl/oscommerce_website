@@ -23,7 +23,7 @@
                 {iftrue is_ambassador}
                 <p>{lang}welcome_boost{lang}</p>
 
-                <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_boost_ambassador_level{lang}</a></p>
+                <p><a id="ambStartButton" class="btn btn-success btn-lg" role="button">{lang}button_boost_ambassador_level next_level="{value}ambassador_user_next_level{value}"{lang}</a></p>
                 {else}
                 <p>{lang}welcome_start{lang}</p>
 
@@ -55,6 +55,7 @@
                     <label for="cPassword" class="control-label" style="font-size: 0.9em;">{lang}login_password_title{lang}</label>
                     <input type="password" class="form-control" id="cPassword">
                     <span id="cPasswordAlert" class="help-block hidden small"></span>
+                    <span class="text-muted small"><a href="{link}Account|Website|ResetPassword|SSL{link}">{lang}login_password_forgotten_link{lang}</a></span>
                   </div>
                 </div>
               </div>
@@ -236,7 +237,7 @@
           <div id="ambPayment" class="hidden" style="background-color: #eee; border-radius: 6px; padding: 25px 25px;">
             <div class="row">
               <div class="col-sm-6 col-sm-push-6 text-right">
-                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height ="32px" border="0" alt="Payments by Braintree" style="margin-bottom: 10px;">
+                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree" style="margin-bottom: 10px;">
               </div>
 
               <div class="col-sm-6 col-sm-pull-6">
@@ -270,7 +271,10 @@
 
                 {lang}success_description{lang}
 
-                <p><a href="https://forums.oscommerce.com" class="btn btn-success">{lang}success_visit_forum_button_title{lang}</a></p>
+                <p>
+                  <a href="https://forums.oscommerce.com" class="btn btn-success" style="margin-bottom: 10px;">{lang}success_visit_forum_button_title{lang}</a><br>
+                  <small>{lang}success_visit_account_area{lang}</small>
+                </p>
               </div>
             </div>
           </div>

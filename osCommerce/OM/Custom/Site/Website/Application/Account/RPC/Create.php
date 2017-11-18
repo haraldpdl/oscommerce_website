@@ -23,18 +23,18 @@ class Create
 {
     public static function execute()
     {
-        $OSCOM_Session = Registry::get('Session');
         $OSCOM_Template = Registry::get('Template');
 
         $result = [
+            'rpcStatus' => RPC::STATUS_ERROR,
             'resetGSecurityCheck' => false
         ];
 
         if (isset($_SESSION[OSCOM::getSite()]['Account'])) {
-            $result['rpcStatus'] = 'already_logged_in';
+            $result['errorCode'] = 'already_logged_in';
         }
 
-        if (!isset($result['rpcStatus'])) {
+        if (!isset($result['errorCode'])) {
             $errors = [];
 
             $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
@@ -202,7 +202,6 @@ class Create
             }
 
             if (!empty($errors)) {
-                $result['rpcStatus'] = RPC::STATUS_ERROR;
                 $result['errors'] = $errors;
             }
         }

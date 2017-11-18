@@ -3,15 +3,20 @@ account_title = My Account
 
 account_introduction = <p>Welcome to the community! We hope you enjoy the services provided and look forward to your involvement and participation in the community!</p>
 
+account_username_title = Username
+account_email_address_title = E-Mail Address
+account_password_title = Password
+account_change_password_link = Change Password
+
 account_forum_title = Forum
 account_forum_desc = Ask for or provide help and participate in discussions with others in the community.
-account_forum_links = <a class="btn btn-info" href="http://forums.oscommerce.com">Visit the Forum</a>
-account_add_ons_title = Add-Ons
-account_add_ons_desc = Upload and share your latest work at the Add-Ons site.
-account_add_ons_link = Visit the Add-Ons
-account_live_shops_title = Live Shops
-account_live_shops_desc = Submit and share your live shop at the Live Shops site.
-account_live_shops_link = Visit the Live Shops
+account_forum_links = <a class="btn btn-info" href="https://forums.oscommerce.com">Visit the Forum</a>
+account_add_ons_title = Apps Marketplace
+account_add_ons_desc = Upload and share your latest work at the Apps Marketplace site.
+account_add_ons_link = Visit the Apps Marketplace
+account_live_shops_title = Live Sites
+account_live_shops_desc = Submit and share your live sites at the Live Sites site.
+account_live_shops_link = Visit the Live Sites
 account_partner_title = Partner Dashboard
 account_partner_desc = Promote commercial products and services to the community.
 account_partner_link = Visit the Partner Dashboard
@@ -29,6 +34,7 @@ login_username_ms_error_short = Your username is too short.
 login_username_ms_error_long = Your username is too long.
 
 login_password_title = Password
+login_password_forgotten_link = Password forgotten?
 login_password_js_error_required = Required
 login_password_js_error_short = This password is too short
 login_password_js_error_long = This password is too long
@@ -41,9 +47,13 @@ login_remember_me_note = Remember me is not recommended for public computers
 login_button_title = Log In
 login_processing_button_title = Processing..
 
+login_verify_account_requirement = <p>Your account needs to be verified. A verification e-mail has been sent to <span id="verifyEmailAddress" style="font-weight: bold;"></span> - please read this e-mail for instructions on how to verify your account.</p>
+
 login_ms_error_general = You could not be logged in due to incorrect credentials. Please try again and contact us if problems persist.
 login_ms_error_not_verified = You could not be logged in as your account has not been verified yet. <a href="{link}Account||Verify|SSL{link}" class="alert-link">Click here to verify your account.</a>
 login_ms_error_banned = Your could not be logged in due to your account being banned. Please contact us to solve the issue.
+
+login_ms_warning_already_logged_in = You are already logged into your account.
 
 logout_ms_success = You are now logged out. We look forward to your next visit!
 
@@ -79,6 +89,7 @@ create_password_ms_error_short = Your password is too short.
 create_password_ms_error_long = Your password is too long.
 
 create_security_check_title = Security Check
+create_security_check_js_error = Required
 create_security_check_ms_error_invalid = The security check did not match. Please try the security check again.
 create_security_check_ms_error_spammer = Your account cannot be created at this time as your e-mail address and/or IP address are registered as a spammer. Please contact us to remedy this problem.
 
@@ -122,6 +133,69 @@ verify_ms_error_general = Your account cannot be verified at this time due to a 
 verify_ms_error_no_match = The verification key did not match with your account. Please try again.
 verify_ms_error_no_member = No member could be found with that Verification ID and Key. Please try again.
 verify_ms_error_already_verified = That member account has already been verified. Please try and login.
+
+reset_password_html_title = Reset Password | osCommerce
+reset_password_title = Reset Password
+
+reset_password_introduction = <p>Please enter your account username or e-mail address to receive an e-mail with instructions on how to reset your account password.</p>
+
+reset_password_login_key_title = Username or E-Mail Address
+
+reset_password_button_title = Reset Password
+reset_password_processing_button_title = Processing..
+
+reset_password_email_subject = osCommerce Account Password Reset
+
+reset_password_login_key_js_error_required = Required
+reset_password_login_key_js_error_short = This username or e-mail address is too short
+
+reset_password_login_key_ms_error_short = Your username or e-mail address is too short.
+reset_password_login_key_ms_error_unknown = A member account could not be found with your username or e-mail address. Please verify the username or e-mail address was used as part of the account creation process.
+reset_password_ms_error_general = A member account could not be found at this time. Please try again soon.
+reset_password_key_ms_error_not_found = A matching reset password request could not be found. Please request a new password reset for your account.
+reset_password_js_success_email_sent = Please check your e-mail for instructions on how to reset your account password.
+reset_password_js_success_email_already_sent = An e-mail has already been sent to you with instructions on how to reset your password. If you did not receive the e-mail, please check your spam folder or try again in 15 minutes.
+
+reset_password_new_introduction = <p>Please enter a new password to save to your account.</p>
+
+reset_password_new_title = New Password
+reset_password_new_note = Between 3 and 32 characters
+
+reset_password_new_button_title = Save Password
+reset_password_new_processing_button_title = Processing..
+
+reset_password_new_js_error_required = Required
+reset_password_new_js_error_short = This password is too short
+reset_password_new_js_error_long = This password is too long
+reset_password_new_ms_error_short = Your password is too short.
+reset_password_new_ms_error_long = Your password is too long.
+reset_password_new_ms_success = The new password has been saved to your account. Please log in with your updated account credentials.
+reset_password_new_ms_error_general = The new password could not be saved to your account at this time due to a general error. Please contact us to remedy this problem.
+
+change_password_html_title = Change Password | osCommerce
+change_password_title = Change Password
+
+change_password_introduction = <p>Please enter your new password to save to your account.</p>
+
+change_password_current_password_title = Current Password
+change_password_new_password_title = New Password
+change_password_new_note = Between 3 and 32 characters
+
+change_password_button_title = Change Password
+change_password_processing_button_title = Processing..
+change_password_cancel_button_title = or return to My Account
+
+change_password_js_error_required = Required
+change_password_js_error_short = This password is too short
+change_password_js_error_long = This password is too long
+change_password_current_ms_error_short = Your current password is too short.
+change_password_current_ms_error_long = Your current password is too long.
+change_password_new_ms_error_short = Your new password is too short.
+change_password_new_ms_error_long = Your new password is too long.
+change_password_ms_success = Your new password has been saved to your account.
+change_password_ms_error_general = Your new password could not be saved to your account at this time due to a general error. Please try again or contact us to remedy this problem.
+change_password_ms_error_not_logged_in = Please log in first to change your account password.
+change_password_ms_error_current_password_incorrect = The current password does not match your current account password. Please enter your current account password correctly to verify the new password change.
 
 partner_html_title = Partner Dashboard | osCommerce
 partner_title = Partner Dashboard

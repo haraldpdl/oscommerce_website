@@ -252,6 +252,94 @@ class Invision
         return false;
     }
 
+    public static function getPasswordResetKey($user_id, bool $generate_new = false): array
+    {
+        $result = [];
+
+        if (!is_numeric($user_id) || ($user_id < 1)) {
+            $result['error'] = 'invalid_member';
+
+            return $result;
+        }
+
+        $user = static::fetchMember($user_id, 'id');
+
+        if (($user !== false) && is_array($user) && isset($user['id']) && ($user['id'] > 0)) {
+            $send_email = true;
+
+            $OSCOM_IpbPdo = static::getIpbPdo();
+
+            $Qm = $OSCOM_IpbPdo->get('core_validating', [
+                'vid',
+                'email_sent'
+            ], [
+                'member_id' => $user['id'],
+                'lost_pass' => 1
+            ], null, 1);
+
+            if ($Qm->fetch() !== false) {
+                $vid = $Qm->value('vid');
+
+                if ($Qm->hasValue('email_sent') && ($Qm->value('email_sent') > (time() - 900))) {
+                    $send_email = false;
+                } else {
+                    $OSCOM_IpbPdo->save('core_validating', [
+                        'email_sent' => time()
+                    ], [
+                        'vid' => $vid
+                    ]);
+                }
+            } else {
+                if ($generate_new === true) {
+                    $vid = md5($user['login_key'] . Hash::getRandomString(16));
+
+                    $OSCOM_IpbPdo->save('core_validating', [
+                        'vid' => $vid,
+                        'member_id' => $user['id'],
+                        'entry_date' => time(),
+                        'lost_pass' => 1,
+                        'ip_address' => OSCOM::getIPAddress(),
+                        'email_sent' => time()
+                    ]);
+                } else {
+                    $result['error'] = 'not_found';
+                }
+            }
+
+            if (isset($vid)) {
+                $result['key'] = $vid;
+                $result['id'] = $user['id'];
+                $result['name'] = $user['name'];
+                $result['email'] = $user['email'];
+                $result['send_email'] = $send_email;
+            }
+        } else {
+            $result['error'] = 'invalid_member';
+        }
+
+        return $result;
+    }
+
+    public static function deletePasswordResetKey($user_id): bool
+    {
+        if (is_numeric($user_id) && ($user_id > 0)) {
+            $user = static::fetchMember($user_id, 'id');
+
+            if (($user !== false) && is_array($user) && isset($user['id']) && ($user['id'] > 0)) {
+                $OSCOM_IpbPdo = static::getIpbPdo();
+
+                $result = $OSCOM_IpbPdo->delete('core_validating', [
+                    'member_id' => $user_id,
+                    'lost_pass' => 1
+                ]);
+
+                return $result === 1;
+            }
+        }
+
+        return false;
+    }
+
     public static function saveUser(int $id, array $data)
     {
         $params = [];

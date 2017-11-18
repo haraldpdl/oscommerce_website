@@ -6,7 +6,7 @@
  * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Module\Template\Widget\partner_audit_log;
+  namespace osCommerce\OM\Core\Site\Website\Application\Account\Module\Template\Widget\partner_audit_log;
 
   use osCommerce\OM\Core\HTML;
   use osCommerce\OM\Core\OSCOM;

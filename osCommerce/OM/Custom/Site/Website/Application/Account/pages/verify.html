@@ -7,20 +7,22 @@
 
       {lang}verify_introduction{lang}
 
-      {widget}message_stack|account{widget}
+      <form id="formVerifyAccount">{formprotect}public_token{formprotect}
+        {widget}message_stack|account{widget}
 
-      <form id="formVerifyAccount" name="verify" action="{link}Account|Website|Verify&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="alert alert-danger hidden" role="alert"></div>
+
         <div class="form-group">
           <label class="control-label" for="inputUserID">{lang}verify_user_id_title{lang}</label>
 
-          <input type="number" id="inputUserID" name="user_id" value="{post}user_id{post}" class="form-control" />
+          <input type="number" id="inputUserID" name="user_id" class="form-control" />
           <span id="inputUserIDAlert" class="help-block hidden small"></span>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="inputKey">{lang}verify_key_title{lang}</label>
 
-          <input type="text" id="inputKey" name="key" value="{post}key{post}" class="form-control" />
+          <input type="text" id="inputKey" name="key" class="form-control" />
           <span id="inputKeyAlert" class="help-block hidden small"></span>
         </div>
 
@@ -34,18 +36,18 @@
 function checkUserID() {
   $('#inputUserID').val($('#inputUserID').val().trim());
 
-  if ( !$('#inputUserIDAlert').hasClass('hidden') ) {
+  if (!$('#inputUserIDAlert').hasClass('hidden')) {
     $('#inputUserIDAlert').addClass('hidden');
     $('#inputUserID').closest('.form-group').removeClass('has-error');
   }
 
-  if ( $('#inputUserID').val() == '' ) {
-    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_required{lang}').removeClass('hidden');
-  } else if ( ($('#inputUserID').val().match(/^\d+$/g) === null) || ($('#inputUserID').val() < 1) ) {
-    $('#inputUserIDAlert').html('{lang addslashes}verify_user_id_js_error_invalid{lang}').removeClass('hidden');
+  if ($('#inputUserID').val() == '') {
+    $('#inputUserIDAlert').html({lang json_encode}verify_user_id_js_error_required{lang}).removeClass('hidden');
+  } else if (($('#inputUserID').val().match(/^\d+$/g) === null) || ($('#inputUserID').val() < 1)) {
+    $('#inputUserIDAlert').html({lang json_encode}verify_user_id_js_error_invalid{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputUserIDAlert').hasClass('hidden') ) {
+  if (!$('#inputUserIDAlert').hasClass('hidden')) {
     $('#inputUserID').closest('.form-group').addClass('has-error');
   }
 
@@ -55,20 +57,20 @@ function checkUserID() {
 function checkKey() {
   $('#inputKey').val($('#inputKey').val().trim());
 
-  if ( !$('#inputKeyAlert').hasClass('hidden') ) {
+  if (!$('#inputKeyAlert').hasClass('hidden')) {
     $('#inputKeyAlert').addClass('hidden');
     $('#inputKey').closest('.form-group').removeClass('has-error');
   }
 
-  if ( $('#inputKey').val() == '' ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_required{lang}').removeClass('hidden');
-  } else if ( $('#inputKey').val().length !== 32 ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_length{lang}').removeClass('hidden');
-  } else if ( $('#inputKey').val().match(/^[a-zA-Z0-9\-\_]+$/g) === null ) {
-    $('#inputKeyAlert').html('{lang addslashes}verify_key_js_error_invalid{lang}').removeClass('hidden');
+  if ($('#inputKey').val() == '') {
+    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_required{lang}).removeClass('hidden');
+  } else if ($('#inputKey').val().length !== 32) {
+    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_length{lang}).removeClass('hidden');
+  } else if ($('#inputKey').val().match(/^[a-zA-Z0-9\-\_]+$/g) === null) {
+    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_invalid{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputKeyAlert').hasClass('hidden') ) {
+  if (!$('#inputKeyAlert').hasClass('hidden')) {
     $('#inputKey').closest('.form-group').addClass('has-error');
   }
 
@@ -78,11 +80,11 @@ function checkKey() {
 function checkForm() {
   var has_error = false;
 
-  if ( !checkUserID() ) {
+  if (!checkUserID()) {
     has_error = true;
   }
 
-  if ( !checkKey() ) {
+  if (!checkKey()) {
     has_error = true;
   }
 
@@ -90,16 +92,66 @@ function checkForm() {
 }
 
 $(function() {
-  $('#formVerifyAccount').submit(function() {
-    $('#verifyButton').button('processing');
+  var error_verify_general = {lang json_encode}verify_ms_error_general{lang};
 
-    var result = checkForm();
+  $('#formVerifyAccount').submit(function(e) {
+    e.preventDefault();
 
-    if ( result === false ) {
-      $('#verifyButton').button('reset');
+    if ($('#verifyButton').prop('disabled') === true) {
+      return false;
     }
 
-    return result;
+    $('#formVerifyAccount div.alert').empty().addClass('hidden');
+
+    $('#verifyButton').button('processing').prop('disabled', true);
+
+    if (!checkForm()) {
+      $('#verifyButton').button('reset').prop('disabled', false);
+    } else {
+      var params = {
+        public_token: $('#formVerifyAccount input[name="public_token"]').val(),
+        user_id: $('#inputUserID').val(),
+        key: $('#inputKey').val()
+      };
+
+      $.post('{rpclink}Verify|Account|Website{rpclink}', params, function (result) {
+        if (typeof result.rpcStatus !== 'undefined') {
+          if (result.rpcStatus === 1) {
+            window.location = {json}{link}Account|Website|Login&ms=verified|SSL{link}{json};
+          } else {
+            if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'already_verified')) {
+              window.location = {json}{link}Account|Website|Login&ms=already_verified|SSL{link}{json};
+            } else if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'already_logged_in')) {
+              window.location = {json}{link}Account|Website|ms=already_logged_in|SSL{link}{json};
+            } else {
+              var e = (typeof result.errors !== 'undefined') ? result.errors : [];
+
+              if (e.length < 1) {
+                e.push(error_verify_general);
+              }
+
+              e.forEach(function(v) {
+                $('#formVerifyAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('hidden');
+              });
+            }
+          }
+        } else {
+          $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('hidden');
+        }
+      }, 'json').fail(function() {
+        $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('hidden');
+      }).always(function() {
+        $('#verifyButton').button('reset').prop('disabled', false);
+      });
+    }
   });
+
+{ifvalue verifyKey}
+  $('#inputUserID').val({json}{value}verifyKey user_id{value}{json});
+  $('#inputKey').val({json}{value}verifyKey key{value}{json});
+
+  $('#formVerifyAccount').submit();
+{ifvalue}
+
 });
 </script>

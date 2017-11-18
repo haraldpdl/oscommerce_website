@@ -7,35 +7,38 @@
 
       {lang}create_introduction{lang}
 
-      {widget}message_stack|account{widget}
+      <form id="formCreateAccount">{formprotect}public_token{formprotect}
+        {widget}message_stack|account{widget}
 
-      <form id="formCreateAccount" name="create" action="{link}Account|Website|Create&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
+        <div class="alert alert-danger hidden" role="alert"></div>
+
         <div class="form-group">
           <label class="control-label" for="inputUsername">{lang}create_username_title{lang}</label>
 
-          <input type="text" id="inputUsername" name="username" value="{post}username{post}" class="form-control" />
+          <input type="text" id="inputUsername" name="username" class="form-control" />
           <span class="help-block small"><span id="inputUsernameAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_username_note{lang}</span></span>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="inputEmail">{lang}create_email_address_title{lang}</label>
 
-          <input type="email" id="inputEmail" name="email" value="{post}email{post}" class="form-control" />
+          <input type="email" id="inputEmail" name="email" class="form-control" />
           <span id="inputEmailAlert" class="help-block hidden small"></span>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="inputPassword">{lang}create_password_title{lang}</label>
 
-          <input type="password" id="inputPassword" name="password" {iftrue in_ssl}value="{post}password{post}"{iftrue} class="form-control" />
+          <input type="password" id="inputPassword" name="password" class="form-control" autocomplete="new-password" />
           <span class="help-block small"><span id="inputPasswordAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_password_note{lang}</span></span>
         </div>
 
 {iffalse recaptcha_pass}
         <div class="form-group">
-          <label class="control-label">{lang}create_security_check_title{lang}</label>
+          <label class="control-label" for="inputSecurityCheck">{lang}create_security_check_title{lang}</label>
 
-          <div class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
+          <div id="inputSecurityCheck" class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
+          <span id="inputSecurityCheckAlert" class="help-block hidden small"></span>
         </div>
 {iffalse}
 
@@ -83,22 +86,22 @@
 function checkUsername() {
   $('#inputUsername').val($('#inputUsername').val().trim());
 
-  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+  if (!$('#inputUsernameAlert').hasClass('hidden')) {
     $('#inputUsernameAlert').addClass('hidden');
     $('#inputUsername').closest('.form-group').removeClass('has-error');
   }
 
-  if ( $('#inputUsername').val() == '' ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_required{lang}').removeClass('hidden');
-  } else if ( $('#inputUsername').val().length < 3 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_short{lang}').removeClass('hidden');
-  } else if ( $('#inputUsername').val().length > 26 ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_long{lang}').removeClass('hidden');
-  } else if ( $('#inputUsername').val().match(/oscommerce/gi) !== null ) {
-    $('#inputUsernameAlert').html('{lang addslashes}create_username_js_error_oscommerce{lang}').removeClass('hidden');
+  if ($('#inputUsername').val() == '') {
+    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_required{lang}).removeClass('hidden');
+  } else if ($('#inputUsername').val().length < 3) {
+    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_short{lang}).removeClass('hidden');
+  } else if ($('#inputUsername').val().length > 26) {
+    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_long{lang}).removeClass('hidden');
+  } else if ($('#inputUsername').val().match(/oscommerce/gi) !== null) {
+    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_oscommerce{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputUsernameAlert').hasClass('hidden') ) {
+  if (!$('#inputUsernameAlert').hasClass('hidden')) {
     $('#inputUsername').closest('.form-group').addClass('has-error');
   }
 
@@ -108,18 +111,18 @@ function checkUsername() {
 function checkEmailAddress() {
   $('#inputEmail').val($('#inputEmail').val().trim());
 
-  if ( !$('#inputEmailAlert').hasClass('hidden') ) {
+  if (!$('#inputEmailAlert').hasClass('hidden')) {
     $('#inputEmailAlert').addClass('hidden');
     $('#inputEmail').closest('.form-group').removeClass('has-error');
   }
 
-  if ( $('#inputEmail').val() == '' ) {
-    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_required{lang}').removeClass('hidden');
-  } else if ( $('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null ) {
-    $('#inputEmailAlert').html('{lang addslashes}create_email_address_js_error_invalid{lang}').removeClass('hidden');
+  if ($('#inputEmail').val() == '') {
+    $('#inputEmailAlert').html({lang json_encode}create_email_address_js_error_required{lang}).removeClass('hidden');
+  } else if ($('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null) {
+    $('#inputEmailAlert').html({lang json_encode}create_email_address_js_error_invalid{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputEmailAlert').hasClass('hidden') ) {
+  if (!$('#inputEmailAlert').hasClass('hidden')) {
     $('#inputEmail').closest('.form-group').addClass('has-error');
   }
 
@@ -127,37 +130,54 @@ function checkEmailAddress() {
 }
 
 function checkPassword() {
-  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+  if (!$('#inputPasswordAlert').hasClass('hidden')) {
     $('#inputPasswordAlert').addClass('hidden');
     $('#inputPassword').closest('.form-group').removeClass('has-error');
   }
 
-  if ( $('#inputPassword').val() == '' ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_required{lang}').removeClass('hidden');
-  } else if ( $('#inputPassword').val().length < 3 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_short{lang}').removeClass('hidden');
-  } else if ( $('#inputPassword').val().length > 32 ) {
-    $('#inputPasswordAlert').html('{lang addslashes}create_password_js_error_long{lang}').removeClass('hidden');
+  if ($('#inputPassword').val() == '') {
+    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_required{lang}).removeClass('hidden');
+  } else if ($('#inputPassword').val().length < 3) {
+    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_short{lang}).removeClass('hidden');
+  } else if ($('#inputPassword').val().length > 32) {
+    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_long{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputPasswordAlert').hasClass('hidden') ) {
+  if (!$('#inputPasswordAlert').hasClass('hidden')) {
     $('#inputPassword').closest('.form-group').addClass('has-error');
   }
 
   return $('#inputPasswordAlert').hasClass('hidden');
 }
 
+function checkSecurityCheck() {
+  if (!$('#inputSecurityCheckAlert').hasClass('hidden')) {
+    $('#inputSecurityCheckAlert').addClass('hidden');
+    $('#inputSecurityCheck').closest('.form-group').removeClass('has-error');
+  }
+
+  if ($('#formCreateAccount textarea[name="g-recaptcha-response"]').val().length < 1) {
+    $('#inputSecurityCheckAlert').html({lang json_encode}create_security_check_js_error{lang}).removeClass('hidden');
+  }
+
+  if (!$('#inputSecurityCheckAlert').hasClass('hidden')) {
+    $('#inputSecurityCheck').closest('.form-group').addClass('has-error');
+  }
+
+  return $('#inputSecurityCheckAlert').hasClass('hidden');
+}
+
 function checkTOS() {
-  if ( !$('#inputTOSAlert').hasClass('hidden') ) {
+  if (!$('#inputTOSAlert').hasClass('hidden')) {
     $('#inputTOSAlert').addClass('hidden');
     $('#inputTOS').closest('.checkbox').removeClass('has-error');
   }
 
-  if ( !$('#inputTOS').is(':checked') ) {
-    $('#inputTOSAlert').html('{lang addslashes}create_tos_agree_js_error_required{lang}').removeClass('hidden');
+  if (!$('#inputTOS').is(':checked')) {
+    $('#inputTOSAlert').html({lang json_encode}create_tos_agree_js_error_required{lang}).removeClass('hidden');
   }
 
-  if ( !$('#inputTOSAlert').hasClass('hidden') ) {
+  if (!$('#inputTOSAlert').hasClass('hidden')) {
     $('#inputTOS').closest('.checkbox').addClass('has-error');
   }
 
@@ -167,19 +187,25 @@ function checkTOS() {
 function checkForm() {
   var has_error = false;
 
-  if ( !checkUsername() ) {
+  if (!checkUsername()) {
     has_error = true;
   }
 
-  if ( !checkEmailAddress() ) {
+  if (!checkEmailAddress()) {
     has_error = true;
   }
 
-  if ( !checkPassword() ) {
+  if (!checkPassword()) {
     has_error = true;
   }
 
-  if ( !checkTOS() ) {
+{iffalse recaptcha_pass}
+  if (!checkSecurityCheck()) {
+    has_error = true;
+  }
+{iffalse}
+
+  if (!checkTOS()) {
     has_error = true;
   }
 
@@ -187,20 +213,62 @@ function checkForm() {
 }
 
 $(function() {
-  if ( '{post}agree_tos{post}' == '1' ) {
-    $('#inputTOS').prop('checked', true);
-  }
+  var error_create_general = {lang json_encode}create_ms_error_general{lang};
 
-  $('#formCreateAccount').submit(function() {
-    $('#createButton').button('processing');
+  $('#formCreateAccount').submit(function(e) {
+    e.preventDefault();
 
-    var result = checkForm();
-
-    if ( result === false ) {
-      $('#createButton').button('reset');
+    if ($('#createButton').prop('disabled') === true) {
+      return false;
     }
 
-    return result;
+    $('#formCreateAccount div.alert').empty().addClass('hidden');
+
+    $('#createButton').button('processing').prop('disabled', true);
+
+    if (!checkForm()) {
+      $('#createButton').button('reset').prop('disabled', false);
+    } else {
+      var params = {
+        public_token: $('#formCreateAccount input[name="public_token"]').val(),
+        username: $('#inputUsername').val(),
+        email: $('#inputEmail').val(),
+        password: $('#inputPassword').val(),
+        gr_security_check: $('#formCreateAccount textarea[name="g-recaptcha-response"]').val(),
+        agree_tos: $('#inputTOS').is(':checked') ? 1 : 0,
+        sendVerification: '1'
+      };
+
+      $.post('{rpclink}Create|Account|Website{rpclink}', params, function (result) {
+        if (typeof result.rpcStatus !== 'undefined') {
+          if (result.rpcStatus === 1) {
+            window.location = {json}{link}Account|Website|Verify&ms=account_created|SSL{link}{json};
+          } else if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'already_logged_in')) {
+            window.location = {json}{link}Account|Website|ms=already_logged_in|SSL{link}{json};
+          } else {
+            var e = (typeof result.errors !== 'undefined') ? result.errors : [];
+
+            if (e.length < 1) {
+              e.push(error_create_general);
+            }
+
+            e.forEach(function(v) {
+              $('#formCreateAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('hidden');
+            });
+
+            if ((typeof result.resetGSecurityCheck !== 'undefined') && (result.resetGSecurityCheck === true)) {
+              grecaptcha.reset();
+            }
+          }
+        } else {
+          $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('hidden');
+        }
+      }, 'json').fail(function() {
+        $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('hidden');
+      }).always(function() {
+        $('#createButton').button('reset').prop('disabled', false);
+      });
+    }
   });
 });
 </script>

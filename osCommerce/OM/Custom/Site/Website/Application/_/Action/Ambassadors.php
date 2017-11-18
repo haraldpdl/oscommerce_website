@@ -57,7 +57,8 @@ class Ambassadors
             $OSCOM_Template->setValue('highlights_image', 'images/highlights_ambassadors.jpg');
         }
 
-        $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['group_id'] === Users::GROUP_AMBASSADOR_ID)));
+        $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['amb_level'] > 0)));
+        $OSCOM_Template->setValue('ambassador_user_next_level', isset($_SESSION[OSCOM::getSite()]['Account']) ? $_SESSION[OSCOM::getSite()]['Account']['amb_level'] + 1 : 1);
 
         $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/three-d-secure.min.js"></script>');
 
