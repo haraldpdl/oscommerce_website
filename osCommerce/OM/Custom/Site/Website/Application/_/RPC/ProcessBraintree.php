@@ -49,7 +49,7 @@ class ProcessBraintree
                     'title' => OSCOM::getDef('purchase_item_title_raw', [
                         ':name' => $_SESSION[OSCOM::getSite()]['Account']['name']
                     ]),
-                    'cost' => number_format(49, 2)
+                    'cost' => number_format(Users::AMBASSADOR_LEVEL_PRICE, 2)
                 ]
             ];
 

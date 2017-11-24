@@ -118,8 +118,8 @@ class GetBraintreeClientToken
                         'title' => OSCOM::getDef('purchase_item_title', [
                             ':name' => $_SESSION[OSCOM::getSite()]['Account']['name']
                         ]),
-                        'cost' => $OSCOM_Language->formatNumber(49, 2) . ' €',
-                        'cost_raw' => number_format(49, 2)
+                        'cost' => $OSCOM_Language->formatNumber(Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €',
+                        'cost_raw' => number_format(Users::AMBASSADOR_LEVEL_PRICE, 2)
                     ]
                 ];
 
@@ -132,11 +132,11 @@ class GetBraintreeClientToken
                 ];
 
                 if ($cCountry == 'DE') {
-                    $result['items'][0]['tax']['DE19MWST'] = $OSCOM_Language->formatNumber(0.19 * 49, 2) . ' €';
-                    $result['items'][0]['tax_raw']['DE19MWST'] = number_format(0.19 * 49, 2);
+                    $result['items'][0]['tax']['DE19MWST'] = $OSCOM_Language->formatNumber(0.19 * Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €';
+                    $result['items'][0]['tax_raw']['DE19MWST'] = number_format(0.19 * Users::AMBASSADOR_LEVEL_PRICE, 2);
 
-                    $result['totals']['total']['cost'] = $OSCOM_Language->formatNumber(1.19 * 49, 2) . ' €';
-                    $result['totals']['total']['cost_raw'] = number_format(1.19 * 49, 2);
+                    $result['totals']['total']['cost'] = $OSCOM_Language->formatNumber(1.19 * Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €';
+                    $result['totals']['total']['cost_raw'] = number_format(1.19 * Users::AMBASSADOR_LEVEL_PRICE, 2);
 
                     $result['totals'] = [
                         'tax_DE19MWST' => [
