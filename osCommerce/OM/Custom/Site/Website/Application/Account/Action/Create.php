@@ -25,6 +25,14 @@ class Create
             OSCOM::redirect(OSCOM::getLink(null, 'Account', null, 'SSL'));
         }
 
+        if (isset($_GET['return_forum'])) {
+            $_SESSION['login_redirect'] = [
+                'url' => 'https://forums.oscommerce.com',
+                'cancel_url' => 'https://forums.oscommerce.com',
+                'cancel_text' => OSCOM::getDef('create_return_to_forum')
+            ];
+        }
+
         if (isset($_SESSION['login_redirect']) && isset($_SESSION['login_redirect']['cancel_url']) && isset($_SESSION['login_redirect']['cancel_text'])) {
             $OSCOM_Template->setValue('login_redirect_cancel_text', $_SESSION['login_redirect']['cancel_text']);
         }

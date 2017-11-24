@@ -101,6 +101,8 @@ class Create
 
                         if (is_array($gr_result) && isset($gr_result['success']) && ($gr_result['success'] === true)) {
                             $recaptcha_error = false;
+                        } else {
+                            trigger_error('User account creation failed (' . $username . ' [' . $email . ']); Recaptcha: ' . $response);
                         }
                     }
 
@@ -132,17 +134,17 @@ class Create
                 $params_string = substr($params_string, 0, -1);
 
                 $response = HttpRequest::getResponse([
-                    'url' => 'http://www.stopforumspam.com/api',
+                    'url' => 'https://www.stopforumspam.com/api',
                     'parameters' => $params_string
                 ]);
 
                 if (!empty($response)) {
                     $sfs_result = json_decode($response, true);
 
-                    if (is_array($sfs_result)) {
-                        if (isset($sfs_result['success']) && ($sfs_result['success'] === 1) && isset($sfs_result['email']['appears']) && ($sfs_result['email']['appears'] === 0) && isset($sfs_result['ip']['appears']) && ($sfs_result['ip']['appears'] === 0)) {
-                            $sfs_error = false;
-                        }
+                    if (is_array($sfs_result) && isset($sfs_result['success']) && ($sfs_result['success'] === 1) && isset($sfs_result['email']['appears']) && ($sfs_result['email']['appears'] === 0) && isset($sfs_result['ip']['appears']) && ($sfs_result['ip']['appears'] === 0)) {
+                        $sfs_error = false;
+                    } else {
+                        trigger_error('User account creation failed (' . $username . ' [' . $email . ']); SFS: ' . $response);
                     }
                 }
 

@@ -104,6 +104,8 @@ create_tos_close = Close
 create_button_title = Create Account
 create_processing_button_title = Processing..
 
+create_return_to_forum = or return back to the forum
+
 create_email_new_account_subject = osCommerce Account Registration
 
 create_ms_success = Your personal account has been created! Please check your e-mail for instructions on how to verify the identity of your account.
