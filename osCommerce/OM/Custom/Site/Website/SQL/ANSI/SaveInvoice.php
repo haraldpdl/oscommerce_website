@@ -70,6 +70,10 @@ class SaveInvoice
             $invoice['partner_transaction_id'] = $data['partner_transaction_id'];
         }
 
+        if (isset($data['module'])) {
+            $invoice['module'] = $data['module'];
+        }
+
         $where = null;
 
         if (isset($data['id'])) {

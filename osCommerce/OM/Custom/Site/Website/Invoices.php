@@ -128,7 +128,8 @@ class Invoices
             'language_id' => $params['language_id'] ?? null,
             'status' => $params['status'] ?? null,
             'api_transaction_id' => $params['api_transaction_id'] ?? null,
-            'partner_transaction_id' => $params['partner_transaction_id'] ?? null
+            'partner_transaction_id' => $params['partner_transaction_id'] ?? null,
+            'module' => $params['module'] ?? null
         ];
 
         return OSCOM::callDB('Website\SaveInvoice', $data, 'Site');

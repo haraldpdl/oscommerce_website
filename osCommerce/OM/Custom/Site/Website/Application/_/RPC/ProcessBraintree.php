@@ -113,7 +113,8 @@ class ProcessBraintree
                     'cost' => $totals['total']['cost'],
                     'currency_id' => 2,
                     'language_id' => $OSCOM_Language->getID(),
-                    'status' => Invoices::STATUS_NEW
+                    'status' => Invoices::STATUS_NEW,
+                    'module' => 'Ambassador'
                 ]);
             } catch (\Exception $e) {
                 $error = true;

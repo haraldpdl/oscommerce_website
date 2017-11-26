@@ -134,7 +134,8 @@ class Braintree
                 'currency_id' => $invoice['currency_id'],
                 'language_id' => $invoice['language_id'],
                 'status' => $invoice['status'],
-                'api_transaction_id' => $api_id
+                'api_transaction_id' => $api_id,
+                'module' => $invoice['module'] ?? null
             ]);
         }
 
