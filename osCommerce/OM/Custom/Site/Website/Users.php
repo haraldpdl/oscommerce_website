@@ -30,7 +30,7 @@ class Users
     const GROUP_PARTNER_ID = 17;
     const GROUP_TEAM_COMMUNITY_ID = 19;
 
-    const AMBASSADOR_LEVEL_PRICE = 39;
+    const AMBASSADOR_LEVEL_PRICE = 49;
     const CUSTOMFIELD_AMBASSADOR_LEVEL_ID = 23;
 
     protected static $users = [];

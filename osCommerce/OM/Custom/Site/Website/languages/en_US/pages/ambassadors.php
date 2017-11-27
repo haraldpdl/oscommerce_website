@@ -16,13 +16,13 @@ amb_plan_pm = Increased Personal Message storage in forum
 amb_plan_forum_channel = Access to the Ambassadors forum channel
 amb_plan_gift_membership = Gift membership to another person <small>(coming soon)</small>
 amb_plan_multi_levels = Multiple membership levels with more perks <small>(coming soon)</small>
-amb_price = <span class="text-danger"><s style="font-size: 0.6em;">49€</s></span> 39€
+amb_price = 49€
 lifetime = lifetime!
 
 button_become_an_ambassador = Become an Ambassador ♥
 button_boost_ambassador_level = Boost to Level :next_level ♥
 
-amb_pricing_info = <sup>*</sup> Valid until 27th Nov 2017 23:59 CET. German residents will be additionally charged 19% tax (MwSt.).
+amb_pricing_info = <sup>*</sup> German residents will be additionally charged 19% tax (MwSt.).
 
 amb_newest_ambassadors_title = Our newest Ambassadors
 
