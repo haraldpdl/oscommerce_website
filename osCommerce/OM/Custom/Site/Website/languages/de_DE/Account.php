@@ -80,7 +80,7 @@ create_password_ms_error_long = Ihr Passwort ist zu lang.
 
 create_security_check_title = Sicherheitskontrolle
 create_security_check_ms_error_invalid = Das Ergebnis der Sicherheitskontrolle war nicht erfolgreich. Bitte versuchen Sie die Sicherheitskontrolle erneut.
-create_security_check_ms_error_spammer = Ihr Konto kann zur Zeit nicht erstellt werden weil Ihre e-mail Adresse und/oder Ihre IP Adresse als Spammer registriert ist. Bitte kontaktieren Sie uns um dieses Problem zu lösen.
+create_security_check_ms_error_spammer = Ihr Konto kann zur Zeit nicht erstellt werden wegen zusätzlichen Sicherheitskontrollen. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns um dieses Problem zu lösen.
 
 create_tos_agree_title = Hiermit bestätige ich, dass ich die <a href="#tosPane" data-toggle="modal">Nutzungsbedingungen</a> gelesen habe
 create_tos_agree_js_error_required = Erforderlich

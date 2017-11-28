@@ -91,7 +91,7 @@ create_password_ms_error_long = Your password is too long.
 create_security_check_title = Security Check
 create_security_check_js_error = Required
 create_security_check_ms_error_invalid = The security check did not match. Please try the security check again.
-create_security_check_ms_error_spammer = Your account cannot be created at this time as your e-mail address and/or IP address are registered as a spammer. Please contact us to remedy this problem.
+create_security_check_ms_error_spammer = Your account cannot be created at this time due to extra security checks. Please try again later or contact us to remedy this problem.
 
 create_tos_agree_title = I've read and agree to the <a href="#tosPane" data-toggle="modal">Terms of Use</a>
 create_tos_agree_js_error_required = Required

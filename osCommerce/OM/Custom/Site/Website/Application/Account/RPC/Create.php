@@ -141,9 +141,23 @@ class Create
                 if (!empty($response)) {
                     $sfs_result = json_decode($response, true);
 
-                    if (is_array($sfs_result) && isset($sfs_result['success']) && ($sfs_result['success'] === 1) && isset($sfs_result['email']['appears']) && ($sfs_result['email']['appears'] === 0) && isset($sfs_result['ip']['appears']) && ($sfs_result['ip']['appears'] === 0)) {
-                        $sfs_error = false;
-                    } else {
+                    if (is_array($sfs_result) && isset($sfs_result['success']) && ($sfs_result['success'] === 1)) {
+                        $score = 0;
+
+                        if (isset($sfs_result['email']['confidence'])) {
+                            $score += $sfs_result['email']['confidence'];
+                        }
+
+                        if (isset($sfs_result['ip']['confidence'])) {
+                            $score += $sfs_result['ip']['confidence'];
+                        }
+
+                        if ($score < 40) {
+                            $sfs_error = false;
+                        }
+                    }
+
+                    if ($sfs_error === true) {
                         trigger_error('User account creation failed (' . $username . ' [' . $email . ']); SFS: ' . $response);
                     }
                 }
