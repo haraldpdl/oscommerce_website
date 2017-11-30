@@ -44,7 +44,7 @@ class Auto
                 'action' => 'auto_login',
                 'success' => 0,
                 'identifier' => (is_array($user) && isset($user['id']) && ($user['id'] > 0)) ? null : $_COOKIE[Invision::COOKIE_MEMBER_ID],
-                'user_id' => (is_array(§user) && isset($user['id']) && ($user['id'] > 0)) ? $user['id'] : null
+                'user_id' => (is_array($user) && isset($user['id']) && ($user['id'] > 0)) ? $user['id'] : null
             ]);
         }
     }

@@ -134,7 +134,6 @@ class Template extends \osCommerce\OM\Core\Site\Admin\Template
  * Adds a html header tag to the page
  *
  * @access public
- * @param string $tag The value of the header tag
  */
 
     public function addHtmlElement(string $group, string $element)
