@@ -29,13 +29,9 @@ class Ambassador
         $OSCOM_Cache = new Cache('ambassadors-newest-NS');
         $OSCOM_Cache->delete();
 
-        $url = parse_url(OSCOM::getConfig('forum_rest_url'));
-
-        if (isset($url['user'])) {
-            HttpRequest::getResponse([
-                'url' => 'https://forums.oscommerce.com/index.php?oscomAction=clearCache&oscomModule=ambassadors',
-                'parameters' => 'key=' . $url['user']
-            ]);
-        }
+        HttpRequest::getResponse([
+            'url' => 'https://forums.oscommerce.com/index.php?oscomAction=clearCache&oscomModule=ambassadors',
+            'parameters' => 'key=' . OSCOM::getConfig('cron_key')
+        ]);
     }
 }
