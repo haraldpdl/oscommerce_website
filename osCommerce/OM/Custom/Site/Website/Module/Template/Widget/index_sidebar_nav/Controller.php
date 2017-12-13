@@ -98,7 +98,7 @@
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
-      $users = 700;
+      $users = Invision::DEFAULT_TOTAL_ONLINE_USERS;
 
       if ( $OSCOM_Cache->read('stats_online_users', 60) ) {
         $data = $OSCOM_Cache->getCache();
@@ -121,7 +121,7 @@
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
-      $users = 280000;
+      $users = Invision::DEFAULT_TOTAL_USERS;
 
       if ( $OSCOM_Cache->read('stats_total_users', 1440) ) {
         $data = $OSCOM_Cache->getCache();
@@ -144,7 +144,7 @@
       $OSCOM_Cache = Registry::get('Cache');
 
       $data = null;
-      $posts = 1600000;
+      $posts = Invision::DEFAULT_TOTAL_POSTINGS;
 
       if ( $OSCOM_Cache->read('stats_total_postings', 10080) ) {
         $data = $OSCOM_Cache->getCache();

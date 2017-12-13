@@ -1,15 +1,15 @@
 osCommerce
 
-New User Registration at osCommerce
+Welcome to osCommerce!
 
   {raw}new_member_reg name{raw},
 
-  thank you for creating an account at the osCommerce website! Please verify
-  the identity of your account by following the instructions below.
+  thank you for creating an account at osCommerce! Please verify the identity
+  of your account by following the instructions below.
 
   If you did not sign up for an account at our website and have wrongly
-  received this e-mail, please disregard and delete this e-mail. You are not in
-  a mailing list and do not need to unsubscribe or take further action.
+  received this e-mail, please disregard and delete this e-mail. You are not
+  in a mailing list and do not need to unsubscribe or take further action.
 
 Please Verify Your Account
 

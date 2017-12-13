@@ -135,6 +135,7 @@ $(function() {
         public_token: $('#formLogin input[name="public_token"]').val(),
         username: $('#inputUsername').val(),
         password: $('#inputPassword').val(),
+        remember_me: $('#inputRememberMe').is(':checked') ? 1 : 0,
         sendVerification: '1'
       };
 

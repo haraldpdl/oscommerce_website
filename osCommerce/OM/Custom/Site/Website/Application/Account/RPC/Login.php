@@ -78,9 +78,9 @@ class Login
                         $OSCOM_Session->recreate();
 
                         if (isset($_POST['remember_me']) && ($_POST['remember_me'] == '1')) {
-                            Invision::setCookies($user['id'], $user['login_key']);
+                            Invision::setCookies($user, true);
                         } else {
-                            Invision::killCookies();
+                            Invision::setCookies($user, false);
                         }
 
                         Events::fire('login-after');

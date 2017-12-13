@@ -18,7 +18,10 @@ use osCommerce\OM\Core\{
     Registry
 };
 
-use osCommerce\OM\Core\Site\Website\Session;
+use osCommerce\OM\Core\Site\Website\{
+    Invision,
+    Session
+};
 
 class Controller implements \osCommerce\OM\Core\SiteInterface
 {
@@ -45,7 +48,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         });
 
         if (!OSCOM::isRPC()) {
-            if (isset($_COOKIE[$OSCOM_Session->getName()])) {
+            if (isset($_COOKIE[$OSCOM_Session->getName()]) || isset($_COOKIE[Invision::COOKIE_SESSION_NAME])) {
                 $OSCOM_Session->start();
 
                 if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
@@ -63,6 +66,8 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
                         } else {
                             Invision::killCookies();
                         }
+                    } else {
+                        Invision::killCookies();
                     }
                 }
             }
