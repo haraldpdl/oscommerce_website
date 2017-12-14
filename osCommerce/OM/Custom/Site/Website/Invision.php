@@ -89,6 +89,7 @@ class Invision
             $member->members_pass_salt = $member->generateSalt();
             $member->members_pass_hash = $member->encryptedPassword($password);
             $member->member_group_id = Users::GROUP_MEMBER_ID;
+            $member->members_bitoptions['view_sigs'] = true;
             $member->members_bitoptions['validating'] = true;
             $member->last_visit = time();
 
