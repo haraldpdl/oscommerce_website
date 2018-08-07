@@ -55,6 +55,8 @@ login_ms_error_banned = Your could not be logged in due to your account being ba
 
 login_ms_warning_already_logged_in = You are already logged into your account.
 
+login_ip_address_ms_error_filter_banned = The account cannot be accessed at this time due to unallowed activities detected from your location. Please try again later or contact us for further help.
+
 logout_ms_success = You are now logged out. We look forward to your next visit!
 
 create_html_title = Create Account | osCommerce
@@ -110,6 +112,10 @@ create_email_new_account_subject = osCommerce Account Registration
 
 create_ms_success = Your personal account has been created! Please check your e-mail for instructions on how to verify the identity of your account.
 create_ms_error_general = Your account cannot be created at this time due to a general error. Please contact us to remedy this problem.
+
+create_ip_address_ms_error_filter_banned = An account cannot be created at this time due to unallowed activities detected from your location. Please try again later or contact us for further help.
+create_username_ms_error_filter_banned = An account with the supplied username cannot be created at this time. Please try again later or contact us for further help.
+create_email_ms_error_filter_banned = An account with the supplied e-mail address cannot be created at this time. Please try again later or contact us for further help.
 
 verify_html_title = Verify Account | osCommerce
 verify_title = Verify Account

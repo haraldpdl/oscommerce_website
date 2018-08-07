@@ -65,6 +65,12 @@ class Login
             }
 
             if (empty($errors)) {
+                if (Invision::isFilterBanned(OSCOM::getIPAddress(), 'ip')) {
+                    $errors[] = OSCOM::getDef('login_ip_address_ms_error_filter_banned');
+                }
+            }
+
+            if (empty($errors)) {
                 $user = Invision::canLogin($username, $password);
 
                 Events::fire('login-before', $user);

@@ -2,7 +2,7 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @copyright (c) 2018 osCommerce; https://www.oscommerce.com
  * @license BSD; https://www.oscommerce.com/bsdlicense.txt
  */
 
@@ -11,11 +11,6 @@ namespace osCommerce\OM\Core\Site\Website;
 use osCommerce\OM\Core\OSCOM;
 
 require_once(OSCOM::getConfig('forum_dir_path', 'Website') . 'init_extern.php');
-
-class InvisionMember extends \IPS\Member
-{
-    public $_data = array(); // override protected state
-}
 
 class Invision
 {
@@ -59,7 +54,7 @@ class Invision
             $load_member_key = 'email';
         }
 
-        $member = InvisionMember::load($search, $load_member_key);
+        $member = \IPS\Member::load($search, $load_member_key);
 
         if ($member->member_id) {
             return static::getUserDataArray($member);
@@ -82,12 +77,11 @@ class Invision
         $result = false;
 
         try {
-            $member = new InvisionMember;
+            $member = new \IPS\Member;
 
             $member->name = $username;
             $member->email = $email;
-            $member->members_pass_salt = $member->generateSalt();
-            $member->members_pass_hash = $member->encryptedPassword($password);
+            $member->setLocalPassword($password);
             $member->member_group_id = Users::GROUP_MEMBER_ID;
             $member->members_bitoptions['view_sigs'] = true;
             $member->members_bitoptions['validating'] = true;
@@ -137,7 +131,7 @@ class Invision
         if (($user !== false) && is_array($user) && isset($user['id']) && ($user['id'] > 0)) {
             if (($user['verified'] === false) && !empty($user['val_newreg_id'])) {
                 if ($user['val_newreg_id'] == $key) {
-                    $member = InvisionMember::load($user_id);
+                    $member = \IPS\Member::load($user_id);
 
                     \IPS\Db::i()->delete('core_validating', ['member_id=?', $member->member_id]);
 
@@ -147,14 +141,6 @@ class Invision
 
                     /* Sync */
                     $member->memberSync('onValidate');
-
-                    /* Login handler callback */
-                    foreach (\IPS\Login::handlers(true) as $k => $handler) {
-                        try {
-                            $handler->validateAccount($member);
-                        } catch(\Exception $e) {
-                        }
-                    }
 
                     return true;
                 } else {
@@ -186,7 +172,7 @@ class Invision
             return $result;
         }
 
-        $member = InvisionMember::load($user_id);
+        $member = \IPS\Member::load($user_id);
 
         if (isset($member->member_id) && ($member->member_id > 0)) {
             $send_email = true;
@@ -236,7 +222,7 @@ class Invision
     public static function deletePasswordResetKey($user_id): bool
     {
         if (is_numeric($user_id) && ($user_id > 0)) {
-            $member = InvisionMember::load($user_id);
+            $member = \IPS\Member::load($user_id);
 
             if (isset($member->member_id) && ($member->member_id > 0)) {
                 /* Reset the failed logins storage - we don't need to save because the login handler will do that for us later */
@@ -246,7 +232,7 @@ class Invision
 
                 $member->invalidateSessionsAndLogins();
 
-                \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication(isset($_COOKIES[static::COOKIE_LOGIN_KEY]), '');
+                \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication(isset($_COOKIES[static::COOKIE_LOGIN_KEY]));
 
                 /* Delete validating record and log in */
                 \IPS\Db::i()->delete('core_validating', array('member_id=? AND lost_pass=1', $member->member_id));
@@ -258,9 +244,28 @@ class Invision
         return false;
     }
 
+    public static function isFilterBanned(string $source, string $key = 'email'): bool
+    {
+        if (!in_array($key, ['email', 'name', 'ip'])) {
+            trigger_error('OSCOM\Invision::isBanned() unknown key: ' . $key);
+
+            return true;
+        }
+
+        foreach (\IPS\Db::i()->select('ban_content', 'core_banfilters', array('ban_type=?', $key)) as $filter) {
+            if (preg_match('/^' . str_replace('\*', '.*', preg_quote($filter, '/')) . '$/i', $source)) {
+                trigger_error('OSCOM\Invision::isBanned(): ' . $source . ' (' . $key . ')');
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static function saveUser(int $id, array $data)
     {
-        $member = InvisionMember::load($id);
+        $member = \IPS\Member::load($id);
 
         if (isset($member->member_id) && ($member->member_id > 0)) {
             $old_email = null;
@@ -276,8 +281,7 @@ class Invision
             }
 
             if (isset($data['password'])) {
-                $member->members_pass_salt = $member->generateSalt();
-                $member->members_pass_hash = $member->encryptedPassword($data['password']);
+                $member->setLocalPassword($data['password']);
             }
 
             if (isset($data['group'])) {
@@ -325,32 +329,38 @@ class Invision
 
     public static function canLogin(string $username, string $password)
     {
-        $members = [];
+        $login = new \IPS\Login(\IPS\Http\Url::external(OSCOM::getLink('Website', 'Account', 'Login', 'SSL')));
 
-        $member = InvisionMember::load($username, 'name');
+        $success = null;
+        $fails = [];
 
-        if ($member->member_id) {
-            $members[] = $member;
-        }
+        foreach ($login->usernamePasswordMethods() as $method) {
+            try {
+                $member = $method->authenticateUsernamePassword($login, $username, $password);
 
-        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
-            $member = InvisionMember::load($username, 'email');
-
-            if ($member->member_id) {
-                $members[] = $member;
-            }
-        }
-
-        foreach ($members as $member) {
-            if (\IPS\Login::compareHashes($member->members_pass_hash, $member->encryptedPassword($password))) {
-                if (mb_strlen($member->members_pass_salt) !== 22) {
-                    $member->members_pass_salt = $member->generateSalt();
-                    $member->members_pass_hash = $member->encryptedPassword($password);
-                    $member->save();
+                if ($member->member_id) {
+                    \IPS\Login::checkIfAccountIsLocked($member, true);
+                    $success = new \IPS\Login\Success($member, $method, isset( \IPS\Request::i()->remember_me ));
+                    break;
                 }
-
-                return static::getUserDataArray($member);
+            } catch (\IPS\Login\Exception $e) {
+                if ($e->getCode() === \IPS\Login\Exception::BAD_PASSWORD and $e->member) {
+                    $fails[$e->member->member_id] = $e->member;
+                }
             }
+        }
+
+        foreach ($fails as $failedMember) {
+            if (!$success or $success->member->member_id != $failedMember->member_id) {
+                $failedLogins = is_array($failedMember->failed_logins) ? $failedMember->failed_logins : array();
+                $failedLogins[\IPS\Request::i()->ipAddress()][] = time();
+                $failedMember->failed_logins = $failedLogins;
+                $failedMember->save();
+            }
+        }
+
+        if ($success) {
+            return static::getUserDataArray(\IPS\Member::load($success->member->member_id));
         }
 
         return false;
@@ -362,9 +372,9 @@ class Invision
 
         if (isset($_COOKIE[static::COOKIE_DEVICE_KEY]) && isset($_COOKIE[static::COOKIE_MEMBER_ID]) && isset($_COOKIE[static::COOKIE_LOGIN_KEY])) {
             /* Get the member we're trying to authenticate against - do not process cookie-based login if the account is locked */
-            $member = InvisionMember::load((int)$_COOKIE[static::COOKIE_MEMBER_ID]);
+            $member = \IPS\Member::load((int)$_COOKIE[static::COOKIE_MEMBER_ID]);
 
-            if ($member->member_id && \IPS\Login::accountUnlockTime($member) === false) {
+            if ($member->member_id && $member->unlockTime() === false) {
                 /* Load and authenticate device device data */
                 try {
                     /* Authenticate */
@@ -575,14 +585,14 @@ EOD;
             'restricted_post' => ((int)$member->restrict_post !== 0) || ((int)$member->mod_posts !== 0),
             'joined' => $member->joined->rfc3339(),
             'posts' => (int)$member->member_posts,
-            'photo_url' => static::getPhotoUrl($member->_data, false),
+            'photo_url' => static::getPhotoUrl($member->getDataArray(), false),
             'val_newreg_id' => $val_newreg_id
         ];
     }
 
     public static function setCookies(array $member, bool $remember_me)
     {
-        $member = InvisionMember::load((int)$member['id']);
+        $member = \IPS\Member::load((int)$member['id']);
 
         \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication($remember_me);
     }
@@ -660,62 +670,80 @@ EOD;
         $photoUrl = null;
 
         /* All this only applies to members... */
-        if (isset($memberData['member_id']) && $memberData['member_id']) {
+        if (isset($memberData['member_id']) and $memberData['member_id']) {
             /* Is Gravatar disabled for them? */
-            $gravatarDisabled = isset($memberData['members_bitoptions']) && is_object($memberData['members_bitoptions']) ? $memberData['members_bitoptions']['bw_disable_gravatar'] : $memberData['members_bitoptions'] & InvisionMember::$bitOptions['members_bitoptions']['members_bitoptions']['bw_disable_gravatar'];
+            $gravatarDisabled = false;
+            if (isset($memberData['members_bitoptions'])) {
+                if (is_object($memberData['members_bitoptions'])) {
+                    $gravatarDisabled = $memberData['members_bitoptions']['bw_disable_gravatar'];
+                } else {
+                    $gravatarDisabled = $memberData['members_bitoptions'] & \IPS\Member::$bitOptions['members_bitoptions']['members_bitoptions']['bw_disable_gravatar'];
+                }
+            }
 
             /* Either uploaded or synced from social media */
-            if ($memberData['pp_main_photo'] && (mb_substr($memberData['pp_photo_type'], 0, 5) === 'sync-' || $memberData['pp_photo_type'] === 'custom' || (\IPS\Settings::i()->letter_photos == 'letters' && $memberData['pp_photo_type'] == 'letter' && ($gravatarDisabled OR !\IPS\Settings::i()->allow_gravatars)))) {
+            if ($memberData['pp_main_photo'] and (mb_substr($memberData['pp_photo_type'], 0, 5 ) === 'sync-' or $memberData['pp_photo_type'] === 'custom' or (\IPS\Settings::i()->letter_photos == 'letters' AND $memberData['pp_photo_type'] == 'letter' and $useDefaultPhoto and ($gravatarDisabled OR !\IPS\Settings::i()->allow_gravatars)))) {
                 try {
-                    $photoUrl = \IPS\File::get('core_Profile', ($thumb && $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'])->url;
+                    $photoUrl = \IPS\File::get('core_Profile', ($thumb and $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'])->url;
                 } catch (\InvalidArgumentException $e) {
                 }
             }
             /* Gravatar */
-            elseif(\IPS\Settings::i()->allow_gravatars && (($memberData['pp_photo_type'] === 'letter' || $memberData['pp_photo_type'] === 'gravatar') || (!$memberData['pp_photo_type'] && !$gravatarDisabled))) {
-//                $photoUrl = \IPS\Theme::i()->resource('default_photo.png', 'core', 'global');
+            elseif(\IPS\Settings::i()->allow_gravatars and (($memberData['pp_photo_type'] === 'letter' OR $memberData['pp_photo_type'] === 'gravatar') or (!$memberData['pp_photo_type'] and !$gravatarDisabled))) {
+//                $photoUrl = \IPS\Theme::i()->resource( 'default_photo.png', 'core', 'global' );
                 $photoUrl = OSCOM::getConfig('https_server', 'Website') . OSCOM::getConfig('dir_ws_https_server', 'Website') . OSCOM::getPublicSiteLink('images/default_photo.png', null, 'Website');
 
                 if (empty($memberData['pp_main_photo'])) {
-                    if ($photo = InvisionMember::generateLetterPhoto($memberData)) {
+                    if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
                         $photoUrl = $photo;
                     }
                 } else {
-                    $photoUrl = \IPS\File::get('core_Profile', ($thumb && $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'] )->url;
+                    $photoUrl = \IPS\File::get('core_Profile', ($thumb and $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'] )->url;
                 }
-
-                $gravatar = TRUE;
-            } elseif(\IPS\Settings::i()->letter_photos == 'letters' && empty($memberData['pp_main_photo'])) {
-                if ($photo = InvisionMember::generateLetterPhoto($memberData)) {
+                $gravatar = true;
+            } elseif(\IPS\Settings::i()->letter_photos == 'letters' AND empty($memberData['pp_main_photo'])) {
+                if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
                     $photoUrl = $photo;
 
-                    if (!$gravatarDisabled && \IPS\Settings::i()->allow_gravatars) {
-                        $gravatar = TRUE;
+                    if(!$gravatarDisabled AND \IPS\Settings::i()->allow_gravatars) {
+                        $gravatar = true;
                     }
                 }
             }
+
             /* Other - This allows an app (such as Gallery) to set the pp_photo_type to a storage container to support custom images without duplicating them */
-            elseif ($memberData['pp_photo_type'] && $memberData['pp_photo_type'] != 'none' && mb_strpos($memberData['pp_photo_type'], '_') !== FALSE) {
+            elseif ($memberData['pp_photo_type'] and $memberData['pp_photo_type'] != 'none' and mb_strpos($memberData['pp_photo_type'], '_' ) !== false) {
                 try {
                     $photoUrl = \IPS\File::get($memberData['pp_photo_type'], $memberData['pp_main_photo'])->url;
                 } catch (\InvalidArgumentException $e) {
                     /* If there was an exception, clear these values out - most likely the image or storage container is no longer valid */
-                    $member = InvisionMember::load($memberData['member_id']);
-                    $member->pp_photo_type = NULL;
-                    $member->pp_main_photo = NULL;
+                    $member = \IPS\Member::load($memberData['member_id']);
+                    $member->pp_photo_type = null;
+                    $member->pp_main_photo = null;
                     $member->save();
                 }
             }
 
             if ($gravatar) {
                 /* Construct the URL - Gravatar will error for localhost URLs, so if IN_DEV, don't send this (this way also allows us to easily see what is loading from Gravatar).*/
-                $photoUrl = \IPS\Http\Url::external("https://secure.gravatar.com/avatar/" . md5(trim(mb_strtolower($memberData['pp_gravatar'] ?? $memberData['email']))))->setQueryString(array(
+                $photoUrl = \IPS\Http\Url::external('https://secure.gravatar.com/avatar/' . md5(trim(mb_strtolower($memberData['pp_gravatar'] ?: $memberData['email']))))->setQueryString(array(
                     'd'	=> \IPS\IN_DEV ? '' : ($photoUrl instanceof \IPS\Http\Url ? (string) $photoUrl->setScheme(\IPS\Request::i()->isSecure() ? 'https' : 'http') : '')
                 ));
             }
 
+            /* If we're in the ACP, munge because this is an external resource, but not for locally uploaded files or letter avatars */
+            if (
+                \IPS\Dispatcher::hasInstance() AND
+                \IPS\Dispatcher::i()->controllerLocation === 'admin' AND
+                ($photoUrl instanceof \IPS\Http\Url) AND
+                ($gravatar === TRUE OR !in_array($memberData['pp_photo_type'], array('custom', 'letter')))
+            )
+            {
+                $photoUrl = $photoUrl->makeSafeForAcp( TRUE );
+            }
+
             /* Return */
-            if ($photoUrl !== NULL) {
+            if ($photoUrl !== null) {
                 return (string) $photoUrl;
             }
         }
@@ -723,9 +751,9 @@ EOD;
         /* Still here? Return default photo */
         if (!$photoUrl and $useDefaultPhoto) {
             if ($email) {
-                return rtrim(\IPS\Settings::i()->base_url, '/') . '/applications/core/interface/email/default_photo.png';
+                return rtrim( \IPS\Settings::i()->base_url, '/' ) . '/applications/core/interface/email/default_photo.png';
             } else {
-                if ($photo = InvisionMember::generateLetterPhoto($memberData)) {
+                if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
                     return (string) $photo;
                 }
 

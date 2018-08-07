@@ -74,6 +74,24 @@ class Create
             }
 
             if (empty($errors)) {
+                if (Invision::isFilterBanned(OSCOM::getIPAddress(), 'ip')) {
+                    $errors[] = OSCOM::getDef('create_ip_address_ms_error_filter_banned');
+                }
+            }
+
+            if (empty($errors)) {
+                if (Invision::isFilterBanned($username, 'name')) {
+                    $errors[] = OSCOM::getDef('create_username_ms_error_filter_banned');
+                }
+            }
+
+            if (empty($errors)) {
+                if (Invision::isFilterBanned($email, 'email')) {
+                    $errors[] = OSCOM::getDef('create_email_ms_error_filter_banned');
+                }
+            }
+
+            if (empty($errors)) {
                 $recaptcha_error = true;
 
                 if (!empty($grSecurityCheck)) {
