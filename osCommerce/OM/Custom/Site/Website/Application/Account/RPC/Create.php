@@ -56,6 +56,8 @@ class Create
                     $errors[] = OSCOM::getDef('create_username_ms_error_long');
                 } elseif (stripos($username, 'oscommerce') !== false) {
                     $errors[] = OSCOM::getDef('create_username_ms_error_oscommerce');
+                } elseif (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+                    $errors[] = OSCOM::getDef('create_username_ms_error_email');
                 }
 
                 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {

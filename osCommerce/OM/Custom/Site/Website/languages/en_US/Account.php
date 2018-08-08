@@ -73,6 +73,7 @@ create_username_js_error_oscommerce = "osCommerce" is not allowed
 create_username_ms_error_short = Your username is too short.
 create_username_ms_error_long = Your username is too long.
 create_username_ms_error_oscommerce = Your username must not contain the word "osCommerce".
+create_username_ms_error_email = Your username cannot contain an e-mail address.
 create_username_ms_error_exists = Your username is already used.
 
 create_email_address_title = E-Mail Address

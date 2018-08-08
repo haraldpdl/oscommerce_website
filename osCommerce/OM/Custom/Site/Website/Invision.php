@@ -247,14 +247,14 @@ class Invision
     public static function isFilterBanned(string $source, string $key = 'email'): bool
     {
         if (!in_array($key, ['email', 'name', 'ip'])) {
-            trigger_error('OSCOM\Invision::isBanned() unknown key: ' . $key);
+            trigger_error('OSCOM\Invision::isFilterBanned() unknown key: ' . $key);
 
             return true;
         }
 
         foreach (\IPS\Db::i()->select('ban_content', 'core_banfilters', array('ban_type=?', $key)) as $filter) {
             if (preg_match('/^' . str_replace('\*', '.*', preg_quote($filter, '/')) . '$/i', $source)) {
-                trigger_error('OSCOM\Invision::isBanned(): ' . $source . ' (' . $key . ')');
+                trigger_error('OSCOM\Invision::isFilterBanned(): ' . $source . ' (' . $key . ')');
 
                 return true;
             }
@@ -553,11 +553,21 @@ EOD;
         ];
 
         $fieldData = \IPS\core\ProfileFields\Field::fieldData();
-        $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', array('member_id=?', $member->member_id))->first();
+
+        try {
+            $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', array('member_id=?', $member->member_id))->first();
+        } catch (\UnderflowException $e) {
+            $fieldValues = array();
+        }
+
+        /* If \IPS\Db::i()->select()->first() has only one column, then the contents of that column is returned. We do not want this here. */
+        if (!is_array($fieldValues)) {
+            $fieldValues = array();
+        }
 
         foreach ($fieldData as $profileFieldGroup => $profileFields) {
             foreach ($profileFields as $field) {
-                $extra['customFields'][$profileFieldGroup]['fields'][$field['pf_id']]['value'] = $fieldValues['field_' . $field['pf_id']];
+                $extra['customFields'][$profileFieldGroup]['fields'][$field['pf_id']]['value'] = $fieldValues['field_' . $field['pf_id']] ?? null;
             }
         }
 
