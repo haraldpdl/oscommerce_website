@@ -8,7 +8,10 @@
 
 namespace osCommerce\OM\Core\Site\Website\Module\Event\ActionRecorder\Login;
 
-use osCommerce\OM\Core\ActionRecorder;
+use osCommerce\OM\Core\{
+    ActionRecorder,
+    Sanitize
+};
 
 use osCommerce\OM\Core\Site\Website\Invision;
 
