@@ -1,23 +1,12 @@
-# osCommerce Website
-#
-# @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
-# @license BSD License; http://www.oscommerce.com/bsdlicense.txt
-
 html_page_title = Creating Online Stores Worldwide | osCommerce
 
 page_title = Sell Online
 
-main_content = <p>We provide you the tools to set up your very own complete and self-hosted online store and website <strong>for free</strong> to securely sell products and services to customers worldwide.</p>
+main_content = <p class="lead">We provide you the tools to set up your very own complete and self-hosted online store and website <strong>for free</strong> to securely sell products and services to customers worldwide.</p>
 <p>You have complete access to and total control of your online store and data.</p>
 <p>Our growing community of over {value}stats_community_total_users{value} store owners, developers, and service providers are there to help you at every stage of running your online store and business. Over {value}stats_addons{value} free Add-Ons have been uploaded by the community to use and customize your online store with.</p>
 <p>New here? Find out more about us <a href="{link}Us{link}">here</a>.</p>
 <p>Need help? Free and commercial support is available <a href="{link}Support{link}">here</a>.</p>
-
-choco_php_title = PHP 5.3 Optimized
-choco_php_content = <p>Developed with a solid and flexible Object-Oriented framework utilizing PHP 5.3 features and namespaces.</p>
-
-choco_coreupdate_title = Online Updates
-choco_coreupdate_content = <p>Updates are applied safely from the Administration Dashboard in a non-destructive manner.</p>
 
 choco_addons_title = {value}stats_addons{value} Add-Ons
 choco_addons_content = <p>Our community have uploaded over {value}stats_addons{value} Add-Ons that can be used for free to customize your online store with.</p>

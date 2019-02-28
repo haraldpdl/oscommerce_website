@@ -1,22 +1,22 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}services_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-lg" style="float: right; margin-top: 20px;">{lang}button_partner_with_us{lang}</a>
+      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-sm mt-3 float-right">{lang}button_partner_with_us{lang}</a>
 
-      <h1>{lang}services_page_title{lang}</h1>
+      <h1 class="display-4">{lang}services_page_title{lang}</h1>
 
       {lang}services_main_content{lang}
 
       <h2>{lang}promotions_heading{lang}</h2>
 
-      <div style="padding-bottom: 15px;">
-        <select id="partnerPromotionFilter">
+      <div class="pb-4">
+        <select id="partnerPromotionFilter" class="form-control">
           <option value="All">{lang}promotions_show_all{lang}</option>
 
 {loop partner_promotion_categories}
@@ -29,14 +29,11 @@
       <div id="partnerPromotionContainer" class="row">
 
 {loop partner_promotions}
-        <div class="col-xs-4 partnerPromotionCategory_#category_code#">
-          <div class="thumbnail">
-            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}%image_promo_path%{publiclink}" alt="" title="#title#" /></a>
-
-            <div class="caption text-center">
-              <span class="label label-warning">#category_title#</span>
-            </div>
-          </div>
+        <div class="col-6 col-md-4 partnerPromotionCategory_#category_code# text-center">
+          <figure class="figure">
+            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}%image_promo_path%{publiclink}" alt="" title="#title#" class="figure-img"></a>
+            <figcaption class="figure-caption"><a href="{link}Services|Website|#category_code#{link}">#category_title#</a></figcaption>
+          </figure>
         </div>
 {loop}
 

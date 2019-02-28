@@ -16,6 +16,12 @@ namespace Braintree;
  *
  * @package    Braintree
  * @category   Resources
+ * 
+ * @property-read \Braintree\BinData $binData
+ * @property-read boolean $default
+ * @property-read string $nonce
+ * @property-read \Braintree\ThreeDSecureInfo $threeDSecureInfo
+ * @property-read string $type
  */
 class PaymentMethodNonce extends Base
 {
@@ -46,6 +52,10 @@ class PaymentMethodNonce extends Base
 
         if(isset($nonceAttributes['threeDSecureInfo'])) {
             $this->_set('threeDSecureInfo', ThreeDSecureInfo::factory($nonceAttributes['threeDSecureInfo']));
+        }
+
+        if(isset($nonceAttributes['binData'])) {
+            $this->_set('binData', BinData::factory($nonceAttributes['binData']));
         }
     }
 }

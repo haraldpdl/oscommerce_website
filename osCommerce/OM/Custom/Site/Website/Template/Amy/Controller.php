@@ -1,13 +1,13 @@
 <?php
 /**
- * osCommerce Online Merchant
- * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * osCommerce Website
+ *
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Template\Amy;
+namespace osCommerce\OM\Core\Site\Website\Template\Amy;
 
-  class Controller extends \osCommerce\OM\Core\TemplateAbstract {
-  }
-?>
+class Controller extends \osCommerce\OM\Core\TemplateAbstract
+{
+}

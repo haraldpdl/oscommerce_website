@@ -1,82 +1,63 @@
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}create_title{lang}</h1>
+      <h1 class="display-4">{lang}create_title{lang}</h1>
 
       {lang}create_introduction{lang}
 
-      <form id="formCreateAccount">{formprotect}public_token{formprotect}
+      <form id="formCreateAccount" novalidate>{formprotect}public_token{formprotect}
         {widget}message_stack|account{widget}
 
-        <div class="alert alert-danger hidden" role="alert"></div>
+        <div class="alert alert-danger d-none" role="alert"></div>
 
         <div class="form-group">
-          <label class="control-label" for="inputUsername">{lang}create_username_title{lang}</label>
+          <label for="inputUsername">{lang}create_username_title{lang}</label>
 
-          <input type="text" id="inputUsername" name="username" class="form-control" />
-          <span class="help-block small"><span id="inputUsernameAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_username_note{lang}</span></span>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label" for="inputEmail">{lang}create_email_address_title{lang}</label>
-
-          <input type="email" id="inputEmail" name="email" class="form-control" />
-          <span id="inputEmailAlert" class="help-block hidden small"></span>
+          <input type="text" id="inputUsername" name="username" class="form-control" required>
+          <div class="invalid-feedback"></div>
+          <small class="form-text text-muted">{lang}create_username_note{lang}</small>
         </div>
 
         <div class="form-group">
-          <label class="control-label" for="inputPassword">{lang}create_password_title{lang}</label>
+          <label for="inputEmail">{lang}create_email_address_title{lang}</label>
 
-          <input type="password" id="inputPassword" name="password" class="form-control" autocomplete="new-password" />
-          <span class="help-block small"><span id="inputPasswordAlert" class="hidden" style="padding-right: 10px;"></span><span class="text-muted">{lang}create_password_note{lang}</span></span>
+          <input type="email" id="inputEmail" name="email" class="form-control" required>
+          <div class="invalid-feedback"></div>
         </div>
 
-{iffalse recaptcha_pass}
         <div class="form-group">
-          <label class="control-label" for="inputSecurityCheck">{lang}create_security_check_title{lang}</label>
+          <label for="inputPassword">{lang}create_password_title{lang}</label>
 
-          <div id="inputSecurityCheck" class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
-          <span id="inputSecurityCheckAlert" class="help-block hidden small"></span>
-        </div>
-{iffalse}
-
-        <div class="checkbox">
-          <label class="control-label">
-            <input type="checkbox" id="inputTOS" name="agree_tos" value="1" />
-            {lang}create_tos_agree_title{lang}
-            <span id="inputTOSAlert" class="help-block hidden small"></span>
-          </label>
+          <input type="password" id="inputPassword" name="password" class="form-control" autocomplete="new-password" required>
+          <div class="invalid-feedback"></div>
+          <small class="form-text text-muted">{lang}create_password_note{lang}</small>
         </div>
 
-        <p>
-          <button type="submit" id="createButton" class="btn btn-info" data-processing-text="{lang addslashes}create_processing_button_title{lang}">{lang}create_button_title{lang}</button>
+        <div class="form-group">
+          <label>{lang}create_security_check_title{lang}</label>
+
+          <div class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
+          <input type="hidden" id="inputSecurityCheck" class="form-control">
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <p class="mt-3">
+          <button type="submit" id="createButton" class="btn btn-info" data-processing-text="{escape}{lang}create_processing_button_title{lang}{escape}">{lang}create_button_title{lang}</button>
 
 {ifvalue login_redirect_cancel_text}
           <a href="{link}Account|Website|Login&Redirect|SSL{link}" class="btn btn-link">{value}login_redirect_cancel_text{value}</a>
 {ifvalue}
-
         </p>
+
+        <p class="text-muted" style="font-size: 0.9em;">{lang}create_tos_agree{lang}</p>
       </form>
-    </div>
-  </div>
-</div>
 
-<div id="tosPane" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tosPaneLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 class="modal-title" id="tosPaneLabel">{lang}create_tos_title{lang}</h3>
-      </div>
+      <div class="jumbotron p-4 border" style="font-size: 0.9em;">
+        <h5>{lang}create_after_creation_title{lang}</h5>
 
-      <div class="modal-body">
-        {lang}create_tos_body{lang}
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">{lang}create_tos_close{lang}</button>
+        {lang}create_after_creation_content{lang}
       </div>
     </div>
   </div>
@@ -86,102 +67,75 @@
 function checkUsername() {
   $('#inputUsername').val($('#inputUsername').val().trim());
 
-  if (!$('#inputUsernameAlert').hasClass('hidden')) {
-    $('#inputUsernameAlert').addClass('hidden');
-    $('#inputUsername').closest('.form-group').removeClass('has-error');
+  if ($('#inputUsername').hasClass('is-invalid')) {
+    $('#inputUsername').removeClass('is-invalid');
   }
 
   if ($('#inputUsername').val() == '') {
-    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_required{lang}).removeClass('hidden');
+    $('#inputUsername').siblings('div.invalid-feedback').html({lang json_encode}create_username_js_error_required{lang});
+    $('#inputUsername').addClass('is-invalid');
   } else if ($('#inputUsername').val().length < 3) {
-    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_short{lang}).removeClass('hidden');
+    $('#inputUsername').siblings('div.invalid-feedback').html({lang json_encode}create_username_js_error_short{lang});
+    $('#inputUsername').addClass('is-invalid');
   } else if ($('#inputUsername').val().length > 26) {
-    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_long{lang}).removeClass('hidden');
+    $('#inputUsername').siblings('div.invalid-feedback').html({lang json_encode}create_username_js_error_long{lang});
+    $('#inputUsername').addClass('is-invalid');
   } else if ($('#inputUsername').val().match(/oscommerce/gi) !== null) {
-    $('#inputUsernameAlert').html({lang json_encode}create_username_js_error_oscommerce{lang}).removeClass('hidden');
+    $('#inputUsername').siblings('div.invalid-feedback').html({lang json_encode}create_username_js_error_oscommerce{lang});
+    $('#inputUsername').addClass('is-invalid');
   }
 
-  if (!$('#inputUsernameAlert').hasClass('hidden')) {
-    $('#inputUsername').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputUsernameAlert').hasClass('hidden');
+  return !$('#inputUsername').hasClass('is-invalid');
 }
 
 function checkEmailAddress() {
   $('#inputEmail').val($('#inputEmail').val().trim());
 
-  if (!$('#inputEmailAlert').hasClass('hidden')) {
-    $('#inputEmailAlert').addClass('hidden');
-    $('#inputEmail').closest('.form-group').removeClass('has-error');
+  if ($('#inputEmail').hasClass('is-invalid')) {
+    $('#inputEmail').removeClass('is-invalid');
   }
 
   if ($('#inputEmail').val() == '') {
-    $('#inputEmailAlert').html({lang json_encode}create_email_address_js_error_required{lang}).removeClass('hidden');
+    $('#inputEmail').siblings('div.invalid-feedback').html({lang json_encode}create_email_address_js_error_required{lang});
+    $('#inputEmail').addClass('is-invalid');
   } else if ($('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null) {
-    $('#inputEmailAlert').html({lang json_encode}create_email_address_js_error_invalid{lang}).removeClass('hidden');
+    $('#inputEmail').siblings('div.invalid-feedback').html({lang json_encode}create_email_address_js_error_invalid{lang});
+    $('#inputEmail').addClass('is-invalid');
   }
 
-  if (!$('#inputEmailAlert').hasClass('hidden')) {
-    $('#inputEmail').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputEmailAlert').hasClass('hidden');
+  return !$('#inputEmail').hasClass('is-invalid');
 }
 
 function checkPassword() {
-  if (!$('#inputPasswordAlert').hasClass('hidden')) {
-    $('#inputPasswordAlert').addClass('hidden');
-    $('#inputPassword').closest('.form-group').removeClass('has-error');
+  if ($('#inputPassword').hasClass('is-invalid')) {
+    $('#inputPassword').removeClass('is-invalid');
   }
 
   if ($('#inputPassword').val() == '') {
-    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_required{lang}).removeClass('hidden');
+    $('#inputPassword').siblings('div.invalid-feedback').html({lang json_encode}create_password_js_error_required{lang});
+    $('#inputPassword').addClass('is-invalid');
   } else if ($('#inputPassword').val().length < 3) {
-    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_short{lang}).removeClass('hidden');
+    $('#inputPassword').siblings('div.invalid-feedback').html({lang json_encode}create_password_js_error_short{lang});
+    $('#inputPassword').addClass('is-invalid');
   } else if ($('#inputPassword').val().length > 32) {
-    $('#inputPasswordAlert').html({lang json_encode}create_password_js_error_long{lang}).removeClass('hidden');
+    $('#inputPassword').siblings('div.invalid-feedback').html({lang json_encode}create_password_js_error_long{lang});
+    $('#inputPassword').addClass('is-invalid');
   }
 
-  if (!$('#inputPasswordAlert').hasClass('hidden')) {
-    $('#inputPassword').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputPasswordAlert').hasClass('hidden');
+  return !$('#inputPassword').hasClass('is-invalid');
 }
 
 function checkSecurityCheck() {
-  if (!$('#inputSecurityCheckAlert').hasClass('hidden')) {
-    $('#inputSecurityCheckAlert').addClass('hidden');
-    $('#inputSecurityCheck').closest('.form-group').removeClass('has-error');
+  if ($('#inputSecurityCheck').hasClass('is-invalid')) {
+    $('#inputSecurityCheck').removeClass('is-invalid');
   }
 
   if ($('#formCreateAccount textarea[name="g-recaptcha-response"]').val().length < 1) {
-    $('#inputSecurityCheckAlert').html({lang json_encode}create_security_check_js_error{lang}).removeClass('hidden');
+    $('#inputSecurityCheck').siblings('div.invalid-feedback').html({lang json_encode}create_security_check_js_error{lang});
+    $('#inputSecurityCheck').addClass('is-invalid');
   }
 
-  if (!$('#inputSecurityCheckAlert').hasClass('hidden')) {
-    $('#inputSecurityCheck').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputSecurityCheckAlert').hasClass('hidden');
-}
-
-function checkTOS() {
-  if (!$('#inputTOSAlert').hasClass('hidden')) {
-    $('#inputTOSAlert').addClass('hidden');
-    $('#inputTOS').closest('.checkbox').removeClass('has-error');
-  }
-
-  if (!$('#inputTOS').is(':checked')) {
-    $('#inputTOSAlert').html({lang json_encode}create_tos_agree_js_error_required{lang}).removeClass('hidden');
-  }
-
-  if (!$('#inputTOSAlert').hasClass('hidden')) {
-    $('#inputTOS').closest('.checkbox').addClass('has-error');
-  }
-
-  return $('#inputTOSAlert').hasClass('hidden');
+  return !$('#inputSecurityCheck').hasClass('is-invalid');
 }
 
 function checkForm() {
@@ -199,13 +153,7 @@ function checkForm() {
     has_error = true;
   }
 
-{iffalse recaptcha_pass}
   if (!checkSecurityCheck()) {
-    has_error = true;
-  }
-{iffalse}
-
-  if (!checkTOS()) {
     has_error = true;
   }
 
@@ -222,12 +170,12 @@ $(function() {
       return false;
     }
 
-    $('#formCreateAccount div.alert').empty().addClass('hidden');
+    $('#formCreateAccount div.alert').empty().addClass('d-none');
 
-    $('#createButton').button('processing').prop('disabled', true);
+    $('#createButton').prop('disabled', true).data('original-text', $('#createButton').html()).html($('#createButton').data('processing-text'));
 
     if (!checkForm()) {
-      $('#createButton').button('reset').prop('disabled', false);
+      $('#createButton').html($('#createButton').data('original-text')).removeData('original-text').prop('disabled', false);
     } else {
       var params = {
         public_token: $('#formCreateAccount input[name="public_token"]').val(),
@@ -235,7 +183,6 @@ $(function() {
         email: $('#inputEmail').val(),
         password: $('#inputPassword').val(),
         gr_security_check: $('#formCreateAccount textarea[name="g-recaptcha-response"]').val(),
-        agree_tos: $('#inputTOS').is(':checked') ? 1 : 0,
         sendVerification: '1'
       };
 
@@ -253,7 +200,7 @@ $(function() {
             }
 
             e.forEach(function(v) {
-              $('#formCreateAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('hidden');
+              $('#formCreateAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('d-none');
             });
 
             if ((typeof result.resetGSecurityCheck !== 'undefined') && (result.resetGSecurityCheck === true)) {
@@ -261,12 +208,12 @@ $(function() {
             }
           }
         } else {
-          $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('hidden');
+          $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('d-none');
         }
       }, 'json').fail(function() {
-        $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('hidden');
+        $('#formCreateAccount div.alert-danger').append('<p>' + error_create_general + '</p>').removeClass('d-none');
       }).always(function() {
-        $('#createButton').button('reset').prop('disabled', false);
+        $('#createButton').html($('#createButton').data('original-text')).removeData('original-text').prop('disabled', false);
       });
     }
   });

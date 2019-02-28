@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
@@ -43,8 +43,8 @@ class Partner
 
         $application->setPageTitle(OSCOM::getDef('partner_html_title'));
 
-        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/services.jpg')) {
-            $OSCOM_Template->setValue('highlights_image', 'images/services.jpg', true);
+        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/highlights/services.jpg')) {
+            $OSCOM_Template->setValue('highlights_image', 'images/highlights/services.jpg', true);
         } else {
             $OSCOM_Template->setValue('highlights_image', 'images/940x285.gif', true);
         }

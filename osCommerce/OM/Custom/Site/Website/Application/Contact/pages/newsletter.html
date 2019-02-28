@@ -1,0 +1,116 @@
+<div id="highlights">
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
+</div>
+
+<div class="row">
+  {widget}contact_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-lg-9">
+    <div id="maincontent">
+      <h1 class="display-4">{lang}newsletter_page_title{lang}</h1>
+
+      <p class="lead">{lang}contact_newsletter_content{lang}</p>
+
+      <form id="formNewsletter" action="{link}Contact|Website|Newsletter&Subscribe{link}" method="post" novalidate>{formprotect}public_token{formprotect}
+        {widget}message_stack|newsletter{widget}
+
+        <div class="jumbotron border pt-4 pb-4">
+          <div class="input-group">
+            <input type="email" id="inputEmail" name="email" value="{post}email{post}" class="form-control" placeholder="Your email address" required>
+
+            <div class="input-group-append">
+              <button type="button" id="buttonNewsletterSubscribe" class="btn btn-dark" data-processing-text="{escape}{lang}newsletter_processing_button_title{lang}{escape}">{lang}contact_newsletter_subscribe_button_title{lang}</button>
+              <button type="button" id="buttonNewsletterUnsubscribe" class="btn btn-link" data-processing-text="{escape}{lang}newsletter_processing_button_title{lang}{escape}">{lang}newsletter_unsubscribe_button_title{lang}</button>
+            </div>
+
+            <div class="invalid-feedback">{lang}newsletter_email_address_error_required{lang}</div>
+          </div>
+        </div>
+      </form>
+
+      <div class="jumbotron p-4 border" style="font-size: 0.9em;">
+        <h5>{lang}contact_newsletter_after_subscription_title{lang}</h5>
+
+        {lang}contact_newsletter_after_subscription_content{lang}
+
+        <h5>{lang}contact_newsletter_removal_title{lang}</h5>
+
+        {lang}contact_newsletter_removal_content{lang}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function checkEmailAddress() {
+  $('#inputEmail').val($('#inputEmail').val().trim());
+
+  if ($('#inputEmail').hasClass('is-invalid')) {
+    $('#inputEmail').removeClass('is-invalid');
+  }
+
+  if ($('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null) {
+    $('#inputEmail').addClass('is-invalid');
+  }
+
+  return !$('#inputEmail').hasClass('is-invalid');
+}
+
+function checkForm() {
+  var has_error = false;
+
+  if (!checkEmailAddress()) {
+    has_error = true;
+  }
+
+  return !has_error;
+}
+
+var error_inquiry_general = {lang json_encode}contact_inquiry_ms_error_general{lang};
+
+$('#buttonNewsletterSubscribe').on('click', function() {
+  $('#formNewsletter').attr('action', {json}{link}Contact|Website|Newsletter&Subscribe{link}{json});
+
+  $('#formNewsletter').data('formButtonClicked', 'Subscribe');
+
+  $('#formNewsletter').submit();
+});
+
+$('#buttonNewsletterUnsubscribe').on('click', function() {
+  $('#formNewsletter').attr('action', {json}{link}Contact|Website|Newsletter&Unsubscribe{link}{json});
+
+  $('#formNewsletter').data('formButtonClicked', 'Unsubscribe');
+
+  $('#formNewsletter').submit();
+});
+
+$('#formNewsletter').submit(function(e) {
+  if (typeof $(this).data('formButtonClicked') === 'undefined') {
+    $(this).data('formButtonClicked', 'Subscribe');
+  }
+
+  if (($('#buttonNewsletterSubscribe').prop('disabled') === true) || ($('#buttonNewsletterUnsubscribe').prop('disabled') === true)) {
+    return false;
+  }
+
+  $('#buttonNewsletter' + $(this).data('formButtonClicked')).prop('disabled', true).data('original-text', $('#buttonNewsletter' + $(this).data('formButtonClicked')).html()).html($('#buttonNewsletter' + $(this).data('formButtonClicked')).data('processing-text'));
+
+  if ($(this).data('formButtonClicked') == 'Subscribe') {
+    $('#buttonNewsletterUnsubscribe').prop('disabled', true).addClass('d-none');
+  } else {
+    $('#buttonNewsletterSubscribe').prop('disabled', true).addClass('d-none');
+  }
+
+  if (!checkForm()) {
+    $('#buttonNewsletter' + $(this).data('formButtonClicked')).html($('#buttonNewsletter' + $(this).data('formButtonClicked')).data('original-text')).removeData('original-text').prop('disabled', false);
+
+    if ($(this).data('formButtonClicked') == 'Subscribe') {
+      $('#buttonNewsletterUnsubscribe').prop('disabled', false).removeClass('d-none');
+    } else {
+      $('#buttonNewsletterSubscribe').prop('disabled', false).removeClass('d-none');
+    }
+
+    return false;
+  }
+});
+</script>

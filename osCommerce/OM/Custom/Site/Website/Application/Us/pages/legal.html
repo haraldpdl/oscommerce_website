@@ -1,21 +1,69 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}us_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}legal_page_title{lang}</h1>
+      <h1 class="display-4 mb-4">{lang}legal_page_title{lang}</h1>
 
-      {lang}legal_trademark_policy{lang}
+      <ul id="legalPolicyTabs" class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="PrivacyPolicy" data-toggle="tab" href="#legalTabContentPrivacy" role="tab" aria-controls="legalTabContentPrivacy" aria-selected="true">{lang}legal_tab_privacy{lang}</a></li>
+        <li class="nav-item"><a class="nav-link" id="TermsOfUsePolicy" data-toggle="tab" href="#legalTabContentTermsOfUse" role="tab" aria-controls="legalTabContentTermsOfUse" aria-selected="true">{lang}legal_tab_terms_of_use{lang}</a></li>
+        <li class="nav-item"><a class="nav-link" id="TrademarkPolicy" data-toggle="tab" href="#legalTabContentTrademark" role="tab" aria-controls="legalTabContentTrademark" aria-selected="false">{lang}legal_tab_trademark{lang}</a></li>
+        <li class="nav-item"><a class="nav-link" id="CopyrightPolicy" data-toggle="tab" href="#legalTabContentCopyright" role="tab" aria-controls="legalTabContentCopyright" aria-selected="false">{lang}legal_tab_copyright{lang}</a></li>
+        <li class="nav-item"><a class="nav-link" id="ImpressumPolicy" data-toggle="tab" href="#legalTabContentImpressum" role="tab" aria-controls="legalTabContentImpressum" aria-selected="false">{lang}legal_tab_impressum{lang}</a></li>
+      </ul>
 
-      {lang}legal_license_policy{lang}
+      <div id="legalPolicyTabsContent" class="tab-content">
+        <div class="tab-pane show active" id="legalTabContentPrivacy" role="tabpanel" aria-labelledby="PrivacyPolicy">
+          <h2 class="display-5">{lang}legal_privacy_title{lang}</h2>
 
-      {lang}legal_copyright_policy{lang}
+          {lang}legal_privacy_policy{lang}
+        </div>
 
-      {lang}legal_impressum{lang}
+        <div class="tab-pane" id="legalTabContentTermsOfUse" role="tabpanel" aria-labelledby="TermsOfUsePolicy">
+          <h2 class="display-5">{lang}legal_terms_of_use_title{lang}</h2>
+
+          {lang}legal_terms_of_use_policy{lang}
+        </div>
+
+        <div class="tab-pane" id="legalTabContentTrademark" role="tabpanel" aria-labelledby="TrademarkPolicy">
+          <h2 class="display-5">{lang}legal_trademark_title{lang}</h2>
+
+          {lang}legal_trademark_policy{lang}
+        </div>
+
+        <div class="tab-pane" id="legalTabContentCopyright" role="tabpanel" aria-labelledby="CopyrightPolicy">
+          <h2 class="display-5">{lang}legal_copyright_title{lang}</h2>
+
+          {lang}legal_copyright_policy{lang}
+        </div>
+
+        <div class="tab-pane" id="legalTabContentImpressum" role="tabpanel" aria-labelledby="ImpressumPolicy">
+          <h2 class="display-5">{lang}legal_impressum_title{lang}</h2>
+
+          {lang}legal_impressum{lang}
+        </div>
+      </div>
+
+      <div class="card bg-light mt-4">
+        <div class="card-body">
+          <h6 class="card-title">{lang}legal_contact_us_title{lang}</h6>
+          <p class="card-text">{lang}legal_contact_us_content{lang}</p>
+          <address class="card-text">osCommerce<br>Harald Ponce de Leon<br>Remscheider Str. 96<br>42659 Solingen<br>Germany</address>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+$(function() {
+  if ((document.location.hash.length > 0) && ($('#legalPolicyTabs ' + document.location.hash).length === 1)) {
+    $('#legalPolicyTabs ' + document.location.hash).tab('show');
+  }
+});
+</script>

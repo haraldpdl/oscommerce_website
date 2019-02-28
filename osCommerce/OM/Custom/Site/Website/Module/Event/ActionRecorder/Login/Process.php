@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Module\Event\ActionRecorder\Login;
@@ -38,7 +38,7 @@ class Process
                 ]);
             }
         } else {
-            $username = trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['username']));
+            $username = Sanitize::simple($_POST['username']);
 
             $user = false;
 

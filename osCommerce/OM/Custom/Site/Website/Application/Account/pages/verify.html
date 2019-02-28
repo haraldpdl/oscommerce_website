@@ -1,32 +1,32 @@
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}verify_title{lang}</h1>
+      <h1 class="display-4">{lang}verify_title{lang}</h1>
 
       {lang}verify_introduction{lang}
 
-      <form id="formVerifyAccount">{formprotect}public_token{formprotect}
+      <form id="formVerifyAccount" novalidate>{formprotect}public_token{formprotect}
         {widget}message_stack|account{widget}
 
-        <div class="alert alert-danger hidden" role="alert"></div>
+        <div class="alert alert-danger d-none" role="alert"></div>
 
         <div class="form-group">
-          <label class="control-label" for="inputUserID">{lang}verify_user_id_title{lang}</label>
+          <label for="inputUserID">{lang}verify_user_id_title{lang}</label>
 
-          <input type="number" id="inputUserID" name="user_id" class="form-control" />
-          <span id="inputUserIDAlert" class="help-block hidden small"></span>
+          <input type="number" id="inputUserID" name="user_id" class="form-control" required>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="form-group">
-          <label class="control-label" for="inputKey">{lang}verify_key_title{lang}</label>
+          <label for="inputKey">{lang}verify_key_title{lang}</label>
 
-          <input type="text" id="inputKey" name="key" class="form-control" />
-          <span id="inputKeyAlert" class="help-block hidden small"></span>
+          <input type="text" id="inputKey" name="key" class="form-control" required>
+          <div class="invalid-feedback"></div>
         </div>
 
-        <p><button type="submit" id="verifyButton" class="btn btn-info" data-processing-text="{lang addslashes}verify_processing_button_title{lang}">{lang}verify_button_title{lang}</button></p>
+        <p><button type="submit" id="verifyButton" class="btn btn-info" data-processing-text="{escape}{lang}verify_processing_button_title{lang}{escape}">{lang}verify_button_title{lang}</button></p>
       </form>
     </div>
   </div>
@@ -36,45 +36,40 @@
 function checkUserID() {
   $('#inputUserID').val($('#inputUserID').val().trim());
 
-  if (!$('#inputUserIDAlert').hasClass('hidden')) {
-    $('#inputUserIDAlert').addClass('hidden');
-    $('#inputUserID').closest('.form-group').removeClass('has-error');
+  if ($('#inputUserID').hasClass('is-invalid')) {
+    $('#inputUserID').removeClass('is-invalid');
   }
 
   if ($('#inputUserID').val() == '') {
-    $('#inputUserIDAlert').html({lang json_encode}verify_user_id_js_error_required{lang}).removeClass('hidden');
+    $('#inputUserID').siblings('div.invalid-feedback').html({lang json_encode}verify_user_id_js_error_required{lang});
+    $('#inputUserID').addClass('is-invalid');
   } else if (($('#inputUserID').val().match(/^\d+$/g) === null) || ($('#inputUserID').val() < 1)) {
-    $('#inputUserIDAlert').html({lang json_encode}verify_user_id_js_error_invalid{lang}).removeClass('hidden');
+    $('#inputUserID').siblings('div.invalid-feedback').html({lang json_encode}verify_user_id_js_error_invalid{lang});
+    $('#inputUserID').addClass('is-invalid');
   }
 
-  if (!$('#inputUserIDAlert').hasClass('hidden')) {
-    $('#inputUserID').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputUserIDAlert').hasClass('hidden');
+  return !$('#inputUserID').hasClass('is-invalid');
 }
 
 function checkKey() {
   $('#inputKey').val($('#inputKey').val().trim());
 
-  if (!$('#inputKeyAlert').hasClass('hidden')) {
-    $('#inputKeyAlert').addClass('hidden');
-    $('#inputKey').closest('.form-group').removeClass('has-error');
+  if ($('#inputKey').hasClass('is-invalid')) {
+    $('#inputKey').removeClass('is-invalid');
   }
 
   if ($('#inputKey').val() == '') {
-    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_required{lang}).removeClass('hidden');
+    $('#inputKey').siblings('div.invalid-feedback').html({lang json_encode}verify_key_js_error_required{lang});
+    $('#inputKey').addClass('is-invalid');
   } else if ($('#inputKey').val().length !== 32) {
-    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_length{lang}).removeClass('hidden');
+    $('#inputKey').siblings('div.invalid-feedback').html({lang json_encode}verify_key_js_error_length{lang});
+    $('#inputKey').addClass('is-invalid');
   } else if ($('#inputKey').val().match(/^[a-zA-Z0-9\-\_]+$/g) === null) {
-    $('#inputKeyAlert').html({lang json_encode}verify_key_js_error_invalid{lang}).removeClass('hidden');
+    $('#inputKey').siblings('div.invalid-feedback').html({lang json_encode}verify_key_js_error_invalid{lang});
+    $('#inputKey').addClass('is-invalid');
   }
 
-  if (!$('#inputKeyAlert').hasClass('hidden')) {
-    $('#inputKey').closest('.form-group').addClass('has-error');
-  }
-
-  return $('#inputKeyAlert').hasClass('hidden');
+  return !$('#inputKey').hasClass('is-invalid');
 }
 
 function checkForm() {
@@ -101,12 +96,12 @@ $(function() {
       return false;
     }
 
-    $('#formVerifyAccount div.alert').empty().addClass('hidden');
+    $('#formVerifyAccount div.alert').empty().addClass('d-none');
 
-    $('#verifyButton').button('processing').prop('disabled', true);
+    $('#verifyButton').prop('disabled', true).data('original-text', $('#verifyButton').html()).html($('#verifyButton').data('processing-text'));
 
     if (!checkForm()) {
-      $('#verifyButton').button('reset').prop('disabled', false);
+      $('#verifyButton').html($('#verifyButton').data('original-text')).removeData('original-text').prop('disabled', false);
     } else {
       var params = {
         public_token: $('#formVerifyAccount input[name="public_token"]').val(),
@@ -131,17 +126,17 @@ $(function() {
               }
 
               e.forEach(function(v) {
-                $('#formVerifyAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('hidden');
+                $('#formVerifyAccount div.alert-danger').append('<p>' + v + '</p>').removeClass('d-none');
               });
             }
           }
         } else {
-          $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('hidden');
+          $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('d-none');
         }
       }, 'json').fail(function() {
-        $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('hidden');
+        $('#formVerifyAccount div.alert-danger').append('<p>' + error_verify_general + '</p>').removeClass('d-none');
       }).always(function() {
-        $('#verifyButton').button('reset').prop('disabled', false);
+        $('#verifyButton').html($('#verifyButton').data('original-text')).removeData('original-text').prop('disabled', false);
       });
     }
   });

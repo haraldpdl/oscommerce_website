@@ -2,15 +2,14 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
-    HTML,
     OSCOM,
     Registry
 };
@@ -45,5 +44,8 @@ class Edit
         $application->setPageTitle(OSCOM::getDef('partner_view_html_title', [
             ':partner_title' => $partner['title']
         ]));
+
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('external/bs-custom-file-input-1.3.1.min.js') . '"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script>$(document).ready(function(){bsCustomFileInput.init();});</script>');
     }
 }

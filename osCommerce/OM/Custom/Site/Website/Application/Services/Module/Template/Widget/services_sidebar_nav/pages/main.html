@@ -1,0 +1,25 @@
+<div id="sidebar" class="col-lg-3 order-9">
+  <div class="card border-primary">
+    <div class="card-header text-white bg-primary">{lang}navbutton_services{lang}</div>
+
+    <div class="card-body">
+      <ul class="nav nav-pills flex-column">
+        <li id="snIndex" class="nav-item"><a href="{link}Services{link}" class="nav-link">{lang}sidebar_nav_promotions{lang}</a></li>
+
+{loop partner_categories}
+        <li id="sn#code#" class="nav-item"><a href="{link}Services|Website|%code%{link}" class="nav-link">#title#</a></li>
+{loop}
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  var services_category = '{value}services_action{value}';
+  var sn_active_link = ( services_category.length > 0 ) ? services_category : 'Index';
+
+  $('#sidebar #sn' + sn_active_link + ' a').addClass('active');
+});
+</script>

@@ -2,15 +2,16 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 
 use osCommerce\OM\Core\{
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\Invision;
@@ -34,10 +35,10 @@ class ResetPassword
 
             $user = false;
 
-            $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-            $key = isset($_POST['key']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['key'])) : '';
-            $user_id = isset($_POST['id']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['id'])) : '';
-            $password = isset($_POST['password']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['password']) : '';
+            $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+            $key = Sanitize::simple($_POST['key'] ?? null);
+            $user_id = Sanitize::simple($_POST['id'] ?? null);
+            $password = Sanitize::simple($_POST['password'] ?? null);
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $errors[] = OSCOM::getDef('error_form_protect_general');

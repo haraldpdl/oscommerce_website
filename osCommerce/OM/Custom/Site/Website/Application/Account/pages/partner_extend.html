@@ -1,214 +1,181 @@
-<div id="highlights">
-  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
-</div>
-
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <div class="pull-right"><span class="pcdate label">{value}partner_campaign date_end{value}</span><br /><span class="pcdays text-muted small"></span></div>
+      <div class="float-right text-right"><span class="pcdate badge"></span><br><small class="text-muted">{value}partner_campaign relative_date{value}</small></div>
 
-      <h1>{value}partner title{value}</h1>
+      <h1 class="display-4">{lang}partner_extension_title{lang}</h1>
+
+      <h2>{value}partner title{value}</h2>
+
+      <p class="lead">{lang}partner_extension_description{lang}</p>
 
       {widget}message_stack|partner{widget}
 
-      <h2>{lang}partner_extension_title{lang}</h2>
-
-      <p>{lang}partner_extension_description{lang}</p>
-
-      <div class="col-xs-6">
-        <ul id="pPlanTabs" class="nav nav-tabs" role="tablist"></ul>
-
-        <div id="pPlanTabsContent" class="tab-content"></div>
-      </div>
-
-      <div class="col-xs-6">
-        <div class="panel panel-info">
-          <div class="panel-heading text-center">
-            <h3 id="pPlanTitle" class="panel-title"></h3>
-          </div>
-
-          <div class="panel-body">
-            <form id="pForm" class="form">
-              <address style="font-size: 0.8em;">{raw}partner_billing_address_formatted{raw}</address>
-
-              <div class="form-group">
-                <label for="pPlanSelection">{lang}cs_plans_duration_title{lang}</label>
-
-                <select id="pPlanSelection" name="duration" class="form-control"></select>
-              </div>
-
-              <table id="orderTable" class="table table-condensed table-borderless">
-                <tr id="orderTableTaxRow" class="hidden">
-                  <td style="width: 70%;" id="orderTableTaxTitle" align="right"></td>
-                  <td style="width: 30%;" id="orderTableTax" align="right"></td>
-                </tr>
-                <tr>
-                  <td style="width: 70%;" align="right">{lang}purchase_item_total{lang}:</td>
-                  <td style="width: 30%;" id="orderTableTotal" align="right"></td>
-                </tr>
-              </table>
-
-              <div id="pPayAlert" class="alert alert-danger hidden" role="alert"></div>
-
-              <i id="pBtFormIndicator" class="fa fa-spinner fa-spin"></i>
-              <div id="pBtForm"></div>
-
-              <p class="text-right"><i class="fa fa-long-arrow-right text-success hidden" style="padding: 6px 12px; font-size: 18px;"></i> <button id="pPayButton" class="btn btn-success hidden" type="button" data-processing="{escape}{lang}cs_pay_processing_button{lang}{escape}" disabled></button></p>
-            </form>
-          </div>
+      <div class="row">
+        <div class="col-6">
+          <table class="table table-hover table-borderless">
+            <tbody>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_partner_page{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_promotions{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_administration_dashboard{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_banner{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_forum_channel{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_showcase_sites{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_commercial_inquiries{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/check-square.svg{publiclink}" class="svg-inject"></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}cs_plans_service_extra{lang}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <p class="text-muted text-center" style="font-size: 0.85em;">{lang}cs_pricing_info{lang}</p>
+        <div class="col-6">
+          <div class="card bg-light">
+            <div class="card-body">
+              <div class="text-right mb-2">
+                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree">
+              </div>
+
+              <form id="pForm" class="form">
+                <address>{raw}partner_billing_address_formatted{raw}</address>
+
+                <div id="pFormBillingContent" class="d-none">
+                  <div class="form-group mb-0">
+                    <label for="pPlanDurationSelection">{lang}cs_plans_duration_title{lang}</label>
+                    <input type="range" id="pPlanDurationSelection" class="custom-range" min="0">
+                  </div>
+
+                  <div class="form-group d-none">
+                    <label for="pPlanSelection">{lang}cs_plans_duration_title{lang}</label>
+
+                    <select id="pPlanSelection" name="duration" class="form-control"></select>
+                  </div>
+
+                  <table id="orderTable" class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th colspan="2" class="border-top-0">{lang}partner_extension_partnership_title{lang}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td id="pPlanSelectedText" style="width: 70%;"></td>
+                        <td id="pPlanSelectedPrice" class="pr-0 text-right" style="width: 30%;"></td>
+                      </tr>
+                      <tr id="orderTableTaxRow" class="d-none">
+                        <td id="orderTableTaxTitle" class="text-right" style="width: 70%;"></td>
+                        <td id="orderTableTax" class="pr-0 text-right" style="width: 30%;"></td>
+                      </tr>
+                      <tr>
+                        <td class="text-right" style="width: 70%;">{lang}purchase_item_total{lang}:</td>
+                        <td id="orderTableTotal" class="pr-0 text-right" style="width: 30%;"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div id="pPayAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                <div id="pBtFormIndicator" class="text-center"><span class="spinner-border" role="status"></span></div>
+                <div id="pBtForm"></div>
+
+                <p class="text-right">
+                  <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/arrow-right.svg{publiclink}" class="svg-inject d-none text-success">
+                  <button type="button" id="pPayButton" class="btn btn-secondary d-none" data-processing-text="{escape}{lang}cs_pay_processing_button{lang}{escape}" disabled></button>
+                </p>
+              </form>
+            </div>
+          </div>
+
+          <p class="small text-muted text-center mt-2">{lang}cs_pricing_info{lang}</p>
+        </div>
       </div>
 
-      <div class="clearfix"></div>
+      <div class="jumbotron p-4 border" style="font-size: 0.9em;">
+        <h5>{lang}partner_extension_after_payment_title{lang}</h5>
 
-      <h3>{lang}partner_extension_after_payment_title{lang}</h3>
-
-      {lang}partner_extension_after_payment_description{lang}
-    </div>
-  </div>
-</div>
-
-<div id="bt3dsmodal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body"></div>
+        {lang}partner_extension_after_payment_description{lang}
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-var btClientInstance;
-var btThreeDSecureInstance;
 var btDropinInstance;
-var bt3dsModalOpen = false;
 
 var total_raw;
 
-var error_payment_general = {lang json_encode}error_partner_payment_general{lang};
+var pPayButtonText = {lang json_encode}cs_pay_credit_card_button{lang};
 
-function showMessage(message) {
-  $('#pPayAlert').append('<p>' + message + '</p>').removeClass('hidden');
-}
+var error_payment_general = {lang json_encode}error_partner_payment_general{lang};
 
 var taxDescriptions = {
   'DE19MWST': {lang json_encode}purchase_tax_DE19MWST_title{lang}
 };
 
 var pPackages = {
-  selected: {raw json_encode}partner_campaign pkg_code{raw},
+  selected: 'gold',//{raw json_encode}partner_campaign pkg_code{raw},
   plans: {raw json_encode}partner_packages{raw}
 };
 
-pPackages.plans.silver.desc = [
-  {
-    title: {lang json_encode}cs_plans_service_partner_listing{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_commercial_inquiries{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_commercial_feedback{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_profile{lang},
-    checked: true
-  }
-];
+var pPlanKeys = Object.keys(pPackages.plans[pPackages.selected].levels);
 
-pPackages.plans.gold.desc = [
-  {
-    title: {lang json_encode}cs_plans_service_silver_level{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_partner_page{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_promotions{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_banner{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_forum_channel{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_showcase_sites{lang},
-    checked: true
-  },
-  {
-    title: {lang json_encode}cs_plans_service_extra{lang},
-    checked: false
-  }
-];
-
-$.each(pPackages.plans, function(index, value) {
-  $('#pPlanTabs').append('<li role="presentation"><a data-target="#p' + index + 'Content" data-toggle="tab" data-code="' + index + '" aria-controls="p' + index + 'Content" role="tab">' + value.title_short + '</a></li>');
-
-  $('#pPlanTabsContent').append('<div role="tabpanel" class="tab-pane" id="p' + index + 'Content"><table class="table table-hover table-borderless"><tbody></tbody></table></div>');
-
-  $.each(value.desc, function(i, d) {
-    var row = '<tr><td>' + d.title + '</td><td align="center">';
-
-    if (d.checked === true) {
-      row += '<i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i>';
-    }
-
-    row += '</td></tr>';
-
-    $('#p' + index + 'Content table tbody').append(row);
-  });
-});
-
-$('#pPlanTabs li a[data-code="' + pPackages.selected + '"]').parent('li').addClass('active');
-$('#p' + pPackages.selected + 'Content').addClass('active');
-
-$('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
-
-$.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
-  $('#pPlanSelection').append($('<option/>', {
-    value: lid,
-    text: lvalue.title + ' ' + lvalue.price
-  }));
-});
-
-$('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
-
-var pPayButtonText = {lang json_encode}cs_pay_credit_card_button{lang};
-
-if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
-  var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
-
-  $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
-  $('#orderTableTax').html(t[Object.keys(t)[0]]);
-  $('#orderTableTaxRow').removeClass('hidden');
-} else {
-  $('#orderTableTaxRow').addClass('hidden');
+function showMessage(message) {
+  $('#pPayAlert').append('<p>' + message + '</p>').removeClass('d-none');
 }
 
-$('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
+function updateOrderTable() {
+  $('#pPlanSelectedText').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].title);
+  $('#pPlanSelectedPrice').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].price);
 
-$('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
+  total_raw = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw;
 
-$('#pPlanTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  var p = $(e.target).data('code');
+  if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
+    var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
 
-  pPackages.selected = p;
+    $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
+    $('#orderTableTax').html(t[Object.keys(t)[0]]);
+    $('#orderTableTaxRow').removeClass('d-none');
+  } else {
+    $('#orderTableTaxRow').addClass('d-none');
+  }
 
-  $('#pPlanTitle').html(pPackages.plans[pPackages.selected].title);
+  $('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
 
-  $('#pPlanSelection').find('option').remove();
+  $('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
+
+  if (typeof btDropinInstance !== 'undefined') {
+    btDropinInstance.updateConfiguration('threeDSecure', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
+    btDropinInstance.updateConfiguration('paypal', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
+  }
+}
+
+if (pPlanKeys.length < 13) {
+  $('#pPlanDurationSelection').parent().addClass('d-none');
 
   $.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
     $('#pPlanSelection').append($('<option/>', {
@@ -218,57 +185,34 @@ $('#pPlanTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   });
 
   $('#pPlanSelection').val(pPackages.plans[pPackages.selected].selected);
+  $('#pPlanSelection').parent().removeClass('d-none');
 
-  if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
-    var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
+  $('#pPlanSelection').on('change', function() {
+    pPackages.plans[pPackages.selected].selected = this.value;
 
-    $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
-    $('#orderTableTax').html(t[Object.keys(t)[0]]);
-    $('#orderTableTaxRow').removeClass('hidden');
-  } else {
-    $('#orderTableTaxRow').addClass('hidden');
-  }
+    updateOrderTable();
+  });
+} else {
+  $('#pPlanDurationSelection').attr('max', pPlanKeys.length - 1);
+  $('#pPlanDurationSelection').val(pPlanKeys.indexOf(pPackages.plans[pPackages.selected].selected.toString()));
 
-  $('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
+  $('#pPlanDurationSelection').on('input', function() {
+    pPackages.plans[pPackages.selected].selected = pPlanKeys[this.value];
 
-  $('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
+    updateOrderTable();
+  });
+}
 
-  if (typeof btDropinInstance !== 'undefined') {
-    btDropinInstance.updateConfiguration('paypal', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
-  }
-});
-
-$('#pPlanSelection').on('change', function() {
-  pPackages.plans[pPackages.selected].selected = this.value;
-
-  total_raw = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw;
-
-  if (typeof pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax !== 'undefined') {
-    var t = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].tax;
-
-    $('#orderTableTaxTitle').html(taxDescriptions[Object.keys(t)[0]] + ':');
-    $('#orderTableTax').html(t[Object.keys(t)[0]]);
-    $('#orderTableTaxRow').removeClass('hidden');
-  } else {
-    $('#orderTableTaxRow').addClass('hidden');
-  }
-
-  $('#orderTableTotal').html(pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total);
-
-  $('#pPayButton').html(pPayButtonText.replace('#amount#', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total));
-
-  if (typeof btDropinInstance !== 'undefined') {
-    btDropinInstance.updateConfiguration('paypal', 'amount', pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw);
-  }
-});
+updateOrderTable();
 
 function initializeBt() {
-  $('#pPayButton').siblings('i').addClass('hidden');
-  $('#pPayButton').addClass('hidden').prop('disabled', true);
-  $('#pBtFormIndicator').removeClass('hidden')
+  $('#pBtFormIndicator').removeClass('d-none')
 
-  if ($('#pPayButton').data('orig-text')) {
-    $('#pPayButton').html($('#pPayButton').data('orig-text')).removeData('orig-text').removeAttr('data-orig-text');
+  $('#pPayButton').siblings().addClass('d-none');
+  $('#pPayButton').addClass('d-none').prop('disabled', true);
+
+  if ($('#pPayButton').data('original-text')) {
+    $('#pPayButton').html($('#pPayButton').data('original-text')).removeData('original-text');
   }
 
   $.getJSON({raw json_encode}braintree_get_client_token_url{raw}, function (result) {
@@ -276,7 +220,7 @@ function initializeBt() {
       braintree.client.create({
         authorization: result.token
       }, function (clientErr, clientInstance) {
-        $('#pBtFormIndicator').addClass('hidden');
+        $('#pBtFormIndicator').addClass('d-none');
 
         if (clientErr) {
           showMessage(error_payment_general);
@@ -284,22 +228,8 @@ function initializeBt() {
           return false;
         }
 
-        btClientInstance = clientInstance;
-
         try {
-          braintree.threeDSecure.create({
-            client: btClientInstance
-          }, function (threeDSecureErr, threeDSecureInstance) {
-            if (threeDSecureErr) {
-              showMessage(error_payment_general);
-
-              return false;
-            }
-
-            btThreeDSecureInstance = threeDSecureInstance;
-
-            createDropinInstance(result);
-          });
+          createDropinInstance(result);
         } catch (err) {
           showMessage(error_payment_general);
 
@@ -307,29 +237,25 @@ function initializeBt() {
         }
       });
     } else {
-      $('#pBtFormIndicator').addClass('hidden');
+      $('#pBtFormIndicator').addClass('d-none');
 
       showMessage(error_payment_general);
     }
   }).fail(function() {
-    $('#pBtFormIndicator').addClass('hidden');
+    $('#pBtFormIndicator').addClass('d-none');
 
     showMessage(error_payment_general);
   });
 }
 
 function createDropinInstance(result) {
-  total_raw = pPackages.plans[pPackages.selected].levels[pPackages.plans[pPackages.selected].selected].total_raw;
-
   braintree.dropin.create({
     authorization: result.token,
     container: '#pBtForm',
     paymentOptionPriority: ['paypal', 'card'],
-/*
-    card: {
-      cardholderName: true
+    threeDSecure: {
+      amount: total_raw
     },
-*/
     paypal: {
       flow: 'checkout',
       amount: total_raw,
@@ -351,23 +277,24 @@ function createDropinInstance(result) {
 
     btDropinInstance = instance;
 
-    $('#pPayButton').removeClass('hidden');
+    $('#pFormBillingContent').removeClass('d-none');
+    $('#pPayButton').removeClass('d-none');
 
     if (btDropinInstance.isPaymentMethodRequestable()) {
-      $('#pPayButton').siblings('i').removeClass('hidden');
-      $('#pPayButton').prop('disabled', false);
+      $('#pPayButton').siblings().removeClass('d-none');
+      $('#pPayButton').removeClass('btn-secondary').addClass('btn-success').prop('disabled', false);
     }
 
     btDropinInstance.on('paymentMethodRequestable', function (event) {
-      if ($('#pPayButton').html() != $('#pPayButton').data('processing')) {
-        $('#pPayButton').siblings('i').removeClass('hidden');
-        $('#pPayButton').prop('disabled', false);
+      if ($('#pPayButton').html() != $('#pPayButton').data('processing-text')) {
+        $('#pPayButton').siblings().removeClass('d-none');
+        $('#pPayButton').removeClass('btn-secondary').addClass('btn-success').prop('disabled', false);
       }
     });
 
     btDropinInstance.on('noPaymentMethodRequestable', function () {
-      $('#pPayButton').siblings('i').addClass('hidden');
-      $('#pPayButton').prop('disabled', true);
+      $('#pPayButton').siblings().addClass('d-none');
+      $('#pPayButton').removeClass('btn-success').addClass('btn-secondary').prop('disabled', true);
     });
   });
 }
@@ -375,69 +302,42 @@ function createDropinInstance(result) {
 $('#pPayButton').on('click', function(e) {
   e.preventDefault();
 
-  $('#pPayAlert').empty().addClass('hidden');
+  $('#pPayAlert').empty().addClass('d-none');
 
-  $('#pPayButton').siblings('i').addClass('hidden');
-  $('#pPayButton').data('orig-text', $('#pPayButton').html()).html($('#pPayButton').data('processing')).prop('disabled', true);
+  $('#pPayButton').siblings().addClass('d-none');
+  $('#pPayButton').data('original-text', $('#pPayButton').html()).html($('#pPayButton').data('processing-text')).prop('disabled', true);
 
   btDropinInstance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
     if (requestPaymentMethodErr) {
       showMessage(error_payment_general);
 
-      if ($('#pPayButton').data('orig-text')) {
-        $('#pPayButton').html($('#pPayButton').data('orig-text')).removeData('orig-text').removeAttr('data-orig-text');
+      if ($('#pPayButton').data('original-text')) {
+        $('#pPayButton').html($('#pPayButton').data('original-text')).removeData('original-text');
       }
 
-      $('#pPayButton').siblings('i').removeClass('hidden');
+      $('#pPayButton').siblings().removeClass('d-none');
       $('#pPayButton').prop('disabled', false);
 
       return false;
     }
 
-    $('#pBtForm div[data-braintree-id="toggle"]').addClass('hidden');
-
-    if (payload.type !== 'CreditCard') {
+    if ((payload.type !== 'CreditCard') || (payload.liabilityShifted === true) || (payload.liabilityShiftPossible === false)) {
       processTransaction(payload.nonce);
     } else {
-      verify3DSCard(payload);
-    }
-  });
-});
-
-function verify3DSCard(payload) {
-  btThreeDSecureInstance.verifyCard({
-    amount: total_raw,
-    nonce: payload.nonce,
-    addFrame: function (err, iframe) {
-      bt3dsCancelledByUser = true;
-
-      $('#bt3dsmodal .modal-body').html(iframe);
-      $('#bt3dsmodal').modal();
-    },
-    removeFrame: function () {
-      bt3dsCancelledByUser = false;
-
-//        $('#bt3dsmodal .modal-body').html('');
-//        $('#bt3dsmodal').modal('hide');
-    }
-  }, function (error, response) {
-    if (error) {
       reinitializeBt();
 
       showMessage(error_payment_general);
 
       return false;
     }
-
-    processTransaction(response.nonce);
   });
-}
+});
 
 function processTransaction(nonce) {
   var params = {
     nonce: nonce,
     plan: pPackages.selected,
-    duration: $('#pPlanSelection').val()
+    duration: pPackages.plans[pPackages.selected].selected
   };
 
   $.post('{rpclink}ProcessBraintree&partner={raw}partner code{raw}|Account|Website{rpclink}', params, function (result) {
@@ -462,68 +362,42 @@ function processTransaction(nonce) {
 }
 
 function reinitializeBt() {
-  if (bt3dsModalOpen === true) {
-    bt3dsCancelledByUser = true;
+  btDropinInstance.clearSelectedPaymentMethod();
 
-    $('#bt3dsmodal .modal-body').html('');
-    $('#bt3dsmodal').modal('hide');
+  if ($('#pPayButton').data('original-text')) {
+    $('#pPayButton').html($('#pPayButton').data('original-text')).removeData('original-text');
+  }
+
+  $('#pPayButton').siblings().addClass('d-none');
+  $('#pPayButton').removeClass('btn-success').addClass('btn-secondary').prop('disabled', true);
+}
+
+var partnerCampaign = {
+  status: {raw json_encode}partner_campaign status{raw},
+  dateEnd: {raw json_encode}partner_campaign date_end{raw},
+  relativeDate: {raw json_encode}partner_campaign relative_date{raw}
+};
+
+var dateNow = new Date();
+var dateEnd = new Date(partnerCampaign.dateEnd);
+
+if (dateEnd instanceof Date && !isNaN(dateEnd)) {
+  $('.pcdate').html(dateEnd.toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'}));
+}
+
+if (partnerCampaign.status !== 1) {
+  $('.pcdate').addClass('badge-danger');
+} else {
+  var diffDays = Math.round(Math.abs((dateEnd.getTime() - dateNow.getTime()) / (60*60*24*1000)));
+
+  if (diffDays > 14) {
+    $('.pcdate').addClass('badge-success');
   } else {
-    btDropinInstance.teardown(function(err) {
-//        if (err) {
-//          console.log(err);
-//          return;
-//        }
-
-      initializeBt();
-    });
+    $('.pcdate').addClass('badge-warning');
   }
 }
 
-$('#bt3dsmodal').on('show.bs.modal', function (e) {
-  bt3dsModalOpen = true;
-
-  $('.modal-backdrop').css('backgroundColor', '#000');
-});
-
-$('#bt3dsmodal').on('hidden.bs.modal', function (e) {
-  bt3dsModalOpen = false;
-
-  $('.modal-backdrop').css('backgroundColor', '');
-
-  if (bt3dsCancelledByUser === true) {
-    btThreeDSecureInstance.cancelVerifyCard(function (err, payload) {
-//        if (err) {
-//          console.log(err);
-//          return;
-//        }
-
-      reinitializeBt();
-    });
-  }
-});
-
 $(function() {
   initializeBt();
-
-  var partner_date_now = moment({raw json_encode}partner_date_now{raw});
-  var runsUntil = moment($('.pcdate').text());
-
-  $('.pcdate').text(runsUntil.format('Do MMM, YYYY'));
-
-  if (runsUntil.isBefore(partner_date_now)) {
-    $('.pcdate').addClass('label-danger');
-
-    $('.pcdays').html(runsUntil.from(partner_date_now));
-  } else {
-    var daysRemaining = runsUntil.diff(partner_date_now, 'days');
-
-    $('.pcdays').html(partner_date_now.to(runsUntil));
-
-    if ( daysRemaining > 14 ) {
-      $('.pcdate').addClass('label-success');
-    } else {
-      $('.pcdate').addClass('label-warning');
-    }
-  }
 });
 </script>

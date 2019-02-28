@@ -2,16 +2,19 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\AuditLog;
-use osCommerce\OM\Core\Cache;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    AuditLog,
+    Cache,
+    DateTime,
+    OSCOM,
+    Registry
+};
 
 use osCommerce\OM\Core\Site\Website\Users;
 
@@ -22,9 +25,10 @@ class Partner
     protected static $_categories;
     protected static $_promotions;
 
-    public static function get($code, $key = null)
+    public static function get(string $code, string $key = null)
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         if (!isset(static::$_partner[$code])) {
             $data = [
@@ -36,7 +40,7 @@ class Partner
                 $data['language_id'] = $OSCOM_Language->getID();
             }
 
-            $partner = OSCOM::callDB('Website\GetPartner', $data, 'Site');
+            $partner = $OSCOM_PDO->call('Get', $data);
 
             $languages = [
                 $OSCOM_Language->getCode()
@@ -76,9 +80,10 @@ class Partner
         return isset($key) ? static::$_partner[$code][$key] : static::$_partner[$code];
     }
 
-    public static function getAll()
+    public static function getAll(): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         $data = [
             'default_language_id' => $OSCOM_Language->getDefaultId()
@@ -88,7 +93,7 @@ class Partner
             $data['language_id'] = $OSCOM_Language->getID();
         }
 
-        $partners = OSCOM::callDB('Website\GetPartnersAll', $data, 'Site');
+        $partners = $OSCOM_PDO->call('GetAll', $data);
 
         $languages = [
             $OSCOM_Language->getCode()
@@ -115,9 +120,10 @@ class Partner
         return $partners;
     }
 
-    public static function getInCategory($code)
+    public static function getInCategory(string $code): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         if (!isset(static::$_partners[$code])) {
             $data = [
@@ -129,7 +135,7 @@ class Partner
                 $data['language_id'] = $OSCOM_Language->getID();
             }
 
-            $partners = OSCOM::callDB('Website\GetPartners', $data, 'Site');
+            $partners = $OSCOM_PDO->call('GetInCategory', $data);
 
             $languages = [
                 $OSCOM_Language->getCode()
@@ -159,7 +165,7 @@ class Partner
         return static::$_partners[$code];
     }
 
-    public static function exists($code, $category = null)
+    public static function exists(string $code, string $category = null): bool
     {
         if (isset($category)) {
             if (!isset(static::$_partners[$category])) {
@@ -180,7 +186,7 @@ class Partner
         return false;
     }
 
-    public static function getCategory($code, $key = null)
+    public static function getCategory(string $code, string $key = null)
     {
         if (!isset(static::$_categories)) {
             static::getCategories();
@@ -195,9 +201,10 @@ class Partner
         return false;
     }
 
-    public static function getCategories()
+    public static function getCategories(): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         if (!isset(static::$_categories)) {
             $data = [
@@ -208,13 +215,13 @@ class Partner
                 $data['language_id'] = $OSCOM_Language->getID();
             }
 
-            static::$_categories = OSCOM::callDB('Website\GetPartnerCategories', $data, 'Site');
+            static::$_categories = $OSCOM_PDO->call('GetCategories', $data);
         }
 
         return static::$_categories;
     }
 
-    public static function categoryExists($code)
+    public static function categoryExists(string $code): bool
     {
         if (!isset(static::$_categories)) {
             static::getCategories();
@@ -229,9 +236,10 @@ class Partner
         return false;
     }
 
-    public static function getPromotions()
+    public static function getPromotions(): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         if (!isset(static::$_promotions)) {
             $data = [
@@ -242,7 +250,7 @@ class Partner
                 $data['language_id'] = $OSCOM_Language->getID();
             }
 
-            $partners = OSCOM::callDB('Website\GetPartnerPromotions', $data, 'Site');
+            $partners = $OSCOM_PDO->call('GetPromotions', $data);
 
             $languages = [
                 $OSCOM_Language->getCode()
@@ -272,25 +280,28 @@ class Partner
         return static::$_promotions;
     }
 
-    public static function hasCampaign($id, $code = null)
+    public static function hasCampaign(int $user_id, string $code = null): bool
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
-            'id' => $id
+            'id' => $user_id
         ];
 
         if (isset($code)) {
             $data['code'] = $code;
         }
 
-        return OSCOM::callDB('Website\PartnerHasCampaign', $data, 'Site');
+        return $OSCOM_PDO->call('HasCampaign', $data);
     }
 
-    public static function getCampaigns($id)
+    public static function getCampaigns(int $user_id): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         $data = [
-            'id' => $id,
+            'id' => $user_id,
             'default_language_id' => $OSCOM_Language->getDefaultId()
         ];
 
@@ -298,41 +309,70 @@ class Partner
             $data['language_id'] = $OSCOM_Language->getID();
         }
 
-        return OSCOM::callDB('Website\PartnerGetCampaigns', $data, 'Site');
+        $campaigns = $OSCOM_PDO->call('GetCampaigns', $data);
+
+        $dateNow = new \DateTime();
+
+        foreach ($campaigns as $key => $c) {
+            $dateEnd = new \DateTime($c['date_end']);
+            $dateDiff = $dateNow->diff($dateEnd);
+
+            $campaigns[$key]['status'] = ($dateDiff->format('%R') === '+') ? 1 : 0;
+            $campaigns[$key]['relative_date'] = DateTime::getRelative($dateEnd);
+        }
+
+        return $campaigns;
     }
 
-    public static function getCampaign($id, $code)
+    public static function getCampaign(int $user_id, string $code): array
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
-            'id' => $id,
+            'id' => $user_id,
             'code' => $code
         ];
 
-        return OSCOM::callDB('Website\PartnerGetCampaign', $data, 'Site');
+        $campaign = $OSCOM_PDO->call('GetCampaign', $data);
+
+        $dateNow = new \DateTime();
+
+        $dateEnd = new \DateTime($campaign['date_end']);
+        $dateDiff = $dateNow->diff($dateEnd);
+
+        $campaign['status'] = ($dateDiff->format('%R') === '+') ? 1 : 0;
+        $campaign['relative_date'] = DateTime::getRelative($dateEnd);
+
+        return $campaign;
     }
 
-    public static function getCampaignInfo($id, $language_id = null)
+    public static function getCampaignInfo(int $partner_id, int $language_id = null): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         if (!isset($language_id)) {
             $language_id = $OSCOM_Language->getID();
         }
 
-        return OSCOM::callDB('Website\PartnerGetCampaignInfo', ['id' => $id, 'language_id' => $language_id], 'Site');
+        return $OSCOM_PDO->call('GetCampaignInfo', ['id' => $partner_id, 'language_id' => $language_id]);
     }
 
-    public static function getCampaignAdmins($code)
+    public static function getCampaignAdmins(string $code): array
     {
-        return OSCOM::callDB('Website\PartnerGetCampaignAdmins', ['code' => $code], 'Site');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        return $OSCOM_PDO->call('GetCampaignAdmins', ['code' => $code]);
     }
 
-    public static function getStatusUpdateUrl($code, $url_id)
+    public static function getStatusUpdateUrl(string $code, int $url_id)
     {
-        return OSCOM::callDB('Website\GetPartnerStatusUpdateUrl', ['partner_id' => static::get($code, 'id'), 'id' => $url_id], 'Site');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        return $OSCOM_PDO->call('GetStatusUpdateUrl', ['partner_id' => static::get($code, 'id'), 'id' => $url_id]);
     }
 
-    public static function getAudit($code)
+    public static function getAudit(string $code): array
     {
         $OSCOM_Cache = new Cache();
 
@@ -429,7 +469,7 @@ class Partner
             }
         }
 
-        if ((count($data) > 2) && (OSCOM::callDB('Website\PartnerSave', $data, 'Site') > 0)) {
+        if ((count($data) > 2) && ($OSCOM_PDO->call('Save', $data) > 0)) {
             static::auditLog($campaign, $data);
 
             Cache::clear('website_partner-' . $code);
@@ -499,9 +539,10 @@ class Partner
         }
     }
 
-    public static function getPackages($partner_code = null)
+    public static function getPackages(string $partner_code): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         $data = [
             'default_language_id' => $OSCOM_Language->getDefaultId()
@@ -511,7 +552,7 @@ class Partner
             $data['language_id'] = $OSCOM_Language->getID();
         }
 
-        $packages = OSCOM::callDB('Website\GetPartnerPackages', $data, 'Site');
+        $packages = $OSCOM_PDO->call('GetPackages', $data);
 
         $result = [];
 
@@ -539,9 +580,10 @@ class Partner
         return $result;
     }
 
-    public static function getPackageLevels($code, $partner_code = null)
+    public static function getPackageLevels(string $code, string $partner_code): array
     {
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_PDO = Registry::get('PDO');
 
         $partner = static::get($partner_code);
 
@@ -556,10 +598,12 @@ class Partner
             $data['language_id'] = $OSCOM_Language->getID();
         }
 
+        $has_exclusive_offer = false;
+
         if (isset($partner_code)) {
             $extra = array_merge($data, ['partner_id' => static::get($partner_code, 'id')]);
 
-            $levels = OSCOM::callDB('Website\GetPartnerPackageLevelsExtra', $extra, 'Site');
+            $levels = $OSCOM_PDO->call('GetPackageLevelsExtra', $extra);
 
             if (!empty($levels)) {
                 foreach ($levels as $l) {
@@ -581,39 +625,47 @@ class Partner
                         $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
                         $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
                     }
+
+                    if ((int)$l['exclusive_offer'] === 1) {
+                        $has_exclusive_offer = true;
+                    }
                 }
             }
         }
 
-        $levels = OSCOM::callDB('Website\GetPartnerPackageLevels', $data, 'Site');
+        if ($has_exclusive_offer === false) {
+            $levels = $OSCOM_PDO->call('GetPackageLevels', $data);
 
-        foreach ($levels as $l) {
-            $result[$l['id']] = [
-                'title' => $l['title'],
-                'duration' => $l['duration_months'],
-                'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
-                'price_raw' => number_format($l['price'], 2, '.', ''),
-                'default_selected' => $l['default_selected']
-            ];
+            foreach ($levels as $l) {
+                $result[$l['id']] = [
+                    'title' => $l['title'],
+                    'duration' => $l['duration_months'],
+                    'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
+                    'price_raw' => number_format($l['price'], 2, '.', ''),
+                    'default_selected' => $l['default_selected']
+                ];
 
-            $result[$l['id']]['total'] = $result[$l['id']]['price'];
-            $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
+                $result[$l['id']]['total'] = $result[$l['id']]['price'];
+                $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
 
-            if ($partner['billing_country_iso_code_2'] == 'DE') {
-                $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
-                $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+                if ($partner['billing_country_iso_code_2'] == 'DE') {
+                    $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
+                    $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
 
-                $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
-                $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                    $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
+                    $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                }
             }
         }
 
         return $result;
     }
 
-    public static function getPackageId($code)
+    public static function getPackageId(string $code): int
     {
-        $result = OSCOM::callDB('Website\GetPartnerPackageId', ['code' => $code], 'Site');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        $result = $OSCOM_PDO->call('GetPackageId', ['code' => $code]);
 
         return $result['id'];
     }
@@ -622,7 +674,7 @@ class Partner
     {
         $OSCOM_PDO = Registry::get('PDO');
 
-        $level = OSCOM::callDB('Website\GetPartnerPackageLevel', ['id' => $id], 'Site');
+        $level = $OSCOM_PDO->call('GetPackageLevel', ['id' => $id]);
 
         if ((int)$level['usage_counter'] > 0) {
             $counter = (int)$level['usage_counter'] - 1;

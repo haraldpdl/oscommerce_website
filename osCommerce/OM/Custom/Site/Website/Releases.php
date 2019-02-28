@@ -2,13 +2,16 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    OSCOM,
+    Registry
+};
 
 class Releases
 {
@@ -58,6 +61,8 @@ class Releases
 
     protected static function setVersions()
     {
-        static::$versions = OSCOM::callDB('Website\GetReleaseVersions', null, 'Site');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        static::$versions = $OSCOM_PDO->call('GetVersions');
     }
 }

@@ -2,15 +2,17 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\HttpRequest;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    HttpRequest,
+    OSCOM,
+    Registry
+};
 
 class PayPal
 {
@@ -43,7 +45,7 @@ class PayPal
             'verify_ssl' => true
         ];
 
-        $r = null;
+        $r = [];
 
         $response = HttpRequest::getResponse($p);
         parse_str($response, $r);

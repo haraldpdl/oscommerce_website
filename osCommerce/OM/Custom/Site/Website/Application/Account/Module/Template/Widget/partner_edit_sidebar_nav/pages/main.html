@@ -1,0 +1,37 @@
+<div id="sidebar" class="col-lg-3 order-9">
+  <div class="sticky-top" style="top: 1rem;">
+    <div class="card border-primary">
+      <div class="card-header text-white bg-primary">{lang}sidebar_nav_partner_title{lang}</div>
+
+      <div class="card-body">
+        <div class="nav nav-pills flex-column" id="pnTabs" role="tablist" aria-orientation="vertical">
+          <a href="#pPage" id="pnPage" class="nav-link active" role="tab" data-toggle="pill" aria-controls="pPage" aria-selected="true">{lang}sidebar_nav_partner_page{lang}</a>
+          <a href="#pPromotion" id="pnPromotion" class="nav-link" role="tab" data-toggle="pill" aria-controls="pPromotion" aria-selected="false">{lang}sidebar_nav_partner_promotion{lang}</a>
+          <a href="#pBanner" id="pnBanner" class="nav-link" role="tab" data-toggle="pill" aria-controls="pBanner" aria-selected="false">{lang}sidebar_nav_partner_banner{lang}</a>
+          <a href="#pStatusUpdate" id="pnStatusUpdate" class="nav-link" role="tab" data-toggle="pill" aria-controls="pStatusUpdate" aria-selected="false">{lang}sidebar_nav_partner_status_update{lang}</a>
+          <a href="#pCarousel" id="pnCarousel" class="nav-link" role="tab" data-toggle="pill" aria-controls="pCarousel" aria-selected="false">{lang}sidebar_nav_partner_carousel{lang}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-4">
+      <div class="col-7">
+        <button id="saveButton" class="btn btn-success btn-block" data-processing-text="{escape}{lang}partner_button_processing{lang}{escape}">{lang}partner_button_save{lang}</button>
+      </div>
+
+      <div class="col-5">
+        <a href="{link}Account|Website|Partner|SSL{link}" class="btn btn-link btn-block">{lang}partner_button_cancel{lang}</a>
+      </div>
+    </div>
+
+    <div id="formPartnerEditAlerts" class="alert alert-danger mt-3 d-none">{lang}partner_edit_form_error{lang}</div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#saveButton').on('click', function(e) {
+    $('#formPartnerEdit').submit();
+  });
+});
+</script>

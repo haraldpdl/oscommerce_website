@@ -2,15 +2,14 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
-    HTML,
     OSCOM,
     Registry
 };
@@ -68,11 +67,7 @@ class Sites
         $OSCOM_Template->setValue('partner_showcase_total', count($showcase));
         $OSCOM_Template->setValue('partner_showcase_max', is_numeric($partner_campaign['total_duration']) && $partner_campaign['total_duration'] > 24 ? 24 : (int)$partner_campaign['total_duration']);
 
-        if (((int)$partner_campaign['has_gold'] === 1) && ($OSCOM_Template->getValue('partner_showcase_max') > 0)) {
-            $application->setPageContent('partner_sites.html');
-        } else {
-            $application->setPageContent('partner_sites_inactive.html');
-        }
+        $application->setPageContent('partner_sites.html');
 
         $application->setPageTitle(OSCOM::getDef('partner_view_html_title', [
             ':partner_title' => $partner['title']

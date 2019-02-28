@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
@@ -54,10 +54,12 @@ class ProcessBraintree
             }
         }
 
-        $partner_billing_address = json_decode($partner_campaign['billing_address'], true);
+        if (!isset($result['rpcStatus'])) {
+            $partner_billing_address = json_decode($partner_campaign['billing_address'], true);
 
-        if (!is_array($partner_billing_address) || empty($partner_billing_address['street_address'])) {
-            $result['rpcStatus'] = RPC::STATUS_NO_ACCESS;
+            if (!is_array($partner_billing_address) || empty($partner_billing_address['street_address'])) {
+                $result['rpcStatus'] = RPC::STATUS_NO_ACCESS;
+            }
         }
 
         if (!isset($result['rpcStatus'])) {
@@ -161,7 +163,7 @@ class ProcessBraintree
                         'firstname' => $partner_billing_address['firstname'],
                         'lastname' => $partner_billing_address['lastname'],
                         'street' => $partner_billing_address['street_address'],
-                        'street2' => $partner_billing_address['state'],//$partner_billing_address['street_address_2'],
+                        'street2' => $partner_billing_address['street_address_2'],
                         'suburb' => $partner_billing_address['suburb'],
                         'zip' => $partner_billing_address['postcode'],
                         'city' => $partner_billing_address['city'],
@@ -170,7 +172,8 @@ class ProcessBraintree
                         'fax' => $partner_billing_address['fax'],
                         'other' => $partner_billing_address['other_info'],
                         'country_iso_2' => Address::getCountryIsoCode2($partner_billing_address['country_id']),
-                        'zone_code' => ((int)$partner_billing_address['zone_id'] > 0) ? Address::getZoneCode($partner_billing_address['zone_id']) : null
+                        'zone_code' => ((int)$partner_billing_address['zone_id'] > 0) ? Address::getZoneCode($partner_billing_address['zone_id']) : null,
+                        'vat_id' => $partner_campaign['billing_vat_id']
                     ],
                     'items' => $items,
                     'totals' => $totals,
@@ -233,7 +236,7 @@ class ProcessBraintree
                     }
 
                     if (!empty($email_txt) || !empty($email_html)) {
-                        $OSCOM_Mail = new Mail($admin['name'], $admin['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('email_partner_extension_subject'));
+                        $OSCOM_Mail = new Mail($admin['email'], $admin['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('email_partner_extension_subject'));
 
                         if (!empty($email_txt)) {
                             $OSCOM_Mail->setBodyPlain($email_txt);

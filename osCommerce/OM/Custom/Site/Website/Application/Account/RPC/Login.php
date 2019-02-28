@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
@@ -12,7 +12,8 @@ use osCommerce\OM\Core\{
     Events,
     Mail,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\{
@@ -40,11 +41,11 @@ class Login
         if (!isset($result['errorCode'])) {
             $errors = [];
 
-            $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-            $username = isset($_POST['username']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['username'])) : '';
-            $password = isset($_POST['password']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['password']) : '';
+            $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+            $username = Sanitize::simple($_POST['username'] ?? null);
+            $password = Sanitize::simple($_POST['password'] ?? null);
             $sendVerification = isset($_POST['sendVerification']) && ($_POST['sendVerification'] == '1') ? true : false;
-            $addressType = isset($_POST['addressType']) && !empty($_POST['addressType']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['addressType'])) : '';
+            $addressType = Sanitize::simple($_POST['addressType'] ?? null);
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $errors[] = OSCOM::getDef('error_form_protect_general');
@@ -125,7 +126,7 @@ class Login
                                 $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
 
                                 if (!empty($email_txt) || !empty($email_html)) {
-                                    $OSCOM_Mail = new Mail($user['name'], $user['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
+                                    $OSCOM_Mail = new Mail($user['email'], $user['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('create_email_new_account_subject'));
 
                                     if (!empty($email_txt)) {
                                         $OSCOM_Mail->setBodyPlain($email_txt);

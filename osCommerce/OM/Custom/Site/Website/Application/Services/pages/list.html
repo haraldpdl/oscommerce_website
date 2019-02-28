@@ -1,23 +1,30 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}services_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-lg" style="float: right; margin-top: 20px;">{lang}button_partner_with_us{lang}</a>
+      <a href="{link}Services|Website|Info{link}" class="btn btn-success btn-sm mt-3 float-right">{lang}button_partner_with_us{lang}</a>
 
-      <h1>{value}page_title{value}</h1>
+      <h1 class="display-4">{value}page_title{value}</h1>
+
+      <div class="clearfix pb-4"></div>
 
 {loop category_partners}
-      <div class="clearfix">
-        <h2><a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}">#title#</a></h2>
+      <div class="row pb-5">
+        <div class="col-3 my-auto text-center">
+          <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}"><img data-src="#image_small_path#" alt="" title="#title#"></a>
+        </div>
 
-        <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}"><img data-src="#image_small_path#" alt="" title="#title#" style="width: 130px; height: 50px; float: left; margin-right: 10px;" /></a>
+        <div class="col-9 border-left">
+          <h5><a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}">#title#</a></h5>
 
-        <p>#desc_short# <a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}" class="btn btn-info" style="float: right; margin-top: 15px;">{lang}button_find_out_more{lang}</a></p>
+          <p class="lead mb-2">#desc_short#</p>
+          <p class="text-right"><a href="{link}Services|Website|{raw}services_action{raw}&%code%{link}" class="btn btn-info btn-sm">{lang}button_find_out_more{lang}</a></p>
+        </div>
       </div>
 {loop}
 

@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
@@ -11,7 +11,8 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
 use osCommerce\OM\Core\{
     ApplicationAbstract,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 class Verify
@@ -25,7 +26,7 @@ class Verify
             OSCOM::redirect(OSCOM::getLink(null, 'Account', null, 'SSL'));
         }
 
-        $user_id = isset($_GET['id']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_GET['id'])) : '';
+        $user_id = Sanitize::simple($_GET['id'] ?? null);
         $key = isset($_GET['key']) ? preg_replace('/[^a-zA-Z0-9\-\_]/', '', $_GET['key']) : '';
 
         if (is_numeric($user_id) && ($user_id > 0) && (strlen($key) === 32)) {

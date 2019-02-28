@@ -2,13 +2,13 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
 class Download
 {
@@ -102,17 +102,21 @@ class Download
         return false;
     }
 
-    public static function incrementDownloadCounter($id)
+    public static function incrementDownloadCounter($id): int
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         if (!is_numeric($id)) {
             $id = static::getID($id);
         }
 
-        return OSCOM::callDB('Website\IncrementDownloadCounter', array('id' => $id), 'Site');
+        return $OSCOM_PDO->call('IncrementDownloadCounter', ['id' => $id]);
     }
 
     protected static function setReleases()
     {
-        static::$files = OSCOM::callDB('Website\GetReleases', null, 'Site');
+        $OSCOM_PDO = Registry::get('PDO');
+
+        static::$files = $OSCOM_PDO->call('GetReleases');
     }
 }

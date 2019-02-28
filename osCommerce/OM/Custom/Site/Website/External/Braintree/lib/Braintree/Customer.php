@@ -7,32 +7,34 @@ namespace Braintree;
  *
  * <b>== More information ==</b>
  *
- * For more detailed information on Customers, see {@link http://www.braintreepayments.com/gateway/customer-api http://www.braintreepaymentsolutions.com/gateway/customer-api}
+ * For more detailed information on Customers, see {@link https://developers.braintreepayments.com/reference/response/customer/php https://developers.braintreepayments.com/reference/response/customer/php}
  *
  * @package    Braintree
  * @category   Resources
  *
- * @property-read array  $addresses
- * @property-read array  $paymentMethods
+ * @property-read \Braintree\Address[] $addresses
+ * @property-read \Braintree\AndroidPayCard[] $androidPayCards
+ * @property-read \Braintree\AmexExpressCheckoutCard[] $amexExpressCheckoutCards
+ * @property-read \Braintree\ApplePayCard[] $applePayCards
+ * @property-read \Braintree\CoinbaseAccount[] $coinbaseAccounts
  * @property-read string $company
- * @property-read string $createdAt
- * @property-read array  $creditCards
- * @property-read array  $paypalAccounts
- * @property-read array  $applePayCards
- * @property-read array  $androidPayCards
- * @property-read array  $amexExpressCheckoutCards
- * @property-read array  $venmoAccounts
- * @property-read array  $visaCheckoutCards
- * @property-read array  $masterpassCards
- * @property-read array  $coinbaseAccounts
+ * @property-read \DateTime $createdAt
+ * @property-read \Braintree\CreditCard[] $creditCards
  * @property-read array  $customFields custom fields passed with the request
  * @property-read string $email
  * @property-read string $fax
  * @property-read string $firstName
  * @property-read string $id
  * @property-read string $lastName
+ * @property-read \Braintree\MasterpassCard[] $masterpassCards
+ * @property-read \Braintree\PaymentMethod[] $paymentMethods
+ * @property-read \Braintree\PayPalAccount[] $paypalAccounts
  * @property-read string $phone
- * @property-read string $updatedAt
+ * @property-read \Braintree\SamsungPayCard[] $samsungPayCards
+ * @property-read \DateTime $updatedAt
+ * @property-read \Braintree\UsBankAccount[] $usBankAccounts
+ * @property-read \Braintree\VenmoAccount[] $venmoAccounts
+ * @property-read \Braintree\VisaCheckoutCard[] $visaCheckoutCards
  * @property-read string $website
  */
 class Customer extends Base
@@ -102,9 +104,9 @@ class Customer extends Base
      * @param string $id customer id
      * @return Customer
      */
-    public static function find($id)
+    public static function find($id, $associationFilterId = null)
     {
-        return Configuration::gateway()->customer()->find($id);
+        return Configuration::gateway()->customer()->find($id, $associationFilterId);
     }
 
     /**
@@ -313,6 +315,14 @@ class Customer extends Base
         }
         $this->_set('masterpassCards', $masterpassCardArray);
 
+        $samsungPayCardArray = [];
+        if (isset($customerAttribs['samsungPayCards'])) {
+            foreach ($customerAttribs['samsungPayCards'] AS $samsungPayCard) {
+                $samsungPayCardArray[] = SamsungPayCard::factory($samsungPayCard);
+            }
+        }
+        $this->_set('samsungPayCards', $samsungPayCardArray);
+
         $usBankAccountArray = array();
         if (isset($customerAttribs['usBankAccounts'])) {
             foreach ($customerAttribs['usBankAccounts'] AS $usBankAccount) {
@@ -331,6 +341,7 @@ class Customer extends Base
             $this->venmoAccounts,
             $this->visaCheckoutCards,
             $this->masterpassCards,
+            $this->samsungPayCards,
             $this->usBankAccounts
         ));
     }

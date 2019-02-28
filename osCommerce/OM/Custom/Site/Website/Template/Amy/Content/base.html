@@ -14,28 +14,22 @@
          C R E A T I N G    O N L I N E    S T O R E S    W O R L D W I D E    S I N C E    2 0 0 0 !
 //-->
 
-  <meta http-equiv="Content-Type" content="text/html; charset={value}html_character_set{value}" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset={value}html_character_set{value}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
 
   <title>{value}html_page_title{value}</title>
 
-  <base href="{value}html_base_href{value}" />
+  <base href="{value}html_base_href{value}">
 
-  <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}" />
+  <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}">
 
-  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade-20151202.css{publiclink}" />
+  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.css{publiclink}?v5234">
 
-  <script src="public/external/jquery/jquery-1.11.3.min.js"></script>
+  <script src="{publiclink}external/jquery-3.3.1.min.js{publiclink}"></script>
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <link rel="alternate" type="application/rss+xml" href="http://www.oscommerce.com/oscommerce.rdf" title="osCommerce News" />
+  <link rel="alternate" type="application/rss+xml" href="https://www.oscommerce.com/oscommerce.rdf" title="osCommerce News">
 
 {ifvalue html_header_tags}
   {raw}html_header_tags{raw}
@@ -47,40 +41,37 @@ var site_req = {raw json_encode}site_req{raw};
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarLinks">
-            <span class="sr-only">Toggle Menu</span>
-            <i class="fa fa-bars"></i>
-          </button>
+    <nav class="navbar navbar-light navbar-expand-lg">
+      <div class="container">
+        <a href="{link}Index{link}" class="navbar-brand"><img src="{publiclink}images/oscommerce.png{publiclink}" id="logo"></a>
 
-          <a href="{link}Index{link}" class="navbar-brand"><img src="{publiclink}images/oscommerce.png{publiclink}" id="logo" /></a>
-        </div>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle Menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="collapse navbar-collapse" id="navbarLinks">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{link}Us{link}" id="btnUs">{lang}navbutton_us{lang}</a></li>
-            <li><a href="{link}Products{link}" id="btnProducts">{lang}navbutton_products{lang}</a></li>
-            <li><a href="{link}Services{link}" id="btnServices">{lang}navbutton_services{lang}</a></li>
-            <li><a href="{link}Support{link}" id="btnSupport">{lang}navbutton_support{lang}</a></li>
-            <li><a href="{link}_||Ambassadors{link}" id="btnAmbassadors"><i class="fa fa-heart text-danger"></i></a></li>
-            <li class="dropdown" id="btnAccountContainer">
-              <a href="{link}Account|||SSL{link}" id="btnAccount" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i></a>
-              <ul class="dropdown-menu">
+        <div class="navbar-collapse collapse" id="navbarLinks">
+          <ul class="nav nav-pills ml-auto">
+            <li class="nav-item"><a href="{link}Products{link}" id="btnProducts" class="nav-link">{lang}navbutton_products{lang}</a></li>
+            <li class="nav-item"><a href="{link}Services{link}" id="btnServices" class="nav-link">{lang}navbutton_services{lang}</a></li>
+            <li class="nav-item"><a href="{link}Support{link}" id="btnSupport" class="nav-link">{lang}navbutton_support{lang}</a></li>
+            <li class="nav-item"><a href="{link}Contact{link}" id="btnContact" class="nav-link">{lang}navbutton_contact{lang}</a></li>
+            <li class="nav-item"><a href="{link}_||Ambassadors{link}" id="btnAmbassadors" class="nav-link text-danger"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/heart.svg{publiclink}" class="svg-inject"></a></li>
+            <li class="nav-item dropdown">
+              <a href="#" id="btnAccount" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/user.svg{publiclink}" class="svg-inject"></a>
+              <div class="dropdown-menu" aria-labelledby="btnAccount">
 
 {ifvalue user}
-                <li><a href="{link}Account|||SSL{link}">{lang}navbutton_account_my_account{lang}</a></li>
-                <li><a href="{link}Account|Website|Invoices|SSL{link}">{lang}navbutton_account_invoices{lang}</a></li>
-                <li><a href="{link}Account|Website|Partner|SSL{link}">{lang}navbutton_account_partner_dashboard{lang}</a></li>
-                <li class="divider"></li>
-                <li><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}">{lang}navbutton_account_log_out{lang}</a></li>
+                <a href="{link}Account|||SSL{link}" class="dropdown-item">{lang}navbutton_account_my_account{lang}</a>
+                <a href="{link}Account|Website|Invoices|SSL{link}" class="dropdown-item">{lang}navbutton_account_invoices{lang}</a>
+                <a href="{link}Account|Website|Partner|SSL{link}" class="dropdown-item">{lang}navbutton_account_partner_dashboard{lang}</a>
+                <div class="dropdown-divider"></div>
+                <a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}"  class="dropdown-item">{lang}navbutton_account_log_out{lang}</a>
 {else}
-                <li><a href="{link}Account|Website|Login|SSL{link}">{lang}navbutton_account_log_in{lang}</a></li>
-                <li><a href="{link}Account|Website|Create|SSL{link}">{lang}navbutton_account_create_account{lang}</a></li>
+                <a href="{link}Account|Website|Login|SSL{link}" class="dropdown-item">{lang}navbutton_account_log_in{lang}</a>
+                <a href="{link}Account|Website|Create|SSL{link}" class="dropdown-item">{lang}navbutton_account_create_account{lang}</a>
 {ifvalue}
 
-              </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -88,43 +79,33 @@ var site_req = {raw json_encode}site_req{raw};
     </nav>
   </header>
 
-  <div class="container-fluid">
+  <div class="container">
 
 {import}{value}html_page_contents_file{value}{import}
 
   </div>
 
   <footer>
-    <div class="container-fluid">
-      {lang}copyright_footer{lang}
+    <div class="container">
+      <p id="footerSocialLinks">
+        <a href="{link}Contact|Website|Newsletter{link}" title="{escape}{lang}social_newsletter_title{lang}{escape}" class="text-success"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/envelope.svg{publiclink}" class="svg-inject"></a>
+        <a href="https://twitter.com/osCommerce" target="_blank" title="{escape}{lang}social_twitter_title{lang}{escape}" class="text-info"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/twitter.svg{publiclink}" class="svg-inject"></a>
+        <a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{escape}{lang}social_facebook_title{lang}{escape}" class="text-primary"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/facebook.svg{publiclink}" class="svg-inject"></a>
+        <a href="https://github.com/osCommerce" target="_blank" title="{escape}{lang}social_github_title{lang}{escape}" class="text-dark"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/github.svg{publiclink}" class="svg-inject"></a>
+      </p>
 
-      <p id="footerSocialLinks"><a href="http://www.oscommerce.com/newsletter/subscribe" title="{lang}social_newsletter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #669c41;"></i><i class="fa fa-file-text fa-stack-1x fa-inverse"></i></span></a><a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank" title="{lang}social_googleplus_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #f63e28;"></i><i class="fa fa-google-plus fa-stack-1x fa-inverse"></i></span></a><a href="https://twitter.com/osCommerce" target="_blank" title="{lang}social_twitter_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #2daae1;"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a><a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{lang}social_facebook_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #3c5b9b;"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a><a href="https://github.com/osCommerce" target="_blank" title="{lang}social_github_title{lang}"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color: #000;"></i><i class="fa fa-github-alt fa-stack-1x fa-inverse"></i></span></a></p>
+      {lang}copyright_footer{lang}
     </div>
   </footer>
 
-<script src="public/external/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{publiclink}external/bootstrap/4.3.1/js/bootstrap.bundle.min.js{publiclink}"></script>
+<script src="{publiclink}external/svg-inject/1.2.2/svg-inject.min.js{publiclink}"></script>
 
 <script>
 $(function() {
-  $('#btn' + site_req['app']).parent().addClass('active');
-});
+  SVGInject(document.querySelectorAll('img.svg-inject'));
 
-$(document).on('change', '.btn-file :file', function() {
-  var input = $(this),
-      numFiles = input.get(0).files ? input.get(0).files.length : 1,
-      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-  input.trigger('fileselect', [numFiles, label]);
-});
-
-$(function() {
-  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-    var input = $(this).parents('.input-group').find(':text'),
-        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-    if ( input.length ) {
-      input.val(log);
-    }
-  });
+  $('#btn' + site_req['app']).addClass('active');
 });
 </script>
 

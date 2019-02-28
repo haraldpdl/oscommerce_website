@@ -1,22 +1,23 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ *
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Module\Template\Widget\message_stack;
+namespace osCommerce\OM\Core\Site\Website\Module\Template\Widget\message_stack;
 
-  use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\Registry;
 
-  class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract {
-    static public function execute($group = null) {
-      $OSCOM_MessageStack = Registry::get('MessageStack');
+class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
+{
+    public static function execute($group = null)
+    {
+        $OSCOM_MessageStack = Registry::get('MessageStack');
 
-      if ( $OSCOM_MessageStack->exists($group) ) {
-        return $OSCOM_MessageStack->get($group);
-      }
+        if ($OSCOM_MessageStack->exists($group)) {
+            return $OSCOM_MessageStack->get($group);
+        }
     }
-  }
-?>
+}

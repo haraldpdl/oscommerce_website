@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
@@ -22,8 +22,8 @@ if (!class_exists('\Braintree')) {
 
 class Braintree
 {
-    const WEB_VERSION = '3.22.1';
-    const WEB_DROPIN_VERSION = '1.6.1';
+    const WEB_VERSION = '3.42.0';
+    const WEB_DROPIN_VERSION = '1.16.0';
 
     protected static $has_setup = false;
 

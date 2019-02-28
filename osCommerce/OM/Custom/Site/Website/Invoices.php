@@ -2,13 +2,13 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
 class Invoices
 {
@@ -17,27 +17,26 @@ class Invoices
     const STATUS_LEGACY = 3;
     const STATUS_NEW = 4;
 
-    const STATUS_PUBLIC = [
-        self::STATIC_PENDING,
-        self::STATIC_PAID
-    ];
-
-    public static function hasInvoices(int $user_id)
+    public static function hasInvoices(int $user_id): bool
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
             'user_id' => $user_id
         ];
 
-        return OSCOM::callDB('Website\UserHasInvoices', $data, 'Site');
+        return $OSCOM_PDO->call('HasUserInvoice', $data);
     }
 
-    public static function getAll(int $user_id)
+    public static function getAll(int $user_id): array
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
             'user_id' => $user_id
         ];
 
-        $result = OSCOM::callDB('Website\GetInvoices', $data, 'Site');
+        $result = $OSCOM_PDO->call('GetUserInvoices', $data);
 
         foreach ($result as $k => $v) {
             $result[$k]['cost_formatted'] = $v['currency'] . ' ' . number_format($v['cost'], 2);
@@ -87,8 +86,10 @@ class Invoices
         return false;
     }
 
-    public static function saveUser(array $params)
+    public static function saveUser(array $params): bool
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
             'invoice_number' => $params['invoice_number'],
             'date' => $params['date'],
@@ -100,20 +101,24 @@ class Invoices
             'partner_transaction_id' => $params['partner_transaction_id']
         ];
 
-        return OSCOM::callDB('Website\SaveUserInvoice', $data, 'Site');
+        return $OSCOM_PDO->call('SaveUserInvoice', $data);
     }
 
-    public static function getNew()
+    public static function getNew(): array
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
             'status' => static::STATUS_NEW
         ];
 
-        return OSCOM::callDB('Website\GetNewInvoices', $data, 'Site');
+        return $OSCOM_PDO->call('GetNew', $data);
     }
 
-    public static function save(array $params)
+    public static function save(array $params): bool
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $data = [
             'id' => $params['id'] ?? null,
             'invoice_number' => $params['invoice_number'] ?? null,
@@ -132,6 +137,6 @@ class Invoices
             'module' => $params['module'] ?? null
         ];
 
-        return OSCOM::callDB('Website\SaveInvoice', $data, 'Site');
+        return $OSCOM_PDO->call('Save', $data);
     }
 }

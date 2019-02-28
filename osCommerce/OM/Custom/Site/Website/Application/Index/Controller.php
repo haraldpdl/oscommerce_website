@@ -2,17 +2,20 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Index;
 
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    OSCOM,
+    Registry
+};
+
 use osCommerce\OM\Core\Site\Website\Partner;
 
-use osCommerce\OM\Core\Site\Website\Module\Template\Widget\index_sidebar_nav\Controller as WidgetIndexSidebar;
+use osCommerce\OM\Core\Site\Website\Application\Index\Module\Template\Widget\index_sidebar_nav\Controller as WidgetIndexSidebar;
 
 class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
 {

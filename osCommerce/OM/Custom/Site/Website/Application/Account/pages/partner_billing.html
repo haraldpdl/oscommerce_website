@@ -1,39 +1,31 @@
-<div id="highlights">
-  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
-</div>
-
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{value}partner title{value}</h1>
+      <h1 class="display-4">{lang}partner_billing_title{lang}</h1>
 
-      <h2>{lang}partner_billing_title{lang}</h2>
+      <h2>{value}partner title{value}</h2>
 
-      {widget}message_stack|partner{widget}
+      <form id="formPartnerBilling" action="{link}Account|Website|Partner&Billing={raw}partner code{raw}&Process|SSL{link}" method="post" novalidate>{formprotect}public_token{formprotect}
+        {widget}message_stack|partner{widget}
 
-      <form id="formPartnerBilling" action="{link}Account|Website|Partner&Billing={raw}partner code{raw}&Process|SSL{link}" method="post">{formprotect}public_token{formprotect}
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <label for="pCompany" class="control-label">{lang}partner_field_billing_address_company_title{lang}</label>
-              <input type="input" name="company" class="form-control" id="pCompany" value="{post}company|partner_billing_address company{post}">
-            </div>
-          </div>
+        <div class="form-group">
+          <label for="pCompany">{lang}partner_field_billing_address_company_title{lang}</label>
+          <input type="input" name="company" class="form-control" id="pCompany" value="{post}company|partner_billing_address company{post}">
         </div>
 
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pFirstName" class="control-label">{lang}partner_field_billing_address_firstname_title{lang}</label>
+              <label for="pFirstName">{lang}partner_field_billing_address_firstname_title{lang}</label>
               <input type="input" name="firstname" class="form-control" id="pFirstName" value="{post}firstname|partner_billing_address firstname{post}" placeholder="optional">
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pLastName" class="control-label">{lang}partner_field_billing_address_lastname_title{lang}</label>
+              <label for="pLastName">{lang}partner_field_billing_address_lastname_title{lang}</label>
               <input type="input" name="lastname" class="form-control" id="pLastName" value="{post}lastname|partner_billing_address lastname{post}" placeholder="optional">
             </div>
           </div>
@@ -42,14 +34,15 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pStreetAddress" class="control-label">{lang}partner_field_billing_address_street_address_title{lang}</label>
+              <label for="pStreetAddress">{lang}partner_field_billing_address_street_address_title{lang}</label>
               <input type="input" name="street" class="form-control" id="pStreetAddress" value="{post}street|partner_billing_address street_address{post}">
+              <div class="invalid-feedback">Required</div>
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pStreetAddress2" class="control-label">{lang}partner_field_billing_address_street_address2_title{lang}</label>
+              <label for="pStreetAddress2">{lang}partner_field_billing_address_street_address2_title{lang}</label>
               <input type="input" name="street2" class="form-control" id="pStreetAddress2" placeholder="optional" value="{post}street2|partner_billing_address street_address_2{post}">
             </div>
           </div>
@@ -58,14 +51,14 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pCity" class="control-label">{lang}partner_field_billing_address_city_title{lang}</label>
+              <label for="pCity">{lang}partner_field_billing_address_city_title{lang}</label>
               <input type="input" name="city" class="form-control" id="pCity" value="{post}city|partner_billing_address city{post}">
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pZip" class="control-label">{lang}partner_field_billing_address_zip_title{lang}</label>
+              <label for="pZip">{lang}partner_field_billing_address_zip_title{lang}</label>
               <input type="input" name="zip" class="form-control" id="pZip" value="{post}zip|partner_billing_address postcode{post}">
             </div>
           </div>
@@ -74,29 +67,31 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="pCountry" class="control-label">{lang}partner_field_billing_address_country_title{lang}</label>
+              <label for="pCountry">{lang}partner_field_billing_address_country_title{lang}</label>
               {raw}field_countries{raw}
+              <div class="invalid-feedback">Required</div>
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
-              <label class="control-label">{lang}partner_field_billing_address_state_title{lang}</label>
-              <input type="input" name="state" class="form-control hidden" id="pState" value="{post}state|partner_billing_address state{post}">
-              <select id="pStateSelect" name="zone_code" class="form-control hidden" data-default="{post}zone_code|partner_billing_address zone_code{post}"></select>
-              <p class="form-control-static"><small>{lang}partner_field_billing_address_country_select_first{lang}</small></p>
+              <label>{lang}partner_field_billing_address_state_title{lang}</label>
+              <input type="input" name="state" class="form-control d-none" id="pState" value="{post}state|partner_billing_address state{post}">
+              <select id="pStateSelect" name="zone_code" class="form-control d-none" data-default="{post}zone_code|partner_billing_address zone_code{post}"></select>
+              <p class="form-control-plaintext text-muted">{lang}partner_field_billing_address_country_select_first{lang}</p>
+              <div class="invalid-feedback">Required</div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="control-label" for="inputVatId">{lang}partner_field_billing_vat_id_title{lang}</label>
-
-          <input type="input" id="inputVatId" name="vat_id" value="{post}vat_id|partner_campaign billing_vat_id{post}" class="form-control" />
+          <label for="inputVatId">{lang}partner_field_billing_vat_id_title{lang}</label>
+          <input type="input" id="inputVatId" name="vat_id" value="{post}vat_id|partner_campaign billing_vat_id{post}" class="form-control">
+          <small class="form-text text-muted">{lang}partner_field_billing_vat_id_note{lang}</small>
         </div>
 
         <p>
-          <button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{lang addslashes}partner_button_processing{lang}">{lang}partner_button_save{lang}</button>
+          <button type="submit" id="saveButton" class="btn btn-info" data-processing-text="{escape}{lang}partner_button_processing{lang}{escape}">{lang}partner_button_save{lang}</button>
         </p>
       </form>
     </div>
@@ -109,8 +104,8 @@ $(function() {
 
   $('#pCountry').on('change', function(e) {
     if ($(this).val() === '') {
-      $('#pState, #pStateSelect').addClass('hidden');
-      $('#pState').siblings('.form-control-static').removeClass('hidden');
+      $('#pState, #pStateSelect').addClass('d-none');
+      $('#pState').siblings('.form-control-plaintext').removeClass('d-none');
       $('#pState').siblings('label').removeAttr('for');
     } else if ($(this).val() in zones) {
       $('#pStateSelect').empty();
@@ -121,19 +116,19 @@ $(function() {
         $('#pStateSelect').append('<option value="' + value.code + '">' + value.title + '</option>');
       });
 
-      $('#pState').siblings('.form-control-static').addClass('hidden');
-      $('#pState').addClass('hidden');
+      $('#pState').siblings('.form-control-plaintext').addClass('d-none');
+      $('#pState').addClass('d-none');
 
       if ($('#pStateSelect option[value="' + $('#pStateSelect').data('default') + '"]').length === 1) {
         $('#pStateSelect').val($('#pStateSelect').data('default'));
       }
 
-      $('#pStateSelect').removeClass('hidden');
+      $('#pStateSelect').removeClass('d-none');
       $('#pState').siblings('label').attr('for', 'pStateSelect');
     } else {
-      $('#pState').siblings('.form-control-static').addClass('hidden');
-      $('#pStateSelect').addClass('hidden');
-      $('#pState').removeClass('hidden');
+      $('#pState').siblings('.form-control-plaintext').addClass('d-none');
+      $('#pStateSelect').addClass('d-none');
+      $('#pState').removeClass('d-none');
       $('#pState').siblings('label').attr('for', 'pState');
     }
   }).trigger('change');
@@ -141,48 +136,38 @@ $(function() {
   function pbVerifyForm() {
     var hasError = false;
 
-    $('#formPartnerBilling div.form-group.has-error').removeClass('has-error');
+    $('#formPartnerBilling .is-invalid').removeClass('is-invalid');
 
     if ($('#pStreetAddress').val().length < 1) {
       hasError = true;
 
-      $('#pStreetAddress').parent('.form-group').addClass('has-error');
+      $('#pStreetAddress').addClass('is-invalid');
     }
 
-    if ($('#pCity').val().length < 1) {
+    if (($('#pCountry').val() in zones) && ($('#pStateSelect').val() === '')) {
       hasError = true;
 
-      $('#pCity').parent('.form-group').addClass('has-error');
-    }
-
-    if (($('#pCountry').val() === '') || ($('#pCountry').val() in zones) && ($('#pStateSelect').val() === '') || (!($('#pCountry').val() in zones) && ($('#pState').val().length < 1))) {
-      hasError = true;
-
-      $('#pState').parent('.form-group').addClass('has-error');
-    }
-
-    if ($('#pZip').val().length < 1) {
-      hasError = true;
-
-      $('#pZip').parent('.form-group').addClass('has-error');
+      $('#pStateSelect').addClass('is-invalid');
     }
 
     if ($('#pCountry').val() === '') {
       hasError = true;
 
-      $('#pCountry').parent('.form-group').addClass('has-error');
+      $('#pCountry').addClass('is-invalid');
     }
 
     return hasError;
   }
 
   $('#formPartnerBilling').submit(function() {
-    $('#saveButton').button('processing').prop('disabled', true);
+    $('#formPartnerBilling div.alert').empty().addClass('d-none');
+
+    $('#saveButton').prop('disabled', true).data('original-text', $('#saveButton').html()).html($('#saveButton').data('processing-text'));
 
     var hasError = pbVerifyForm();
 
     if (hasError === true) {
-      $('#saveButton').button('reset').prop('disabled', false);
+      $('#saveButton').html($('#saveButton').data('original-text')).removeData('original-text').prop('disabled', false);
 
       return false;
     }

@@ -10,7 +10,7 @@ osCommerce
 
   {lang}kind_regards{lang}
 
-  osCommerce
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
 
-osCommerce, https://www.oscommerce.com
 {lang}automatically_generated_email{lang}

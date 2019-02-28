@@ -2,18 +2,20 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Edit;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    Hash,
     HttpRequest,
     Mail,
     OSCOM,
     Registry,
+    Sanitize,
     Upload
 };
 
@@ -33,7 +35,7 @@ class Process
         $data = [];
         $error = false;
 
-        $public_token = isset($_POST['public_token']) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['public_token'])) : '';
+        $public_token = Sanitize::simple($_POST['public_token'] ?? null);
 
         if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_form_protect_general'), 'error');
@@ -51,7 +53,7 @@ class Process
         }
 
         foreach ($OSCOM_Language->getAll() as $l) {
-            $input = isset($_POST['desc_short_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['desc_short_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['desc_short_' . $l['code']] ?? null);
             $data[$l['code']]['desc_short'] = !empty($input) ? $input : null;
 
             if (strlen($data[$l['code']]['desc_short']) > 450) {
@@ -72,7 +74,7 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_address_length'));
             }
 
-            $input = isset($_POST['telephone_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['telephone_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['telephone_' . $l['code']] ?? null);
             $data[$l['code']]['telephone'] = !empty($input) ? $input : null;
 
             if (strlen($data[$l['code']]['telephone']) > 255) {
@@ -81,7 +83,7 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_telephone_length'));
             }
 
-            $input = isset($_POST['email_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['email_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['email_' . $l['code']] ?? null);
             $data[$l['code']]['email'] = !empty($input) ? $input : null;
 
             if (!empty($data[$l['code']]['email']) && ((filter_var($data[$l['code']]['email'], FILTER_VALIDATE_EMAIL) === false) || (strlen($data[$l['code']]['email']) > 255))) {
@@ -90,7 +92,7 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_email_length'));
             }
 
-            $input = isset($_POST['youtube_video_id_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['youtube_video_id_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['youtube_video_id_' . $l['code']] ?? null);
             $data[$l['code']]['youtube_video_id'] = !empty($input) ? $input : '';
 
             if (strlen($data[$l['code']]['youtube_video_id']) > 255) {
@@ -116,7 +118,7 @@ class Process
                 }
             }
 
-            $input = isset($_POST['public_url_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['public_url_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['public_url_' . $l['code']] ?? null);
             $data[$l['code']]['public_url'] = !empty($input) ? $input : null;
 
             if (strlen($data[$l['code']]['public_url']) > 255) {
@@ -125,7 +127,7 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_public_url_length'));
             }
 
-            $input = isset($_POST['url_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['url_' . $l['code']])) : '';
+            $input = Sanitize::simple($_POST['url_' . $l['code']] ?? null);
             $data[$l['code']]['url'] = !empty($input) ? $input : null;
 
             if (strlen($data[$l['code']]['url']) > 255) {
@@ -141,13 +143,13 @@ class Process
             $data[$l['code']]['image_small'] = null;
 
             if (isset($_FILES['image_small_' . $l['code']]['name']) && !empty($_FILES['image_small_' . $l['code']]['name'])) {
-                $Uimage = new Upload('image_small_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['jpg', 'png'], true);
+                $Uimage = new Upload('image_small_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['gif', 'jpg', 'png'], true);
 
                 if ($Uimage->check()) {
                     $image = getimagesize($_FILES['image_small_' . $l['code']]['tmp_name']);
 
                     if (($image !== false) && ($image[0] == '130') && ($image[1] == '50')) {
-                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '.' . $Uimage->getExtension());
+                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '-' . Hash::getRandomString(4) . '.' . $Uimage->getExtension());
 
                         $data[$l['code']]['image_small'] = clone $Uimage;
                     } else {
@@ -162,159 +164,157 @@ class Process
                 }
             }
 
-            if ($partner_campaign['has_gold'] == '1') {
-                $data[$l['code']]['image_big'] = null;
+            $data[$l['code']]['image_big'] = null;
 
-                if (isset($_FILES['image_big_' . $l['code']]['name']) && !empty($_FILES['image_big_' . $l['code']]['name'])) {
-                    $Uimage = new Upload('image_big_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['jpg', 'png'], true);
+            if (isset($_FILES['image_big_' . $l['code']]['name']) && !empty($_FILES['image_big_' . $l['code']]['name'])) {
+                $Uimage = new Upload('image_big_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['jpg', 'png'], true);
 
-                    if ($Uimage->check()) {
-                        $image = getimagesize($_FILES['image_big_' . $l['code']]['tmp_name']);
+                if ($Uimage->check()) {
+                    $image = getimagesize($_FILES['image_big_' . $l['code']]['tmp_name']);
 
-                        if (($image !== false) && ($image[0] == '1200') && ($image[1] == '364')) {
-                            $Uimage->setFilename($campaigns[$l['code']]['code'] . '_header.' . $Uimage->getExtension());
+                    if (($image !== false) && ($image[0] == '1920') && ($image[1] == '1080') && ($_FILES['image_big_' . $l['code']]['size'] <= 358400)) {
+                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '_header-' . Hash::getRandomString(4) . '.' . $Uimage->getExtension());
 
-                            $data[$l['code']]['image_big'] = clone $Uimage;
-                        } else {
-                            $error = true;
-
-                            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_big_error'));
-                        }
+                        $data[$l['code']]['image_big'] = clone $Uimage;
                     } else {
                         $error = true;
 
                         $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_big_error'));
                     }
+                } else {
+                    $error = true;
+
+                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_big_error'));
                 }
+            }
 
-                $data[$l['code']]['image_promo'] = null;
+            $data[$l['code']]['image_promo'] = null;
 
-                if (isset($_FILES['image_promo_' . $l['code']]['name']) && !empty($_FILES['image_promo_' . $l['code']]['name'])) {
-                    $Uimage = new Upload('image_promo_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['gif', 'jpg', 'png'], true);
+            if (isset($_FILES['image_promo_' . $l['code']]['name']) && !empty($_FILES['image_promo_' . $l['code']]['name'])) {
+                $Uimage = new Upload('image_promo_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['gif', 'jpg', 'png'], true);
 
-                    if ($Uimage->check()) {
-                        $image = getimagesize($_FILES['image_promo_' . $l['code']]['tmp_name']);
+                if ($Uimage->check()) {
+                    $image = getimagesize($_FILES['image_promo_' . $l['code']]['tmp_name']);
 
-                        if (($image !== false) && ($image[0] == '150') && ($image[1] == '100')) {
-                            $Uimage->setFilename($campaigns[$l['code']]['code'] . '_promo.' . $Uimage->getExtension());
+                    if (($image !== false) && ($image[0] == '150') && ($image[1] == '100')) {
+                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '_promo-' . Hash::getRandomString(4) . '.' . $Uimage->getExtension());
 
-                            $data[$l['code']]['image_promo'] = clone $Uimage;
-                        } else {
-                            $error = true;
-
-                            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_error'));
-                        }
+                        $data[$l['code']]['image_promo'] = clone $Uimage;
                     } else {
                         $error = true;
 
                         $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_error'));
                     }
-                }
-
-                $input = isset($_POST['image_promo_url_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['image_promo_url_' . $l['code']])) : '';
-                $data[$l['code']]['image_promo_url'] = !empty($input) ? $input : null;
-
-                if (strlen($data[$l['code']]['image_promo_url']) > 255) {
+                } else {
                     $error = true;
 
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_url_length'));
-                } elseif (!empty($data[$l['code']]['image_promo_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['image_promo_url']) !== 1) {
-                    $error = true;
-
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_url_invalid'));
+                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_error'));
                 }
+            }
 
-                $data[$l['code']]['banner_image'] = null;
+            $input = Sanitize::simple($_POST['image_promo_url_' . $l['code']] ?? null);
+            $data[$l['code']]['image_promo_url'] = !empty($input) ? $input : null;
 
-                if (isset($_FILES['banner_image_' . $l['code']]['name']) && !empty($_FILES['banner_image_' . $l['code']]['name'])) {
-                    $Uimage = new Upload('banner_image_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['gif', 'jpg', 'png'], true);
+            if (strlen($data[$l['code']]['image_promo_url']) > 255) {
+                $error = true;
 
-                    if ($Uimage->check()) {
-                        $image = getimagesize($_FILES['banner_image_' . $l['code']]['tmp_name']);
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_url_length'));
+            } elseif (!empty($data[$l['code']]['image_promo_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['image_promo_url']) !== 1) {
+                $error = true;
 
-                        if (($image !== false) && ($image[0] == '468') && ($image[1] == '60')) {
-                            $Uimage->setFilename($campaigns[$l['code']]['code'] . '_banner.' . $Uimage->getExtension());
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_image_promo_url_invalid'));
+            }
 
-                            $data[$l['code']]['banner_image'] = clone $Uimage;
-                        } else {
-                            $error = true;
+            $data[$l['code']]['banner_image'] = null;
 
-                            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_error'));
-                        }
+            if (isset($_FILES['banner_image_' . $l['code']]['name']) && !empty($_FILES['banner_image_' . $l['code']]['name'])) {
+                $Uimage = new Upload('banner_image_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['gif', 'jpg', 'png'], true);
+
+                if ($Uimage->check()) {
+                    $image = getimagesize($_FILES['banner_image_' . $l['code']]['tmp_name']);
+
+                    if (($image !== false) && ($image[0] == '468') && ($image[1] == '60')) {
+                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '_banner-' . Hash::getRandomString(4) . '.' . $Uimage->getExtension());
+
+                        $data[$l['code']]['banner_image'] = clone $Uimage;
                     } else {
                         $error = true;
 
                         $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_error'));
                     }
-                }
-
-                $input = isset($_POST['banner_url_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['banner_url_' . $l['code']])) : '';
-                $data[$l['code']]['banner_url'] = !empty($input) ? $input : null;
-
-                if (strlen($data[$l['code']]['banner_url']) > 255) {
+                } else {
                     $error = true;
 
-                    $OSCOM_MessageStack->add('partner',  OSCOM::getDef('partner_error_banner_url_length'));
-                } elseif (!empty($data[$l['code']]['banner_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['banner_url']) !== 1) {
-                    $error = true;
-
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_url_invalid'));
+                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_image_error'));
                 }
+            }
 
-                $input = isset($_POST['status_update_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['status_update_' . $l['code']])) : '';
-                $data[$l['code']]['status_update'] = !empty($input) ? $input : null;
+            $input = Sanitize::simple($_POST['banner_url_' . $l['code']] ?? null);
+            $data[$l['code']]['banner_url'] = !empty($input) ? $input : null;
 
-                if (strlen($data[$l['code']]['status_update']) > 200) {
-                    $error = true;
+            if (strlen($data[$l['code']]['banner_url']) > 255) {
+                $error = true;
 
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_length'));
-                }
+                $OSCOM_MessageStack->add('partner',  OSCOM::getDef('partner_error_banner_url_length'));
+            } elseif (!empty($data[$l['code']]['banner_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['banner_url']) !== 1) {
+                $error = true;
 
-                $data[$l['code']]['carousel_image'] = null;
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_banner_url_invalid'));
+            }
 
-                if (isset($_FILES['carousel_image_' . $l['code']]['name']) && !empty($_FILES['carousel_image_' . $l['code']]['name'])) {
-                    $Uimage = new Upload('carousel_image_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['jpg', 'png'], true);
+            $input = Sanitize::simple($_POST['status_update_' . $l['code']] ?? null);
+            $data[$l['code']]['status_update'] = !empty($input) ? $input : null;
 
-                    if ($Uimage->check()) {
-                        $image = getimagesize($_FILES['carousel_image_' . $l['code']]['tmp_name']);
+            if (strlen($data[$l['code']]['status_update']) > 200) {
+                $error = true;
 
-                        if (($image !== false) && ($image[0] == '1200') && ($image[1] == '364')) {
-                            $Uimage->setFilename($campaigns[$l['code']]['code'] . '_carousel.' . $Uimage->getExtension());
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_status_update_length'));
+            }
 
-                            $data[$l['code']]['carousel_image'] = clone $Uimage;
-                        } else {
-                            $error = true;
+            $data[$l['code']]['carousel_image'] = null;
 
-                            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_error'));
-                        }
+            if (isset($_FILES['carousel_image_' . $l['code']]['name']) && !empty($_FILES['carousel_image_' . $l['code']]['name'])) {
+                $Uimage = new Upload('carousel_image_' . $l['code'], OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Website/images/partners/' . $l['code'], null, ['jpg', 'png'], true);
+
+                if ($Uimage->check()) {
+                    $image = getimagesize($_FILES['carousel_image_' . $l['code']]['tmp_name']);
+
+                    if (($image !== false) && ($image[0] == '1920') && ($image[1] == '1080') && ($_FILES['carousel_image_' . $l['code']]['size'] <= 358400)) {
+                        $Uimage->setFilename($campaigns[$l['code']]['code'] . '_carousel-' . Hash::getRandomString(4) . '.' . $Uimage->getExtension());
+
+                        $data[$l['code']]['carousel_image'] = clone $Uimage;
                     } else {
                         $error = true;
 
                         $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_error'));
                     }
-                }
-
-                $input = isset($_POST['carousel_image_title_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['carousel_image_title_' . $l['code']])) : '';
-                $data[$l['code']]['carousel_image_title'] = !empty($input) ? $input : null;
-
-                if (strlen($data[$l['code']]['carousel_image_title']) > 255) {
+                } else {
                     $error = true;
 
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_title_length'));
+                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_error'));
                 }
+            }
 
-                $input = isset($_POST['carousel_image_url_' . $l['code']]) ? trim(str_replace(["\r\n", "\n", "\r"], '', $_POST['carousel_image_url_' . $l['code']])) : '';
-                $data[$l['code']]['carousel_image_url'] = !empty($input) ? $input : null;
+            $input = Sanitize::simple($_POST['carousel_image_title_' . $l['code']] ?? null);
+            $data[$l['code']]['carousel_image_title'] = !empty($input) ? $input : null;
 
-                if (strlen($data[$l['code']]['carousel_image_url']) > 255) {
-                    $error = true;
+            if (strlen($data[$l['code']]['carousel_image_title']) > 255) {
+                $error = true;
 
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_url_length'));
-                } elseif (!empty($data[$l['code']]['carousel_image_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['carousel_image_url']) !== 1) {
-                    $error = true;
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_title_length'));
+            }
 
-                    $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_url_invalid'));
-                }
+            $input = Sanitize::simple($_POST['carousel_image_url_' . $l['code']] ?? null);
+            $data[$l['code']]['carousel_image_url'] = !empty($input) ? $input : null;
+
+            if (strlen($data[$l['code']]['carousel_image_url']) > 255) {
+                $error = true;
+
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_url_length'));
+            } elseif (!empty($data[$l['code']]['carousel_image_url']) && preg_match('/^(http|https)\:\/\/.+/', $data[$l['code']]['carousel_image_url']) !== 1) {
+                $error = true;
+
+                $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_carousel_image_url_invalid'));
             }
         }
 
@@ -337,39 +337,37 @@ class Process
                     'image_small' => isset($data[$l['code']]['image_small']) ? $data[$l['code']]['image_small']->getFilename() : null
                 ];
 
-                if ($partner_campaign['has_gold'] == '1') {
-                    if (isset($data[$l['code']]['image_big'])) {
-                        $data[$l['code']]['image_big']->save();
-                    }
-
-                    $pi['image_big'] = isset($data[$l['code']]['image_big']) ? $data[$l['code']]['image_big']->getFilename() : null;
-
-                    if (isset($data[$l['code']]['image_promo'])) {
-                        $data[$l['code']]['image_promo']->save();
-                    }
-
-                    $pi['image_promo'] = isset($data[$l['code']]['image_promo']) ? $data[$l['code']]['image_promo']->getFilename() : null;
-                    $pi['image_promo_url'] = $data[$l['code']]['image_promo_url'];
-
-                    $pi['youtube_video_id'] = $data[$l['code']]['youtube_video_id'];
-
-                    if (isset($data[$l['code']]['carousel_image'])) {
-                        $data[$l['code']]['carousel_image']->save();
-                    }
-
-                    $pi['carousel_image'] = isset($data[$l['code']]['carousel_image']) ? $data[$l['code']]['carousel_image']->getFilename() : null;
-                    $pi['carousel_title'] = $data[$l['code']]['carousel_image_title'];
-                    $pi['carousel_url'] = $data[$l['code']]['carousel_image_url'];
-
-                    if (isset($data[$l['code']]['banner_image'])) {
-                        $data[$l['code']]['banner_image']->save();
-                    }
-
-                    $pi['banner_image'] = isset($data[$l['code']]['banner_image']) ? $data[$l['code']]['banner_image']->getFilename() : null;
-                    $pi['banner_url'] = $data[$l['code']]['banner_url'];
-
-                    $pi['status_update'] = $data[$l['code']]['status_update'];
+                if (isset($data[$l['code']]['image_big'])) {
+                    $data[$l['code']]['image_big']->save();
                 }
+
+                $pi['image_big'] = isset($data[$l['code']]['image_big']) ? $data[$l['code']]['image_big']->getFilename() : null;
+
+                if (isset($data[$l['code']]['image_promo'])) {
+                    $data[$l['code']]['image_promo']->save();
+                }
+
+                $pi['image_promo'] = isset($data[$l['code']]['image_promo']) ? $data[$l['code']]['image_promo']->getFilename() : null;
+                $pi['image_promo_url'] = $data[$l['code']]['image_promo_url'];
+
+                $pi['youtube_video_id'] = $data[$l['code']]['youtube_video_id'];
+
+                if (isset($data[$l['code']]['carousel_image'])) {
+                    $data[$l['code']]['carousel_image']->save();
+                }
+
+                $pi['carousel_image'] = isset($data[$l['code']]['carousel_image']) ? $data[$l['code']]['carousel_image']->getFilename() : null;
+                $pi['carousel_title'] = $data[$l['code']]['carousel_image_title'];
+                $pi['carousel_url'] = $data[$l['code']]['carousel_image_url'];
+
+                if (isset($data[$l['code']]['banner_image'])) {
+                    $data[$l['code']]['banner_image']->save();
+                }
+
+                $pi['banner_image'] = isset($data[$l['code']]['banner_image']) ? $data[$l['code']]['banner_image']->getFilename() : null;
+                $pi['banner_url'] = $data[$l['code']]['banner_url'];
+
+                $pi['status_update'] = $data[$l['code']]['status_update'];
 
                 if (Partner::save($_SESSION[OSCOM::getSite()]['Account']['id'], $partner['code'], $pi, $OSCOM_Language->getID($l['code']))) {
                     $did_save = true;
@@ -402,7 +400,7 @@ class Process
                     }
 
                     if (!empty($email_txt) || !empty($email_html)) {
-                        $OSCOM_Mail = new Mail($admin['name'], $admin['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('email_partner_update_subject'));
+                        $OSCOM_Mail = new Mail($admin['email'], $admin['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('email_partner_update_subject'));
 
                         if (!empty($email_txt)) {
                             $OSCOM_Mail->setBodyPlain($email_txt);

@@ -1,0 +1,19 @@
+osCommerce
+
+Hello from osCommerce!
+
+  Thank you for signing up to our newsletter! Please confirm your subscription
+  with the following link:
+
+  {link}Contact|Website|Newsletter&Subscribe&key={raw}newsletter_pending_key{raw}&sig={raw}newsletter_pending_sig{raw}{link}
+
+  If you received this email by mistake, it is safe to delete it. You will not
+  receive any newsletter emails before confirming your subscription with the
+  link above.
+
+  Kind regards,
+
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
+
+This is an automatically generated email.

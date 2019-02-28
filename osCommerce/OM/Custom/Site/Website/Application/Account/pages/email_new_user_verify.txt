@@ -8,7 +8,7 @@ Welcome to osCommerce!
   of your account by following the instructions below.
 
   If you did not sign up for an account at our website and have wrongly
-  received this e-mail, please disregard and delete this e-mail. You are not
+  received this email, please disregard and delete this email. You are not
   in a mailing list and do not need to unsubscribe or take further action.
 
 Please Verify Your Account
@@ -24,11 +24,11 @@ Please Verify Your Account
 
   We look forward to having you in our community!
 
-  This e-mail can be safely deleted after your account has been verified.
+  This email can be safely deleted after your account has been verified.
 
   Kind regards,
 
-  osCommerce
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
 
-osCommerce, https://www.oscommerce.com
-This is an automatically generated e-mail.
+This is an automatically generated email.

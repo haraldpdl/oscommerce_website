@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
@@ -43,6 +43,10 @@ class Billing
 
         if (isset($partner_billing_address['zone_id']) && ((int)$partner_billing_address['zone_id'] > 0)) {
             $partner_billing_address['zone_code'] = Address::getZoneCode($partner_billing_address['zone_id']);
+        }
+
+        if (empty($partner_billing_address['state']) && isset($partner_billing_address['zone_id']) && isset($partner_billing_address['country_id']) && !in_array(Address::getCountryIsoCode2($partner_billing_address['country_id']), static::COUNTRIES_WITH_ZONES)) {
+            $partner_billing_address['state'] = Address::getZoneName($partner_billing_address['zone_id']);
         }
 
         $OSCOM_Template->setValue('partner_billing_address', $partner_billing_address);

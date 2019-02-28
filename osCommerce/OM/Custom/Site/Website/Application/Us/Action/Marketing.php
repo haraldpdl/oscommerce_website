@@ -1,20 +1,23 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2012 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ *
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\Us\Action;
+namespace osCommerce\OM\Core\Site\Website\Application\Us\Action;
 
-  use osCommerce\OM\Core\ApplicationAbstract;
-  use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    ApplicationAbstract,
+    OSCOM
+};
 
-  class Marketing {
-    public static function execute(ApplicationAbstract $application) {
-      $application->setPageContent('marketing.html');
-      $application->setPageTitle(OSCOM::getDef('marketing_html_page_title'));
+class Marketing
+{
+    public static function execute(ApplicationAbstract $application)
+    {
+        $application->setPageContent('marketing.html');
+        $application->setPageTitle(OSCOM::getDef('marketing_html_page_title'));
     }
-  }
-?>
+}

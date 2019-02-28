@@ -1,0 +1,267 @@
+<div id="highlights">
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
+</div>
+
+<div class="row">
+  <div id="maincontainer" class="col-12">
+    <div id="maincontent">
+      <h1 class="display-4">{lang}contact_page_title{lang}</h1>
+
+      <div class="row">
+        <div class="col-lg-7">
+          {lang}contact_main_content{lang}
+
+          <div id="contactInquirySubmitted" class="alert alert-success d-none" role="alert">
+            <p><strong>{lang}contact_inquiry_saved_id{lang}</strong><br>{lang}contact_inquiry_saved_from{lang}</p>
+
+            <p>{lang}contact_inquiry_saved_content{lang}</p>
+          </div>
+
+          <form id="formContactInquiry" novalidate>{formprotect}public_token{formprotect}
+            <div class="alert alert-danger d-none" role="alert"></div>
+
+            <div class="form-group">
+              <label for="inputName">{lang}contact_inquiry_contact_title{lang}</label>
+
+{ifvalue user}
+              <div class="form-control-plaintext">{value}user name{value}</div>
+{else}
+              <input type="text" id="inputName" name="name" class="form-control" required>
+              <div class="invalid-feedback">
+                {lang}contact_inquiry_name_js_error_required{lang}
+              </div>
+{ifvalue}
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail">{lang}contact_inquiry_email_title{lang}</label>
+
+{ifvalue user}
+              <div class="form-control-plaintext">{value}user email{value}</div>
+{else}
+              <input type="email" id="inputEmail" name="email" class="form-control" required>
+              <div class="invalid-feedback">
+                {lang}contact_inquiry_email_address_js_error_invalid{lang}
+              </div>
+{ifvalue}
+            </div>
+
+            <div class="form-group">
+              <label for="inputCompany">{lang}contact_inquiry_company_title{lang}</label>
+
+              <input type="text" id="inputCompany" name="company" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="inputInquiry">{lang}contact_inquiry_title{lang}</label>
+
+              <textarea id="inputInquiry" name="inquiry" class="form-control" rows="4" maxlength="2000" required></textarea>
+              <small id="inputInquiryCounter" class="float-right form-text text-muted"></small>
+              <div class="invalid-feedback">
+                {lang}contact_inquiry_inquiry_js_error_required{lang}
+              </div>
+            </div>
+
+{ifvalue recaptcha_key_public}
+            <div class="form-group">
+              <label>{lang}contact_inquiry_security_check_title{lang}</label>
+
+              <div class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
+              <input type="hidden" id="inputSecurityCheck" class="form-control">
+              <div class="invalid-feedback">
+                {lang}contact_inquiry_security_check_js_error{lang}
+              </div>
+            </div>
+{ifvalue}
+
+            <p>
+              <button type="submit" id="inquiryButton" class="btn btn-info" data-processing-text="{escape}{lang}contact_inquiry_send_processing_button_title{lang}{escape}">{lang}contact_inquiry_send_button_title{lang}</button>
+            </p>
+
+            <p class="text-muted small">{lang}contact_inquiry_privacy_note{lang}</p>
+          </form>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="jumbotron border pt-4 pb-4">
+            <h2 class="display-5">{lang}contact_newsletter_title{lang}</h2>
+            <p class="lead">{lang}contact_newsletter_content{lang}</p>
+            <form id="contactNewsletterForm" action="{link}Contact|Website|Newsletter&Subscribe|SSL{link}" method="post" novalidate>{formprotect}public_token{formprotect}
+              <div class="input-group">
+                <input type="email" name="email" class="form-control" placeholder="Your email address" required>
+
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-dark">{lang}contact_newsletter_subscribe_button_title{lang}</button>
+                </div>
+              </div>
+            </form>
+            <p class="pt-2 text-center small"><a href="{link}Contact|Website|Newsletter{link}" class="text-muted">{lang}contact_newsletter_manage_subscription{lang}</a></p>
+          </div>
+
+          <div class="jumbotron border pt-4 pb-4">
+            <h2 class="display-5">{lang}contact_address_title{lang}</h2>
+            <p class="lead">{lang}contact_address_content{lang}</p>
+            <address>osCommerce<br>Harald Ponce de Leon<br>Remscheider Str. 96<br>42659 Solingen<br>Germany</address>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function checkName() {
+  $('#inputName').val($('#inputName').val().trim());
+
+  if ($('#inputName').hasClass('is-invalid')) {
+    $('#inputName').removeClass('is-invalid');
+  }
+
+  if ($('#inputName').val() == '') {
+    $('#inputName').addClass('is-invalid');
+  }
+
+  return !$('#inputName').hasClass('is-invalid');
+}
+
+function checkEmailAddress() {
+  $('#inputEmail').val($('#inputEmail').val().trim());
+
+  if ($('#inputEmail').hasClass('is-invalid')) {
+    $('#inputEmail').removeClass('is-invalid');
+  }
+
+  if ($('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null) {
+    $('#inputEmail').addClass('is-invalid');
+  }
+
+  return !$('#inputEmail').hasClass('is-invalid');
+}
+
+function checkInquiry() {
+  $('#inputInquiry').val($('#inputInquiry').val().trim()).keyup();
+
+  if ($('#inputInquiry').hasClass('is-invalid')) {
+    $('#inputInquiry').removeClass('is-invalid');
+  }
+
+  if ($('#inputInquiry').val() == '') {
+    $('#inputInquiry').addClass('is-invalid');
+  }
+
+  return !$('#inputInquiry').hasClass('is-invalid');
+}
+
+function checkSecurityCheck() {
+  if ($('#inputSecurityCheck').hasClass('is-invalid')) {
+    $('#inputSecurityCheck').removeClass('is-invalid');
+  }
+
+  if ($('#formContactInquiry textarea[name="g-recaptcha-response"]').val().length < 1) {
+    $('#inputSecurityCheck').addClass('is-invalid');
+  }
+
+  return !$('#inputSecurityCheck').hasClass('is-invalid');
+}
+
+function checkForm() {
+  var has_error = false;
+
+{ifnovalue user}
+  if (!checkName()) {
+    has_error = true;
+  }
+
+  if (!checkEmailAddress()) {
+    has_error = true;
+  }
+{ifnovalue}
+
+  if (!checkInquiry()) {
+    has_error = true;
+  }
+
+{ifvalue recaptcha_key_public}
+  if (!checkSecurityCheck()) {
+    has_error = true;
+  }
+{ifvalue}
+
+  return !has_error;
+}
+
+$('#inputInquiryCounter').html($('#inputInquiry').val().length + ' / ' + $('#inputInquiry').prop('maxlength'));
+
+$('#inputInquiry').keyup(function() {
+  var inputInquirySize = Math.min($('#inputInquiry').val().length, $('#inputInquiry').prop('maxlength'));
+
+  $('#inputInquiryCounter').html(inputInquirySize + ' / ' + $('#inputInquiry').prop('maxlength'));
+});
+
+var error_inquiry_general = {lang json_encode}contact_inquiry_ms_error_general{lang};
+
+$('#formContactInquiry').submit(function(e) {
+  e.preventDefault();
+
+  if ($('#inquiryButton').prop('disabled') === true) {
+    return false;
+  }
+
+  $('#formContactInquiry div.alert').empty().addClass('d-none');
+
+  $('#inquiryButton').prop('disabled', true).data('original-text', $('#inquiryButton').html()).html($('#inquiryButton').data('processing-text'));
+
+  if (!checkForm()) {
+    $('#inquiryButton').html($('#inquiryButton').data('original-text')).removeData('original-text').prop('disabled', false);
+  } else {
+    var params = {
+      public_token: $('#formContactInquiry input[name="public_token"]').val(),
+      company: $('#inputCompany').val(),
+      inquiry: $('#inputInquiry').val(),
+      department: 'General'
+    };
+
+{ifnovalue user}
+    params.name = $('#inputName').val();
+    params.email = $('#inputEmail').val();
+{ifnovalue}
+
+{ifvalue recaptcha_key_public}
+    params.gr_security_check = $('#formContactInquiry textarea[name="g-recaptcha-response"]').val();
+{ifvalue}
+
+    $.post('{rpclink}SaveInquiry|Contact|Website{rpclink}', params, function (result) {
+      if (typeof result.rpcStatus !== 'undefined') {
+        if (result.rpcStatus === 1) {
+          $('#contactInquirySubmittedId').text(result.inquiryId);
+          $('#contactInquirySubmittedName').text(result.inquiryName);
+          $('#contactInquirySubmittedEmail').text(result.inquiryEmail);
+
+          $('#formContactInquiry').addClass('d-none');
+          $('#contactInquirySubmitted').removeClass('d-none');
+        } else {
+          var e = (typeof result.errors !== 'undefined') ? result.errors : [];
+
+          if (e.length < 1) {
+            e.push(error_inquiry_general);
+          }
+
+          e.forEach(function(v) {
+            $('#formContactInquiry div.alert-danger').append('<p class="m-0">' + v + '</p>').removeClass('d-none');
+          });
+
+          if ((typeof result.resetGSecurityCheck !== 'undefined') && (result.resetGSecurityCheck === true)) {
+            grecaptcha.reset();
+          }
+        }
+      } else {
+        $('#formContactInquiry div.alert-danger').append('<p>' + error_inquiry_general + '</p>').removeClass('d-none');
+      }
+    }, 'json').fail(function() {
+      $('#formContactInquiry div.alert-danger').append('<p>' + error_inquiry_general + '</p>').removeClass('d-none');
+    }).always(function() {
+      $('#inquiryButton').html($('#inquiryButton').data('original-text')).removeData('original-text').prop('disabled', false);
+    });
+  }
+});
+</script>

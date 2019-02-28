@@ -2,17 +2,17 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Sites;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
-    Cache,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Sites\Sites;
@@ -24,9 +24,9 @@ class Process
         $OSCOM_MessageStack = Registry::get('MessageStack');
         $OSCOM_Template = Registry::get('Template');
 
-        $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-        $public_id = isset($_POST['public_id']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_id'])) : '';
-        $action = isset($_POST['action']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['action'])) : '';
+        $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+        $public_id = Sanitize::simple($_POST['public_id'] ?? null);
+        $action = Sanitize::simple($_POST['action'] ?? null);
 
         if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('error_form_protect_general'), 'error');
@@ -37,12 +37,6 @@ class Process
         $partner_campaign = $OSCOM_Template->getValue('partner_campaign');
         $partner_showcase_total = $OSCOM_Template->getValue('partner_showcase_total');
         $partner_showcase_max = $OSCOM_Template->getValue('partner_showcase_max');
-
-        if (((int)$partner_campaign['has_gold'] !== 1) || ((int)$partner_showcase_max < 1)) {
-            $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_site_nonexistent'), 'error');
-
-            return false;
-        }
 
         if (empty($public_id)) {
             $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_site_nonexistent'), 'error');

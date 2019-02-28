@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
@@ -116,7 +116,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         $OSCOM_Template->addHtmlTag('dir', $OSCOM_Language->getTextDirection());
         $OSCOM_Template->addHtmlTag('lang', OSCOM::getDef('html_lang_code')); // HPDL A better solution is to define the ISO 639-1 value at the language level
 
-        $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '" />');
+        $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '">');
 
         $OSCOM_Template->setValue('html_tags', $OSCOM_Template->getHtmlTags());
         $OSCOM_Template->setValue('html_character_set', $OSCOM_Language->getCharacterSet());
@@ -125,10 +125,9 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
         $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlElements('header'));
         $OSCOM_Template->setValue('html_footer_tags', $OSCOM_Template->getHtmlElements('footer'));
-        $OSCOM_Template->setValue('site_req', [ 'site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun() ]);
+        $OSCOM_Template->setValue('site_req', ['site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun()]);
         $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
         $OSCOM_Template->setValue('current_year', date('Y'));
-        $OSCOM_Template->setValue('in_ssl', OSCOM::getRequestType() == 'SSL');
 
         if ($OSCOM_Session->hasStarted() && isset($_SESSION[OSCOM::getSite()]['Account'])) {
             $OSCOM_Template->setValue('user', $_SESSION[OSCOM::getSite()]['Account']);

@@ -1,40 +1,50 @@
 <?php
 /**
  * osCommerce Website
- * 
- * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ *
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website;
+namespace osCommerce\OM\Core\Site\Website;
 
-  use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\Registry;
 
-  class News {
+class News
+{
     protected static $_news;
 
-    public static function getListing() {
-      return OSCOM::callDB('Website\GetNewsListing', null, 'Site');
+    public static function getListing(): array
+    {
+        $OSCOM_PDO = Registry::get('PDO');
+
+        return $OSCOM_PDO->call('GetListing');
     }
 
-    public static function getLatest() {
-      return OSCOM::callDB('Website\GetNewsLatest', null, 'Site');
+    public static function getLatest(): array
+    {
+        $OSCOM_PDO = Registry::get('PDO');
+
+        return $OSCOM_PDO->call('GetLatest');
     }
 
-    public static function get($id, $key = null) {
-      if ( !isset(static::$_news[$id]) ) {
-        static::$_news[$id] = OSCOM::callDB('Website\GetNews', array('id' => $id), 'Site');
-      }
+    public static function get($id, $key = null)
+    {
+        $OSCOM_PDO = Registry::get('PDO');
 
-      return isset($key) ? static::$_news[$id][$key] : static::$_news[$id];
+        if (!isset(static::$_news[$id])) {
+            static::$_news[$id] = $OSCOM_PDO->call('Get', ['id' => $id]);
+        }
+
+        return isset($key) ? static::$_news[$id][$key] : static::$_news[$id];
     }
 
-    public static function exists($id) {
-      if ( !isset(static::$_news[$id]) ) {
-        static::$_news[$id] = OSCOM::callDB('Website\GetNews', array('id' => $id), 'Site');
-      }
+    public static function exists($id): bool
+    {
+        if (!isset(static::$_news[$id])) {
+            static::get($id);
+        }
 
-      return isset(static::$_news[$id]) && !empty(static::$_news[$id]);
+        return isset(static::$_news[$id]) && !empty(static::$_news[$id]);
     }
-  }
-?>
+}

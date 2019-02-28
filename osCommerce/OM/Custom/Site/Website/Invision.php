@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2018 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
@@ -178,7 +178,7 @@ class Invision
             $send_email = true;
 
             try {
-                $existing = \IPS\Db::i()->select(array('vid', 'email_sent'), 'core_validating', array('member_id=? AND lost_pass=1', $member->member_id))->first();
+                $existing = \IPS\Db::i()->select(['vid', 'email_sent'], 'core_validating', ['member_id=? AND lost_pass=1', $member->member_id])->first();
 
                 $vid = $existing['vid'];
 
@@ -186,7 +186,7 @@ class Invision
                 if ($existing['email_sent'] && ($existing['email_sent'] > (time() - 900))) {
                     $send_email = false;
                 } else {
-                    \IPS\Db::i()->update('core_validating', array('email_sent' => time()), array('vid=?', $vid));
+                    \IPS\Db::i()->update('core_validating', ['email_sent' => time()], ['vid=?', $vid]);
                 }
             } catch (\UnderflowException $e) {
                 if ($generate_new === true) {
@@ -226,7 +226,7 @@ class Invision
 
             if (isset($member->member_id) && ($member->member_id > 0)) {
                 /* Reset the failed logins storage - we don't need to save because the login handler will do that for us later */
-                $member->failed_logins = array();
+                $member->failed_logins = [];
 
                 $member->save();
 
@@ -235,7 +235,7 @@ class Invision
                 \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication(isset($_COOKIES[static::COOKIE_LOGIN_KEY]));
 
                 /* Delete validating record and log in */
-                \IPS\Db::i()->delete('core_validating', array('member_id=? AND lost_pass=1', $member->member_id));
+                \IPS\Db::i()->delete('core_validating', ['member_id=? AND lost_pass=1', $member->member_id]);
 
                 return true;
             }
@@ -252,7 +252,7 @@ class Invision
             return true;
         }
 
-        foreach (\IPS\Db::i()->select('ban_content', 'core_banfilters', array('ban_type=?', $key)) as $filter) {
+        foreach (\IPS\Db::i()->select('ban_content', 'core_banfilters', ['ban_type=?', $key]) as $filter) {
             if (preg_match('/^' . str_replace('\*', '.*', preg_quote($filter, '/')) . '$/i', $source)) {
                 trigger_error('OSCOM\Invision::isFilterBanned(): ' . $source . ' (' . $key . ')');
 
@@ -290,14 +290,14 @@ class Invision
 
             if (isset($data['customFields'])) {
                 try {
-                    $profileFields = \IPS\Db::i()->select('*', 'core_pfields_content', array('member_id=?', $member->member_id))->first();
+                    $profileFields = \IPS\Db::i()->select('*', 'core_pfields_content', ['member_id=?', $member->member_id])->first();
                 } catch (\UnderflowException $e) {
-                    $profileFields = array();
+                    $profileFields = [];
                 }
 
                 /* If \IPS\Db::i()->select()->first() has only one column, then the contents of that column is returned. We do not want this here. */
                 if (!is_array($profileFields)) {
-                    $profileFields = array();
+                    $profileFields = [];
                 }
 
                 $profileFields['member_id'] = $member->member_id;
@@ -314,11 +314,11 @@ class Invision
             $member->save();
 
             if (isset($data['email'])) {
-                $member->memberSync('onEmailChange', array($data['email'], $old_email));
+                $member->memberSync('onEmailChange', [$data['email'], $old_email]);
             }
 
             if (isset($data['password'])) {
-                $member->memberSync('onPassChange', array($data['password']));
+                $member->memberSync('onPassChange', [$data['password']]);
             }
 
             return static::getUserDataArray($member);
@@ -352,7 +352,7 @@ class Invision
 
         foreach ($fails as $failedMember) {
             if (!$success or $success->member->member_id != $failedMember->member_id) {
-                $failedLogins = is_array($failedMember->failed_logins) ? $failedMember->failed_logins : array();
+                $failedLogins = is_array($failedMember->failed_logins) ? $failedMember->failed_logins : [];
                 $failedLogins[\IPS\Request::i()->ipAddress()][] = time();
                 $failedMember->failed_logins = $failedLogins;
                 $failedMember->save();
@@ -393,7 +393,7 @@ class Invision
                 } catch (\OutOfRangeException $e) {
                     /* If the device_key/login_key combination wasn't valid, this may be someone trying to bruteforce... */
                     /* ... so log it as a failed login */
-                    $failedLogins = is_array($member->failed_logins) ? $member->failed_logins : array();
+                    $failedLogins = is_array($member->failed_logins) ? $member->failed_logins : [];
                     $failedLogins[OSCOM::getIPAddress()][] = time();
 
                     $member->failed_logins = $failedLogins;
@@ -419,7 +419,7 @@ class Invision
         }
 
         try {
-            $result = \IPS\Db::i()->select('member_id as id, name', 'core_members', array('name like ? and member_group_id not in (2, 5)', $search . '%'), 'name', 5);
+            $result = \IPS\Db::i()->select('member_id as id, name', 'core_members', ['name like ? and member_group_id not in (2, 5)', $search . '%'], 'name', 5);
 
             $result = iterator_to_array($result);
         } catch (\UnderflowException $e) {
@@ -555,14 +555,14 @@ EOD;
         $fieldData = \IPS\core\ProfileFields\Field::fieldData();
 
         try {
-            $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', array('member_id=?', $member->member_id))->first();
+            $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', ['member_id=?', $member->member_id])->first();
         } catch (\UnderflowException $e) {
-            $fieldValues = array();
+            $fieldValues = [];
         }
 
         /* If \IPS\Db::i()->select()->first() has only one column, then the contents of that column is returned. We do not want this here. */
         if (!is_array($fieldValues)) {
-            $fieldValues = array();
+            $fieldValues = [];
         }
 
         foreach ($fieldData as $profileFieldGroup => $profileFields) {
@@ -574,7 +574,7 @@ EOD;
         $val_newreg_id = null;
 
         try {
-            $val_newreg_id = \IPS\Db::i()->select('*', 'core_validating', array('member_id=? AND new_reg=1', (int)$member->member_id))->first()['vid'];
+            $val_newreg_id = \IPS\Db::i()->select('*', 'core_validating', ['member_id=? AND new_reg=1', (int)$member->member_id])->first()['vid'];
         } catch (\UnderflowException $e) {
         }
 
@@ -735,10 +735,9 @@ EOD;
             }
 
             if ($gravatar) {
-                /* Construct the URL - Gravatar will error for localhost URLs, so if IN_DEV, don't send this (this way also allows us to easily see what is loading from Gravatar).*/
-                $photoUrl = \IPS\Http\Url::external('https://secure.gravatar.com/avatar/' . md5(trim(mb_strtolower($memberData['pp_gravatar'] ?: $memberData['email']))))->setQueryString(array(
-                    'd'	=> \IPS\IN_DEV ? '' : ($photoUrl instanceof \IPS\Http\Url ? (string) $photoUrl->setScheme(\IPS\Request::i()->isSecure() ? 'https' : 'http') : '')
-                ));
+                $photoUrl = \IPS\Http\Url::external('https://secure.gravatar.com/avatar/' . md5(trim(mb_strtolower($memberData['pp_gravatar'] ?: $memberData['email']))))->setQueryString([
+                    'd'	=> 'mp'
+                ]);
             }
 
             /* If we're in the ACP, munge because this is an external resource, but not for locally uploaded files or letter avatars */
@@ -746,7 +745,7 @@ EOD;
                 \IPS\Dispatcher::hasInstance() AND
                 \IPS\Dispatcher::i()->controllerLocation === 'admin' AND
                 ($photoUrl instanceof \IPS\Http\Url) AND
-                ($gravatar === TRUE OR !in_array($memberData['pp_photo_type'], array('custom', 'letter')))
+                ($gravatar === TRUE OR !in_array($memberData['pp_photo_type'], ['custom', 'letter']))
             )
             {
                 $photoUrl = $photoUrl->makeSafeForAcp( TRUE );

@@ -1,0 +1,19 @@
+osCommerce
+
+Unsubscribe from the osCommerce Newsletter
+
+  To remove yourself and stop receiving emails from the osCommerce Newsletter,
+  please confirm your removal with the following link:
+
+  {link}Contact|Website|Newsletter&Unsubscribe&key={raw}newsletter_sub_key{raw}&sig={raw}newsletter_sub_sig{raw}{link}
+
+  If you received this email by mistake, it is safe to delete it. You will
+  continue to receive newsletter emails until you confirm your removal from
+  the newsletter.
+
+  Kind regards,
+
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
+
+This is an automatically generated email.

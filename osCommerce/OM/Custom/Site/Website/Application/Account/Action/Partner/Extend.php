@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
@@ -57,7 +57,17 @@ class Extend
         $OSCOM_Template->setValue('partner', $partner);
         $OSCOM_Template->setValue('partner_packages', Partner::getPackages($partner['code']));
 
-        $OSCOM_Template->setValue('partner_billing_address_formatted', Address::format($partner_billing_address, '<br>'));
+        $address_formatted = Address::format($partner_billing_address, '<br>');
+
+        if (!empty($partner_campaign['billing_vat_id'])) {
+            $vatidbr = Address::getVatIdTitleAbr($partner_billing_address['country_id']);
+
+            if (!empty($vatidbr)) {
+                $address_formatted .= '<br>' . HTML::outputProtected($vatidbr) . ': ' . HTML::outputProtected($partner_campaign['billing_vat_id']);
+            }
+        }
+
+        $OSCOM_Template->setValue('partner_billing_address_formatted', $address_formatted);
 
         $OSCOM_Template->setValue('braintree_get_client_token_url', OSCOM::getRPCLink(null, null, 'GetBraintreeClientToken&p=' . $partner['code'], 'SSL'));
 
@@ -68,19 +78,5 @@ class Extend
         ]));
 
         $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/three-d-secure.min.js"></script>');
-
-        $OSCOM_Template->addHtmlElement('header', '<link rel="stylesheet" type="text/css" href="public/external/jquery/toastr/2.1.2/toastr.min.css" />');
-        $OSCOM_Template->addHtmlElement('header', '<script src="public/external/jquery/toastr/2.1.2/toastr.min.js"></script>');
-        $OSCOM_Template->addHtmlElement('header', '<script>
-toastr.options = {
-  escapeHtml: true,
-  closeButton: true,
-  positionClass: "toast-top-full-width",
-  timeOut: 0,
-  preventDuplicates: true
-};
-</script>');
-
-        $OSCOM_Template->addHtmlElement('footer', '<script src="public/external/momentjs/moment.min.js"></script>');
     }
 }

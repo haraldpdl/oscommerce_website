@@ -2,16 +2,18 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Services;
 
-use osCommerce\OM\Core\HTML;
-use osCommerce\OM\Core\HttpRequest;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    HTML,
+    HttpRequest,
+    OSCOM,
+    Registry
+};
 
 use osCommerce\OM\Core\Site\Website\Partner;
 
@@ -24,8 +26,8 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
         $this->_page_contents = 'main.html';
         $this->_page_title = OSCOM::getDef('services_html_page_title');
 
-        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/services.jpg')) {
-            $OSCOM_Template->setValue('highlights_image', 'images/services.jpg');
+        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/highlights/services.jpg')) {
+            $OSCOM_Template->setValue('highlights_image', 'images/highlights/services.jpg');
         } else {
             $OSCOM_Template->setValue('highlights_image', 'images/940x285.gif');
         }
@@ -37,6 +39,10 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
     public function runActions()
     {
         parent::runActions();
+
+        if (OSCOM::isRPC()) { // avoid 404 http status set below
+            return false;
+        }
 
         $OSCOM_Template = Registry::get('Template');
 
@@ -67,7 +73,7 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
                         $partner = Partner::get($actions[1]);
 
                         $this->_page_contents = 'info.html';
-                        $this->_page_title = OSCOM::getDef('partner_html_page_title', array(':partner_title' => $partner['title']));
+                        $this->_page_title = OSCOM::getDef('partner_html_page_title', [':partner_title' => $partner['title']]);
 
                         $OSCOM_Template->setValue('partner', $partner);
                     } else {
@@ -76,7 +82,7 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
                         }
 
                         $this->_page_contents = 'list.html';
-                        $this->_page_title = OSCOM::getDef('listing_html_page_title', array(':category_title' => $category['title']));
+                        $this->_page_title = OSCOM::getDef('listing_html_page_title', [':category_title' => $category['title']]);
 
                         $OSCOM_Template->setValue('page_title', $category['title']);
                         $OSCOM_Template->setValue('category_partners', Partner::getInCategory($actions[0]));

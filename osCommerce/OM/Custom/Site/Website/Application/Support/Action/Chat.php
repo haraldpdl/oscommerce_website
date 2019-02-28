@@ -2,14 +2,16 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2015 osCommerce; http://www.oscommerce.com
- * @license BSD; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Support\Action;
 
-use osCommerce\OM\Core\ApplicationAbstract;
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    ApplicationAbstract,
+    OSCOM
+};
 
 class Chat
 {

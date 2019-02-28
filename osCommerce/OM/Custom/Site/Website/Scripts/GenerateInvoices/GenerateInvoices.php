@@ -2,13 +2,14 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Scripts\GenerateInvoices;
 
 use osCommerce\OM\Core\{
+    HTML,
     Mail,
     OSCOM,
     Registry,
@@ -56,7 +57,11 @@ if (!touch($lockfile)) {
 
 set_time_limit(0);
 
-require(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/autoload.inc.php');
+require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/html5lib/Parser.php');
+require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/php-font-lib/src/FontLib/Autoloader.php');
+require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/php-svg-lib/src/autoload.php');
+require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/src/Autoloader.php');
+\Dompdf\Autoloader::register();
 
 $OSCOM_Language = Registry::get('Language');
 $OSCOM_Template = Registry::get('Template');
@@ -78,6 +83,10 @@ foreach (Invoices::getNew() as $i) {
 
         $address = json_decode($i['billing_address'], true);
 
+        if (empty($address['state']) && isset($address['zone_code']) && isset($partner_billing_address['country_id']) && !in_array(Address::getCountryIsoCode2($partner_billing_address['country_id']), static::COUNTRIES_WITH_ZONES)) {
+            $partner_billing_address['state'] = Address::getZoneName($partner_billing_address['zone_id']);
+        }
+
         $billing_address = Address::format([
             'company' => $address['company'],
             'firstname' => $address['firstname'],
@@ -91,6 +100,14 @@ foreach (Invoices::getNew() as $i) {
             'city' => $address['city'],
             'postcode' => $address['zip']
         ], '<br>');
+
+        if (!empty($address['vat_id'])) {
+            $vatidbr = Address::getVatIdTitleAbr(Address::getCountryId($address['country_iso_2']));
+
+            if (!empty($vatidbr)) {
+                $billing_address .= '<br>' . HTML::outputProtected($vatidbr) . ': ' . HTML::outputProtected($address['vat_id']);
+            }
+        }
 
         $purchase_items = json_decode($i['purchase_items'], true);
 
@@ -175,7 +192,7 @@ foreach (Invoices::getNew() as $i) {
         $email_html = $OSCOM_Template->getContent(__DIR__ . '/pages/email.html');
 
         if (!empty($email_txt) || !empty($email_html)) {
-            $OSCOM_Mail = new Mail($user['name'], $user['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('invoice_email_title'));
+            $OSCOM_Mail = new Mail($user['email'], $user['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('invoice_email_title'));
 
             if (!empty($email_txt)) {
                 $OSCOM_Mail->setBodyPlain($email_txt);
@@ -187,7 +204,7 @@ foreach (Invoices::getNew() as $i) {
 
             $OSCOM_Mail->send();
 
-            $OSCOM_Mail = new Mail('Harald Ponce de Leon', 'hpdl@oscommerce.com', 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('invoice_email_title'));
+            $OSCOM_Mail = new Mail('hpdl@oscommerce.com', 'Harald Ponce de Leon', 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('invoice_email_title'));
 
             if (!empty($email_txt)) {
                 $OSCOM_Mail->setBodyPlain($email_txt);

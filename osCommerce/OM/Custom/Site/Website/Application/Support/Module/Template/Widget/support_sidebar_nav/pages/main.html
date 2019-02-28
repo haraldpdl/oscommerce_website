@@ -1,0 +1,22 @@
+<div id="sidebar" class="col-lg-3 order-9">
+  <div class="card border-primary">
+    <div class="card-header text-white bg-primary">{lang}navbutton_support{lang}</div>
+
+    <div class="card-body">
+      <ul class="nav nav-pills flex-column">
+        <li id="snPartners" class="nav-item"><a href="{link}{link}#partners" class="nav-link">{lang}sidebar_nav_partners{lang}</a></li>
+        <li id="snDevelopers" class="nav-item"><a href="{link}{link}#developers" class="nav-link">{lang}sidebar_nav_hire_developers{lang}</a></li>
+        <li id="snForum" class="nav-item"><a href="{link}{link}#forum" class="nav-link">{lang}sidebar_nav_forum{lang}</a></li>
+        <li id="snLiveChat" class="nav-item"><a href="{link}Support|Website|Chat{link}" class="nav-link">{lang}sidebar_nav_live_chat{lang}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  if (typeof site_req['actions'][0] !== 'undefined' && site_req['actions'][0] == 'Chat') {
+    $('#sidebar #snLiveChat a').addClass('active');
+  }
+});
+</script>

@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Module\Template\Widget\ambassador_level_banner;
@@ -22,8 +22,6 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         $user = $OSCOM_Template->getValue('user');
 
         if ($user['amb_level'] > 0) {
-            $OSCOM_Template->setValue('amb_image_level', ($user['amb_level'] > 3) ? 3 : $user['amb_level']);
-
             $filename = 'main.html';
         } else {
             $filename = 'new.html';

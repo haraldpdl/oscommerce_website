@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
@@ -11,7 +11,8 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 use osCommerce\OM\Core\{
     Mail,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\Invision;
@@ -37,8 +38,8 @@ class ResetPasswordRequest
 
             $user = false;
 
-            $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-            $login_key = isset($_POST['login_key']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['login_key'])) : '';
+            $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+            $login_key = Sanitize::simple($_POST['login_key'] ?? null);
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $errors[] = OSCOM::getDef('error_form_protect_general');
@@ -83,7 +84,7 @@ class ResetPasswordRequest
                         $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
 
                         if (!empty($email_txt) || !empty($email_html)) {
-                            $OSCOM_Mail = new Mail($userResetKey['name'], $userResetKey['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('reset_password_email_subject'));
+                            $OSCOM_Mail = new Mail($userResetKey['email'], $userResetKey['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('reset_password_email_subject'));
 
                             if (!empty($email_txt)) {
                                 $OSCOM_Mail->setBodyPlain($email_txt);

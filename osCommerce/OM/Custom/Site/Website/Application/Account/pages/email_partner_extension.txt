@@ -4,7 +4,7 @@ Partnership Extension
 
   {raw}partner_admin_name{raw},
 
-  this is a notification e-mail to inform you that your partnership has been
+  this is a notification email to inform you that your partnership has been
   extended by:
 
   {raw}user_name{raw}
@@ -23,8 +23,7 @@ Partnership Extension
 
   Kind regards,
 
-  osCommerce
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
 
-osCommerce, https://www.oscommerce.com
-
-This is an automatically generated e-mail.
+This is an automatically generated email.

@@ -1,54 +1,52 @@
-<div id="highlights">
-  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
-</div>
-
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <div class="pull-right"><span class="pcdate label">{value}partner_campaign date_end{value}</span><br /><span class="pcdays text-muted small"></span></div>
+      <div class="float-right text-right"><span class="pcdate badge"></span><br><small class="text-muted">{value}partner_campaign relative_date{value}</small></div>
 
-      <h1>{value}partner title{value}</h1>
+      <h1 class="display-4">Partnership Extension</h1>
+
+      <h2>{value}partner title{value}</h2>
 
       {widget}message_stack|partner{widget}
 
-      <h2>Partnership Extension</h2>
+      <div class="jumbotron border">
+        <h2 class="display-4">Thank you!</h2>
 
-      <div class="jumbotron">
-        <h1>Thank you!</h1>
-
-        <p>Your continued support is greatly appreciated!</p>
+        <p class="lead">Your continued support is greatly appreciated!</p>
       </div>
 
-      <p><a href="{link}Account|Website|Partner|SSL{link}"><i class="fa fa-caret-left"></i> {lang}partner_back_to_campaigns{lang}</a></p>
+      <p><a href="{link}Account|Website|Partner|SSL{link}"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-left.svg{publiclink}" class="svg-inject"> {lang}partner_back_to_campaigns{lang}</a></p>
     </div>
   </div>
 </div>
 
 <script>
 $(function() {
-  var partner_date_now = moment('{value addslashes}partner_date_now{value}');
-  var runsUntil = moment($('.pcdate').text());
+  var partnerCampaign = {
+    status: {raw json_encode}partner_campaign status{raw},
+    dateEnd: {raw json_encode}partner_campaign date_end{raw},
+    relativeDate: {raw json_encode}partner_campaign relative_date{raw}
+  };
 
-  $('.pcdate').text(runsUntil.format('Do MMM, YYYY'));
+  var dateNow = new Date();
+  var dateEnd = new Date(partnerCampaign.dateEnd);
 
-  if (runsUntil.isBefore(partner_date_now)) {
-    $('.pcdate').addClass('label-danger');
+  if (dateEnd instanceof Date && !isNaN(dateEnd)) {
+    $('.pcdate').html(dateEnd.toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'}));
+  }
 
-    $('.pcdays').html(runsUntil.from(partner_date_now));
+  if (partnerCampaign.status !== 1) {
+    $('.pcdate').addClass('badge-danger');
   } else {
-    var daysRemaining = runsUntil.diff(partner_date_now, 'days');
+    var diffDays = Math.round(Math.abs((dateEnd.getTime() - dateNow.getTime()) / (60*60*24*1000)));
 
-    $('.pcdays').html(partner_date_now.to(runsUntil));
-
-    if ( daysRemaining > 14 ) {
-      $('.pcdate').addClass('label-success');
+    if (diffDays > 14) {
+      $('.pcdate').addClass('badge-success');
     } else {
-      $('.pcdate').addClass('label-warning');
+      $('.pcdate').addClass('badge-warning');
     }
   }
 });
 </script>
-
-<script src="public/external/momentjs/moment.min.js"></script>

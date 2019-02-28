@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\_\RPC;
@@ -11,7 +11,8 @@ namespace osCommerce\OM\Core\Site\Website\Application\_\RPC;
 use osCommerce\OM\Core\{
     HTML,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\Application\_\Action\Ambassadors;
@@ -47,14 +48,14 @@ class GetBraintreeClientToken
         if (empty($result)) {
             $error = false;
 
-            $cFirstName = isset($_POST['firstname']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['firstname'])) : '';
-            $cLastName = isset($_POST['lastname']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['lastname'])) : '';
-            $cStreet = isset($_POST['street']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['street'])) : '';
-            $cStreet2 = isset($_POST['street2']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['street2'])) : '';
-            $cCity = isset($_POST['city']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['city'])) : '';
-            $cZip = isset($_POST['zip']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['zip'])) : '';
-            $cCountry = isset($_POST['country']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['country'])) : '';
-            $cZone = isset($_POST['zone']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['zone'])) : '';
+            $cFirstName = Sanitize::simple($_POST['firstname'] ?? null);
+            $cLastName = Sanitize::simple($_POST['lastname'] ?? null);
+            $cStreet = Sanitize::simple($_POST['street'] ?? null);
+            $cStreet2 = Sanitize::simple($_POST['street2'] ?? null);
+            $cCity = Sanitize::simple($_POST['city'] ?? null);
+            $cZip = Sanitize::simple($_POST['zip'] ?? null);
+            $cCountry = Sanitize::simple($_POST['country'] ?? null);
+            $cZone = Sanitize::simple($_POST['zone'] ?? null);
 
             if (empty($cFirstName) || empty($cLastName) || empty($cStreet) || empty($cCity) || empty($cZip) || empty($cCountry)) {
                 $error = true;

@@ -1,49 +1,53 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}products_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}oscom_page_title{lang}</h1>
+      <h1 class="display-4">{lang}oscom_page_title{lang}</h1>
 
       {lang}oscom2_main_content{lang}
 
-      <div class="row">
+      <div class="row pt-2">
         <div class="col-sm-6">
-          <div class="alert alert-info" style="padding-top: 0px; margin-bottom: 0px;">
-            <h3 style="line-height: 35px;"><img src="{publiclink}images/download_1and1.png{publiclink}" style="float: left; max-height: 35px; margin-right: 10px;" /> {lang}partner_download_title{lang}</h3>
+          <div class="alert alert-primary pt-4 mb-2">
+            <h3 style="line-height: 35px;"><img src="{publiclink}images/download_1and1.png{publiclink}" style="float: left; max-height: 35px; margin-right: 10px;"> {lang}partner_download_title{lang}</h3>
 
             {lang}partner_download_description{lang}
 
-            <p class="center-block"><a href="{lang}partner_download_button_url{lang}" target="_blank" class="btn btn-primary">{lang}partner_download_button_start{lang}</a></p>
+            <p><a href="{lang}partner_download_button_url{lang}" target="_blank" class="btn btn-light btn-block">{lang}partner_download_button_start{lang}</a></p>
           </div>
 
           <p class="small text-center"><a href="{link}Services|Website|hosting{link}">{lang}partner_download_other_partners{lang}</a></p>
         </div>
 
         <div class="col-sm-6">
-          <div class="row">
-            <div class="col-sm-12">
+          <div class="row pt-4">
+            <div class="col">
               <h3 style="line-height: 35px;">{lang}main_download_title{lang}</h3>
 
               {lang}main_download_description{lang}
 
-              <form action="{link}Products|Website|Download{link}" method="post" class="form-inline">
-                <select name="get" class="form-control input-sm">
+              <form action="{link}Products|Website|Download{link}" method="post">
+                <div class="input-group">
+                  <select name="get" class="form-control">
 
 {loop releases_oscom2_latest}
-                  <option value="#code#">#version#</option>
+                    <option value="#code#">#version#</option>
 {loop}
 
-                </select>
+                  </select>
 
-                <button type="submit" class="btn btn-success btn-sm">{lang}button_download{lang}</button>
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-success">{lang}button_download{lang}</button>
+                  </div>
+                </div>
               </form>
 
-              <h4 style="padding-top: 10px;">{lang}oscom2_requirements_title{lang}</h4>
+              <h4 class="text-muted pt-4">{lang}oscom2_requirements_title{lang}</h4>
 
               {lang}oscom2_requirements{lang}
             </div>
@@ -51,7 +55,7 @@
         </div>
       </div>
 
-      <h2>{lang}other_downloads_title{lang}</h2>
+      <h2 class="pt-4">{lang}other_downloads_title{lang}</h2>
 
       <div class="alert alert-warning">
         <h3>{lang}oscom24_title{lang}</h3>
@@ -59,24 +63,26 @@
         {lang}oscom24_main_content{lang}
 
         <div class="row">
-          <form action="{link}Products|Website|Download{link}" method="post">
-            <div class="col-xs-9 col-md-10">
-              <select name="get" class="form-control input-sm">
+          <div class="col">
+            <form action="{link}Products|Website|Download{link}" method="post">
+              <div class="input-group">
+                <select name="get" class="form-control">
 
 {loop releases_oscom24_beta}
-                <option value="#code#">#version#</option>
+                  <option value="#code#">#version#</option>
 {loop}
 
-              </select>
-            </div>
+                </select>
 
-            <div class="col-xs-3 col-md-2">
-              <button type="submit" class="btn btn-warning btn-sm">{lang}button_download{lang}</button>
-            </div>
-          </form>
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-warning">{lang}button_download{lang}</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <h4 style="padding-top: 15px;">{lang}oscom24_requirements_title{lang}</h4>
+        <h4 class="pt-4">{lang}oscom24_requirements_title{lang}</h4>
 
         {lang}oscom24_requirements{lang}
       </div>
@@ -87,31 +93,33 @@
         {lang}z4_main_content{lang}
 
         <div class="row">
-          <form action="{link}Products|Website|Download{link}" method="post">
-            <div class="col-xs-9 col-md-10">
-              <select name="get" class="form-control input-sm">
-                <optgroup label="-- osCommerce Online Merchant --">
+          <div class="col">
+            <form action="{link}Products|Website|Download{link}" method="post">
+              <div class="input-group">
+                <select name="get" class="form-control">
+                  <optgroup label="-- osCommerce Online Merchant --">
 
 {loop releases_archive_oscom}
-                  <option value="#code#">#version#</option>
+                    <option value="#code#">#version#</option>
 {loop}
 
-                </optgroup>
+                  </optgroup>
 
-                <optgroup label="-- The Exchange Project --">
+                  <optgroup label="-- The Exchange Project --">
 
 {loop releases_archive_tep}
-                  <option value="#code#">#version#</option>
+                    <option value="#code#">#version#</option>
 {loop}
 
-                </optgroup>
-              </select>
-            </div>
+                  </optgroup>
+                </select>
 
-            <div class="col-xs-3 col-md-2">
-              <button type="submit" class="btn btn-danger btn-sm">{lang}button_download{lang}</button>
-            </div>
-          </form>
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-danger">{lang}button_download{lang}</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

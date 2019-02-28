@@ -2,15 +2,17 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
-use osCommerce\OM\Core\HTML;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    HTML,
+    OSCOM,
+    Registry
+};
 
 class GetPartnerStatusUpdates
 {
@@ -110,7 +112,7 @@ EOD;
             $result[] = [
                 'code' => $s['code'],
                 'title' => HTML::outputProtected($s['title']),
-                'url' => OSCOM::getLink('Website', 'Services', 'Redirect=' . $s['code'], 'NONSSL', false),
+                'url' => OSCOM::getLink('Website', 'Services', 'Redirect=' . $s['code'], 'SSL', false),
                 'status_update' => $OSCOM_Template->parseContent(HTML::outputProtected($status_update), ['partnerurl']),
                 'category_title' => $s['category_title'],
                 'category_code' => $s['category_code']

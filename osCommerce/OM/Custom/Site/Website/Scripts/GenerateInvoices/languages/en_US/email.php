@@ -6,4 +6,4 @@ button_visit_account_area = Visit Account Area
 
 kind_regards = Kind regards,
 
-automatically_generated_email = This is an automatically generated e-mail.
+automatically_generated_email = This is an automatically generated email.

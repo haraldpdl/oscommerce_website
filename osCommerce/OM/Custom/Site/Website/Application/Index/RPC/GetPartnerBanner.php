@@ -2,15 +2,17 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
-use osCommerce\OM\Core\HTML;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    HTML,
+    OSCOM,
+    Registry
+};
 
 class GetPartnerBanner
 {
@@ -149,11 +151,11 @@ EOD;
 var oscPartner = $json
 
 function oscLoadBanner() {
-  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn cuddleMeNice"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="width: 100%; max-width: 468px;" border="0" /></a></div>');
+  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn cuddleMeNice"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="width: 100%; max-width: 468px;" border="0"></a></div>');
 }
 
 function oscLoadStatusUpdate() {
-  $('#osCCS').append('<div id="osCCSDesc" class="ipsColumn ipsColumn_fluid"><span class="ipsType_minorHeading" style="font-weight: bold;"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br />' + oscPartner.status_update + '</div>');
+  $('#osCCS').append('<div id="osCCSDesc" class="ipsColumn ipsColumn_fluid"><span class="ipsType_minorHeading" style="font-weight: bold;"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br>' + oscPartner.status_update + '</div>');
 }
 
 $(function() {

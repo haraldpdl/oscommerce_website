@@ -1,132 +1,316 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}services_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}cs_page_title{lang}</h1>
+      <h1 class="display-4">{lang}cs_page_title{lang}</h1>
 
       {lang}cs_main_content{lang}
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th align="left"><h4>{lang}cs_plans_title{lang}</h4></th>
-            <th width="70" align="center"><strong>{lang}cs_plans_title_silver{lang}</strong></th>
-            <th width="70" align="center"><strong>{lang}cs_plans_title_gold{lang}</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{lang}cs_plans_service_partner{lang}</td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_information_page{lang}</td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_commercial_inquiries{lang}</td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_commercial_feedback{lang}</td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_profile{lang}</td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_custom_header{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_promotions{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_banner{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_adwords{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_forum_channel{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_news_publishing{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-          <tr>
-            <td>{lang}cs_plans_service_showcase_sites{lang}</td>
-            <td></td>
-            <td align="center"><i class="fa fa-check-square" style="color: #5cb85c; font-size: 1.6em;"></i></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="accordion pb-4" id="partnerWithUsInfo">
+        <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-down.svg{publiclink}" class="svg-inject d-none accordionIconStatusOpen">
+        <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-right.svg{publiclink}" class="svg-inject d-none accordionIconStatusClosed">
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th colspan="3" align="left"><h4>{lang}cs_pricing_title{lang}</h4></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{lang}cs_pricing_1_month{lang}</td>
-            <td width="80" align="center">50 &euro;</td>
-            <td width="80" align="center">100 &euro;</td>
-          </tr>
-          <tr>
-            <td>{lang}cs_pricing_3_months{lang}</td>
-            <td width="80" align="center">140 &euro;</td>
-            <td width="80" align="center">280 &euro;</td>
-          </tr>
-          <tr>
-            <td>{lang}cs_pricing_6_months{lang}</td>
-            <td width="80" align="center">250 &euro;</td>
-            <td width="80" align="center">500 &euro;</td>
-          </tr>
-          <tr>
-            <td>{lang}cs_pricing_12_months{lang}</td>
-            <td width="80" align="center"><em>{lang}cs_pricing_inquire{lang}</em></td>
-            <td width="80" align="center"><em>{lang}cs_pricing_inquire{lang}</em></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" align="center"><small class="text-muted">{lang}cs_pricing_info{lang}</small></td>
-          </tr>
-        </tfoot>
-      </table>
+        <div class="card">
+          <div class="card-header pl-0" id="headingOne">
+            <h4 class="mb-0">
+              <button type="button" class="btn btn-link stretched-link text-decoration-none" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-down.svg{publiclink}" class="svg-inject">
+                {lang}cs_plans_service_partner{lang}
+              </button>
+            </h4>
+          </div>
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#partnerWithUsInfo">
+            <div class="card-body">
+              {lang}cs_plans_service_partner_info{lang}
+            </div>
+          </div>
+        </div>
 
-      <div class="jumbotron">
-        <h2>{lang}cs_inquiry_title{lang}</h2>
+        <div class="card">
+          <div class="card-header pl-0" id="headingTwo">
+            <h4 class="mb-0">
+              <button type="button" class="btn btn-link collapsed stretched-link text-decoration-none" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-right.svg{publiclink}" class="svg-inject">
+                {lang}cs_plans_service_custom{lang}
+              </button>
+            </h4>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#partnerWithUsInfo">
+            <div class="card-body">
+              {lang}cs_plans_service_custom_info{lang}
+            </div>
+          </div>
+        </div>
 
-        <p>{lang}cs_inquiry_info{lang}</p>
-
-        <p><a href="mailto:partners@oscommerce.com" target="_blank" class="btn btn-info btn-lg"><i class="fa fa-envelope"></i> partners@oscommerce.com</a></p>
+        <div class="card">
+          <div class="card-header pl-0" id="headingThree">
+            <h4 class="mb-0">
+              <button type="button" class="btn btn-link collapsed stretched-link text-decoration-none" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-right.svg{publiclink}" class="svg-inject">
+                {lang}cs_plans_service_more{lang}
+              </button>
+            </h4>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#partnerWithUsInfo">
+            <div class="card-body">
+              {lang}cs_plans_service_more_info{lang}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <p class="text-center small text-success">{lang}cs_inquiry_additional_discount{lang}</p>
+      <div class="jumbotron border">
+        <h2>{lang}cs_inquiry_title{lang}</h2>
+
+        <p class="lead mb-0">{lang}cs_inquiry_info{lang}</p>
+      </div>
+
+      <div id="partnerInquirySubmitted" class="alert alert-success d-none" role="alert">
+        <p><strong>{lang}cs_partner_inquiry_saved_id{lang}</strong><br>{lang}cs_partner_inquiry_saved_from{lang}</p>
+
+        <p>{lang}cs_partner_inquiry_saved_content{lang}</p>
+      </div>
+
+      <form id="formPartnerInquiry" novalidate>{formprotect}public_token{formprotect}
+        <div class="alert alert-danger d-none" role="alert"></div>
+
+        <div class="form-group">
+          <label for="inputName">{lang}cs_partner_inquiry_contact_title{lang}</label>
+
+{ifvalue user}
+          <div class="form-control-plaintext">{value}user name{value}</div>
+{else}
+          <input type="text" id="inputName" name="name" class="form-control" required>
+          <div class="invalid-feedback">
+            {lang}cs_partner_inquiry_name_js_error_required{lang}
+          </div>
+{ifvalue}
+        </div>
+
+        <div class="form-group">
+          <label for="inputEmail">{lang}cs_partner_inquiry_email_title{lang}</label>
+
+{ifvalue user}
+          <div class="form-control-plaintext">{value}user email{value}</div>
+{else}
+          <input type="email" id="inputEmail" name="email" class="form-control" required>
+          <div class="invalid-feedback">
+            {lang}cs_partner_inquiry_email_address_js_error_invalid{lang}
+          </div>
+{ifvalue}
+        </div>
+
+        <div class="form-group">
+          <label for="inputCompany">{lang}cs_partner_inquiry_company_title{lang}</label>
+
+          <input type="text" id="inputCompany" name="company" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="inputInquiry">{lang}cs_partner_inquiry_title{lang}</label>
+
+          <textarea id="inputInquiry" name="inquiry" class="form-control" rows="4" maxlength="2000" required></textarea>
+          <small id="inputInquiryCounter" class="float-right form-text text-muted"></small>
+          <div class="invalid-feedback">
+            {lang}cs_partner_inquiry_inquiry_js_error_required{lang}
+          </div>
+        </div>
+
+{ifvalue recaptcha_key_public}
+        <div class="form-group">
+          <label>{lang}cs_partner_inquiry_security_check_title{lang}</label>
+
+          <div class="g-recaptcha" data-sitekey="{value}recaptcha_key_public{value}"></div>
+          <input type="hidden" id="inputSecurityCheck" class="form-control">
+          <div class="invalid-feedback">
+            {lang}cs_partner_inquiry_security_check_js_error{lang}
+          </div>
+        </div>
+{ifvalue}
+
+        <p>
+          <button type="submit" id="inquiryButton" class="btn btn-info" data-processing-text="{escape}{lang}cs_partner_inquiry_send_processing_button_title{lang}{escape}">{lang}cs_partner_inquiry_send_button_title{lang}</button>
+        </p>
+
+        <p class="text-muted small">{lang}cs_partner_inquiry_privacy_note{lang}</p>
+      </form>
     </div>
   </div>
 </div>
+
+<script>
+function toggleIcon(e) {
+  var lala = $(e.target).prev('.card-header').find('button[data-toggle="collapse"]');
+
+  if (lala.attr('aria-expanded') == 'true') {
+    lala.find('svg').remove();
+    $('#partnerWithUsInfo svg.accordionIconStatusClosed').clone().prependTo(lala).removeClass('d-none accordionIconStatusClosed');
+  } else {
+    lala.find('svg').remove();
+    $('#partnerWithUsInfo svg.accordionIconStatusOpen').clone().prependTo(lala).removeClass('d-none accordionIconStatusOpen');
+  }
+}
+
+$('#partnerWithUsInfo').on('hide.bs.collapse', toggleIcon);
+$('#partnerWithUsInfo').on('show.bs.collapse', toggleIcon);
+
+function checkName() {
+  $('#inputName').val($('#inputName').val().trim());
+
+  if ($('#inputName').hasClass('is-invalid')) {
+    $('#inputName').removeClass('is-invalid');
+  }
+
+  if ($('#inputName').val() == '') {
+    $('#inputName').addClass('is-invalid');
+  }
+
+  return !$('#inputName').hasClass('is-invalid');
+}
+
+function checkEmailAddress() {
+  $('#inputEmail').val($('#inputEmail').val().trim());
+
+  if ($('#inputEmail').hasClass('is-invalid')) {
+    $('#inputEmail').removeClass('is-invalid');
+  }
+
+  if ($('#inputEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null) {
+    $('#inputEmail').addClass('is-invalid');
+  }
+
+  return !$('#inputEmail').hasClass('is-invalid');
+}
+
+function checkInquiry() {
+  $('#inputInquiry').val($('#inputInquiry').val().trim()).keyup();
+
+  if ($('#inputInquiry').hasClass('is-invalid')) {
+    $('#inputInquiry').removeClass('is-invalid');
+  }
+
+  if ($('#inputInquiry').val() == '') {
+    $('#inputInquiry').addClass('is-invalid');
+  }
+
+  return !$('#inputInquiry').hasClass('is-invalid');
+}
+
+function checkSecurityCheck() {
+  if ($('#inputSecurityCheck').hasClass('is-invalid')) {
+    $('#inputSecurityCheck').removeClass('is-invalid');
+  }
+
+  if ($('#formPartnerInquiry textarea[name="g-recaptcha-response"]').val().length < 1) {
+    $('#inputSecurityCheck').addClass('is-invalid');
+  }
+
+  return !$('#inputSecurityCheck').hasClass('is-invalid');
+}
+
+function checkForm() {
+  var has_error = false;
+
+{ifnovalue user}
+  if (!checkName()) {
+    has_error = true;
+  }
+
+  if (!checkEmailAddress()) {
+    has_error = true;
+  }
+{ifnovalue}
+
+  if (!checkInquiry()) {
+    has_error = true;
+  }
+
+{ifvalue recaptcha_key_public}
+  if (!checkSecurityCheck()) {
+    has_error = true;
+  }
+{ifvalue}
+
+  return !has_error;
+}
+
+$('#inputInquiryCounter').html($('#inputInquiry').val().length + ' / ' + $('#inputInquiry').prop('maxlength'));
+
+$('#inputInquiry').keyup(function() {
+  var inputInquirySize = Math.min($('#inputInquiry').val().length, $('#inputInquiry').prop('maxlength'));
+
+  $('#inputInquiryCounter').html(inputInquirySize + ' / ' + $('#inputInquiry').prop('maxlength'));
+});
+
+var error_inquiry_general = {lang json_encode}cs_partner_inquiry_ms_error_general{lang};
+
+$('#formPartnerInquiry').submit(function(e) {
+  e.preventDefault();
+
+  if ($('#inquiryButton').prop('disabled') === true) {
+    return false;
+  }
+
+  $('#formPartnerInquiry div.alert').empty().addClass('d-none');
+
+  $('#inquiryButton').prop('disabled', true).data('original-text', $('#inquiryButton').html()).html($('#inquiryButton').data('processing-text'));
+
+  if (!checkForm()) {
+    $('#inquiryButton').html($('#inquiryButton').data('original-text')).removeData('original-text').prop('disabled', false);
+  } else {
+    var params = {
+      public_token: $('#formPartnerInquiry input[name="public_token"]').val(),
+      company: $('#inputCompany').val(),
+      inquiry: $('#inputInquiry').val(),
+      department: 'Partners'
+    };
+
+{ifnovalue user}
+    params.name = $('#inputName').val();
+    params.email = $('#inputEmail').val();
+{ifnovalue}
+
+{ifvalue recaptcha_key_public}
+    params.gr_security_check = $('#formPartnerInquiry textarea[name="g-recaptcha-response"]').val();
+{ifvalue}
+
+    $.post('{rpclink}SaveInquiry|Contact|Website{rpclink}', params, function (result) {
+      if (typeof result.rpcStatus !== 'undefined') {
+        if (result.rpcStatus === 1) {
+          $('#partnerInquirySubmittedId').text(result.inquiryId);
+          $('#partnerInquirySubmittedName').text(result.inquiryName);
+          $('#partnerInquirySubmittedEmail').text(result.inquiryEmail);
+
+          $('#formPartnerInquiry').addClass('d-none');
+          $('#partnerInquirySubmitted').removeClass('d-none');
+        } else {
+          var e = (typeof result.errors !== 'undefined') ? result.errors : [];
+
+          if (e.length < 1) {
+            e.push(error_inquiry_general);
+          }
+
+          e.forEach(function(v) {
+            $('#formPartnerInquiry div.alert-danger').append('<p class="m-0">' + v + '</p>').removeClass('d-none');
+          });
+
+          if ((typeof result.resetGSecurityCheck !== 'undefined') && (result.resetGSecurityCheck === true)) {
+            grecaptcha.reset();
+          }
+        }
+      } else {
+        $('#formPartnerInquiry div.alert-danger').append('<p>' + error_inquiry_general + '</p>').removeClass('d-none');
+      }
+    }, 'json').fail(function() {
+      $('#formPartnerInquiry div.alert-danger').append('<p>' + error_inquiry_general + '</p>').removeClass('d-none');
+    }).always(function() {
+      $('#inquiryButton').html($('#inquiryButton').data('original-text')).removeData('original-text').prop('disabled', false);
+    });
+  }
+});
+</script>

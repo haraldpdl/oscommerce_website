@@ -1,0 +1,20 @@
+<div id="sidebar" class="col-lg-3 order-9">
+  <div class="card border-primary">
+    <div class="card-header text-white bg-primary">{lang}contact_sidebar_title{lang}</div>
+
+    <div class="card-body">
+      <ul class="nav nav-pills flex-column">
+        <li id="snContactUs" class="nav-item"><a href="{link}Contact{link}" class="nav-link">{lang}contact_sidebar_nav_contact_us{lang}</a></li>
+        <li id="snNewsletter" class="nav-item"><a href="{link}Contact|Website|Newsletter{link}" class="nav-link">{lang}contact_sidebar_nav_newsletter{lang}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  var sn_active_link = ( typeof site_req['actions'][0] !== 'undefined' ) ? site_req['actions'][0] : 'ContactUs';
+
+  $('#sidebar #sn' + sn_active_link + ' a').addClass('active');
+});
+</script>

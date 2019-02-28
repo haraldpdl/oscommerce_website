@@ -1,25 +1,25 @@
 <div id="highlights">
-  <a id="partnerImageBigLink" target="_blank"><img id="partnerImageBig" alt="" /></a>
+  <a id="partnerImageBigLink" target="_blank"><img id="partnerImageBig" alt=""></a>
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="col-xs-12">
+  <div id="maincontainer" class="col-12">
     <div id="maincontent">
       {widget}message_stack|partner{widget}
 
-      <ul id="previewLanguageTabs" class="nav nav-tabs" style="margin-bottom: 25px;">
-        <li><a href="#preview_en_US" data-toggle="tab" data-code="en_US">{lang}language_english{lang}</a></li>
-        <li><a href="#preview_de_DE" data-toggle="tab" data-code="de_DE">{lang}language_german{lang}</a></li>
+      <ul id="previewLanguageTabs" class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a href="#preview_en_US" class="nav-link" data-toggle="tab" data-code="en_US" role="tab">{lang}language_english{lang}</a></li>
+        <li class="nav-item"><a href="#preview_de_DE" class="nav-link" data-toggle="tab" data-code="de_DE" role="tab">{lang}language_german{lang}</a></li>
       </ul>
 
-      <h1 data-id="partnerTitle"></h1>
+      <h1 class="display-4" data-id="partnerTitle"></h1>
 
-      <div class="pull-right col-xs-12 col-sm-4">
+      <div class="float-right col-md-4 mb-2 mb-md-0">
         <a id="partnerAppsLink" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
         <a id="partnerDocsLink" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
-        <a id="partnerWebsiteLink" target="_blank" class="btn btn-info btn-block">{lang}link_partner_website title="##TITLE##"{lang}</a>
+        <a id="partnerWebsiteLink" target="_blank" class="btn btn-success btn-block">{lang}link_partner_website title="##TITLE##"{lang}</a>
         <a id="partnerEmailLink" class="btn btn-info btn-block">{lang}link_contact_partner title="##TITLE##"{lang}</a>
-        <a href="{link}Account|Website|Partner|SSL{link}" class="hidden-xs btn btn-link btn-block">{lang}partner_back_to_campaigns{lang}</a>
+        <a href="{link}Account|Website|Partner|SSL{link}" class="d-none d-md-block btn btn-link btn-block">{lang}partner_back_to_campaigns{lang}</a>
       </div>
 
       <p id="partnerDescriptionLong"></p>
@@ -28,27 +28,27 @@
 
       <div class="clearfix"></div>
 
-      <address class="jumbotron">
+      <address class="jumbotron border">
         <h2 data-id="partnerTitle"></h2>
 
         <p id="partnerAddress"></p>
 
         <p>
           <span id="partnerPublicUrl">
-            <i class="fa fa-fw fa-home"></i> <a target="_blank"></a><br />
+            <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/home.svg{publiclink}" class="svg-inject mr-1"> <a target="_blank"></a><br>
           </span>
 
           <span id="partnerEmail">
-            <i class="fa fa-fw fa-envelope"></i> <a></a><br />
+            <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/envelope.svg{publiclink}" class="svg-inject mr-1"> <a></a><br>
           </span>
 
           <span id="partnerTelephone">
-            <i class="fa fa-fw fa-phone"></i> <span id="partnerTelephoneContent"></span>
+            <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/phone.svg{publiclink}" class="svg-inject mr-1"> <span id="partnerTelephoneContent"></span>
           </span>
         </p>
       </address>
 
-      <a href="{link}Account|Website|Partner|SSL{link}" class="visible-xs"><i class="fa fa-caret-left"></i> {lang}partner_back_to_campaigns{lang}</a>
+      <a href="{link}Account|Website|Partner|SSL{link}" class="d-block d-md-none"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-left.svg{publiclink}" class="svg-inject"> {lang}partner_back_to_campaigns{lang}</a>
     </div>
   </div>
 </div>
@@ -124,57 +124,56 @@ function loadPreviewLanguage(code) {
   $('h1[data-id="partnerTitle"], h2[data-id="partnerTitle"]').html(partner.title);
 
   if ((campaigns.app_code !== null) && (campaigns.app_code.length > 0)) {
-    $('#partnerAppsLink').prop('href', 'http://addons.oscommerce.com/service/' + campaigns.app_code).removeClass('hidden');
-    $('#partnerDocsLink').prop('href', 'https://library.oscommerce.com/Package&' + campaigns.app_code).removeClass('hidden');
+    $('#partnerAppsLink').prop('href', 'https://apps.oscommerce.com/Profile&' + campaigns.app_code).removeClass('d-none');
+    $('#partnerDocsLink').prop('href', 'https://library.oscommerce.com/Package&' + campaigns.app_code).removeClass('d-none');
   } else {
-    $('#partnerAppsLink').addClass('hidden');
-    $('#partnerDocsLink').addClass('hidden');
+    $('#partnerAppsLink').addClass('d-none');
+    $('#partnerDocsLink').addClass('d-none');
   }
 
   if ((partner.url !== null) && (partner.url.length > 0)) {
-    $('#partnerWebsiteLink').prop('href', partner.url).html($('#partnerWebsiteLink').html().replace('##TITLE##', partner.title)).removeClass('hidden');
+    $('#partnerWebsiteLink').prop('href', partner.url).html($('#partnerWebsiteLink').html().replace('##TITLE##', partner.title)).removeClass('d-none');
   } else {
-    $('#partnerWebsiteLink').addClass('hidden');
+    $('#partnerWebsiteLink').addClass('d-none');
   }
 
   if ((partner.email !== null) && (partner.email.length > 0)) {
-    $('#partnerEmailLink').prop('href', 'mailto:' + partner.email).html($('#partnerEmailLink').html().replace('##TITLE##', partner.title)).removeClass('hidden');
+    $('#partnerEmailLink').prop('href', 'mailto:' + partner.email).html($('#partnerEmailLink').html().replace('##TITLE##', partner.title)).removeClass('d-none');
 
     $('#partnerEmail a').prop('href', 'mailto:' + partner.email).html(partner.email);
-    $('#partnerEmail').removeClass('hidden');
+    $('#partnerEmail').removeClass('d-none');
   } else {
-    $('#partnerEmailLink').addClass('hidden');
-
-    $('#partnerEmail').addClass('hidden');
+    $('#partnerEmailLink').addClass('d-none');
+    $('#partnerEmail').addClass('d-none');
   }
 
   $('#partnerDescriptionLong').html(partner.desc_long);
 
   if ((partner.youtube_video_id !== null) && (partner.youtube_video_id.length > 0)) {
     $('#partnerYoutubeVideo iframe').prop('src', 'https://www.youtube.com/embed/' + partner.youtube_video_id + '?rel=0');
-    $('#partnerYoutubeVideo').removeClass('hidden');
+    $('#partnerYoutubeVideo').removeClass('d-none');
   } else {
-    $('#partnerYoutubeVideo').addClass('hidden');
+    $('#partnerYoutubeVideo').addClass('d-none');
   }
 
   if ((partner.address !== null) && (partner.address.length > 0)) {
-    $('#partnerAddress').html(partner.address).removeClass('hidden');
+    $('#partnerAddress').html(partner.address).removeClass('d-none');
   } else {
-    $('#partnerAddress').addClass('hidden');
+    $('#partnerAddress').addClass('d-none');
   }
 
   if ((partner.public_url !== null) && (partner.public_url.length > 0)) {
     $('#partnerPublicUrl a').prop('href', partner.url).html(partner.public_url);
-    $('#partnerPublicUrl').removeClass('hidden');
+    $('#partnerPublicUrl').removeClass('d-none');
   } else {
-    $('#partnerPublicUrl').addClass('hidden');
+    $('#partnerPublicUrl').addClass('d-none');
   }
 
   if ((partner.telephone !== null) && (partner.telephone.length > 0)) {
     $('#partnerTelephoneContent').html(partner.telephone);
-    $('#partnerTelephone').removeClass('hidden');
+    $('#partnerTelephone').removeClass('d-none');
   } else {
-    $('#partnerTelephone').addClass('hidden');
+    $('#partnerTelephone').addClass('d-none');
   }
 };
 

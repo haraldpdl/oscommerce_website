@@ -1,69 +1,65 @@
 <div id="highlights">
-  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}" />
+  <img src="{publiclink}{raw}highlights_image{raw}{publiclink}">
 </div>
 
 <div class="row">
   {widget}support_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}support_page_title{lang}</h1>
+      <h1 class="display-4">{lang}support_page_title{lang}</h1>
 
       {lang}support_main_content{lang}
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-push-2">
-          <h2 id="partners">{lang}partners_title{lang}</h2>
+      <div class="row pb-5" id="partners">
+        <div class="col-3 my-auto display-2 text-center">
+          <a href="{link}Services|Website{link}"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/thumbs-up.svg{publiclink}" class="svg-inject text-info"></a>
+        </div>
+
+        <div class="col-9 border-left">
+          <h5><a href="{link}Services|Website{link}" class="text-info">{lang}partners_title{lang}</a></h5>
 
           {lang}partners_description{lang}
-
-          <p><a href="{link}Services|Website{link}" class="btn btn-info"><i class="fa fa-thumbs-up"></i> {lang}button_partners{lang}</a></p>
-        </div>
-
-        <div class="col-sm-2 col-sm-pull-10 hidden-xs">
-          <i class="supportIcons fa fa-thumbs-up" style="color: #5bc0de;"></i>
+          <p class="text-right"><a href="{link}Services|Website{link}" class="btn btn-info btn-sm">{lang}button_partners{lang}</a></p>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-push-2">
-          <h2 id="developers">{lang}hire_developers_title{lang}</h2>
+      <div class="row pb-5" id="developers">
+        <div class="col-3 my-auto display-2 text-center">
+          <a href="https://forums.oscommerce.com/forum/79-commercial-support/"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/hat-wizard.svg{publiclink}" class="svg-inject text-danger"></a>
+        </div>
+
+        <div class="col-9 border-left">
+          <h5><a href="https://forums.oscommerce.com/forum/79-commercial-support/" class="text-danger">{lang}hire_developers_title{lang}</a></h5>
 
           {lang}hire_developers_description{lang}
-
-          <p><a href="http://forums.oscommerce.com/forum/79-commercial-support/" class="btn btn-danger"><i class="fa fa-life-ring"></i> {lang}button_hire_developers{lang}</a></p>
-        </div>
-
-        <div class="col-sm-2 col-sm-pull-10 hidden-xs">
-          <i class="supportIcons fa fa-life-ring" style="color: #d9534f;"></i>
+          <p class="text-right"><a href="https://forums.oscommerce.com/forum/79-commercial-support/" class="btn btn-danger btn-sm">{lang}button_hire_developers{lang}</a></p>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-push-2">
-          <h2 id="forum">{lang}forum_title{lang}</h2>
+      <div class="row pb-5" id="forum">
+        <div class="col-3 my-auto display-2 text-center">
+          <a href="{lang}forum_link{lang}"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/users.svg{publiclink}" class="svg-inject text-success"></a>
+        </div>
+
+        <div class="col-9 border-left">
+          <h5><a href="{lang}forum_link{lang}" class="text-success">{lang}forum_title{lang}</a></h5>
 
           {lang}forum_description{lang}
-
-          <p>{lang}forum_button_links{lang}</p>
-        </div>
-
-        <div class="col-sm-2 col-sm-pull-10 hidden-xs">
-          <i class="supportIcons fa fa-comments" style="color: #5cb85c;"></i>
+          <p class="text-right">{lang}forum_button_links{lang}</p>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-push-2">
-          <h2 id="livechat">{lang}live_chat_title{lang}</h2>
-
-          {lang}live_chat_description{lang}
-
-          <p><a href="{link}Support|Website|Chat{link}" class="btn btn-warning"><i class="fa fa-comment"></i> {lang}button_live_chat{lang}</a></p>
+      <div class="row pb-5" id="livechat">
+        <div class="col-3 my-auto display-2 text-center">
+          <a href="{link}Support|Website|Chat{link}"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/comments.svg{publiclink}" class="svg-inject text-warning"></a>
         </div>
 
-        <div class="col-sm-2 col-sm-pull-10 hidden-xs">
-          <i class="supportIcons fa fa-comment" style="color: #f0ad4e;"></i>
+        <div class="col-9 border-left">
+          <h5><a href="{link}Support|Website|Chat{link}" class="text-warning">{lang}live_chat_title{lang}</a></h5>
+
+          {lang}live_chat_description{lang}
+          <p class="text-right"><a href="{link}Support|Website|Chat{link}" class="btn btn-warning btn-sm">{lang}button_live_chat{lang}</a></p>
         </div>
       </div>
     </div>

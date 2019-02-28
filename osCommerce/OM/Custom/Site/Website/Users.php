@@ -2,15 +2,14 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
     Hash,
-    OSCOM,
     Registry
 };
 
@@ -86,6 +85,8 @@ class Users
 
     public static function getAddress(int $id, string $type, string $public_id = null)
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         if (!isset(static::$users[$id])) {
             static::get($id);
         }
@@ -95,7 +96,7 @@ class Users
                 'user_id' => $id
             ];
 
-            $result = OSCOM::callDB('Website\GetUserAddresses', $data, 'Site');
+            $result = $OSCOM_PDO->call('GetAddresses', $data);
 
             if (!empty($result)) {
                 foreach ($result as $a) {
@@ -193,7 +194,7 @@ class Users
             $data['new_public_id'] = $new_public_id;
         }
 
-        if (OSCOM::callDB('Website\SaveUserAddress', $data, 'Site')) {
+        if ($OSCOM_PDO->call('SaveAddress', $data)) {
             static::$users[$id]['address'][$type][$public_id ?? $new_public_id] = [
                 'gender' => $data['gender'],
                 'company' => $data['company'],
@@ -223,6 +224,8 @@ class Users
 
     public static function getNewestAmbassadors(int $limit = 12): array
     {
+        $OSCOM_PDO = Registry::get('PDO');
+
         $CACHE_Ambassadors = new Cache('ambassadors-newest-NS-limit' . $limit);
 
         if (($result = $CACHE_Ambassadors->get()) === false) {
@@ -232,7 +235,7 @@ class Users
 
             $result = [];
 
-            foreach (OSCOM::callDB('Website\GetNewestAmbassadors', $data, 'Site') as $a) {
+            foreach ($OSCOM_PDO->call('GetNewestAmbassadors', $data) as $a) {
                 $result[] = $a['user_id'];
             }
 

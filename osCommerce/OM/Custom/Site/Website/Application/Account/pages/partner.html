@@ -1,52 +1,46 @@
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{lang}partner_title{lang}</h1>
+      <h1 class="display-4">{lang}partner_title{lang}</h1>
 
       {widget}message_stack|partner{widget}
 
-      <div id="ptabs">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" id="ptabsActive"><a href="#pactive" aria-controls="pactive" role="tab" data-toggle="tab">{lang}partner_tab_active{lang} <span class="label label-success"></span></a></li>
-          <li role="presentation" id="ptabsInactive"><a href="#pinactive" aria-controls="pinactive" role="tab" data-toggle="tab">{lang}partner_tab_inactive{lang} <span class="label label-danger"></span></a></li>
-        </ul>
+      <ul id="ptabs" class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a id="ptabsActive" href="#pactive" class="nav-link" aria-controls="pactive" role="tab" data-toggle="tab">{lang}partner_tab_active{lang} <span class="badge badge-success"></span></a></li>
+        <li class="nav-item"><a id="ptabsInactive" href="#pinactive" class="nav-link" aria-controls="pinactive" role="tab" data-toggle="tab">{lang}partner_tab_inactive{lang} <span class="badge badge-danger"></span></a></li>
+      </ul>
 
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="pactive"></div>
-          <div role="tabpanel" class="tab-pane" id="pinactive"></div>
-        </div>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane" id="pactive" aria-labelledby="ptabsActive"></div>
+        <div role="tabpanel" class="tab-pane" id="pinactive" aria-labelledby="ptabsInactive"></div>
       </div>
     </div>
   </div>
 </div>
 
 {loop partner_campaigns}
-<div id="partnerc_#code#" class="hidden">
-  <div class="panel">
-    <div class="panel-heading">
-      <div class="row">
-        <div class="col-md-7">
-          <h3 class="panel-title"><a href="{link}Account|Website|Partner&View=%code%|SSL{link}">#title#</a> <br class="visible-xs-block"> <small>in %category_title%</small></h3>
-          <span class="pcdate small" style="font-size: 75%;">%date_end%</span> <span class="pcdays small" style="font-size: 75%;"></span>
-        </div>
+<div id="partnerc_#code#" class="d-none" data-status="#status#" data-date-end="#date_end#">
+  <div class="alert">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <h6 class="alert-heading mb-0"><a href="{link}Account|Website|Partner&View=%code%|SSL{link}" class="alert-link">#title#</a> <br class="d-block d-sm-none"><small>in #category_title#</small></h6>
+        <p class="m-0 p-0 small"><span class="pcdate"></span> (#relative_date#)</p>
+      </div>
 
-        <div class="col-md-5 text-right">
+      <div class="col-md-5 text-right">
+        <div class="btn-group" role="group">
+          <a href="{link}Account|Website|Partner&Extend=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_extend{lang}</a>
+          <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_edit{lang}</a>
+
           <div class="btn-group" role="group">
-            <a href="{link}Account|Website|Partner&Extend=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_extend{lang}</a>
-            <a href="{link}Account|Website|Partner&Edit=%code%|SSL{link}" class="btn btn-sm">{lang}button_partner_edit{lang}</a>
+            <button id="buttonmenu_#code#" type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-              </button>
-
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="{link}Account|Website|Partner&Sites=%code%|SSL{link}">{lang}button_partner_sites{lang}</a></li>
-                <li><a href="{link}Account|Website|Partner&History=%code%|SSL{link}">{lang}button_partner_history{lang}</a></li>
-                <li><a href="{link}Account|Website|Partner&Billing=%code%|SSL{link}">{lang}button_partner_billing{lang}</a></li>
-              </ul>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="buttonmenu_#code#">
+              <a href="{link}Account|Website|Partner&Sites=%code%|SSL{link}" class="dropdown-item">{lang}button_partner_sites{lang}</a>
+              <a href="{link}Account|Website|Partner&History=%code%|SSL{link}" class="dropdown-item">{lang}button_partner_history{lang}</a>
+              <a href="{link}Account|Website|Partner&Billing=%code%|SSL{link}" class="dropdown-item">{lang}button_partner_billing{lang}</a>
             </div>
           </div>
         </div>
@@ -58,34 +52,33 @@
 
 <script>
 $(function() {
-  var partner_date_now = moment('{value addslashes}partner_date_now{value}');
+  var dateNow = new Date();
 
-  $('[id^=partnerc_]').each(function() {
-    var runsUntil = moment($('.pcdate', this).text());
+  $('div[id^=partnerc_]').each(function() {
+    var dateEnd = new Date($(this).data('date-end'));
 
-    $('.pcdate', this).text(runsUntil.format('Do MMM, YYYY'));
+    if (dateEnd instanceof Date && !isNaN(dateEnd)) {
+      $('.pcdate', this).html(dateEnd.toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'}));
+    }
 
-    if (runsUntil.isBefore(partner_date_now)) {
-      $(this).appendTo('#pinactive').removeClass('hidden');
+//    if (dateEnd.getTime() > dateNow.getTime()) { // dateEnd might not be of Date object
+    if ($(this).data('status') == '1') {
+      $(this).appendTo('#pactive').removeClass('d-none');
 
-      $('.panel', this).addClass('panel-danger');
-      $('.panel .btn', this).addClass('btn-danger');
+      var diffDays = Math.round(Math.abs((dateEnd.getTime() - dateNow.getTime()) / (60*60*24*1000)));
 
-      $('.pcdays', this).html('(' + runsUntil.from(partner_date_now) + ')');
-    } else {
-      $(this).appendTo('#pactive').removeClass('hidden');
-
-      var daysRemaining = runsUntil.diff(partner_date_now, 'days');
-
-      $('.pcdays', this).html('(' + partner_date_now.to(runsUntil) + ')');
-
-      if ( daysRemaining > 14 ) {
-        $('.panel', this).addClass('panel-success');
-        $('.panel .btn', this).addClass('btn-success');
+      if (diffDays > 14) {
+        $('.alert', this).addClass('alert-success');
+        $('.alert .btn', this).addClass('btn-success');
       } else {
-        $('.panel', this).addClass('panel-warning');
-        $('.panel .btn', this).addClass('btn-warning');
+        $('.alert', this).addClass('alert-warning');
+        $('.alert .btn', this).addClass('btn-warning');
       }
+    } else {
+      $(this).appendTo('#pinactive').removeClass('d-none');
+
+      $('.alert', this).addClass('alert-danger');
+      $('.alert .btn', this).addClass('btn-danger');
     }
   });
 
@@ -93,22 +86,22 @@ $(function() {
   var totalInactive = $('#pinactive div[id^=partnerc_]').length;
 
   if (totalActive > 0) {
-    $('#ptabsActive .label').text(totalActive);
+    $('#ptabsActive .badge').text(totalActive);
     $('#ptabsActive, #pactive').addClass('active');
+    $('#pactive').addClass('show');
   } else {
-    $('#ptabsActive, #pactive').addClass('hidden');
+    $('#ptabsActive, #pactive').addClass('d-none');
   }
 
   if (totalInactive > 0) {
-    $('#ptabsInactive .label').text(totalInactive);
+    $('#ptabsInactive .badge').text(totalInactive);
 
     if (totalActive < 1) {
       $('#ptabsInactive, #pinactive').addClass('active');
+      $('#pinactive').addClass('show');
     }
   } else {
-    $('#ptabsInactive, #pinactive').addClass('hidden');
+    $('#ptabsInactive, #pinactive').addClass('d-none');
   }
 });
 </script>
-
-<script src="public/external/momentjs/moment.min.js"></script>

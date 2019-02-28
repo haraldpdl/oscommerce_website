@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner\Billing;
@@ -52,7 +52,7 @@ class Process
         $pZoneId = null;
         $pVatId = Sanitize::simple($_POST['vat_id'] ?? null);
 
-        if (empty($pStreet) || empty($pCity) || empty($pZip) || empty($pCountry)) {
+        if (empty($pStreet) || empty($pCountry)) {
             $error = true;
         }
 

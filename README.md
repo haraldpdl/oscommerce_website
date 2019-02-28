@@ -42,13 +42,8 @@ Symlink the following directories from "oscommerce_website" to "oscommerce":
     ln -s ../../../../../oscommerce_website/osCommerce/OM/Custom/Site/_skel _skel
     cd ..
     ln -s ../../../../oscommerce_website/osCommerce/OM/Custom/Exception Exception
-    cd ..
-    ln -s ../../../oscommerce_website/osCommerce/OM/External/simplepie_1.3.1.mini.php External/simplepie_1.3.1.mini.php
-    cd ../../public/sites
+    cd ../../../public/sites
     ln -s ../../../oscommerce_website/public/sites/Website Website
-    cd ../external
-    ln -s ../../../oscommerce_website/public/external/bootstrap bootstrap
-    ln -s ../../../oscommerce_website/public/external/less less
 
 A configuration block is also required in osCommerce/OM/Config/settings.ini,
 which can be copied from an existing block:
@@ -97,11 +92,11 @@ Feedback
 Please review the following forum topic for discussions on the template engine
 functionality.
 
-http://forums.oscommerce.com/topic/383392-template-engine-functionality-proposal/
+https://forums.oscommerce.com/topic/383392-template-engine-functionality-proposal/
 
 Discussions for our new website platform are held in:
 
-http://forums.oscommerce.com/forum/89-website-platform/
+https://forums.oscommerce.com/forum/89-website-platform/
 
 Note
 ----

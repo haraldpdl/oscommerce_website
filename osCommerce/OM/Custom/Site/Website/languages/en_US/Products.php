@@ -4,7 +4,7 @@ oscom_page_title = osCommerce Online Merchant
 
 oscom2_title = osCommerce Online Merchant
 
-oscom2_main_content = <p>osCommerce Online Merchant is a complete online store solution that contains both a shop frontend and an administration backend which can be easily configured and customized with over {value}stats_addons{value} free add-ons.</p>
+oscom2_main_content = <p class="lead">osCommerce Online Merchant is a complete online store solution that contains both a shop frontend and an administration backend which can be easily configured and customized with over {value}stats_addons{value} free add-ons.</p>
 
 oscom2_requirements_title = Server Requirements
 oscom2_requirements = <ul><li>PHP v4+ <small class="text-muted">(v5+ recommended)</small></li><li>MySQL v3+ <small class="text-muted">(v5+ recommended)</small></li></ul>
@@ -44,7 +44,7 @@ partner_promotions_show_all = Show All
 partner_download_title = 1&amp;1 Website Hosting
 partner_download_description = <p>Start with our hosting partners at 1&amp;1 with a complete hosting package pre-installed with our latest version.</p>
 
-<ul style="padding-top: 10px; padding-bottom: 15px;">
+<ul>
   <li>Optimized with our latest version</li>
   <li>100% secure and reliable hosting</li>
   <li>Worldwide data centers available</li>

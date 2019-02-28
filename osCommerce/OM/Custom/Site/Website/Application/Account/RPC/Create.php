@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
@@ -12,7 +12,8 @@ use osCommerce\OM\Core\{
     HttpRequest,
     Mail,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\Invision;
@@ -37,12 +38,11 @@ class Create
         if (!isset($result['errorCode'])) {
             $errors = [];
 
-            $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-            $username = isset($_POST['username']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['username'])) : '';
-            $email = isset($_POST['email']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['email'])) : '';
-            $password = isset($_POST['password']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['password']) : '';
-            $agree_tos = isset($_POST['agree_tos']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['agree_tos'])) : '';
-            $grSecurityCheck = isset($_POST['gr_security_check']) && !empty($_POST['gr_security_check']) ? trim($_POST['gr_security_check']) : '';
+            $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+            $username = Sanitize::simple($_POST['username'] ?? null);
+            $email = Sanitize::simple($_POST['email'] ?? null);
+            $password = Sanitize::simple($_POST['password'] ?? null);
+            $grSecurityCheck = $_POST['gr_security_check'] ?? '';
             $sendVerification = isset($_POST['sendVerification']) && ($_POST['sendVerification'] == '1') ? true : false;
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
@@ -68,10 +68,6 @@ class Create
                     $errors[] = OSCOM::getDef('login_password_ms_error_short');
                 } elseif (strlen($password) > 32) {
                     $errors[] = OSCOM::getDef('login_password_ms_error_long');
-                }
-
-                if ($agree_tos != '1') {
-                    $errors[] = OSCOM::getDef('create_tos_agree_ms_error_required');
                 }
             }
 
@@ -215,7 +211,7 @@ class Create
                             $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
 
                             if (!empty($email_txt) || !empty($email_html)) {
-                                $OSCOM_Mail = new Mail($user['name'], $user['email'], 'osCommerce', 'noreply@oscommerce.com', OSCOM::getDef('create_email_new_account_subject'));
+                                $OSCOM_Mail = new Mail($user['email'], $user['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('create_email_new_account_subject'));
 
                                 if (!empty($email_txt)) {
                                     $OSCOM_Mail->setBodyPlain($email_txt);

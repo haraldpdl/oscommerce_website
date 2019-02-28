@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-xs-12">
-    <div class="jumbotron">
-      <h2>{lang}download_title{lang}</h2>
+  <div class="col-12">
+    <div class="jumbotron border">
+      <h2 class="display-4">{lang}download_title{lang}</h2>
 
-      <p>{lang}download_description{lang}</p>
+      <p class="lead">{lang}download_description{lang}</p>
 
       <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
         <button type="submit" class="btn btn-info btn-lg">{lang}download_now_button{lang}</button>
@@ -13,12 +13,12 @@
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="col-xs-12">
+  <div id="maincontainer" class="col-12">
     <div id="maincontent">
       <h2>{lang}partner_promotions_heading{lang}</h2>
 
-      <div style="padding-bottom: 15px;">
-        <select id="partnerPromotionFilter">
+      <div class="pb-4">
+        <select id="partnerPromotionFilter" class="form-control">
           <option value="All">{lang}partner_promotions_show_all{lang}</option>
 
 {loop partner_promotion_categories}
@@ -31,14 +31,11 @@
       <div id="partnerPromotionContainer" class="row">
 
 {loop partner_promotions}
-        <div class="col-xs-4 col-md-3 partnerPromotionCategory_#category_code#">
-          <div class="thumbnail">
-            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}%image_promo_path%{publiclink}" alt="" title="#title#" /></a>
-
-            <div class="caption text-center">
-              <span class="label label-warning">#category_title#</span>
-            </div>
-          </div>
+        <div class="col-6 col-md-4 col-lg-3 partnerPromotionCategory_#category_code# text-center">
+          <figure class="figure">
+            <a href="#image_promo_url#" target="_blank"><img src="{publiclink}%image_promo_path%{publiclink}" alt="" title="#title#" class="figure-img"></a>
+            <figcaption class="figure-caption"><a href="{link}Services|Website|#category_code#{link}">#category_title#</a></figcaption>
+          </figure>
         </div>
 {loop}
 

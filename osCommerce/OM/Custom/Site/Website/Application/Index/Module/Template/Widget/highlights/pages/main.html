@@ -1,0 +1,28 @@
+<div id="highlights" class="carousel slide d-block mx-auto" data-ride="carousel">
+  <ol class="carousel-indicators"></ol>
+
+  <div class="carousel-inner">
+    {raw}highlights_carousel_output{raw}
+  </div>
+
+  <a class="carousel-control-prev" href="#highlights" role="button" data-slide="prev">
+    <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/chevron-circle-left.svg{publiclink}" class="svg-inject">
+  </a>
+  <a class="carousel-control-next" href="#highlights" role="button" data-slide="next">
+    <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/chevron-circle-right.svg{publiclink}" class="svg-inject">
+  </a>
+</div>
+
+<script>
+$(function() {
+  $('#highlights').carousel({ interval: 8000 });
+
+  var highlightsIndicators = '';
+
+  for (var i = 0, n = $('#highlights .carousel-inner div.carousel-item').length; i < n; i++) {
+    highlightsIndicators += '<li data-target="#highlights" data-slide-to="' + i + '"' + (i == 0 ? ' class="active"' : '') + '></li>';
+  }
+
+  $('#highlights ol.carousel-indicators').html(highlightsIndicators);
+});
+</script>

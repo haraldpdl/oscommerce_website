@@ -2,27 +2,29 @@
 /**
  * osCommerce Website
  *
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-  namespace osCommerce\OM\Core\Site\Website\Application\_;
+namespace osCommerce\OM\Core\Site\Website\Application\_;
 
-  use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\OSCOM;
 
-  class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract {
-    protected function initialize() {
-      $this->_page_contents = 'main.html';
+class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
+{
+    protected function initialize()
+    {
+        $this->_page_contents = 'main.html';
     }
 
-    public function runActions() {
-      if (!OSCOM::isRPC()) {
-        parent::runActions();
+    public function runActions()
+    {
+        if (!OSCOM::isRPC()) {
+            parent::runActions();
 
-        if ( $this->getCurrentAction() === false ) {
-          OSCOM::redirect(OSCOM::getLink(null, 'Index'));
+            if ($this->getCurrentAction() === false) {
+                OSCOM::redirect(OSCOM::getLink(null, 'Index'));
+            }
         }
-      }
     }
-  }
-?>
+}

@@ -1,26 +1,26 @@
 <div id="highlights">
-  <a href="{value}partner url{value}" target="_blank"><img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" /></a>
+  <a href="{value}partner url{value}" target="_blank"><img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}"></a>
 </div>
 
 <div class="row">
-  <div id="maincontainer" class="col-xs-12">
+  <div id="maincontainer" class="col-12">
     <div id="maincontent">
-      <h1>{value}partner title{value}</h1>
+      <h1 class="display-4">{value}partner title{value}</h1>
 
-      <div class="pull-right col-xs-12 col-sm-4">
+      <div class="float-right col-md-4 mb-2 mb-md-0">
 
 {ifvalue partner app_code}
-        <a href="http://addons.oscommerce.com/service/{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
-        <a href="https://library.oscommerce.com/Package&amp;{value}partner app_code{value}" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
+        <a href="{link}Profile|Apps|{raw}partner app_code{raw}{link}" class="btn btn-info btn-block">{lang}link_view_apps{lang}</a>
+        <a href="{link}Package|Library|{raw}partner app_code{raw}{link}" class="btn btn-info btn-block">{lang}link_view_documentation{lang}</a>
 {ifvalue}
 
-        <a href="{value}partner url{value}" target="_blank" class="btn btn-info btn-block">{lang}link_partner_website title="{value}partner title{value}"{lang}</a>
+        <a href="{value}partner url{value}" target="_blank" class="btn btn-success btn-block">{lang}link_partner_website title="{value}partner title{value}"{lang}</a>
 
 {ifvalue partner email}
         <a href="mailto:{value}partner email{value}" class="btn btn-info btn-block">{lang}link_contact_partner title="{value}partner title{value}"{lang}</a>
 {ifvalue}
 
-        <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="hidden-xs btn btn-link btn-block">{lang}link_back_to_listing{lang}</a>
+        <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="d-none d-md-block btn btn-link btn-block">{lang}link_back_to_listing{lang}</a>
       </div>
 
       <p>{nl2br}{parse b u i url ul}{value}partner desc_long{value}{parse}{nl2br}</p>
@@ -29,8 +29,8 @@
       <div class="embed-responsive embed-responsive-16by9" style="margin-bottom: 20px;"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{value}partner youtube_video_id{value}?rel=0" allowfullscreen></iframe></div>
 {ifvalue}
 
-      <address class="jumbotron">
-        <h2>{value}partner title{value}</h2>
+      <address class="jumbotron border">
+        <h2 class="display-5">{value}partner title{value}</h2>
 
 {ifvalue partner address}
         <p>
@@ -39,20 +39,20 @@
 {ifvalue}
 
         <p>
-          <i class="fa fa-fw fa-home"></i> <a href="{value}partner url{value}" target="_blank">{value}partner public_url{value}</a><br />
+          <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/home.svg{publiclink}" class="svg-inject mr-1"> <a href="{value}partner url{value}" target="_blank">{value}partner public_url{value}</a><br>
 
 {ifvalue partner email}
-          <i class="fa fa-fw fa-envelope"></i> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a><br />
+          <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/envelope.svg{publiclink}" class="svg-inject mr-1"> <a href="mailto:{value}partner email{value}">{value}partner email{value}</a><br>
 {ifvalue}
 
 {ifvalue partner telephone}
-          <i class="fa fa-fw fa-phone"></i> {value}partner telephone{value}
+          <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/phone.svg{publiclink}" class="svg-inject mr-1"> {value}partner telephone{value}
 {ifvalue}
 
         </p>
       </address>
 
-      <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="visible-xs"><i class="fa fa-caret-left"></i> {lang}link_back_to_listing{lang}</a>
+      <a href="{link}Services|Website|{raw}services_action{raw}{link}" class="d-block d-md-none"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-left.svg{publiclink}" class="svg-inject"> {lang}link_back_to_listing{lang}</a>
     </div>
   </div>
 </div>

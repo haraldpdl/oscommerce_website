@@ -1,55 +1,38 @@
-<div id="highlights">
-  <img src="{ifvalue partner image_big_path}{publiclink}{value}partner image_big_path{value}{publiclink}{else}{publiclink}{value}highlights_image{value}{publiclink}{ifvalue}" alt="" title="{value}partner title{value}" />
-</div>
-
 <div class="row">
   {widget}account_sidebar_nav{widget}
 
-  <div id="maincontainer" class="col-sm-9 col-sm-pull-3">
+  <div id="maincontainer" class="col-lg-9">
     <div id="maincontent">
-      <h1>{value}partner title{value}</h1>
+      <h1 class="display-4">{lang}partner_sites_title{lang}</h1>
 
-      <h2>{lang}partner_sites_title{lang}</h2>
+      <h2>{value}partner title{value}</h2>
+
+      <p class="lead">{lang}partner_sites_allowed_showcase_entries total="{value}partner_showcase_max{value}"{lang}</p>
 
       {widget}message_stack|partner{widget}
 
       {ifvalue partner_showcase}
-      <p class="pull-right">
-        <a class="btn btn-info" href="{link}Index|Sites|Showcase&{value}partner category_code{value}&{value}partner code{value}{link}">{lang}button_partner_visit_showcase{lang}</a>
-      </p>
+      <a class="btn btn-info float-right" href="{link}Index|Sites|Showcase&{value}partner category_code{value}&{value}partner code{value}{link}">{lang}button_partner_visit_showcase{lang}</a>
 
-      <table class="table">
+      <table class="table table-borderless table-hover">
         <thead>
           <tr>
-            <th colspan="2">{lang}partner_table_heading_showcase{lang} ({value}partner_showcase_total{value} of {value}partner_showcase_max{value})</th>
+            <th colspan="2">{lang}partner_table_heading_showcase{lang} <small>({value}partner_showcase_total{value})</small></th>
           </tr>
         </thead>
         <tbody>
         {loop partner_showcase}
           <tr>
             <td><a href="{link}Index|Sites|Go=%public_id%{link}" rel="nofollow noopener noreferrer" target="_blank">#title#</a></td>
-            <td align="right"><a href="#" onclick="processSite(event, '#public_id#', 'remove');"><i class="fa fa-minus-circle" style="color: #d9534f;"></i></a></td>
+            <td align="right"><a href="#" class="btn btn-danger btn-sm" onclick="processSite(event, '#public_id#', 'remove');">Remove</a></td>
           </tr>
         {loop}
-        </tbody>
-      </table>
-      {else}
-      <table class="table">
-        <thead>
-          <tr>
-            <th>{lang}partner_table_heading_showcase{lang} (max {value}partner_showcase_max{value})</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="warning">{lang}partner_select_site_to_showcase{lang}</td>
-          </tr>
         </tbody>
       </table>
       {ifvalue}
 
       {ifvalue partner_sites}
-      <table class="table">
+      <table class="table table-borderless table-hover">
         <thead>
           <tr>
             <th colspan="2">{lang}partner_table_heading_sites{lang}</th>
@@ -59,27 +42,27 @@
         {loop partner_sites}
           <tr>
             <td><a href="{link}Index|Sites|Go=%public_id%{link}" rel="nofollow noopener noreferrer" target="_blank">#title#</a></td>
-            <td align="right"><a href="#" onclick="processSite(event, '#public_id#', 'add');"><i class="fa fa-plus-circle" style="color: #5cb85c;"></i></a></td>
+            <td align="right"><a href="#" class="btn btn-success btn-sm" onclick="processSite(event, '#public_id#', 'add');">Add to Showcase</a></td>
           </tr>
         {loop}
         </tbody>
       </table>
       {else}
-      <table class="table">
+      <table class="table table-borderless table-hover">
         <thead>
           <tr>
             <th>{lang}partner_table_heading_sites{lang}</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="warning">{lang}partner_no_sites_to_add_to_showcase{lang}</td>
+          <tr class="table-warning">
+            <td>{lang}partner_no_sites_to_add_to_showcase{lang}</td>
           </tr>
         </tbody>
       </table>
       {ifvalue}
 
-      <div class="bg-success" style="padding: 15px;">
+      <div class="alert alert-success p-3">
         <p>{lang}partner_showcase_add_site_intro{lang}</p>
         <a class="btn btn-success" href="{link}Index|Sites{link}">{lang}button_partner_visit_live_sites{lang}</a>
       </div>

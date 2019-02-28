@@ -4,7 +4,7 @@ Partner Information Page Updated
 
   {raw}partner_admin_name{raw},
 
-  this is a notification e-mail to inform you that your partner information
+  this is a notification email to inform you that your partner information
   page has been updated by:
 
   {raw}user_name{raw}
@@ -15,8 +15,7 @@ Partner Information Page Updated
 
   Kind regards,
 
-  osCommerce
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
 
-osCommerce, http://www.oscommerce.com
-
-This is an automatically generated e-mail.
+This is an automatically generated email.

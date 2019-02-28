@@ -2,13 +2,16 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    OSCOM,
+    Sanitize
+};
 
 use osCommerce\OM\Core\Site\Website\Invision;
 
@@ -29,9 +32,9 @@ class ChangePassword
         if (!isset($result['errorCode'])) {
             $errors = [];
 
-            $public_token = isset($_POST['public_token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['public_token'])) : '';
-            $current_password = isset($_POST['current_password']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['current_password']) : '';
-            $new_password = isset($_POST['new_password']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['new_password']) : '';
+            $public_token = Sanitize::simple($_POST['public_token'] ?? null);
+            $current_password = Sanitize::simple($_POST['current_password'] ?? null);
+            $new_password = Sanitize::simple($_POST['new_password'] ?? null);
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $errors[] = OSCOM::getDef('error_form_protect_general');

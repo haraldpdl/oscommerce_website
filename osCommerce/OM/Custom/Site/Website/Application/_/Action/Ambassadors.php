@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\_\Action;
@@ -45,6 +45,7 @@ class Ambassadors
         }
 
         $OSCOM_Language->loadIniFile('pages/ambassadors.php');
+        $OSCOM_Language->loadIniFile('pages/legal_tos_ambassador.php');
 
         $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
         $OSCOM_Template->setValue('recaptcha_key_public', OSCOM::getConfig('recaptcha_key_public'));
@@ -53,14 +54,14 @@ class Ambassadors
         $application->setPageContent('ambassadors.html');
         $application->setPageTitle(OSCOM::getDef('amb_html_page_title'));
 
-        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/highlights_ambassadors.jpg')) {
-            $OSCOM_Template->setValue('highlights_image', 'images/highlights_ambassadors.jpg');
+        if (file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/' . OSCOM::getSite() . '/images/highlights/ambassadors.jpg')) {
+            $OSCOM_Template->setValue('highlights_image', 'images/highlights/ambassadors.jpg');
         }
 
         $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['amb_level'] > 0)));
         $OSCOM_Template->setValue('ambassador_user_next_level', isset($_SESSION[OSCOM::getSite()]['Account']) ? $_SESSION[OSCOM::getSite()]['Account']['amb_level'] + 1 : 1);
 
-        $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/three-d-secure.min.js"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script>');
 
         $slugify = new Slugify();
 
@@ -93,7 +94,7 @@ class Ambassadors
             ];
         }
 
-        $countries_field = HTML::selectMenu('country', $countries, null, 'id="cCountry" class="form-control"');
+        $countries_field = HTML::selectMenu('country', $countries, null, 'id="cCountry" class="form-control" required');
 
         $OSCOM_Template->setValue('field_countries', $countries_field);
 

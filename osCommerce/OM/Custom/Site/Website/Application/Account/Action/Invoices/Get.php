@@ -2,8 +2,8 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Invoices;
@@ -12,7 +12,8 @@ use osCommerce\OM\Core\{
     ApplicationAbstract,
     Events,
     OSCOM,
-    Registry
+    Registry,
+    Sanitize
 };
 
 use osCommerce\OM\Core\Site\Website\Invoices;
@@ -23,8 +24,8 @@ class Get
     {
         $OSCOM_MessageStack = Registry::get('MessageStack');
 
-        $token = isset($_GET['token']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_GET['token'])) : '';
-        $invoice = trim(str_replace(array("\r\n", "\n", "\r"), '', $_GET['Get']));
+        $token = Sanitize::simple($_GET['token'] ?? null);
+        $invoice = Sanitize::simple($_GET['Get']);
 
         if ($token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
             $OSCOM_MessageStack->add('account', OSCOM::getDef('error_form_protect_general'), 'error');

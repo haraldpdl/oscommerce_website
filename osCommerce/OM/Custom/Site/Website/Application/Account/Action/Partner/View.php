@@ -2,16 +2,17 @@
 /**
  * osCommerce Website
  *
- * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/license/bsd.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Partner;
 
-use osCommerce\OM\Core\ApplicationAbstract;
-use osCommerce\OM\Core\HTML;
-use osCommerce\OM\Core\OSCOM;
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    ApplicationAbstract,
+    OSCOM,
+    Registry
+};
 
 use osCommerce\OM\Core\Site\Website\Partner;
 
