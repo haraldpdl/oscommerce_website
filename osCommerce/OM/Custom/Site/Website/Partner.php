@@ -365,7 +365,7 @@ class Partner
         return $OSCOM_PDO->call('GetCampaignAdmins', ['code' => $code]);
     }
 
-    public static function getStatusUpdateUrl(string $code, int $url_id)
+    public static function getStatusUpdateUrl(string $code, string $url_id)
     {
         $OSCOM_PDO = Registry::get('PDO');
 
