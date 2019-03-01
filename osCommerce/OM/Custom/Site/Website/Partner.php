@@ -346,7 +346,7 @@ class Partner
         return $campaign;
     }
 
-    public static function getCampaignInfo(int $partner_id, int $language_id = null): array
+    public static function getCampaignInfo(int $partner_id, int $language_id = null): ?array
     {
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_PDO = Registry::get('PDO');
@@ -412,7 +412,7 @@ class Partner
         $campaign = static::getCampaignInfo($partner_id, $language_id);
 
 // automatically create campaign in new language
-        if ($campaign === false) {
+        if (is_null($campaign)) {
             if (($language_id !== $OSCOM_Language->getDefaultId()) && $OSCOM_Language->exists($OSCOM_Language->getCodeFromID($language_id))) {
                 $orig = static::getCampaignInfo($partner_id, $OSCOM_Language->getDefaultId());
 
@@ -427,7 +427,7 @@ class Partner
                     if ($OSCOM_PDO->save('website_partner_info', $o) === 1) {
                         $campaign = static::getCampaignInfo($partner_id, $language_id);
 
-                        if ($campaign === false) {
+                        if (is_null($campaign)) {
                             return false;
                         }
                     }

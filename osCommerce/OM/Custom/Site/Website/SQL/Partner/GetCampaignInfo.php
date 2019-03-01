@@ -12,7 +12,7 @@ use osCommerce\OM\Core\Registry;
 
 class GetCampaignInfo
 {
-    public static function execute(array $data): array
+    public static function execute(array $data): ?array
     {
         $OSCOM_PDO = Registry::get('PDO');
 
@@ -50,6 +50,12 @@ EOD;
         $Qpartner->bindInt(':languages_id', $data['language_id']);
         $Qpartner->execute();
 
-        return $Qpartner->fetch();
+        $result = $Qpartner->fetch();
+
+        if (is_array($result)) {
+          return $result;
+        }
+
+        return null;
     }
 }
