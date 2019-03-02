@@ -15,6 +15,7 @@ navbutton_account_my_account = My Account
 navbutton_account_create_account = Create Account
 navbutton_account_verify_account = Verify Account
 navbutton_account_invoices = Invoices
+navbutton_account_my_live_sites = My Live Sites
 navbutton_account_partner_dashboard = Partner Dashboard
 navbutton_account_log_out = Log Out
 

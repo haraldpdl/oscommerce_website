@@ -15,6 +15,7 @@ navbutton_account_my_account = Mein Konto
 navbutton_account_create_account = Konto erstellen
 navbutton_account_verify_account = Konto Verifizieren
 navbutton_account_invoices = Rechnungen
+navbutton_account_my_live_sites = Meine Shop Galerie
 navbutton_account_partner_dashboard = Partner Dashboard
 navbutton_account_log_out = Abmelden
 
