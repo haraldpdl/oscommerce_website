@@ -75,7 +75,7 @@ class Users
                 $member = Invision::fetchMember($id, 'id', true);
                 $customFields = Invision::getUserCustomFields($id);
 
-                if (is_array($customFields) && isset($customFields[Invision::CUSTOM_FIELDS['full_name']['group_id']]['fields'][Invision::CUSTOM_FIELDS['full_name']['id']]['value'])) {
+                if (is_array($customFields)) {
                     $result = [
                         'location' => $customFields[Invision::CUSTOM_FIELDS['location']['group_id']]['fields'][Invision::CUSTOM_FIELDS['location']['id']]['value'] ?? null,
                         'website' => $customFields[Invision::CUSTOM_FIELDS['website']['group_id']]['fields'][Invision::CUSTOM_FIELDS['website']['id']]['value'] ?? null,

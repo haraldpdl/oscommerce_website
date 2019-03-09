@@ -218,11 +218,13 @@ edit_upload_photo_note = (gif, jpg, png; max file size 300kb)
 
 edit_name_title = Full Name
 edit_name_note = Your real name
+edit_name_js_error_required = Required
 
 edit_username_title = Username
 
 edit_birthday_title = Birthday
 
+edit_gender_title = Gender
 edit_gender_male = Male
 edit_gender_female = Female
 edit_gender_other = Not Telling

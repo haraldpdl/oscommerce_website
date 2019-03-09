@@ -10,10 +10,10 @@
       <form id="formEdit" action="{link}Account|Website|Edit&Process{link}" method="post" enctype="multipart/form-data" novalidate>{formprotect}public_token{formprotect}
         {widget}message_stack|account{widget}
 
-        <div id="formEditAlerts" class="alert alert-danger d-none">{lang}edit_error_form_general{lang}</div>
+        <div class="alert alert-danger d-none" role="alert"></div>
 
         <div class="row align-items-center bg-light border p-3 mx-auto">
-          <div class="col-2">
+          <div class="col-3 col-sm-2">
             <img src="{value}user photo_url{value}" class="rounded-circle img-fluid">
           </div>
 
@@ -27,7 +27,7 @@
         </div>
 
         <div class="row mt-3">
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label for="inputName">{lang}edit_name_title{lang}</label>
 
             <input type="text" id="inputName" name="name" class="form-control" value="{post}name|user full_name{post}" required>
@@ -35,7 +35,7 @@
             <small class="form-text text-muted">{lang}edit_name_note{lang}</small>
           </div>
 
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label>{lang}edit_username_title{lang}</label>
 
             <div class="form-control-plaintext">{value}user name{value}</div>
@@ -43,7 +43,7 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-6">
+          <div class="form-group col-4 col-sm-6">
             <label>{lang}edit_birthday_title{lang}</label>
 
             <select id="inputBdayMonth" name="bday_month" class="form-control" data-default-value="{post}bday_month|bday_month{post}">
@@ -55,7 +55,7 @@
             <div class="invalid-feedback"></div>
           </div>
 
-          <div class="form-group col-2">
+          <div class="form-group col-4 col-sm-3 col-md-2">
             <label></label>
 
             <select id="inputBdayDay" name="bday_day" class="form-control" data-default-value="{post}bday_day|bday_date{post}">
@@ -67,7 +67,7 @@
             <div class="invalid-feedback"></div>
           </div>
 
-          <div class="form-group col-2">
+          <div class="form-group col-4 col-sm-3 col-md-2">
             <label></label>
 
             <select id="inputBdayYear" name="bday_year" class="form-control" data-default-value="{post}bday_year|bday_year{post}">
@@ -79,8 +79,8 @@
             <div class="invalid-feedback"></div>
           </div>
 
-          <div class="form-group col-2">
-            <label></label>
+          <div class="form-group col-md-2">
+            <label for="inputGender">{lang}edit_gender_title{lang}</label>
 
             <select id="inputGender" name="gender" class="form-control" data-default-value="{post}gender|gender_code{post}">
               <option value=""></option>
@@ -93,13 +93,13 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label>{lang}edit_email_title{lang}</label>
 
             <div class="form-control-plaintext">{value}user email{value}</div>
           </div>
 
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label for="inputLocation">{lang}edit_location_title{lang}</label>
 
             <input type="text" id="inputLocation" name="location" class="form-control" value="{post}location|user_custom location{post}">
@@ -108,13 +108,13 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label for="inputCompany">{lang}edit_company_title{lang}</label>
 
             <input type="text" id="inputCompany" name="company" class="form-control" value="{post}company|user_custom company{post}">
           </div>
 
-          <div class="form-group col-6">
+          <div class="form-group col-sm-6">
             <label for="inputWebsite">{lang}edit_website_title{lang}</label>
 
             <input type="text" id="inputWebsite" name="website" class="form-control" value="{post}website|user_custom website{post}">
@@ -141,6 +141,49 @@
 </div>
 
 <script>
+function checkName() {
+  $('#inputName').val($('#inputName').val().trim());
+
+  if ($('#inputName').hasClass('is-invalid')) {
+    $('#inputName').removeClass('is-invalid');
+  }
+
+  if ($('#inputName').val() == '') {
+    $('#inputName').siblings('div.invalid-feedback').html({lang json_encode}edit_name_js_error_required{lang});
+    $('#inputName').addClass('is-invalid');
+  }
+
+  return !$('#inputName').hasClass('is-invalid');
+}
+
+function checkPhoto() {
+  var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+
+  if ((typeof $('#userPhoto').prop('files') !== 'undefined') && ($('#userPhoto').prop('files').length === 1)) {
+    var file = $('#userPhoto').prop('files')[0];
+
+    if ((file.size > 307200) || (imageTypes.includes(file.name.substr((file.name.lastIndexOf('.') + 1))) === false)) {
+      $('#userPhoto').addClass('is-invalid').siblings('.form-text').removeClass('text-muted').addClass('text-danger');
+    }
+  }
+
+  return !$('#userPhoto').hasClass('is-invalid');
+}
+
+function checkForm() {
+  var has_error = false;
+
+  if (!checkName()) {
+    has_error = true;
+  }
+
+  if (!checkPhoto()) {
+    has_error = true;
+  }
+
+  return !has_error;
+}
+
 $(function() {
   $('#formEdit select').each(function() {
     $(this).val($(this).data('default-value'));
@@ -164,28 +207,15 @@ $(function() {
       return false;
     }
 
-    $('#editButton').prop('disabled', true).data('original-text', $('#editButton').html()).html($('#editButton').data('processing-text'));
+    $('#formEdit div.alert').empty().addClass('d-none');
 
-    $('#formEditAlerts').addClass('d-none');
+    $('#editButton').prop('disabled', true).data('original-text', $('#editButton').html()).html($('#editButton').data('processing-text'));
 
     $('#formEdit .is-invalid').removeClass('is-invalid');
     $('#formEdit .form-text.text-danger').removeClass('text-danger').addClass('text-muted');
 
-    var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
-
-    var error = false;
-
-    if ((typeof $('#formEdit #userPhoto').prop('files') !== 'undefined') && ($('#formEdit #userPhoto').prop('files').length === 1)) {
-      var file = $('#formEdit #userPhoto').prop('files')[0];
-
-      if ((file.size > 307200) || (imageTypes.includes(file.name.substr((file.name.lastIndexOf('.') + 1))) === false)) {
-        $('#formEdit #userPhoto').addClass('is-invalid').siblings('.form-text').removeClass('text-muted').addClass('text-danger');
-        error = true;
-      }
-    }
-
-    if (error === true) {
-      $('#formEditAlerts').removeClass('d-none');
+    if (!checkForm()) {
+      $('#formEdit div.alert-danger').append({lang json_encode}edit_error_form_general{lang}).removeClass('d-none');
 
       $('#editButton').html($('#editButton').data('original-text')).removeData('original-text').prop('disabled', false);
 

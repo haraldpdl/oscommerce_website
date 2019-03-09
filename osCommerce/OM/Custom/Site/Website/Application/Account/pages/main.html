@@ -7,15 +7,15 @@
 
       {widget}message_stack|account{widget}
 
-      <div class="text-right">
+      <div class="text-center text-md-right">
         <div class="btn-group" role="group">
           <a href="{link}Account||Edit{link}" class="btn btn-outline-primary btn-sm">{lang}account_button_edit_profile{lang}</a>
           <a href="{link}Account||ChangePassword{link}" class="btn btn-outline-primary btn-sm">{lang}account_button_change_password{lang}</a>
         </div>
       </div>
 
-      <div class="row mt-3">
-        <div class="col-sm-2 col-md-3">
+      <div class="row mt-3 justify-content-center">
+        <div class="col-6 col-sm-4 col-md-3">
           <div class="card border-0">
             <div class="card-body text-center">
               <img src="{value}user photo_url{value}" class="rounded-circle img-fluid">
@@ -23,22 +23,22 @@
           </div>
         </div>
 
-        <div class="col-sm-10 col-md-9">
-          <h4>{ifvalue user full_name}{value}user full_name{value}{else}{value}user name{value}{ifvalue}</h4>
-          <h6 class="text-muted">{ifvalue user_custom location}{value}user_custom location{value} {ifvalue}<small>{ifvalue user_custom location}- {ifvalue}{lang}account_joined_in date="{value}joined_short{value}"{lang}</small></h6>
+        <div class="col-md-9">
+          <h4 class="text-center text-md-left">{ifvalue user full_name}{value}user full_name{value}{else}{value}user name{value}{ifvalue}</h4>
+          <h6 class="text-center text-md-left text-muted">{ifvalue user_custom location}{value}user_custom location{value} {ifvalue}<small>{ifvalue user_custom location}- {ifvalue}{lang}account_joined_in date="{value}joined_short{value}"{lang}</small></h6>
 
           {ifvalue user_custom bio_short}
-          <div class="lead mt-3" style="font-size: 1.1em;">
+          <div class="lead text-center text-md-left mt-3" style="font-size: 1.1em;">
             <p>{nl2br}{value}user_custom bio_short{value}{nl2br}</p>
           </div>
           {ifvalue}
 
-          <ul class="list-inline d-flex align-items-center my-4">
-            <li class="list-inline-item position-relative mr-4">
+          <ul class="list-inline d-flex align-items-center my-4 justify-content-center justify-content-md-start">
+            <li class="list-inline-item position-relative text-nowrap mr-4">
               {widget}ambassador_level_banner{widget}
             </li>
 
-            <li id="reputationContent" class="list-inline-item position-relative d-none" title="{lang htmlspecialchars}account_tooltip_reputation{lang}">
+            <li id="reputationContent" class="list-inline-item position-relative text-nowrap d-none" title="{lang htmlspecialchars}account_tooltip_reputation{lang}">
               <span id="reputationBadge" class="bg-secondary text-white font-weight-bold rounded py-1 px-3 mr-2">{value}reputation_friendly{value}</span>
               <span class="text-dark">{lang}account_badge_reputation{lang}</span>
             </li>
