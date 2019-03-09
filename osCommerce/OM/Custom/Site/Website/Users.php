@@ -77,14 +77,14 @@ class Users
 
                 if (is_array($customFields) && isset($customFields[Invision::CUSTOM_FIELDS['full_name']['group_id']]['fields'][Invision::CUSTOM_FIELDS['full_name']['id']]['value'])) {
                     $result = [
-                        'location' => $customFields[Invision::CUSTOM_FIELDS['location']['group_id']]['fields'][Invision::CUSTOM_FIELDS['location']['id']]['value'],
-                        'website' => $customFields[Invision::CUSTOM_FIELDS['website']['group_id']]['fields'][Invision::CUSTOM_FIELDS['website']['id']]['value'],
-                        'twitter' => $customFields[Invision::CUSTOM_FIELDS['twitter']['group_id']]['fields'][Invision::CUSTOM_FIELDS['twitter']['id']]['value'],
-                        'bio_short' => $customFields[Invision::CUSTOM_FIELDS['bio_short']['group_id']]['fields'][Invision::CUSTOM_FIELDS['bio_short']['id']]['value'],
-                        'company' => $customFields[Invision::CUSTOM_FIELDS['company']['group_id']]['fields'][Invision::CUSTOM_FIELDS['company']['id']]['value'],
+                        'location' => $customFields[Invision::CUSTOM_FIELDS['location']['group_id']]['fields'][Invision::CUSTOM_FIELDS['location']['id']]['value'] ?? null,
+                        'website' => $customFields[Invision::CUSTOM_FIELDS['website']['group_id']]['fields'][Invision::CUSTOM_FIELDS['website']['id']]['value'] ?? null,
+                        'twitter' => $customFields[Invision::CUSTOM_FIELDS['twitter']['group_id']]['fields'][Invision::CUSTOM_FIELDS['twitter']['id']]['value'] ?? null,
+                        'bio_short' => $customFields[Invision::CUSTOM_FIELDS['bio_short']['group_id']]['fields'][Invision::CUSTOM_FIELDS['bio_short']['id']]['value'] ?? null,
+                        'company' => $customFields[Invision::CUSTOM_FIELDS['company']['group_id']]['fields'][Invision::CUSTOM_FIELDS['company']['id']]['value'] ?? null,
                         'birthday' => $member->bday_month ? ($member->bday_month . '/' . $member->bday_day . ($member->bday_year ? '/' . $member->bday_year : '')) : null,
-                        'gender' => $customFields[Invision::CUSTOM_FIELDS['gender']['group_id']]['fields'][Invision::CUSTOM_FIELDS['gender']['id']]['value'],
-                        'reputation' => $member->pp_reputation_points
+                        'gender' => $customFields[Invision::CUSTOM_FIELDS['gender']['group_id']]['fields'][Invision::CUSTOM_FIELDS['gender']['id']]['value'] ?? null,
+                        'reputation' => $member->pp_reputation_points ?? null
                     ];
                 }
 
