@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>We encountered a problem</title>
+
+  <base href="{value}html_base_href{value}">
+
+  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.css{publiclink}?v5234">
+
+  <script src="{publiclink}external/jquery-3.3.1.min.js{publiclink}"></script>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-light navbar-expand-lg">
+      <div class="container">
+        <a href="{link}Index{link}" class="navbar-brand"><img src="{publiclink}images/oscommerce.png{publiclink}" id="logo"></a>
+
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle Menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarLinks">
+          <ul class="nav nav-pills ml-auto">
+            <li class="nav-item"><a href="{link}Products{link}" id="btnProducts" class="nav-link">{lang}navbutton_products{lang}</a></li>
+            <li class="nav-item"><a href="{link}Services{link}" id="btnServices" class="nav-link">{lang}navbutton_services{lang}</a></li>
+            <li class="nav-item"><a href="{link}Support{link}" id="btnSupport" class="nav-link">{lang}navbutton_support{lang}</a></li>
+            <li class="nav-item"><a href="{link}Contact{link}" id="btnContact" class="nav-link">{lang}navbutton_contact{lang}</a></li>
+            <li class="nav-item"><a href="{link}_||Ambassadors{link}" id="btnAmbassadors" class="nav-link text-danger"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/heart.svg{publiclink}" class="svg-inject"></a></li>
+            <li class="nav-item dropdown">
+              <a href="#" id="btnAccount" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/user.svg{publiclink}" class="svg-inject"></a>
+              <div class="dropdown-menu" aria-labelledby="btnAccount">
+                <a href="{link}Account|Website|Login|SSL{link}" class="dropdown-item">{lang}navbutton_account_log_in{lang}</a>
+                <a href="{link}Account|Website|Create|SSL{link}" class="dropdown-item">{lang}navbutton_account_create_account{lang}</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="jumbotron border">
+          <h1 class="display-4">We're Sorry..</h1>
+          <p class="lead">we encountered a problem and are working fast on a solution.</p>
+          <p>Please try reloading the page and give us a few minutes if problems persist.</p>
+          <p><a href="{link}{link}" class="btn btn-primary">Reload Page</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{publiclink}external/bootstrap/4.3.1/js/bootstrap.bundle.min.js{publiclink}"></script>
+  <script src="{publiclink}external/svg-inject/1.2.2/svg-inject.min.js{publiclink}"></script>
+
+<script>
+$(function() {
+  SVGInject(document.querySelectorAll('img.svg-inject'));
+});
+</script>
+
+</body>
+</html>
