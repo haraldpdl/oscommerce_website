@@ -1,0 +1,196 @@
+<div class="row">
+  {widget}account_sidebar_nav{widget}
+
+  <div id="maincontainer" class="col-lg-9">
+    <div id="maincontent">
+      <h1 class="display-4">{lang}account_title{lang}</h1>
+
+      {lang}edit_introduction{lang}
+
+      <form id="formEdit" action="{link}Account|Website|Edit&Process{link}" method="post" enctype="multipart/form-data" novalidate>{formprotect}public_token{formprotect}
+        {widget}message_stack|account{widget}
+
+        <div id="formEditAlerts" class="alert alert-danger d-none">{lang}edit_error_form_general{lang}</div>
+
+        <div class="row align-items-center bg-light border p-3 mx-auto">
+          <div class="col-2">
+            <img src="{value}user photo_url{value}" class="rounded-circle img-fluid">
+          </div>
+
+          <div class="col">
+            <div class="custom-file">
+              <input type="file" id="userPhoto" name="user_photo" class="custom-file-input" accept=".gif,.jpg,.jpeg,.png">
+              <label class="custom-file-label" for="userPhoto">{lang}edit_button_upload_photo{lang}</label>
+              <small class="form-text text-muted">{lang}edit_upload_photo_note{lang}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="form-group col-6">
+            <label for="inputName">{lang}edit_name_title{lang}</label>
+
+            <input type="text" id="inputName" name="name" class="form-control" value="{post}name|user full_name{post}" required>
+            <div class="invalid-feedback"></div>
+            <small class="form-text text-muted">{lang}edit_name_note{lang}</small>
+          </div>
+
+          <div class="form-group col-6">
+            <label>{lang}edit_username_title{lang}</label>
+
+            <div class="form-control-plaintext">{value}user name{value}</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-6">
+            <label>{lang}edit_birthday_title{lang}</label>
+
+            <select id="inputBdayMonth" name="bday_month" class="form-control" data-default-value="{post}bday_month|bday_month{post}">
+              <option value=""></option>
+              {loop date_months}
+              <option value="#id#">#title#</option>
+              {loop}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group col-2">
+            <label></label>
+
+            <select id="inputBdayDay" name="bday_day" class="form-control" data-default-value="{post}bday_day|bday_date{post}">
+              <option value=""></option>
+              {loop date_dates}
+              <option value="#id#">#title#</option>
+              {loop}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group col-2">
+            <label></label>
+
+            <select id="inputBdayYear" name="bday_year" class="form-control" data-default-value="{post}bday_year|bday_year{post}">
+              <option value=""></option>
+              {loop date_years}
+              <option value="#id#">#title#</option>
+              {loop}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group col-2">
+            <label></label>
+
+            <select id="inputGender" name="gender" class="form-control" data-default-value="{post}gender|gender_code{post}">
+              <option value=""></option>
+              <option value="male">{lang}edit_gender_male{lang}</option>
+              <option value="female">{lang}edit_gender_female{lang}</option>
+              <option value="other">{lang}edit_gender_other{lang}</option>
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-6">
+            <label>{lang}edit_email_title{lang}</label>
+
+            <div class="form-control-plaintext">{value}user email{value}</div>
+          </div>
+
+          <div class="form-group col-6">
+            <label for="inputLocation">{lang}edit_location_title{lang}</label>
+
+            <input type="text" id="inputLocation" name="location" class="form-control" value="{post}location|user_custom location{post}">
+            <small class="form-text text-muted">{lang}edit_location_note{lang}</small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-6">
+            <label for="inputCompany">{lang}edit_company_title{lang}</label>
+
+            <input type="text" id="inputCompany" name="company" class="form-control" value="{post}company|user_custom company{post}">
+          </div>
+
+          <div class="form-group col-6">
+            <label for="inputWebsite">{lang}edit_website_title{lang}</label>
+
+            <input type="text" id="inputWebsite" name="website" class="form-control" value="{post}website|user_custom website{post}">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col">
+            <label for="inputBioShort">{lang}edit_bio_short_title{lang}</label>
+
+            <textarea id="inputBioShort" name="bio_short" class="form-control" rows="3" maxlength="300">{post}bio_short|user_custom bio_short{post}</textarea>
+            <small id="inputBioShortCounter" class="float-right form-text text-muted"></small>
+            <small class="form-text text-muted">{lang}edit_bio_short_note{lang}</small>
+          </div>
+        </div>
+
+        <p>
+          <button type="submit" id="editButton" class="btn btn-info" data-processing-text="{escape}{lang}edit_processing_button_title{lang}{escape}">{lang}edit_button_title{lang}</button>
+          <a href="{link}Account{link}" class="btn btn-link">{lang}edit_cancel_button_title{lang}</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#formEdit select').each(function() {
+    $(this).val($(this).data('default-value'));
+  });
+
+  $('#formEdit textarea').each(function() {
+    if ($(this).prop('maxlength') > 0) {
+      $('#' + $(this).attr('id') + 'Counter').html($(this).val().length + ' / ' + $(this).prop('maxlength'));
+
+      $(this).keyup(function() {
+        var size = Math.min($(this).val().length, $(this).prop('maxlength'));
+
+        $('#' + $(this).attr('id') + 'Counter').html(size + ' / ' + $(this).prop('maxlength'));
+      });
+    }
+  });
+
+  $('#formEdit').submit(function(e) {
+    if ($('#editButton').prop('disabled') === true) {
+      e.preventDefault();
+      return false;
+    }
+
+    $('#editButton').prop('disabled', true).data('original-text', $('#editButton').html()).html($('#editButton').data('processing-text'));
+
+    $('#formEditAlerts').addClass('d-none');
+
+    $('#formEdit .is-invalid').removeClass('is-invalid');
+    $('#formEdit .form-text.text-danger').removeClass('text-danger').addClass('text-muted');
+
+    var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+
+    var error = false;
+
+    if ((typeof $('#formEdit #userPhoto').prop('files') !== 'undefined') && ($('#formEdit #userPhoto').prop('files').length === 1)) {
+      var file = $('#formEdit #userPhoto').prop('files')[0];
+
+      if ((file.size > 307200) || (imageTypes.includes(file.name.substr((file.name.lastIndexOf('.') + 1))) === false)) {
+        $('#formEdit #userPhoto').addClass('is-invalid').siblings('.form-text').removeClass('text-muted').addClass('text-danger');
+        error = true;
+      }
+    }
+
+    if (error === true) {
+      $('#formEditAlerts').removeClass('d-none');
+
+      $('#editButton').html($('#editButton').data('original-text')).removeData('original-text').prop('disabled', false);
+
+      e.preventDefault();
+    }
+  });
+});
+</script>

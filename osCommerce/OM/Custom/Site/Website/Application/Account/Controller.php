@@ -13,6 +13,8 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Website\Users;
+
 class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
 {
     protected function initialize()
@@ -45,6 +47,38 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
                         break;
                 }
             }
+
+            $user_custom = Users::getCustomFields($_SESSION[OSCOM::getSite()]['Account']['id']);
+
+            $OSCOM_Template->setValue('user_custom', $user_custom);
+            $OSCOM_Template->setValue('joined_short', (new \DateTime($_SESSION[OSCOM::getSite()]['Account']['joined']))->format('F Y'));
+            $OSCOM_Template->setValue('reputation_friendly', number_format($user_custom['reputation']));
+
+            $birthday = null;
+
+            if (isset($user_custom['birthday'])) {
+                $bday = explode('/', $user_custom['birthday'], 3);
+
+                if (count($bday) === 3) {
+                    $birthday = (\DateTime::createFromFormat('m/d/Y', $user_custom['birthday']))->format('jS M Y');
+                } else {
+                    $birthday = (\DateTime::createFromFormat('m/d', $user_custom['birthday']))->format('jS M');
+                }
+            }
+
+            $OSCOM_Template->setValue('birthday_friendly', $birthday);
+
+            $gender_code = '';
+
+            if ($user_custom['gender'] == 'Male') {
+                $gender_code = 'male';
+            } elseif ($user_custom['gender'] == 'Female') {
+                $gender_code = 'female';
+            } elseif ($user_custom['gender'] == 'Not Telling') {
+                $gender_code = 'other';
+            }
+
+            $OSCOM_Template->setValue('gender_code', $gender_code);
 
             $this->_page_contents = 'main.html';
             $this->_page_title = OSCOM::getDef('account_html_title');

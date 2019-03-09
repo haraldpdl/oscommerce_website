@@ -1,19 +1,29 @@
 account_html_title = My Account | osCommerce
 account_title = My Account
 
-account_username_title = Username
-account_email_address_title = Email Address
-account_password_title = Password
-account_change_password_link = Change Password
+account_button_edit_profile = Edit Profile
+account_button_change_password = Change Password
+
+account_joined_in = Joined in :date
+
+account_tooltip_reputation = Points rewarded in the forum
+
+account_badge_reputation = Reputation
+
+account_point_email = Email
+account_point_birthday = Birthday
+account_point_website = Website
+account_point_company = Company
+account_point_add = Add
 
 account_forum_title = Forum
 account_forum_desc = Ask for or provide help and participate in discussions with others in the community.
-account_forum_links = <a class="btn btn-info" href="https://forums.oscommerce.com">Visit the Forum</a>
+account_forum_links = <a class="btn btn-info btn-sm" href="https://forums.oscommerce.com">Visit the Forum</a>
 account_add_ons_title = Apps Marketplace
-account_add_ons_desc = Upload and share your latest work at the Apps Marketplace site.
+account_add_ons_desc = Upload and share your latest work at the Apps Marketplace website.
 account_add_ons_link = Visit the Apps Marketplace
 account_live_shops_title = Live Sites
-account_live_shops_desc = Submit and share your live sites at the Live Sites site.
+account_live_shops_desc = Submit and share your live sites at the Live Sites website.
 account_live_shops_link = Visit the Live Sites
 account_partner_title = Partner Dashboard
 account_partner_desc = Promote commercial products and services to the community.
@@ -200,6 +210,48 @@ change_password_ms_success = Your new password has been saved to your account.
 change_password_ms_error_general = Your new password could not be saved to your account at this time due to a general error. Please try again or contact us to remedy this problem.
 change_password_ms_error_not_logged_in = Please log in first to change your account password.
 change_password_ms_error_current_password_incorrect = The current password does not match your current account password. Please enter your current account password correctly to verify the new password change.
+
+edit_introduction = <p class="lead">Please make any changes to save to your account.</p>
+
+edit_button_upload_photo = New Photo
+edit_upload_photo_note = (gif, jpg, png; max file size 300kb)
+
+edit_name_title = Full Name
+edit_name_note = Your real name
+
+edit_username_title = Username
+
+edit_birthday_title = Birthday
+
+edit_gender_male = Male
+edit_gender_female = Female
+edit_gender_other = Not Telling
+
+edit_email_title = Email
+
+edit_location_title = Location
+edit_location_note = City, Country
+
+edit_company_title = Company
+
+edit_website_title = Website
+
+edit_bio_short_title = Short Bio
+edit_bio_short_note = Tell us about yourself in two sentences
+
+edit_button_title = Save
+edit_processing_button_title = <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing..
+
+edit_cancel_button_title = or return to My Account
+
+edit_success_saved = Your account profile has been successfully updated!
+
+edit_error_form_general = Please check the fields for errors and try again.
+edit_error_photo_filesize_big = The file size of the uploaded photo must not be larger than 300kb. Please upload another photo and save your profile again.
+edit_error_photo_filetype_invalid = The type of the uploaded photo is not supported. Please upload another photo and save your profile again.
+edit_error_birthday_invalid = Please check the birthday date entered and save your profile again.
+edit_error_gender_invalid = Please select a gender from the list provided and save your profile again.
+edit_error_website_invalid = Please check the website entered and save your profile again.
 
 partner_html_title = Partner Dashboard | osCommerce
 partner_title = Partner Dashboard

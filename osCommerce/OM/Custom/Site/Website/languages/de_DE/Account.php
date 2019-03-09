@@ -1,14 +1,24 @@
 account_html_title = Mein Konto | osCommerce
 account_title = Mein Konto
 
-account_username_title = Benutzername
-account_email_address_title = Email Adresse
-account_password_title = Passwort
-account_change_password_link = Passwort ändern
+account_button_edit_profile = Profil Bearbeiten
+account_button_change_password = Passwort ändern
+
+account_joined_in = Mitglied seit :date
+
+account_tooltip_reputation = Verdiente Punkte im Forum
+
+account_badge_reputation = Reputation
+
+account_point_email = Email
+account_point_birthday = Geburtstag
+account_point_website = Webseite
+account_point_company = Firma
+account_point_add = Bearbeiten
 
 account_forum_title = Forum
 account_forum_desc = Fragen stellen, anderen helfen und an Diskussionen teilnehmen.
-account_forum_links = <a class="btn btn-info" href="https://forums.oscommerce.de">Deutsche Forum</a> <a class="btn btn-info" href="https://forums.oscommerce.com">Englische Forum</a>
+account_forum_links = <a class="btn btn-info btn-sm" href="https://forums.oscommerce.de">Deutsche Forum</a> <a class="btn btn-info btn-sm" href="https://forums.oscommerce.com">Englische Forum</a>
 account_add_ons_title = Apps Marktplatz
 account_add_ons_desc = Lade herunter oder teilen Sie Ihre Erweiterungen in der Community mit.
 account_add_ons_link = Apps Marktplatz

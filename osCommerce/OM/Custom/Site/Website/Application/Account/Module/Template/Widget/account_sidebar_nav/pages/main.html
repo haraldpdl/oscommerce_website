@@ -29,6 +29,10 @@
 $(function() {
   var sn_active_link = ( typeof site_req['actions'][0] !== 'undefined' ) ? site_req['actions'][0] : ( $('#snAccount').length ) ? 'Account' : 'Login';
 
+  if (sn_active_link == 'Edit' || sn_active_link == 'ChangePassword') {
+    sn_active_link = 'Account';
+  }
+
   $('#sidebar #sn' + sn_active_link + ' a').addClass('active');
 });
 </script>

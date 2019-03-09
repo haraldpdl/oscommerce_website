@@ -8,14 +8,13 @@ amb_plan_title = osCommerce Ambassador
 
 amb_plan_profile = Highlighted community profile
 amb_plan_apps = Promote uploaded Apps in Apps Marketplace profile
-amb_plan_sites = Promote websites in Live Sites Showcase<br><small>One website per Ambassador level</small>
+amb_plan_sites = Promote websites in Live Sites Showcase<br><small>(one website per Ambassador Level)</small>
 amb_plan_commercial = View commercial inquiries on the forum
 amb_plan_commercial_feedback = Accept client feedback and reviews on the forum
 amb_plan_search = Lowered search flood protection on the forum
 amb_plan_pm = Increased Personal Message storage in forum
 amb_plan_forum_channel = Access to the Ambassadors forum channel
-amb_plan_gift_membership = Gift membership to another person <small>(coming soon)</small>
-amb_plan_multi_levels = Multiple membership levels with more perks <small>(coming soon)</small>
+
 amb_price = 49€
 lifetime = lifetime!
 
@@ -36,9 +35,9 @@ amb_after_payment_description = <p>After payment has been made, your user accoun
 
 amb_lifetime_title = Lifetime is a long time!
 amb_lifetime_description = <p>Indeed it is. We've been here for over {value}never_ask_her{value} years and with dedicated members, customers, and partners in our community, have outgrown our previous monthly and yearly Community Sponsorship subscription plans. This is our gift to you, for life, for continuing to support us all of these years.</p>
-<p>As lifetime is a long time, we'll strive to always provide the same - and even better - benefits when our websites and services are updated in the future. The terms and conditions of the <a href="#ambTosPane" data-toggle="modal" class="alert-link">Ambassador membership can be read here</a>.</p>
+<p>As lifetime is a long time, we'll strive to always provide the same - and even better - benefits when our websites and services are updated in the future. The terms and conditions of the <a href="#ambTosPane" data-toggle="modal">Ambassador membership can be read here</a>.</p>
 
-welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We can't wait to see you as an Ambassador!
+welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We can't wait to have you as an Ambassador!
 welcome_boost = Hi {value}user name{value}! Ready to boost your Ambassador level?
 
 login_title = Log In
@@ -144,11 +143,9 @@ payment_transaction_error = Please try again. The following error occurred:
 
 success_title = Awesome!
 
-success_description = <p class="lead">It feels great being an Ambassador!</p>
-<p>Thanks for supporting us and for representing the community!</p>
+success_description = <p class="lead">Thanks for supporting us and for representing the community!</p>
 
-success_visit_forum_button_title = Visit the Community Forum
-success_visit_account_area = or <a href="{link}Account{link}">visit your account area</a>
+success_visit_account_button_title = Visit your Account area
 
 select_please_select = Please Select
 

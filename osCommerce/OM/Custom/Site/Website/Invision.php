@@ -28,7 +28,21 @@ class Invision
         88
     ];
 
-    public static function fetchMember($search, $key)
+    const MAX_PROFILE_PHOTO_DIMENSION = 600;
+    const MAX_PROFILE_PHOTO_FILESIZE = 307200;
+
+    const CUSTOM_FIELDS = [
+        'full_name' => [ 'group_id' => 2, 'id' => 1 ],
+        'website' => [ 'group_id' => 2, 'id' => 12 ],
+        'gender' => [ 'group_id' => 2, 'id' => 14 ],
+        'location' => [ 'group_id' => 2, 'id' => 15 ],
+        'twitter' => [ 'group_id' => 2, 'id' => 24 ],
+        'bio_short' => [ 'group_id' => 2, 'id' => 25 ],
+        'company' => [ 'group_id' => 2, 'id' => 26 ],
+        'amb_level' => [ 'group_id' => 3, 'id' => 23 ]
+    ];
+
+    public static function fetchMember($search, $key, bool $return_raw = false)
     {
         if (empty($search)) {
             return false;
@@ -57,6 +71,10 @@ class Invision
         $member = \IPS\Member::load($search, $load_member_key);
 
         if ($member->member_id) {
+            if ($return_raw === true) {
+                return $member;
+            }
+
             return static::getUserDataArray($member);
         }
 
@@ -286,6 +304,42 @@ class Invision
 
             if (isset($data['group'])) {
                 $member->member_group_id = $data['group'];
+            }
+
+            if (isset($data['profilePhoto'])) {
+                try {
+                    $image = \IPS\Image::create(file_get_contents($data['profilePhoto']));
+
+                    if ($image->isAnimatedGif) {
+                        throw new \Exception('member_photo_upload_no_animated');
+                    }
+
+                    if (($image->width > static::MAX_PROFILE_PHOTO_DIMENSION) || ($image->height > static::MAX_PROFILE_PHOTO_DIMENSION)) {
+                        $image->resizeToMax(static::MAX_PROFILE_PHOTO_DIMENSION, static::MAX_PROFILE_PHOTO_DIMENSION);
+                    }
+
+                    if (strlen($image) > static::MAX_PROFILE_PHOTO_FILESIZE) {
+                        throw new \Exception('upload_too_big_unspecific');
+                    }
+
+                    $newFile = \IPS\File::create('core_Profile', 'imported-photo-' . $member->member_id . '.' . $image->type, (string)$image);
+                    $thumbnail = $newFile->thumbnail('core_Profile', \IPS\PHOTO_THUMBNAIL_SIZE, \IPS\PHOTO_THUMBNAIL_SIZE, true);
+
+                    $member->pp_photo_type = 'custom';
+                    $member->pp_main_photo = (string)$newFile;
+                    $member->pp_thumb_photo = (string)$thumbnail;
+                    $member->photo_last_update = time();
+                } catch (\Exception $e) {
+                    trigger_error($e->getMessage());
+                }
+            }
+
+            if (isset($data['birthday'])) {
+                $bday = explode('/', $data['birthday'], 3);
+
+                $member->bday_month = $bday[0] ? str_pad($bday[0], 2, '0', \STR_PAD_LEFT) : null;
+                $member->bday_day = $bday[1] ? str_pad($bday[1], 2, '0', \STR_PAD_LEFT) : null;
+                $member->bday_year = $bday[2] ?? null;
             }
 
             if (isset($data['customFields'])) {
@@ -542,20 +596,32 @@ EOD;
         return $result;
     }
 
-    protected static function getUserDataArray(\IPS\Member $member): array
+    public static function getMembersInGroup(int $group_id): array
     {
-//        $extra = $member->apiOutput();
+        $result = [];
 
-        $group = \IPS\Member\Group::load($member->member_group_id);
+        try {
+            $result = \IPS\Db::i()->select('member_id as id', 'core_members', ['member_group_id in (?) or ? in (mgroup_others)', $group_id, $group_id], 'name');
 
-        $extra = [
-            'customFields' => []
-        ];
+            $result = iterator_to_array($result);
+        } catch (\UnderflowException $e) {
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
+    }
+
+    public static function getUserCustomFields(int $user_id): array
+    {
+        $customFields = [];
 
         $fieldData = \IPS\core\ProfileFields\Field::fieldData();
 
         try {
-            $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', ['member_id=?', $member->member_id])->first();
+            $fieldValues = \IPS\Db::i()->select('*', 'core_pfields_content', ['member_id=?', $user_id])->first();
         } catch (\UnderflowException $e) {
             $fieldValues = [];
         }
@@ -567,9 +633,22 @@ EOD;
 
         foreach ($fieldData as $profileFieldGroup => $profileFields) {
             foreach ($profileFields as $field) {
-                $extra['customFields'][$profileFieldGroup]['fields'][$field['pf_id']]['value'] = $fieldValues['field_' . $field['pf_id']] ?? null;
+                $customFields[$profileFieldGroup]['fields'][$field['pf_id']]['value'] = $fieldValues['field_' . $field['pf_id']] ?? null;
             }
         }
+
+        return $customFields;
+    }
+
+    protected static function getUserDataArray(\IPS\Member $member): array
+    {
+//        $extra = $member->apiOutput();
+
+        $group = \IPS\Member\Group::load($member->member_group_id);
+
+        $extra = [
+            'customFields' => static::getUserCustomFields($member->member_id)
+        ];
 
         $val_newreg_id = null;
 
@@ -582,12 +661,12 @@ EOD;
             'id' => (int)$member->member_id,
             'name' => $member->name,
             'formatted_name' => $group->formatName($member->name),
-            'full_name' => $extra['customFields'][2]['fields'][1]['value'],
+            'full_name' => $extra['customFields'][static::CUSTOM_FIELDS['full_name']['group_id']]['fields'][static::CUSTOM_FIELDS['full_name']['id']]['value'],
             'title' => $member->member_title,
             'email' => $member->email,
             'group_id' => (int)$member->member_group_id,
             'is_ambassador' => (int)$member->member_group_id === Users::GROUP_AMBASSADOR_ID,
-            'amb_level' => (int)$extra['customFields'][3]['fields'][23]['value'] ?? 0,
+            'amb_level' => (int)$extra['customFields'][static::CUSTOM_FIELDS['amb_level']['group_id']]['fields'][static::CUSTOM_FIELDS['amb_level']['id']]['value'] ?? 0,
             'admin' => (int)$member->member_group_id === Users::GROUP_ADMIN_ID,
             'team' => in_array((int)$member->member_group_id, [Users::GROUP_TEAM_CORE_ID, Users::GROUP_TEAM_COMMUNITY_ID]),
             'verified' => (bool)$member->members_bitoptions['validating'] === false,

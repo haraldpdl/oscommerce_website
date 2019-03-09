@@ -1,1 +1,10 @@
-<span class="text-uppercase font-weight-bold" style="font-size: 1rem;">{lang}ambassador_level{lang}</span><span class="text-uppercase badge badge-danger ml-1" style="font-size: 1rem;">{value}user amb_level{value}</span> <a href="{link}_||Ambassadors{link}" class="btn btn-success btn-sm ml-3">{lang}button_boost_ambassador_level{lang}</a>
+<div id="widgetAmbassadorLevelBanner" title="{lang htmlspecialchars}badge_ambassador_level_tooltip{lang}">
+  <span class="bg-warning text-white font-weight-bold rounded py-1 px-3 mr-2">{value}user amb_level{value}</span>
+  <a href="{link}_||Ambassadors{link}" class="text-dark stretched-link">{lang}badge_ambassador_level{lang}</a>
+</div>
+
+<script>
+$(function() {
+  $('#widgetAmbassadorLevelBanner').tooltip();
+});
+</script>

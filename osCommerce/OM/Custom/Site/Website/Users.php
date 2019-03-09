@@ -33,6 +33,7 @@ class Users
     const CUSTOMFIELD_AMBASSADOR_LEVEL_ID = 23;
 
     protected static $users = [];
+    protected static $users_custom = [];
 
     public static function get(int $id, string $key = null)
     {
@@ -63,6 +64,45 @@ class Users
         return static::$users[$id];
     }
 
+    public static function getCustomFields(int $id, string $key = null)
+    {
+        if (!isset(static::$users_custom[$id])) {
+            $CACHE_User = new Cache('users-' . $id . '-custom_fields');
+
+            if (($result = $CACHE_User->get()) === false) {
+                $result = [];
+
+                $member = Invision::fetchMember($id, 'id', true);
+                $customFields = Invision::getUserCustomFields($id);
+
+                if (is_array($customFields) && isset($customFields[Invision::CUSTOM_FIELDS['full_name']['group_id']]['fields'][Invision::CUSTOM_FIELDS['full_name']['id']]['value'])) {
+                    $result = [
+                        'location' => $customFields[Invision::CUSTOM_FIELDS['location']['group_id']]['fields'][Invision::CUSTOM_FIELDS['location']['id']]['value'],
+                        'website' => $customFields[Invision::CUSTOM_FIELDS['website']['group_id']]['fields'][Invision::CUSTOM_FIELDS['website']['id']]['value'],
+                        'twitter' => $customFields[Invision::CUSTOM_FIELDS['twitter']['group_id']]['fields'][Invision::CUSTOM_FIELDS['twitter']['id']]['value'],
+                        'bio_short' => $customFields[Invision::CUSTOM_FIELDS['bio_short']['group_id']]['fields'][Invision::CUSTOM_FIELDS['bio_short']['id']]['value'],
+                        'company' => $customFields[Invision::CUSTOM_FIELDS['company']['group_id']]['fields'][Invision::CUSTOM_FIELDS['company']['id']]['value'],
+                        'birthday' => $member->bday_month ? ($member->bday_month . '/' . $member->bday_day . ($member->bday_year ? '/' . $member->bday_year : '')) : null,
+                        'gender' => $customFields[Invision::CUSTOM_FIELDS['gender']['group_id']]['fields'][Invision::CUSTOM_FIELDS['gender']['id']]['value'],
+                        'reputation' => $member->pp_reputation_points
+                    ];
+                }
+
+                if (!empty($result)) {
+                    $CACHE_User->set($result, 1440);
+                }
+            }
+
+            static::$users_custom[$id] = $result;
+        }
+
+        if (isset($key)) {
+            return static::$users_custom[$id][$key];
+        }
+
+        return static::$users_custom[$id];
+    }
+
     public static function save(int $id, array $data): bool
     {
         $result = Invision::saveUser($id, $data);
@@ -76,6 +116,11 @@ class Users
             if (isset($_SESSION['Website']['Account']) && ($_SESSION['Website']['Account']['id'] === $id)) {
                 $_SESSION['Website']['Account'] = $result;
             }
+
+            $CACHE_UserCustom = new Cache('users-' . $id . '-custom_fields');
+            $CACHE_UserCustom->delete();
+
+            static::getCustomFields($id);
 
             return true;
         }
