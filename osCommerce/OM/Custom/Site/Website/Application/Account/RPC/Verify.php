@@ -44,7 +44,7 @@ class Verify
                 $errors[] = OSCOM::getDef('verify_user_id_ms_error_invalid');
             }
 
-            if (strlen($key) !== 32) {
+            if (mb_strlen($key) !== 32) {
                 $errors[] = OSCOM::getDef('verify_key_ms_error_invalid');
             }
 

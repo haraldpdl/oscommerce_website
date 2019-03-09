@@ -62,10 +62,10 @@ class Process
                 $OSCOM_MessageStack->add('partner', OSCOM::getDef('partner_error_desc_short_length'));
             }
 
-            $input = isset($_POST['desc_long_' . $l['code']]) ? trim($_POST['desc_long_' . $l['code']]) : '';
+            $input = Sanitize::para($_POST['desc_long_' . $l['code']] ?? null);
             $data[$l['code']]['desc_long'] = !empty($input) ? $input : null;
 
-            $input = isset($_POST['address_' . $l['code']]) ? trim($_POST['address_' . $l['code']]) : '';
+            $input = Sanitize::para($_POST['address_' . $l['code']] ?? null);
             $data[$l['code']]['address'] = !empty($input) ? $input : null;
 
             if (strlen($data[$l['code']]['address']) > 255) {

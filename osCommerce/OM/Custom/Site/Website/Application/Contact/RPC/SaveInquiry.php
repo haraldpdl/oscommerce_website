@@ -121,7 +121,7 @@ class SaveInquiry
         }
 
         if (empty($errors)) {
-            if (!isset($department) || !ContactInquiry::departmentExists($department)) {
+            if (!ContactInquiry::departmentExists($department)) {
                 $errors[] = OSCOM::getDef('contact_inquiry_ms_error_department_unknown');
             }
         }

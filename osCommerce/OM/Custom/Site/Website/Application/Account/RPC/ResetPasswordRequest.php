@@ -46,7 +46,7 @@ class ResetPasswordRequest
             }
 
             if (empty($errors)) {
-                if (strlen($login_key) < 3) {
+                if (mb_strlen($login_key) < 3) {
                     $errors[] = OSCOM::getDef('reset_password_login_key_ms_error_short');
                 }
             }

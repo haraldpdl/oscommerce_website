@@ -41,7 +41,7 @@ class Create
             $public_token = Sanitize::simple($_POST['public_token'] ?? null);
             $username = Sanitize::simple($_POST['username'] ?? null);
             $email = Sanitize::simple($_POST['email'] ?? null);
-            $password = Sanitize::simple($_POST['password'] ?? null);
+            $password = Sanitize::password($_POST['password'] ?? null);
             $grSecurityCheck = $_POST['gr_security_check'] ?? '';
             $sendVerification = isset($_POST['sendVerification']) && ($_POST['sendVerification'] == '1') ? true : false;
 
@@ -50,11 +50,11 @@ class Create
             }
 
             if (empty($errors)) {
-                if (strlen($username) < 3) {
+                if (mb_strlen($username) < 3) {
                     $errors[] = OSCOM::getDef('create_username_ms_error_short');
-                } elseif (strlen($username) > 26) {
+                } elseif (mb_strlen($username) > 26) {
                     $errors[] = OSCOM::getDef('create_username_ms_error_long');
-                } elseif (stripos($username, 'oscommerce') !== false) {
+                } elseif (mb_stripos($username, 'oscommerce') !== false) {
                     $errors[] = OSCOM::getDef('create_username_ms_error_oscommerce');
                 } elseif (filter_var($username, FILTER_VALIDATE_EMAIL)) {
                     $errors[] = OSCOM::getDef('create_username_ms_error_email');
@@ -64,9 +64,9 @@ class Create
                     $errors[] = OSCOM::getDef('create_email_address_ms_error_invalid');
                 }
 
-                if (strlen($password) < 3) {
+                if (mb_strlen($password) < 3) {
                     $errors[] = OSCOM::getDef('login_password_ms_error_short');
-                } elseif (strlen($password) > 32) {
+                } elseif (mb_strlen($password) > 32) {
                     $errors[] = OSCOM::getDef('login_password_ms_error_long');
                 }
             }

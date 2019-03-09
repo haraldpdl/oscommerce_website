@@ -33,23 +33,23 @@ class ChangePassword
             $errors = [];
 
             $public_token = Sanitize::simple($_POST['public_token'] ?? null);
-            $current_password = Sanitize::simple($_POST['current_password'] ?? null);
-            $new_password = Sanitize::simple($_POST['new_password'] ?? null);
+            $current_password = Sanitize::password($_POST['current_password'] ?? null);
+            $new_password = Sanitize::password($_POST['new_password'] ?? null);
 
             if ($public_token !== md5($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $errors[] = OSCOM::getDef('error_form_protect_general');
             }
 
             if (empty($errors)) {
-                if (strlen($current_password) < 3) {
+                if (mb_strlen($current_password) < 3) {
                     $errors[] = OSCOM::getDef('change_password_current_ms_error_short');
-                } elseif (strlen($current_password) > 32) {
+                } elseif (mb_strlen($current_password) > 32) {
                     $errors[] = OSCOM::getDef('change_password_current_ms_error_long');
                 }
 
-                if (strlen($new_password) < 3) {
+                if (mb_strlen($new_password) < 3) {
                     $errors[] = OSCOM::getDef('change_password_new_ms_error_short');
-                } elseif (strlen($new_password) > 32) {
+                } elseif (mb_strlen($new_password) > 32) {
                     $errors[] = OSCOM::getDef('change_password_new_ms_error_long');
                 }
             }

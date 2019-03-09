@@ -16,6 +16,7 @@ class Invoices
     const STATUS_PAID = 2;
     const STATUS_LEGACY = 3;
     const STATUS_NEW = 4;
+    const STATUS_RENEW = 5;
 
     public static function hasInvoices(int $user_id): bool
     {
@@ -106,13 +107,18 @@ class Invoices
 
     public static function getNew(): array
     {
+        return static::getWithStatus(static::STATUS_NEW);
+    }
+
+    public static function getWithStatus(int $status_id): array
+    {
         $OSCOM_PDO = Registry::get('PDO');
 
         $data = [
-            'status' => static::STATUS_NEW
+            'status' => $status_id
         ];
 
-        return $OSCOM_PDO->call('GetNew', $data);
+        return $OSCOM_PDO->call('GetWithStatus', $data);
     }
 
     public static function save(array $params): bool

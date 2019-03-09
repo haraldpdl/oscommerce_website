@@ -10,7 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\SQL\Invoices;
 
 use osCommerce\OM\Core\Registry;
 
-class GetNew
+class GetWithStatus
 {
     public static function execute(array $data): array
     {

@@ -105,7 +105,7 @@ foreach (Invoices::getNew() as $i) {
             $vatidbr = Address::getVatIdTitleAbr(Address::getCountryId($address['country_iso_2']));
 
             if (!empty($vatidbr)) {
-                $billing_address .= '<br>' . HTML::outputProtected($vatidbr) . ': ' . HTML::outputProtected($address['vat_id']);
+                $billing_address .= '<br><br>' . HTML::outputProtected($vatidbr) . ': ' . HTML::outputProtected($address['vat_id']);
             }
         }
 
