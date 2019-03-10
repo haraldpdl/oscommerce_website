@@ -3,6 +3,7 @@ account_title = My Account
 
 account_button_edit_profile = Edit Profile
 account_button_change_password = Change Password
+account_button_more = More
 
 account_joined_in = Joined in :date
 
@@ -211,7 +212,7 @@ change_password_ms_error_general = Your new password could not be saved to your 
 change_password_ms_error_not_logged_in = Please log in first to change your account password.
 change_password_ms_error_current_password_incorrect = The current password does not match your current account password. Please enter your current account password correctly to verify the new password change.
 
-edit_introduction = <p class="lead">Please make any changes to save to your account.</p>
+edit_introduction = <p class="lead">Please make any changes to be displayed in your public profile.</p>
 
 edit_button_upload_photo = New Photo
 edit_upload_photo_note = (gif, jpg, png; max file size 300kb)

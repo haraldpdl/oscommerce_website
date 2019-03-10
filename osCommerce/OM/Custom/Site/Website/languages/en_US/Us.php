@@ -29,6 +29,7 @@ legal_privacy_title = Privacy Policy
 legal_privacy_policy = <p class="lead">This Privacy Policy describes how certain personal information is stored, processed, and shared when you visit our website.</p>
 <ul>
   <li>Personal Information</li>
+  <li>Public Profile</li>
   <li>Storage and Server Logs</li>
   <li>Changes</li>
 </ul>
@@ -43,6 +44,18 @@ legal_privacy_policy = <p class="lead">This Privacy Policy describes how certain
 <p>Providing personal information is always voluntary, but necessary in order to properly use the services our website provide.</p>
 <p>We ensure the confidentiality of any personal information made available to us, and protect the personal information with the highest security measures available. Personal information is collected with due diligence and adequately protected against access by unauthorized persons.</p>
 <p>All entities entrusted with the processing of personal information ensure the use of adequate security measures and personal data protection required by law.</p>
+<h6>Public Profile</h6>
+<p>By signing up and creating an account, a public profile is made available with information you have voluntarily entered. This includes:</p>
+<ul>
+  <li>A profile photo, perferrably of yourself</li>
+  <li>Your real name</li>
+  <li>Your birthday</li>
+  <li>Your location (city and country)</li>
+  <li>Your company name</li>
+  <li>The url of your website</li>
+  <li>A short bio of yourself</li>
+</ul>
+<p>This information can be entered in your account area and is only shown in your public profile if they have been filled in.</p>
 <h6>Storage and Server Logs</h6>
 <p>When you visit our website, we automatically store information about your activities including information about your device and web browser, IP address, date and time, individual web pages requested, what websites or search terms referred you to our website, and information about how you interact within our websites.</p>
 <p>Additionally when you make a purchase through our website, we store certain information from you, including your name, billing address, shipping address, payment method, email address, and phone number. Detailed payment information (eg, credit card numbers) are not processed or stored on our servers, but are processed safely, securely, and responsibly at our payment processor at Braintree Payments (PayPal) using the highest PCI security standards available.</p>

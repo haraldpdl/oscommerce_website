@@ -10,7 +10,15 @@
       <div class="text-center text-md-right">
         <div class="btn-group" role="group">
           <a href="{link}Account||Edit{link}" class="btn btn-outline-primary btn-sm">{lang}account_button_edit_profile{lang}</a>
-          <a href="{link}Account||ChangePassword{link}" class="btn btn-outline-primary btn-sm">{lang}account_button_change_password{lang}</a>
+
+          <div class="btn-group" role="group">
+            <button id="btnAccountMore" type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {lang}account_button_more{lang}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnAccountMore">
+              <a href="{link}Account||ChangePassword{link}" class="dropdown-item">{lang}account_button_change_password{lang}</a>
+            </div>
+          </div>
         </div>
       </div>
 

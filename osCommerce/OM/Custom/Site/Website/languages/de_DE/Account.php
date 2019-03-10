@@ -3,6 +3,7 @@ account_title = Mein Konto
 
 account_button_edit_profile = Profil Bearbeiten
 account_button_change_password = Passwort ändern
+account_button_more = Mehr
 
 account_joined_in = Mitglied seit :date
 
