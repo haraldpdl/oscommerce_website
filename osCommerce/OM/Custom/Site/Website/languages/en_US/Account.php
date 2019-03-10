@@ -230,8 +230,6 @@ edit_gender_male = Male
 edit_gender_female = Female
 edit_gender_other = Not Telling
 
-edit_email_title = Email
-
 edit_location_title = Location
 edit_location_note = City, Country
 
