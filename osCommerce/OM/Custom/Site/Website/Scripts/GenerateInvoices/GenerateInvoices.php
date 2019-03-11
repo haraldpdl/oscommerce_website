@@ -9,6 +9,7 @@
 namespace osCommerce\OM\Core\Site\Website\Scripts\GenerateInvoices;
 
 use osCommerce\OM\Core\{
+    Cache,
     HTML,
     Mail,
     OSCOM,
@@ -176,6 +177,9 @@ foreach (Invoices::getNew() as $i) {
             'user_id' => $i['user_id'],
             'partner_transaction_id' => $i['partner_transaction_id']
         ]);
+
+        Cache::clear('users-' . $i['user_id'] . '-invoices-check');
+        Cache::clear('users-' . $i['user_id'] . '-invoices');
 
         if (isset($i['module']) && !empty($i['module'])) {
             if (class_exists('osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $i['module'])) {

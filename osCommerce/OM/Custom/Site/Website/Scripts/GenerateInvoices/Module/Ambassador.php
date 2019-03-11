@@ -9,7 +9,6 @@
 namespace osCommerce\OM\Core\Site\Website\Scripts\GenerateInvoices\Module;
 
 use osCommerce\OM\Core\{
-    Cache as OldCache,
     HttpRequest,
     OSCOM
 };
@@ -20,8 +19,6 @@ class Ambassador
 {
     public static function beforeMail(array $user, array $invoice)
     {
-        OldCache::clear('users-' . $user['id'] . '-invoices-check');
-        OldCache::clear('users-' . $user['id'] . '-invoices');
     }
 
     public static function cleanup()
