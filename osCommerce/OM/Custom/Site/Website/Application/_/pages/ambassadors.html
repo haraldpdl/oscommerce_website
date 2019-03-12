@@ -14,7 +14,46 @@
       <h2>{lang}amb_plan_title{lang}</h2>
 
       <div class="row pb-4">
-        <div class="col-md-6 order-6">
+        <div class="col-md-6">
+          <table class="table table-hover table-borderless">
+            <tbody>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_profile{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_apps{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square.svg{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_sites{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_commercial{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_commercial_feedback{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_search{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_pm{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">{lang}amb_plan_forum_channel{lang}</td>
+                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-6">
           <div id="ambStart">
             <div class="jumbotron border mb-1 pb-5">
               <div class="text-center">
@@ -242,15 +281,11 @@
 
           <div id="ambPayment" class="card bg-light d-none">
             <div class="card-body">
-              <div class="row">
-                <div class="col-sm-6 order-6 text-right mb-2">
-                  <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree">
-                </div>
-
-                <div class="col-sm-6">
-                  <address id="orderBillingAddress"></address>
-                </div>
+              <div class="text-right mb-2">
+                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree">
               </div>
+
+              <address id="orderBillingAddress"></address>
 
               <table id="orderTable" class="table"></table>
 
@@ -285,45 +320,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-md-6">
-          <table class="table table-hover table-borderless">
-            <tbody>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_profile{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_apps{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square.svg{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_sites{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_commercial{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_commercial_feedback{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_search{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_pm{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_forum_channel{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
 

@@ -22,10 +22,10 @@ class fa extends \osCommerce\OM\Core\Template\TagAbstract
             $params[0] = 'solid/' . $params[0];
         }
 
-        $params[1] = 'svg-inject' . (isset($params[1]) ? ' ' . $params[1] : '');
+        $params[1] = 'svg-inject' . (isset($params[1]) && !empty($params[1]) ? ' ' . $params[1] : '');
 
-        $params[2] = isset($params[2]) ? 'style="' . $params[2] . '" ' : '';
+        $params[2] = isset($params[2]) ? ' style="' . $params[2] . '"' : '';
 
-        return '<img src="' . OSCOM::getPublicSiteLink('external/fontawesome/5.7.1/svgs/' . $params[0] . '.svg') . '" class="' . $params[1] . '" ' . $params[2] . ' onload="SVGInject(this)">';
+        return '<img src="' . OSCOM::getPublicSiteLink('external/fontawesome/5.7.1/svgs/' . $params[0] . '.svg') . '" class="' . $params[1] . '"' . $params[2] . ' onload="SVGInject(this)">';
     }
 }

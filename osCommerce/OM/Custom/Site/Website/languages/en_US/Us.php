@@ -47,7 +47,7 @@ legal_privacy_policy = <p class="lead">This Privacy Policy describes how certain
 <h6>Public Profile</h6>
 <p>By signing up and creating an account, a public profile is made available with information you have voluntarily entered. This includes:</p>
 <ul>
-  <li>A profile photo, perferrably of yourself</li>
+  <li>A profile photo, preferably of yourself</li>
   <li>Your real name</li>
   <li>Your birthday</li>
   <li>Your location (city and country)</li>

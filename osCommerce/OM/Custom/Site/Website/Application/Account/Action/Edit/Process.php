@@ -25,7 +25,6 @@ class Process
     public static function execute(ApplicationAbstract $application)
     {
         $OSCOM_MessageStack = Registry::get('MessageStack');
-        $OSCOM_Template = Registry::get('Template');
 
         $error = false;
 
