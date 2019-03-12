@@ -8,7 +8,7 @@
 {ifvalue user}
         <li id="snAccount" class="nav-item"><a href="{link}Account|||SSL{link}" class="nav-link">{lang}navbutton_account_my_account{lang}</a></li>
         <li id="snInvoices" class="nav-item"><a href="{link}Account|Website|Invoices|SSL{link}" class="nav-link">{lang}navbutton_account_invoices{lang}</a></li>
-        <li id="snLiveSites" class="nav-item"><a href="{link}Account|Sites||SSL{link}" class="nav-link">{lang}navbutton_account_my_live_sites{lang} <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/external-link-alt.svg{publiclink}" class="svg-inject" style="font-size: 0.8em;"></a></li>
+        <li id="snLiveSites" class="nav-item"><a href="{link}Account|Sites||SSL{link}" class="nav-link">{lang}navbutton_account_my_live_sites{lang} {fa}external-link-alt||font-size: 0.8em;{fa}</a></li>
         <li id="snPartner" class="nav-item"><a href="{link}Account|Website|Partner|SSL{link}" class="nav-link">{lang}navbutton_account_partner_dashboard{lang}</a></li>
         <li id="snOkILoveYouByeBye" class="nav-item"><a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}" class="nav-link">{lang}navbutton_account_log_out{lang}</a></li>
 {else}
@@ -21,7 +21,7 @@
   </div>
 
 {ifvalue sidebar_nav_extra_link}
-  <a href="{value}sidebar_nav_extra_link url{value}" class=".d-none .d-sm-block"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/caret-left.svg{publiclink}" class="svg-inject"> {value}sidebar_nav_extra_link title{value}</a>
+  <a href="{value}sidebar_nav_extra_link url{value}" class=".d-none .d-sm-block">{fa}caret-left{fa} {value}sidebar_nav_extra_link title{value}</a>
 {ifvalue}
 </div>
 

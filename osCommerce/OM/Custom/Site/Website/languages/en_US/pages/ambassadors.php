@@ -18,8 +18,8 @@ amb_plan_forum_channel = Access to the Ambassadors forum channel
 amb_price = 49€
 lifetime = lifetime!
 
-button_become_an_ambassador = Become an Ambassador <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/heart.svg{publiclink}" class="svg-inject">
-button_boost_ambassador_level = Boost to Level :next_level <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/heart.svg{publiclink}" class="svg-inject">
+button_become_an_ambassador = Become an Ambassador {fa}heart{fa}
+button_boost_ambassador_level = Boost to Level :next_level {fa}heart{fa}
 
 amb_pricing_info = <sup>*</sup> All prices are net prices. German residents will be shown an additional charge of 19% tax (MwSt.).
 
@@ -123,7 +123,7 @@ billing_state_title = State
 billing_state_js_error = Required
 billing_country_select_first = Please select country first
 
-billing_address_continue_button_title = Proceed to payment page <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/arrow-right.svg{publiclink}" class="svg-inject">
+billing_address_continue_button_title = Proceed to payment page {fa}arrow-right{fa}
 billing_address_processing_button_title = <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing..
 
 payment_product_for = for

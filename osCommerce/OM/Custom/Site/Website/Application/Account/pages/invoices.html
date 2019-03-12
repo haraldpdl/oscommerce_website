@@ -61,7 +61,7 @@ $(function() {
       '  <td>' + invoices[i].title + ' <small>' + invoices[i].number + '</small><br><small>' + invoices[i].date + '</small></td>' +
       '  <td>' + invoices[i].cost + '</td>' +
       '  <td>' + status + '</td>' +
-      '  <td align="right"><a href="' + invoices_link.replace('%number%', invoices[i].number) + '"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/download.svg{publiclink}" class="svg-inject text-success"></a></td>' +
+      '  <td align="right"><a href="' + invoices_link.replace('%number%', invoices[i].number) + '">{fa}download|text-success{fa}</a></td>' +
       '</tr>'
     );
   }

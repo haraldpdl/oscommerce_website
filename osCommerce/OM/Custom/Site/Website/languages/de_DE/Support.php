@@ -19,7 +19,7 @@ forum_link = https://forums.oscommerce.de
 forum_button_links = <a href="https://forums.oscommerce.de" class="btn btn-success btn-sm">Deutsche Forum</a> <a href="https://forums.oscommerce.com" class="btn btn-success btn-sm">Englische Forum</a>
 
 live_chat_title = Öffentlicher Chat
-live_chat_description = <p class="lead">Sie können mit Mitgliedern aus der Community in unserem Öffentlicher Chat schreiben. Auch wir sind im Chatraum zu finden <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/grin.svg{publiclink}" class="svg-inject text-warning"></p>
+live_chat_description = <p class="lead">Sie können mit Mitgliedern aus der Community in unserem Öffentlicher Chat schreiben. Auch wir sind im Chatraum zu finden {fa}regular/grin|text-warning{fa}</p>
 button_live_chat = Öffentlicher Chat beitreten
 
 live_chat_html_page_title = Öffentlicher Chat | osCommerce

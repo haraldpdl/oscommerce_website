@@ -25,9 +25,10 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}">
 
-  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.css{publiclink}?v5234">
+  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.css{publiclink}?v5235">
 
   <script src="{publiclink}external/jquery-3.3.1.min.js{publiclink}"></script>
+  <script src="{publiclink}external/svg-inject/1.2.2/svg-inject.min.js{publiclink}"></script>
 
   <link rel="alternate" type="application/rss+xml" href="https://www.oscommerce.com/oscommerce.rdf" title="osCommerce News">
 
@@ -55,15 +56,15 @@ var site_req = {raw json_encode}site_req{raw};
             <li class="nav-item"><a href="{link}Services{link}" id="btnServices" class="nav-link">{lang}navbutton_services{lang}</a></li>
             <li class="nav-item"><a href="{link}Support{link}" id="btnSupport" class="nav-link">{lang}navbutton_support{lang}</a></li>
             <li class="nav-item"><a href="{link}Contact{link}" id="btnContact" class="nav-link">{lang}navbutton_contact{lang}</a></li>
-            <li class="nav-item"><a href="{link}_||Ambassadors{link}" id="btnAmbassadors" class="nav-link text-danger"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/heart.svg{publiclink}" class="svg-inject"></a></li>
+            <li class="nav-item"><a href="{link}_||Ambassadors{link}" id="btnAmbassadors" class="nav-link text-danger">{fa}heart{fa}</a></li>
             <li class="nav-item dropdown">
-              <a href="#" id="btnAccount" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/user.svg{publiclink}" class="svg-inject"></a>
+              <a href="#" id="btnAccount" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{fa}user{fa}</a>
               <div class="dropdown-menu" aria-labelledby="btnAccount">
 
 {ifvalue user}
                 <a href="{link}Account|||SSL{link}" class="dropdown-item">{lang}navbutton_account_my_account{lang}</a>
                 <a href="{link}Account|Website|Invoices|SSL{link}" class="dropdown-item">{lang}navbutton_account_invoices{lang}</a>
-                <a href="{link}Account|Sites||SSL{link}" class="dropdown-item">{lang}navbutton_account_my_live_sites{lang} <img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/external-link-alt.svg{publiclink}" class="svg-inject" style="font-size: 0.6em;"></a>
+                <a href="{link}Account|Sites||SSL{link}" class="dropdown-item">{lang}navbutton_account_my_live_sites{lang} {fa}external-link-alt||font-size: 0.6em;{fa}</a>
                 <a href="{link}Account|Website|Partner|SSL{link}" class="dropdown-item">{lang}navbutton_account_partner_dashboard{lang}</a>
                 <div class="dropdown-divider"></div>
                 <a href="{link}Account|Website|OkILoveYouByeBye|SSL{link}"  class="dropdown-item">{lang}navbutton_account_log_out{lang}</a>
@@ -89,10 +90,10 @@ var site_req = {raw json_encode}site_req{raw};
   <footer>
     <div class="container">
       <p id="footerSocialLinks">
-        <a href="{link}Contact|Website|Newsletter{link}" title="{escape}{lang}social_newsletter_title{lang}{escape}" class="text-success"><img src="{publiclink}external/fontawesome/5.7.1/svgs/solid/envelope.svg{publiclink}" class="svg-inject"></a>
-        <a href="https://twitter.com/osCommerce" target="_blank" title="{escape}{lang}social_twitter_title{lang}{escape}" class="text-info"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/twitter.svg{publiclink}" class="svg-inject"></a>
-        <a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{escape}{lang}social_facebook_title{lang}{escape}" class="text-primary"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/facebook.svg{publiclink}" class="svg-inject"></a>
-        <a href="https://github.com/osCommerce" target="_blank" title="{escape}{lang}social_github_title{lang}{escape}" class="text-dark"><img src="{publiclink}external/fontawesome/5.7.1/svgs/brands/github.svg{publiclink}" class="svg-inject"></a>
+        <a href="{link}Contact|Website|Newsletter{link}" title="{escape}{lang}social_newsletter_title{lang}{escape}" class="text-success">{fa}envelope{fa}</a>
+        <a href="https://twitter.com/osCommerce" target="_blank" title="{escape}{lang}social_twitter_title{lang}{escape}" class="text-info">{fa}brands/twitter{fa}</a>
+        <a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{escape}{lang}social_facebook_title{lang}{escape}" class="text-primary">{fa}brands/facebook{fa}</a>
+        <a href="https://github.com/osCommerce" target="_blank" title="{escape}{lang}social_github_title{lang}{escape}" class="text-dark">{fa}brands/github{fa}</a>
       </p>
 
       {lang}copyright_footer{lang}
@@ -100,12 +101,9 @@ var site_req = {raw json_encode}site_req{raw};
   </footer>
 
 <script src="{publiclink}external/bootstrap/4.3.1/js/bootstrap.bundle.min.js{publiclink}"></script>
-<script src="{publiclink}external/svg-inject/1.2.2/svg-inject.min.js{publiclink}"></script>
 
 <script>
 $(function() {
-  SVGInject(document.querySelectorAll('img.svg-inject'));
-
   $('#btn' + site_req['app']).addClass('active');
 });
 </script>

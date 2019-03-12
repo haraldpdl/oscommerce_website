@@ -28,10 +28,6 @@ $display5-size: $display4-size - 1;
   line-height: $display-line-height;
 }
 
-label.custom-control-label {
-  padding-top: 0.2rem;
-}
-
 svg.svg-inject {
   fill: currentColor;
   width: 1em;
@@ -39,9 +35,9 @@ svg.svg-inject {
   margin-top: -0.16rem;
 }
 
-// prevent flashing of image when styling is applied; js automatically remove hidden visibility onload
 img.svg-inject {
-  visibility: hidden;
+  height: 22px;
+  width: 22px;
 }
 
 .nav-tabs {
@@ -153,9 +149,6 @@ footer {
 }
 
 label {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 550;
   margin-bottom: 0.25rem;
   vertical-align: middle;
 }

@@ -19,7 +19,7 @@ forum_link = https://forums.oscommerce.com
 forum_button_links = <a href="https://forums.oscommerce.com" class="btn btn-success btn-sm">Visit the Forum</a>
 
 live_chat_title = Public Chat
-live_chat_description = <p class="lead">Direct communication with other community members is available in our Public Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall <img src="{publiclink}external/fontawesome/5.7.1/svgs/regular/grin.svg{publiclink}" class="svg-inject text-warning"></p>
+live_chat_description = <p class="lead">Direct communication with other community members is available in our Public Chat room. You might also find us online as we love to engage with the community! We're indeed human afterall {fa}regular/grin|text-warning{fa}</p>
 button_live_chat = Join the Public Chat
 
 live_chat_html_page_title = Public Chat | osCommerce
