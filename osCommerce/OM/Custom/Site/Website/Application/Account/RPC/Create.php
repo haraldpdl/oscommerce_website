@@ -150,7 +150,7 @@ class Create
                 $params_string = substr($params_string, 0, -1);
 
                 $response = HttpRequest::getResponse([
-                    'url' => 'https://www.stopforumspam.com/api',
+                    'url' => 'https://api.stopforumspam.org/api',
                     'parameters' => $params_string
                 ]);
 
