@@ -12,7 +12,7 @@ use osCommerce\OM\Core\Registry;
 
 class Get
 {
-    public static function execute(array $data): array
+    public static function execute(array $data): ?array
     {
         $OSCOM_PDO = Registry::get('PDO');
 
@@ -43,6 +43,12 @@ class Get
             ]
         ]);
 
-        return $Qnews->fetch();
+        $result = $Qnews->fetch();
+
+        if (!is_array($result)) {
+            $result = null;
+        }
+
+        return $result;
     }
 }
