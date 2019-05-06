@@ -42,6 +42,8 @@ class Invision
         'amb_level' => [ 'group_id' => 3, 'id' => 23 ]
     ];
 
+    const CLUB_AMBASSADORS_ID = 7;
+
     public static function fetchMember($search, $key, bool $return_raw = false)
     {
         if (empty($search)) {
@@ -373,6 +375,16 @@ class Invision
 
             if (isset($data['password'])) {
                 $member->memberSync('onPassChange', [$data['password']]);
+            }
+
+            if (isset($data['clubs']) && is_array($data['clubs'])) {
+                foreach ($data['clubs'] as $c) {
+                    if (is_numeric($c) && !in_array($c, $member->clubs())) {
+                        $club = \IPS\Member\Club::load($c);
+                        $club->addMember($member);
+                        $club->recountMembers();
+                    }
+                }
             }
 
             return static::getUserDataArray($member);

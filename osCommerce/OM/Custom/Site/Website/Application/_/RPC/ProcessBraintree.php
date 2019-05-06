@@ -15,6 +15,7 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\{
     Braintree,
+    Invision,
     Invoices,
     Users
 };
@@ -128,6 +129,9 @@ class ProcessBraintree
                 $profile = [
                     'customFields' => [
                         Users::CUSTOMFIELD_AMBASSADOR_LEVEL_ID => (int)($_SESSION[OSCOM::getSite()]['Account']['amb_level'] ?? 0) + 1
+                    ],
+                    'clubs' => [
+                        Invision::CLUB_AMBASSADORS_ID
                     ]
                 ];
 
