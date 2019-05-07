@@ -24,8 +24,7 @@ class Invision
     const DEFAULT_TOTAL_USERS = 300000;
 
     const FORUM_ADDONS_CATEGORY_IDS = [
-        51,
-        88
+        51
     ];
 
     const MAX_PROFILE_PHOTO_DIMENSION = 600;
@@ -508,7 +507,7 @@ class Invision
 
         $table_prefix = \IPS\Db::i()->prefix;
 
-        $sql_query = 'select t.tid as id, t.title, t.title_seo, t.forum_id, l.word_default as forum_title from ' . $table_prefix . 'forums_topics t, ' . $table_prefix . 'core_sys_lang_words l where t.starter_id = ? and t.title like ? and t.state = "open" ';
+        $sql_query = 'select distinct t.tid as id, t.title, t.title_seo, t.forum_id, l.word_default as forum_title from ' . $table_prefix . 'forums_topics t, ' . $table_prefix . 'core_sys_lang_words l where t.starter_id = ? and t.title like ? and t.state = "open" ';
 
         if (!empty($forum_filter)) {
             $ids = [];
