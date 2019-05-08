@@ -25,28 +25,8 @@ class GetNewsLatest
 
         header('Cache-Control: max-age=10800, must-revalidate');
         header_remove('Pragma');
-        header('Content-Type: application/javascript');
+        header('Content-Type: application/json');
 
-        $json = json_encode($result);
-
-        if (isset($_GET['format']) && ($_GET['format'] = 'jquery')) {
-            $output = <<<JAVASCRIPT
-var oscNews = $json
-
-$(function() {
-  $('#latest_news_content').html('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
-});
-JAVASCRIPT;
-        } else {
-            $output = <<<JAVASCRIPT
-var oscNews = $json
-
-document.observe('dom:loaded', function() {
-  $('latest_news_content').update('<a href="' + oscNews.url + '" target="_blank">' + oscNews.title + '</a>');
-});
-JAVASCRIPT;
-        }
-
-        echo $output;
+        echo json_encode($result);
     }
 }

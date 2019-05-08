@@ -14,6 +14,8 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Website\Partner;
+
 class GetPartnerBanner
 {
     public static function execute()
@@ -128,7 +130,7 @@ EOD;
             }
 
             if (count($data) > 1) {
-                $data = $data[mt_rand(0, count($data) - 1)];
+                $data = $data[array_rand($data)];
             } else {
                 $data = $data[0];
             }
@@ -137,38 +139,13 @@ EOD;
                 'url' => HTML::outputProtected($data['url']),
                 'image' => 'https://www.oscommerce.com/' . OSCOM::getPublicSiteLink('images/partners/' . $language_paths[$data['languages_id']] . '/' . $data['image']),
                 'title' => HTML::outputProtected($data['title']),
-                'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), ['url']) : null
+                'status_update' => !empty($data['status_update']) ? $OSCOM_Template->parseContent(HTML::outputProtected($data['status_update']), ['url']) : null,
+                'categories' => Partner::getCategories()
             ];
 
-            $json = json_encode($result);
+            header('Content-Type: application/json');
 
-            if (isset($_GET['onlyjson']) && ($_GET['onlyjson'] == 'true')) {
-                $output = $json;
-            } else {
-                header('Content-Type: application/javascript');
-
-                $output = <<<JAVASCRIPT
-var oscPartner = $json
-
-function oscLoadBanner() {
-  $('#osCCS').html('<div id="osCCSImage" class="ipsColumn cuddleMeNice"><a href="' + oscPartner.url + '" target="_blank"><img src="' + oscPartner.image + '" alt="' + oscPartner.title + '" style="width: 100%; max-width: 468px;" border="0"></a></div>');
-}
-
-function oscLoadStatusUpdate() {
-  $('#osCCS').append('<div id="osCCSDesc" class="ipsColumn ipsColumn_fluid"><span class="ipsType_minorHeading" style="font-weight: bold;"><a href="' + oscPartner.url + '" target="_blank">' + oscPartner.title + '</a></span><br>' + oscPartner.status_update + '</div>');
-}
-
-$(function() {
-  oscLoadBanner();
-
-  if ( oscPartner.status_update != null ) {
-    oscLoadStatusUpdate();
-  }
-});
-JAVASCRIPT;
-            }
-
-            echo $output;
+            echo json_encode($result);
         }
     }
 }
