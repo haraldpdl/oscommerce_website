@@ -16,17 +16,6 @@ class GetNewsLatest
 {
     public static function execute()
     {
-        $http_origin = $_SERVER['HTTP_ORIGIN'];
-
-        if (in_array($http_origin, ['https://forums.oscommerce.com', 'http://forums.oscommerce.com'])) {
-            header('Access-Control-Allow-Origin: ' . $http_origin);
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            header('Access-Control-Allow-Headers: X-Requested-With');
-            exit;
-        }
-
         $news = News::getLatest();
 
         $result = [

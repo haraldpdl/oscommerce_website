@@ -20,13 +20,6 @@ class GetPartnerBanner
 {
     public static function execute()
     {
-        header('Access-Control-Allow-Origin: *');
-
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            header('Access-Control-Allow-Headers: X-Requested-With');
-            exit;
-        }
-
         $OSCOM_Cache = Registry::get('Cache');
         $OSCOM_PDO = Registry::get('PDO');
         $OSCOM_Template = Registry::get('Template');
