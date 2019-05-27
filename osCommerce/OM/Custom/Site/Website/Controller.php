@@ -9,18 +9,11 @@
 namespace osCommerce\OM\Core\Site\Website;
 
 use osCommerce\OM\Core\{
-    Cache,
     Events,
     Hash,
     HTML,
     OSCOM,
-    PDO,
     Registry
-};
-
-use osCommerce\OM\Core\Site\Website\{
-    Invision,
-    Session
 };
 
 class Controller implements \osCommerce\OM\Core\SiteInterface
@@ -29,13 +22,6 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
     public static function initialize()
     {
-        Registry::set('MessageStack', new MessageStack());
-        Registry::set('Cache', new Cache());
-        Registry::set('PDO', PDO::initialize());
-        Registry::set('Language', new Language());
-        Registry::set('Template', new Template());
-        Registry::set('Session', Session::load());
-
         $OSCOM_Session = Registry::get('Session');
         $OSCOM_Session->setLifeTime(3600);
 
