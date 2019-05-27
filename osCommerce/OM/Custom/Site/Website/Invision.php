@@ -380,7 +380,7 @@ class Invision
                 foreach ($data['clubs'] as $c) {
                     if (is_numeric($c) && !in_array($c, $member->clubs())) {
                         $club = \IPS\Member\Club::load($c);
-                        $club->addMember($member, 'member', true, null, null, true);
+                        $club->addMember($member, \IPS\Member\Club::STATUS_MEMBER, true, null, null, true);
                         $club->recountMembers();
                     }
                 }
