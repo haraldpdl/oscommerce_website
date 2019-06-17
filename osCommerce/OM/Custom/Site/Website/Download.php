@@ -148,7 +148,7 @@ class Download
                 foreach ($editions as $e) {
                     $releases = static::getAll($pkg_group, $e['oscommerce']['code']);
 
-                    if (!empty($reeases)) {
+                    if (!empty($releases)) {
                         $gh = HttpRequest::getResponse(['url' => 'https://api.github.com/repos/' . $e['github']['owner'] . '/' . $e['github']['repository']]);
 
                         if (!empty($gh)) {
