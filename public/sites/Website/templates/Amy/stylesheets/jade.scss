@@ -3,6 +3,7 @@ $font-size-base: 1.1rem;
 $small-font-size: 85%;
 $jumbotron-bg: #f8f9fa;
 
+// remove smaller-than-xl viewpoints and treat .container like .container-fluid
 $container-max-widths: (
   xl: 1140px
 ) !default;
@@ -27,6 +28,10 @@ $display5-size: $display4-size - 1;
   @include font-size($display5-size);
   font-weight: $display4-weight;
   line-height: $display-line-height;
+}
+
+.alert {
+  border-left-width: 4px;
 }
 
 svg.svg-inject {
