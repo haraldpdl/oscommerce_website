@@ -33,16 +33,18 @@ class Download
             if (isset($rel_group)) {
                 $rel = [];
 
-                foreach (static::$files[$pkg_group] as $code => $data) {
-                    if ($data['group'] == $rel_group) {
-                        $rel[$code] = $data;
+                if (isset(static::$files[$pkg_group])) {
+                    foreach (static::$files[$pkg_group] as $code => $data) {
+                        if ($data['group'] == $rel_group) {
+                            $rel[$code] = $data;
+                        }
                     }
                 }
 
                 return $rel;
             }
 
-            return static::$files[$pkg_group];
+            return static::$files[$pkg_group] ?? [];
         }
 
         return static::$files;
@@ -144,44 +146,48 @@ class Download
                 $editions = json_decode(file_get_contents($source), true);
 
                 foreach ($editions as $e) {
-                    $gh = HttpRequest::getResponse(['url' => 'https://api.github.com/repos/' . $e['github']['owner'] . '/' . $e['github']['repository']]);
+                    $releases = static::getAll($pkg_group, $e['oscommerce']['code']);
 
-                    if (!empty($gh)) {
-                        $gh = json_decode($gh, true);
+                    if (!empty($reeases)) {
+                        $gh = HttpRequest::getResponse(['url' => 'https://api.github.com/repos/' . $e['github']['owner'] . '/' . $e['github']['repository']]);
 
-                        if (is_array($gh) && !empty($gh)) {
-                            $rel = array_values(static::getAll($pkg_group, $e['oscommerce']['code']))[0]; // get latest version
+                        if (!empty($gh)) {
+                            $gh = json_decode($gh, true);
 
-                            $release = [
-                                'title' => $rel['title'],
-                                'version' => $rel['version'],
-                                'description' => $gh['description'],
-                                'code' => $rel['code'],
-                                'news_id' => $rel['news_id'],
-                                'github' => $e['github']['owner'] . '/' . $e['github']['repository'],
-                                'support_url' => null,
-                                'user_name' => null,
-                                'user_photo_url' => null,
-                                'user_profile_url' => null
-                            ];
+                            if (is_array($gh) && !empty($gh)) {
+                                $rel = array_values($releases)[0]; // get latest version
 
-                            if (isset($e['oscommerce']['forum_channel_id'])) {
-                                $release['support_url'] = Invision::getForumChannelUrl($e['oscommerce']['forum_channel_id']);
-                            } elseif (isset($e['oscommerce']['forum_club_id'])) {
-                                $release['support_url'] = Invision::getForumClubUrl($e['oscommerce']['forum_club_id']);
-                            }
+                                $release = [
+                                    'title' => $rel['title'],
+                                    'version' => $rel['version'],
+                                    'description' => $gh['description'],
+                                    'code' => $rel['code'],
+                                    'news_id' => $rel['news_id'],
+                                    'github' => $e['github']['owner'] . '/' . $e['github']['repository'],
+                                    'support_url' => null,
+                                    'user_name' => null,
+                                    'user_photo_url' => null,
+                                    'user_profile_url' => null
+                                ];
+
+                                if (isset($e['oscommerce']['forum_channel_id'])) {
+                                    $release['support_url'] = Invision::getForumChannelUrl($e['oscommerce']['forum_channel_id']);
+                                } elseif (isset($e['oscommerce']['forum_club_id'])) {
+                                    $release['support_url'] = Invision::getForumClubUrl($e['oscommerce']['forum_club_id']);
+                                }
 
 /*
-                            if (Me::userIdExists($e['oscommerce']['user_id'])) {
-                                $user = Users::get($e['oscommerce']['user_id']);
-                                $user_me = Me::get($e['oscommerce']['user_id']);
+                                if (Me::userIdExists($e['oscommerce']['user_id'])) {
+                                    $user = Users::get($e['oscommerce']['user_id']);
+                                    $user_me = Me::get($e['oscommerce']['user_id']);
 
-                                $release['user_name'] = !empty($user['full_name']) ? $user['full_name'] : $user['name'];
-                                $release['user_photo_url'] = $user['photo_url'];
-                                $release['user_profile_url'] = OSCOM::getLink('Me', null, $user_me['profile_name']);
-                            }
+                                    $release['user_name'] = !empty($user['full_name']) ? $user['full_name'] : $user['name'];
+                                    $release['user_photo_url'] = $user['photo_url'];
+                                    $release['user_profile_url'] = OSCOM::getLink('Me', null, $user_me['profile_name']);
+                                }
 */
-                            $result[] = $release;
+                                $result[] = $release;
+                            }
                         }
                     }
                 }
