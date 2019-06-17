@@ -25,20 +25,11 @@ use osCommerce\OM\Core\Site\Website\{
     Users
 };
 
-use Dompdf\Dompdf;
-
-require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/html5lib/Parser.php');
-require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/php-font-lib/src/FontLib/Autoloader.php');
-require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/lib/php-svg-lib/src/autoload.php');
-require_once(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/dompdf/src/Autoloader.php');
-
 class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
 {
     public static function execute()
     {
         OSCOM::initialize('Website');
-
-        \Dompdf\Autoloader::register();
 
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_Template = Registry::get('Template');
@@ -125,7 +116,7 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
 
                 $content = $OSCOM_Template->getContent(__DIR__ . '/pages/invoice.html');
 
-                $dompdf = new Dompdf();
+                $dompdf = new \Dompdf\Dompdf();
                 $dompdf->setPaper('a4', 'portrait');
                 $dompdf->set_option('isRemoteEnabled', true);
                 $dompdf->set_option('isFontSubsettingEnabled', true);

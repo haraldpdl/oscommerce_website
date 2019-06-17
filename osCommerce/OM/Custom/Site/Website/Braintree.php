@@ -16,14 +16,10 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\Invoices;
 
-if (!class_exists('\Braintree')) {
-    include(OSCOM::BASE_DIRECTORY . 'Custom/Site/Website/External/Braintree/lib/autoload.php');
-}
-
 class Braintree
 {
-    const WEB_VERSION = '3.42.0';
-    const WEB_DROPIN_VERSION = '1.16.0';
+    const WEB_VERSION = '3.46.0';
+    const WEB_DROPIN_VERSION = '1.18.0';
 
     protected static $has_setup = false;
 

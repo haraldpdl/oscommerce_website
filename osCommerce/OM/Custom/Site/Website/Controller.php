@@ -22,6 +22,8 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
     public static function initialize()
     {
+        require(__DIR__ . '/External/vendor/autoload.php');
+
         $OSCOM_Session = Registry::get('Session');
         $OSCOM_Session->setLifeTime(3600);
 
