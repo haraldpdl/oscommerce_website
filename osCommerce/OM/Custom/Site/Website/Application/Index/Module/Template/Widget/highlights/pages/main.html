@@ -15,9 +15,16 @@
 
 <script>
 $(function() {
-  $('#highlights').carousel({ interval: 8000 });
+  $('#highlights').carousel({ interval: 8000 }).on('slide.bs.carousel', function (e) {
+    let lazy = $(e.relatedTarget).find('img[data-src]');
 
-  var highlightsIndicators = '';
+    if (lazy.length === 1) {
+      lazy.attr('src', lazy.data('src'));
+      lazy.removeAttr('data-src');
+    }
+  });
+
+  let highlightsIndicators = '';
 
   for (var i = 0, n = $('#highlights .carousel-inner div.carousel-item').length; i < n; i++) {
     highlightsIndicators += '<li data-target="#highlights" data-slide-to="' + i + '"' + (i == 0 ? ' class="active"' : '') + '></li>';

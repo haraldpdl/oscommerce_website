@@ -80,7 +80,7 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
 
             foreach ($carousels as $p) {
                 $result .= '<div class="' . (($counter === 1) ? 'active ' : '') . 'carousel-item">
-  <a href="' . HTML::outputProtected($p['url']) . '"' . (($p['newwin'] === true) ? ' target="_blank"' : '') . '>' . (($p['partner'] === true) ? '<span class="badge badge-warning text-white" style="position: absolute; padding: 7px; right: 0;">' . OSCOM::getDef('tag_partner') . '</span>' : '') . '<img src="' . HTML::outputProtected($p['image']) . '" ' . (!empty($p['title']) ? 'title="' . HTML::outputProtected($p['title']) . '" ' : '') . '></a>
+  <a href="' . HTML::outputProtected($p['url']) . '"' . (($p['newwin'] === true) ? ' target="_blank"' : '') . '>' . (($p['partner'] === true) ? '<span class="badge badge-warning text-white" style="position: absolute; padding: 7px; right: 0;">' . OSCOM::getDef('tag_partner') . '</span>' : '') . '<img ' . (($counter > 1) ? 'data-' : '') . 'src="' . HTML::outputProtected($p['image']) . '" ' . (!empty($p['title']) ? 'title="' . HTML::outputProtected($p['title']) . '" ' : '') . '></a>
 </div>';
 
                 $counter += 1;
