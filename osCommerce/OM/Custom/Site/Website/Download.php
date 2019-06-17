@@ -8,10 +8,19 @@
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\Registry;
+use osCommerce\OM\Core\{
+    Cache,
+    HttpRequest,
+    OSCOM,
+    Registry
+};
+
+//use osCommerce\OM\Core\Site\Me\Me;
 
 class Download
 {
+    const FILE_DIRECTORY = OSCOM::PUBLIC_DIRECTORY . 'public/sites/Website/files/';
+
     protected static $files;
 
     public static function getAll($pkg_group = null, $rel_group = null)
@@ -118,5 +127,73 @@ class Download
         $OSCOM_PDO = Registry::get('PDO');
 
         static::$files = $OSCOM_PDO->call('GetReleases');
+    }
+
+    public static function getCommunityEditions(string $pkg_group): array
+    {
+        $OSCOM_Cache = new Cache();
+
+        if ($OSCOM_Cache->read('website-releases-ce-' . $pkg_group)) {
+            $result = $OSCOM_Cache->getCache();
+        } else {
+            $result = [];
+
+            $source = OSCOM::BASE_DIRECTORY . '/Custom/Site/Website/Scripts/CommunityEditions/editions.json';
+
+            if (file_exists($source)) {
+                $editions = json_decode(file_get_contents($source), true);
+
+                foreach ($editions as $e) {
+                    $gh = HttpRequest::getResponse(['url' => 'https://api.github.com/repos/' . $e['github']['owner'] . '/' . $e['github']['repository']]);
+
+                    if (!empty($gh)) {
+                        $gh = json_decode($gh, true);
+
+                        if (is_array($gh) && !empty($gh)) {
+                            $rel = array_values(static::getAll($pkg_group, $e['oscommerce']['code']))[0]; // get latest version
+
+                            $release = [
+                                'title' => $rel['title'],
+                                'version' => $rel['version'],
+                                'description' => $gh['description'],
+                                'code' => $rel['code'],
+                                'news_id' => $rel['news_id'],
+                                'github' => $e['github']['owner'] . '/' . $e['github']['repository'],
+                                'support_url' => null,
+                                'user_name' => null,
+                                'user_photo_url' => null,
+                                'user_profile_url' => null
+                            ];
+
+                            if (isset($e['oscommerce']['forum_channel_id'])) {
+                                $release['support_url'] = Invision::getForumChannelUrl($e['oscommerce']['forum_channel_id']);
+                            } elseif (isset($e['oscommerce']['forum_club_id'])) {
+                                $release['support_url'] = Invision::getForumClubUrl($e['oscommerce']['forum_club_id']);
+                            }
+
+/*
+                            if (Me::userIdExists($e['oscommerce']['user_id'])) {
+                                $user = Users::get($e['oscommerce']['user_id']);
+                                $user_me = Me::get($e['oscommerce']['user_id']);
+
+                                $release['user_name'] = !empty($user['full_name']) ? $user['full_name'] : $user['name'];
+                                $release['user_photo_url'] = $user['photo_url'];
+                                $release['user_profile_url'] = OSCOM::getLink('Me', null, $user_me['profile_name']);
+                            }
+*/
+                            $result[] = $release;
+                        }
+                    }
+                }
+            }
+
+            $OSCOM_Cache->write($result);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
     }
 }

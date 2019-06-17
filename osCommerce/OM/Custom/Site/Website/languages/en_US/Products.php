@@ -9,26 +9,17 @@ oscom2_main_content = <p class="lead">osCommerce Online Merchant is a complete o
 oscom2_requirements_title = Server Requirements
 oscom2_requirements = <ul><li>PHP v4+ <small class="text-muted">(v5+ recommended)</small></li><li>MySQL v3+ <small class="text-muted">(v5+ recommended)</small></li></ul>
 
-other_downloads_title = Other Downloads
+oscom_ce_title = Community Editions
 
-oscom24_title = Online Merchant v2.4.0 Joli (Beta)
-
-oscom24_main_content = <p>osCommerce Online Merchant v2.4.0 Joli is a development release currently in beta. This release is currently recommended only for developers.</p>
-
-oscom24_requirements_title = Server Requirements
-oscom24_requirements = <ul><li>PHP v5.5+ <small class="text-muted">(v7+ recommended)</small></li><li>MySQL v5+ <small class="text-muted">(v5.7+ recommended)</small></li></ul>
-
-oscom3_title = Online Merchant v3.0
-
-oscom3_main_content = <p class="alert alert-warning">osCommerce Online Merchant v3.0 is currently in development and does not yet contain the same user-end features that v2.3 has. This release is only recommended for developers participating in its development and can be downloaded at our <a href="https://github.com/osCommerce/oscommerce" target="_blank" class="alert-link">GitHub repository</a>.</p>
+oscom_ce_main_content = <p>Community Editions are releases of osCommerce Online Merchant with additional features maintained by community members.</p>
 
 z4_title = Release History
 
 z4_main_content = <p>These releases should not be used for new installations.</p>
 
-link_latest_release_announcement = Release Announcement
-link_github_development = Development at GitHub
-link_github_history = History at GitHub
+link_announcement = Announcement
+link_support = Community Support
+link_github = GitHub
 
 button_download = Download
 

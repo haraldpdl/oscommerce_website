@@ -29,21 +29,9 @@
 
               {lang}main_download_description{lang}
 
-              <form action="{link}Products|Website|Download{link}" method="post">
-                <div class="input-group">
-                  <select name="get" class="form-control">
-
-{loop releases_oscom2_latest}
-                    <option value="#code#">#version#</option>
-{loop}
-
-                  </select>
-
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-success">{lang}button_download{lang}</button>
-                  </div>
-                </div>
-              </form>
+              <a href="{link}Products|Website|Download={raw}releases_oscom2_latest code{raw}{link}" class="btn btn-success btn-block">
+                {lang}button_download{lang}<br><small>{value}releases_oscom2_latest version{value}</small>
+              </a>
 
               <h4 class="text-muted pt-4">{lang}oscom2_requirements_title{lang}</h4>
 
@@ -53,41 +41,36 @@
         </div>
       </div>
 
-      <h2 class="pt-4">{lang}other_downloads_title{lang}</h2>
+      {ifvalue releases_ce}
+      <h2 class="pt-4 pb-2">{lang}oscom_ce_title{lang}</h2>
 
-      <div class="alert alert-warning">
-        <h3>{lang}oscom24_title{lang}</h3>
+      {lang}oscom_ce_main_content{lang}
 
-        {lang}oscom24_main_content{lang}
+      <div id="ceReleases" class="alert alert-warning">
 
-        <div class="row">
-          <div class="col">
-            <form action="{link}Products|Website|Download{link}" method="post">
-              <div class="input-group">
-                <select name="get" class="form-control">
+        {loop releases_ce}
+        <div class="py-2">
+          <a href="#user_profile_url#" class="d-none" data-group="ce"><img src="#user_photo_url#" alt="Maintained by #user_name#" title="Maintained by #user_name#" class="img-fluid rounded-circle float-right" style="max-width: 48px;"></a>
 
-{loop releases_oscom24_beta}
-                  <option value="#code#">#version#</option>
-{loop}
+          <h3>#title# <small>#version#</small></h3>
 
-                </select>
+          <p>#description#</p>
 
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-warning">{lang}button_download{lang}</button>
-                </div>
-              </div>
-            </form>
+          <div class="d-flex flex-column flex-md-row">
+            <a data-newsid="#news_id#" class="btn btn-link d-none">{lang}link_announcement{lang}</a>
+            <a href="#support_url#" class="btn btn-link">{lang}link_support{lang}</a>
+            <a href="https://github.com/#github#" target="_blank" class="btn btn-link">{lang}link_github{lang}</a>
+            <a href="{link}Products|Website|Download=%code%{link}" class="btn btn-warning ml-auto">{lang}button_download{lang}</a>
           </div>
         </div>
+        {loop}
 
-        <h4 class="pt-4">{lang}oscom24_requirements_title{lang}</h4>
-
-        {lang}oscom24_requirements{lang}
       </div>
+      {ifvalue}
+
+      <h2 class="pb-2">{lang}z4_title{lang}</h2>
 
       <div class="alert alert-danger">
-        <h3>{lang}z4_title{lang}</h3>
-
         {lang}z4_main_content{lang}
 
         <div class="row">
@@ -125,3 +108,22 @@
 
   {widget}products_sidebar_nav{widget}
 </div>
+
+<script>
+$('#ceReleases .d-flex a[data-newsid]').each(function() {
+  let newsId = $(this).data('newsid');
+
+  if (newsId != '') {
+    $(this).attr('href', '{link}Us||News=NEWS_ID{link}'.replace('NEWS_ID', newsId));
+    $(this).removeClass('d-none');
+  }
+});
+
+$('#ceReleases .d-flex a:not(.d-none):first').addClass('pl-0');
+
+$('#ceReleases a[data-group="ce"]').each(function() {
+  if ($(this).attr('href') != '') {
+    $(this).removeClass('d-none');
+  }
+});
+</script>

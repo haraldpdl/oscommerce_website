@@ -863,4 +863,14 @@ EOD;
 
         return null;
     }
+
+    public static function getForumChannelUrl(int $id)
+    {
+        return (string)\IPS\forums\Forum::load($id)->url();
+    }
+
+    public static function getForumClubUrl(int $id)
+    {
+        return (string)\IPS\Member\Club::load($id)->url();
+    }
 }

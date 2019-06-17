@@ -1,0 +1,17 @@
+[
+    {
+        "github": {
+            "repository": "Responsive-osCommerce",
+            "owner": "gburton",
+            "start_from_id": null
+        },
+        "oscommerce": {
+            "title": "Master Edition",
+            "code": "master",
+            "user_id": 69,
+            "forum_channel_id": 25,
+            "forum_club_id": null,
+            "download_release_group": "oscom2ce"
+        }
+    }
+]

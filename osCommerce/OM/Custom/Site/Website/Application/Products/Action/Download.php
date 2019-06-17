@@ -39,7 +39,7 @@ class Download
         if (isset($file) && DownloadClass::exists($file)) {
             Events::fire('download-before', $file);
 
-            $file_source = OSCOM::PUBLIC_DIRECTORY . 'public/sites/Website/files/' . basename(DownloadClass::get($file, 'filename'));
+            $file_source = DownloadClass::FILE_DIRECTORY . basename(DownloadClass::get($file, 'filename'));
 
             if (file_exists($file_source)) {
                 DownloadClass::incrementDownloadCounter($file);
