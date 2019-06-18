@@ -42,7 +42,7 @@
       </div>
 
       {ifvalue releases_ce}
-      <h2 class="pt-4 pb-2">{lang}oscom_ce_title{lang}</h2>
+      <h3 class="pt-4 pb-2">{lang}oscom_ce_title{lang}</h3>
 
       {lang}oscom_ce_main_content{lang}
 
@@ -52,11 +52,11 @@
         <div class="py-2">
           <a href="#user_profile_url#" class="d-none" data-group="ce"><img src="#user_photo_url#" alt="Maintained by #user_name#" title="Maintained by #user_name#" class="img-fluid rounded-circle float-right" style="max-width: 48px;"></a>
 
-          <h3>#title# <small>#version#</small></h3>
+          <h4>#title# <small>#version#</small></h4>
 
           <p>#description#</p>
 
-          <div class="d-flex flex-column flex-md-row">
+          <div class="d-flex flex-column align-items-start flex-md-row">
             <a data-newsid="#news_id#" class="btn btn-link d-none">{lang}link_announcement{lang}</a>
             <a href="#support_url#" class="btn btn-link">{lang}link_support{lang}</a>
             <a href="https://github.com/#github#" target="_blank" class="btn btn-link">{lang}link_github{lang}</a>
@@ -68,7 +68,7 @@
       </div>
       {ifvalue}
 
-      <h2 class="pb-2">{lang}z4_title{lang}</h2>
+      <h3 class="pb-2">{lang}z4_title{lang}</h3>
 
       <div class="alert alert-danger">
         {lang}z4_main_content{lang}
@@ -119,7 +119,7 @@ $('#ceReleases .d-flex a[data-newsid]').each(function() {
   }
 });
 
-$('#ceReleases .d-flex a:not(.d-none):first').addClass('pl-0');
+$('#ceReleases .d-flex a:not(.d-none):first').addClass('pl-md-0');
 
 $('#ceReleases a[data-group="ce"]').each(function() {
   if ($(this).attr('href') != '') {
