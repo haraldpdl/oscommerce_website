@@ -1,0 +1,23 @@
+osCommerce
+
+{lang}email_title{lang}
+{value}release_title{value} {value}release_version{value}
+
+  {value}user_name{value},
+
+  {lang}email_description release_code="{value}release_code{value}"{lang}
+
+  {link}Products|Website{link}
+
+  {ifvalue news_url}
+  {lang}email_news_description{lang}
+
+  {raw}news_url{raw}
+  {ifvalue}
+
+  {lang}kind_regards{lang}
+
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
+
+{lang}automatically_generated_email{lang}

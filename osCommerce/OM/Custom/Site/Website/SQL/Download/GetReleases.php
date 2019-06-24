@@ -16,7 +16,7 @@ class GetReleases
     {
         $OSCOM_PDO = Registry::get('PDO');
 
-        $Qreleases = $OSCOM_PDO->prepare('select id, code, title, version, filename, pkg_group, rel_group, news_id from :table_website_downloads where type = "release" order by date desc');
+        $Qreleases = $OSCOM_PDO->prepare('select id, code, title, version, rel_group, filename, date, pkg_group, news_id from :table_website_downloads where type = "release" order by date desc');
         $Qreleases->setCache('website-releases');
         $Qreleases->execute();
 
@@ -30,6 +30,7 @@ class GetReleases
                 'code' => $Qreleases->value('code'),
                 'filename' => $Qreleases->value('filename'),
                 'group' => $Qreleases->value('rel_group'),
+                'date' => $Qreleases->value('date'),
                 'news_id' => $Qreleases->valueInt('news_id')
             ];
         }
