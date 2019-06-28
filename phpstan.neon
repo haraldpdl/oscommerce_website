@@ -1,0 +1,45 @@
+parameters:
+    level: 7
+    bootstrap: %currentWorkingDirectory%/../online_merchant/osCommerce/OM/bootstrap.php
+    paths:
+        - %currentWorkingDirectory%/osCommerce/
+    ignoreErrors:
+        - '/\:\:__construct\(\) does not call parent constructor from/'
+        - '/Call to an undefined method SimpleXMLElement\:\:addChildCData\(\)/'
+        - '/Call to an undefined static method osCommerce\\OM\\Core\\Is\:\:Integer\(\)/'
+        - '/Call to an undefined static method osCommerce\\OM\\Core\\Is\:\:EmailAddress\(\)/'
+        - '/Access to an undefined property IPS\\Member\:\:\$member_id/'
+        - '/Access to an undefined property IPS\\Member\:\:\$name/'
+        - '/Access to an undefined property IPS\\Member\:\:\$email/'
+        - '/Access to an undefined property IPS\\Member\:\:\$member_group_id/'
+        - '/Access to an undefined property IPS\\Member\:\:\$members_bitoptions/'
+        - '/Access to an undefined property IPS\\Member\:\:\$last_visit/'
+        - '/Access to an undefined property IPS\\Member\:\:\$members_pass_hash/'
+        - '/Access to an undefined property IPS\\Member\:\:\$ip_address/'
+        - '/Access to an undefined property IPS\\Member\:\:\$failed_logins/'
+        - '/Access to an undefined property IPS\\Member\:\:\$pp_photo_type/'
+        - '/Access to an undefined property IPS\\Member\:\:\$pp_main_photo/'
+        - '/Access to an undefined property IPS\\Member\:\:\$pp_thumb_photo/'
+        - '/Access to an undefined property IPS\\Member\:\:\$photo_last_update/'
+        - '/Access to an undefined property IPS\\Member\:\:\$bday_month/'
+        - '/Access to an undefined property IPS\\Member\:\:\$bday_day/'
+        - '/Access to an undefined property IPS\\Member\:\:\$bday_year/'
+        - '/Access to an undefined property IPS\\Member\:\:\$member_title/'
+        - '/Access to an undefined property IPS\\Member\:\:\$temp_ban/'
+        - '/Access to an undefined property IPS\\Member\:\:\$mod_posts/'
+        - '/Access to an undefined property IPS\\Member\:\:\$restrict_post/'
+        - '/Access to an undefined property IPS\\Member\:\:\$joined/'
+        - '/Access to an undefined property IPS\\Member\:\:\$member_posts/'
+        - '/Access to an undefined property IPS\\Settings\:\:\$ipb_bruteforce_attempts/'
+        - '/Access to an undefined property IPS\\Settings\:\:\$ipb_bruteforce_period/'
+        - '/Access to an undefined property IPS\\Settings\:\:\$ipb_bruteforce_unlock/'
+        - '/Parameter \#2 \$status of method IPS\\Member\\_Club\:\:addMember\(\) expects bool\, string given/'
+        - '/Call to an undefined method IPS\\Patterns\\ActiveRecord\:\:asArray\(\)/'
+        - '/Call to method sub\(\) on an unknown class IPS/'
+    excludes_analyse:
+        - %currentWorkingDirectory%/osCommerce/OM/Custom/Site/Website/External/
+        - %currentWorkingDirectory%/osCommerce/OM/Custom/Site/_skel/
+        - %currentWorkingDirectory%/osCommerce/OM/Custom/Site/Admin/
+        - %currentWorkingDirectory%/osCommerce/OM/Custom/Exception/
+        - %currentWorkingDirectory%/../online_merchant/osCommerce/OM/External/
+        - %currentWorkingDirectory%/../online_merchant/osCommerce/OM/Tests/
