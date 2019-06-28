@@ -9,7 +9,7 @@
 namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
 use osCommerce\OM\Core\{
-    OSCOM,
+    HttpRequest,
     Registry
 };
 
@@ -26,19 +26,13 @@ class GetLiveChatOnlineUsers
         }
 
         if (!$OSCOM_Cache->read('stats_live_chat_online_users', 30)) {
-            $source = @file_get_contents('https://discordapp.com/api/servers/106369341515145216/widget.json');
+            $source = HttpRequest::getResponse(['url' => 'https://discordapp.com/api/servers/106369341515145216/widget.json']);
 
-            if ($source !== false) {
+            if (!empty($source)) {
                 $data = json_decode($source);
 
                 if (isset($data->members)) {
-                    $online = 0;
-
-                    foreach ($data->members as $m) {
-                        if (isset($m->status) && in_array($m->status, ['online', 'idle']) && ($m->username != 'bot')) {
-                            $online += 1;
-                        }
-                    }
+                    $online = count($data->members);
 
                     $OSCOM_Cache->write($online);
                 }

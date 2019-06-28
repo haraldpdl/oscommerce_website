@@ -31,7 +31,7 @@ class Download
         if (empty($invoice) || (Invoices::exists($invoice, $_SESSION[OSCOM::getSite()]['Account']['id']) === false)) {
             $ar['success'] = 0;
             $ar['result'] = 'nonexistent';
-        } elseif ((substr($file, 0, strlen(OSCOM::getConfig('dir_fs_invoices'))) !== OSCOM::getConfig('dir_fs_invoices')) || file_exists($file) === false) {
+        } elseif (($file !== false) && ((substr($file, 0, strlen(OSCOM::getConfig('dir_fs_invoices'))) !== OSCOM::getConfig('dir_fs_invoices')) || !is_file($file))) {
             $ar['success'] = 0;
             $ar['result'] = 'file_nonexistent';
         } else {

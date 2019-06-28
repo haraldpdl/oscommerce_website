@@ -23,8 +23,7 @@ class GetBraintreeClientToken
     {
         $result = [];
 
-        if (
-            !isset($_SESSION[OSCOM::getSite()]['Account']) ||
+        if (!isset($_SESSION[OSCOM::getSite()]['Account']) ||
             !isset($_GET['p']) ||
             empty($_GET['p']) ||
             !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p'])

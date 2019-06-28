@@ -53,7 +53,7 @@ EOD;
         $result = $Qpartner->fetch();
 
         if (is_array($result)) {
-          return $result;
+            return $result;
         }
 
         return null;

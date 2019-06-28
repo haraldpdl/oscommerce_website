@@ -24,12 +24,16 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
     {
         require(__DIR__ . '/External/vendor/autoload.php');
 
+        Registry::addAliases([
+            'PDO_OLD' => 'Core\Site\Apps\Registry\PDO_OLD'
+        ]);
+
         $OSCOM_Session = Registry::get('Session');
         $OSCOM_Session->setLifeTime(3600);
 
         Events::scan();
 
-        Events::watch('session_started', function() {
+        Events::watch('session_started', function () {
             if (!isset($_SESSION[OSCOM::getSite()]['public_token'])) {
                 $_SESSION[OSCOM::getSite()]['public_token'] = Hash::getRandomString(32);
             }
@@ -63,7 +67,6 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
         $application = 'osCommerce\\OM\\Core\\Site\\Website\\Application\\' . OSCOM::getSiteApplication() . '\\Controller';
         Registry::set('Application', new $application());
-        Registry::get('Application')->runActions();
 
         if ($OSCOM_Session->hasStarted()) {
             if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {

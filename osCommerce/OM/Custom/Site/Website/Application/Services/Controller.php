@@ -47,16 +47,12 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
         $OSCOM_Template = Registry::get('Template');
 
         if ($this->getCurrentAction() === false) {
-            $actions = [ ];
+            $actions = [];
 
-            if (count($_GET) > 1) {
-                $requested_action = HTML::sanitize(basename(key(array_slice($_GET, 1, 1, true))));
+            $key_pos = (int)array_search(OSCOM::getSiteApplication(), array_keys($_GET));
 
-                $index = ($requested_action == OSCOM::getSiteApplication()) ? 2 : 1;
-
-                if (count($_GET) > $index) {
-                    $actions = array_keys(array_slice($_GET, $index, 2, true));
-                }
+            if (count($_GET) > ($key_pos + 1)) {
+                $actions = array_keys(array_slice($_GET, ($key_pos + 1), 2, true));
             }
 
             $category = null;

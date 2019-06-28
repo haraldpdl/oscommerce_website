@@ -76,77 +76,95 @@ class Login
 
                 Events::fire('login-before', $user);
 
-                if (is_array($user) && isset($user['id'])) {
-                    if (($user['verified'] === true) && ($user['banned'] === false)) {
-                        $result['rpcStatus'] = RPC::STATUS_SUCCESS;
+                if (is_array($user)) {
+                    if (isset($user['id'])) {
+                        if (($user['verified'] === true) && ($user['banned'] === false)) {
+                            $result['rpcStatus'] = RPC::STATUS_SUCCESS;
 
-                        $_SESSION[OSCOM::getSite()]['Account'] = $user;
+                            $_SESSION[OSCOM::getSite()]['Account'] = $user;
 
-                        $OSCOM_Session->recreate();
+                            $OSCOM_Session->recreate();
 
-                        if (isset($_POST['remember_me']) && ($_POST['remember_me'] == '1')) {
-                            Invision::setCookies($user, true);
-                        } else {
-                            Invision::setCookies($user, false);
-                        }
-
-                        Events::fire('login-after');
-
-                        $redirect_url = OSCOM::getLink(null, null, null, 'SSL');
-
-                        if (isset($_SESSION['login_redirect'])) {
-                            if (isset($_SESSION['login_redirect']['url'])) {
-                                $redirect_url = $_SESSION['login_redirect']['url'];
+                            if (isset($_POST['remember_me']) && ($_POST['remember_me'] == '1')) {
+                                Invision::setCookies($user, true);
+                            } else {
+                                Invision::setCookies($user, false);
                             }
 
-                            unset($_SESSION['login_redirect']);
-                        }
+                            Events::fire('login-after');
 
-                        $result['redirect'] = $redirect_url;
-                        $result['name'] = $user['name'];
+                            $redirect_url = OSCOM::getLink(null, null, null, 'SSL');
 
-                        if (!empty($addressType) && Users::hasAddress($user['id'], $addressType)) {
-                            $address = Users::getAddress($user['id'], $addressType);
-                            $address = reset($address);
+                            if (isset($_SESSION['login_redirect'])) {
+                                if (isset($_SESSION['login_redirect']['url'])) {
+                                    $redirect_url = $_SESSION['login_redirect']['url'];
+                                }
 
-                            $result['address'] = $address;
-                        }
-                    } elseif ($user['verified'] === false) {
-                        $result['errorCode'] = 'not_verified';
-                        $result['verificationSent'] = false;
+                                unset($_SESSION['login_redirect']);
+                            }
 
-                        if ($sendVerification === true) {
-                            if (isset($user['val_newreg_id']) && !empty($user['val_newreg_id'])) {
-                                $OSCOM_Template->setValue('new_member_reg', $user);
+                            $result['redirect'] = $redirect_url;
+                            $result['name'] = $user['name'];
 
-                                $email_txt_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.txt');
-                                $email_txt = file_exists($email_txt_file) ? $OSCOM_Template->parseContent(file_get_contents($email_txt_file)) : null;
+                            if (!empty($addressType) && Users::hasAddress($user['id'], $addressType)) {
+                                $address = Users::getAddress($user['id'], $addressType);
+                                $address = reset($address);
 
-                                $email_html_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.html');
-                                $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
+                                $result['address'] = $address;
+                            }
+                        } elseif ($user['verified'] === false) {
+                            $result['errorCode'] = 'not_verified';
+                            $result['verificationSent'] = false;
 
-                                if (!empty($email_txt) || !empty($email_html)) {
-                                    $OSCOM_Mail = new Mail($user['email'], $user['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('create_email_new_account_subject'));
+                            if ($sendVerification === true) {
+                                if (isset($user['val_newreg_id']) && !empty($user['val_newreg_id'])) {
+                                    $OSCOM_Template->setValue('new_member_reg', $user);
 
-                                    if (!empty($email_txt)) {
-                                        $OSCOM_Mail->setBodyPlain($email_txt);
+                                    $email_txt_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.txt');
+                                    $email_txt = file_exists($email_txt_file) ? $OSCOM_Template->parseContent(file_get_contents($email_txt_file)) : null;
+
+                                    $email_html_file = $OSCOM_Template->getPageContentsFile('email_new_user_verify.html');
+                                    $email_html = file_exists($email_html_file) ? $OSCOM_Template->parseContent(file_get_contents($email_html_file)) : null;
+
+                                    if (!empty($email_txt) || !empty($email_html)) {
+                                        $OSCOM_Mail = new Mail($user['email'], $user['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('create_email_new_account_subject'));
+
+                                        if (!empty($email_txt)) {
+                                            $OSCOM_Mail->setBodyPlain($email_txt);
+                                        }
+
+                                        if (!empty($email_html)) {
+                                            $OSCOM_Mail->setBodyHTML($email_html);
+                                        }
+
+                                        $OSCOM_Mail->send();
+
+                                        $result['email'] = $user['email'];
+                                        $result['verificationSent'] = true;
                                     }
-
-                                    if (!empty($email_html)) {
-                                        $OSCOM_Mail->setBodyHTML($email_html);
-                                    }
-
-                                    $OSCOM_Mail->send();
-
-                                    $result['email'] = $user['email'];
-                                    $result['verificationSent'] = true;
                                 }
                             }
-                        }
-                    } else {
-                        $errors[] = OSCOM::getDef('login_ms_error_banned');
+                        } else {
+                            $errors[] = OSCOM::getDef('login_ms_error_banned');
 
-                        $result['errorCode'] = 'banned';
+                            $result['errorCode'] = 'banned';
+                        }
+                    } elseif (isset($user['locked'])) {
+                        if ($user['locked'] == 'permanent') {
+                            $errors[] = OSCOM::getDef('login_ms_error_locked_permanent');
+                        } else {
+                            if ($user['remaining'] > 60) {
+                                $remaining = OSCOM::getDef('login_ms_error_locked_minutes', [':remaining' => ceil($user['remaining'] / 60)]);
+                            } else {
+                                $remaining = OSCOM::getDef('login_ms_error_locked_seconds', [':remaining' => $user['remaining']]);
+                            }
+
+                            $errors[] = OSCOM::getDef('login_ms_error_locked', [':remaining' => $remaining]);
+                        }
+
+                        $result['errorCode'] = 'locked';
+                    } else {
+                        $errors[] = OSCOM::getDef('login_ms_error_general');
                     }
                 } else {
                     $errors[] = OSCOM::getDef('login_ms_error_general');

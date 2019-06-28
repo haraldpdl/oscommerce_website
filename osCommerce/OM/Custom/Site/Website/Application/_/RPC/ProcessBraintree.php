@@ -15,12 +15,16 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\{
     Braintree,
+    BraintreeException,
     Invision,
     Invoices,
     Users
 };
 
-use osCommerce\OM\Core\Site\RPC\Controller as RPC;
+use osCommerce\OM\Core\Site\RPC\{
+    Controller as RPC,
+    Exception as RPCException
+};
 
 class ProcessBraintree
 {
@@ -37,11 +41,11 @@ class ProcessBraintree
 
         $result = [];
 
-        if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
-            $result['rpcStatus'] = RPC::STATUS_NO_ACCESS;
-        }
+        try {
+            if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
+                throw new RPCException(RPC::STATUS_NO_ACCESS);
+            }
 
-        if (empty($result)) {
             $address = Users::getAddress($_SESSION[OSCOM::getSite()]['Account']['id'], 'billing');
             $address = reset($address);
 
@@ -54,27 +58,27 @@ class ProcessBraintree
                 ]
             ];
 
-            $totals = [
-                'total' => [
-                    'title' => OSCOM::getDef('purchase_item_total'),
-                    'cost' => $items[0]['cost']
-                ]
+            $totals = [];
+
+            $total = [
+                'title' => OSCOM::getDef('purchase_item_total'),
+                'cost' => $items[0]['cost']
             ];
 
             if ($address['country_iso_2'] == 'DE') {
                 $items[0]['tax']['DE19MWST'] = number_format(0.19 * $items[0]['cost'], 2);
 
-                $totals['total']['cost'] = number_format($items[0]['cost'] * 1.19, 2);
+                $total['cost'] = number_format($items[0]['cost'] * 1.19, 2);
 
-                $totals = [
-                    'tax' => [
-                        'DE19MWST' => [
-                            'title' => OSCOM::getDef('purchase_tax_DE19MWST_title'),
-                            'cost' => $items[0]['tax']['DE19MWST']
-                        ]
+                $totals['tax'] = [
+                    'DE19MWST' => [
+                        'title' => OSCOM::getDef('purchase_tax_DE19MWST_title'),
+                        'cost' => $items[0]['tax']['DE19MWST']
                     ]
-                ] + $totals; // preprend 'tax' to $totals array
+                ];
             }
+
+            $totals['total'] = $total;
 
             $data = [
                 'paymentMethodNonce' => $_POST['nonce'],
@@ -94,59 +98,61 @@ class ProcessBraintree
                 ]
             ];
 
-            if ($address['country_iso_2'] == 'DE') {
+            if (isset($totals['tax'])) {
                 $data['taxAmount'] = $totals['tax']['DE19MWST']['cost'];
             }
 
-            $error = false;
+            $braintree_result = Braintree::doSale($data, [
+                'user_group' => 'member',
+                'module' => 'ambassador',
+                'action' => 'signup'
+            ], [
+                'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
+                'title' => OSCOM::getDef('purchase_title'),
+                'billing_address' => $address,
+                'items' => $items,
+                'totals' => $totals,
+                'cost' => $totals['total']['cost'],
+                'currency_id' => 2,
+                'language_id' => $OSCOM_Language->getID(),
+                'status' => Invoices::STATUS_NEW,
+                'module' => 'Ambassador'
+            ]);
 
-            try {
-                $braintree_result = Braintree::doSale($data, [
-                    'user_group' => 'member',
-                    'module' => 'ambassador',
-                    'action' => 'signup'
-                ], [
-                    'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
-                    'title' => OSCOM::getDef('purchase_title'),
-                    'billing_address' => $address,
-                    'items' => $items,
-                    'totals' => $totals,
-                    'cost' => $totals['total']['cost'],
-                    'currency_id' => 2,
-                    'language_id' => $OSCOM_Language->getID(),
-                    'status' => Invoices::STATUS_NEW,
-                    'module' => 'Ambassador'
-                ]);
-            } catch (\Exception $e) {
-                $error = true;
-
-                trigger_error('Braintree [Ambassador; ' . $_SESSION[OSCOM::getSite()]['Account']['name'] . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')]: ' . $braintree_result->message);
+            if ($braintree_result->success !== true) {
+                throw new BraintreeException($braintree_result->message);
             }
 
-            if (($error === false) && ($braintree_result->success === true)) {
-                $result['rpcStatus'] = RPC::STATUS_SUCCESS;
+            $result['rpcStatus'] = RPC::STATUS_SUCCESS;
 
-                $profile = [
-                    'customFields' => [
-                        Users::CUSTOMFIELD_AMBASSADOR_LEVEL_ID => (int)($_SESSION[OSCOM::getSite()]['Account']['amb_level'] ?? 0) + 1
-                    ],
-                    'clubs' => [
-                        Invision::CLUB_AMBASSADORS_ID
-                    ]
-                ];
+            $profile = [
+                'customFields' => [
+                    Users::CUSTOMFIELD_AMBASSADOR_LEVEL_ID => (int)($_SESSION[OSCOM::getSite()]['Account']['amb_level'] ?? 0) + 1
+                ],
+                'clubs' => [
+                    Invision::CLUB_AMBASSADORS_ID
+                ]
+            ];
 
-                if ($_SESSION[OSCOM::getSite()]['Account']['group_id'] === Users::GROUP_MEMBER_ID) {
-                    $profile['group'] = Users::GROUP_AMBASSADOR_ID;
-                } else {
-                    $result['errorCode'] = 'non_member_group';
-
-                    trigger_error('Braintree [Ambassador; ' . $_SESSION[OSCOM::getSite()]['Account']['name'] . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')]: Member group ID ' . $_SESSION[OSCOM::getSite()]['Account']['group_id'] . ' does not match initial group ID ' . Users::GROUP_MEMBER_ID);
-                }
-
-                Users::save($_SESSION[OSCOM::getSite()]['Account']['id'], $profile);
+            if ($_SESSION[OSCOM::getSite()]['Account']['group_id'] === Users::GROUP_MEMBER_ID) {
+                $profile['group'] = Users::GROUP_AMBASSADOR_ID;
             } else {
-                $result['errorMessage'] = $braintree_result->message;
+                $result['errorCode'] = 'non_member_group';
+
+                trigger_error('Braintree [Ambassador; ' . $_SESSION[OSCOM::getSite()]['Account']['name'] . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')]: Member group ID ' . $_SESSION[OSCOM::getSite()]['Account']['group_id'] . ' does not match initial group ID ' . Users::GROUP_MEMBER_ID);
             }
+
+            Users::save($_SESSION[OSCOM::getSite()]['Account']['id'], $profile);
+        } catch (RPCException $e) {
+            $code = $e->getCode();
+
+            if (isset($code)) {
+                $result['rpcStatus'] = $code;
+            }
+        } catch (BraintreeException $e) {
+            trigger_error('Braintree [Ambassador; ' . $_SESSION[OSCOM::getSite()]['Account']['name'] . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')]: ' . $e->getMessage());
+
+            $result['errorMessage'] = $e->getMessage();
         }
 
         if (!isset($result['rpcStatus'])) {

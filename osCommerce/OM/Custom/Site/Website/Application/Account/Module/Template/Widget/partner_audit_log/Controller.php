@@ -84,9 +84,9 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
 
             $output .= '</div>';
         } else {
-          $OSCOM_MessageStack->add('widget_partner_audit_log', OSCOM::getDef('partner_audit_log_empty'), 'warning');
+            $OSCOM_MessageStack->add('widget_partner_audit_log', OSCOM::getDef('partner_audit_log_empty'), 'warning');
 
-          $output = $OSCOM_MessageStack->get('widget_partner_audit_log');
+            $output = $OSCOM_MessageStack->get('widget_partner_audit_log');
         }
 
         $OSCOM_Template->setValue('partner_audit_log', $output);

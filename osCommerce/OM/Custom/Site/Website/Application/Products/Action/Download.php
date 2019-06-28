@@ -32,7 +32,7 @@ class Download
             $file = $_GET['Download'];
         } elseif (!empty($_GET['Download']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
             $file = $_GET['Download'];
-        } elseif (isset($_POST['get']) && !empty($_POST['get']) && isset($_POST['do'])) { //legacy
+        } elseif (isset($_POST['get']) && !empty($_POST['get']) && isset($_POST['do'])) { // legacy
             $file = $_POST['get'];
         }
 

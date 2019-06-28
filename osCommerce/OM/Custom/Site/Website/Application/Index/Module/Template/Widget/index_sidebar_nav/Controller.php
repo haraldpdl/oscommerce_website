@@ -10,7 +10,6 @@ namespace osCommerce\OM\Core\Site\Website\Application\Index\Module\Template\Widg
 
 use osCommerce\OM\Core\{
     OSCOM,
-    PDO,
     Registry
 };
 
@@ -55,7 +54,7 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         if ($OSCOM_Cache->read('stats_total_apps', 1440)) {
             $data = $OSCOM_Cache->getCache();
         } else {
-            $PDO_OLD = PDO::initialize(OSCOM::getConfig('legacy_db_server', 'Apps'), OSCOM::getConfig('legacy_db_server_username', 'Apps'), OSCOM::getConfig('legacy_db_server_password', 'Apps'), OSCOM::getConfig('legacy_db_database', 'Apps'));
+            $PDO_OLD = Registry::get('PDO_OLD');
 
             $Qa = $PDO_OLD->get('contrib_packages', 'count(*) as total', null, null, null, ['prefix_tables' => false]);
 

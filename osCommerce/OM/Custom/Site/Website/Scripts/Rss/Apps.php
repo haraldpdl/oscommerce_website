@@ -43,12 +43,17 @@ class Apps implements \osCommerce\OM\Core\RunScriptInterface
         $counter = 0;
 
         foreach (AppsClass::getListing()['entries'] as $a) {
+            $pubDateTime = \DateTime::createFromFormat('Ymd His', $a['last_update_date']);
+
             $item = $channel->addChild('item');
 
             $item->addChildCData('title', HTML::sanitize($a['title']));
             $item->addChild('link', 'https://apps.oscommerce.com/' . $a['public_id']);
             $item->addChildCData('description', HTML::sanitize($a['short_description']));
-            $item->addChild('pubDate', \DateTime::createFromFormat('Ymd His', $a['last_update_date'])->format(\DateTimeInterface::RSS));
+
+            if ($pubDateTime !== false) {
+                $item->addChild('pubDate', $pubDateTime->format(\DateTimeInterface::RSS));
+            }
 
             $counter++;
 

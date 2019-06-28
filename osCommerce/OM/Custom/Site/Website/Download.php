@@ -15,7 +15,7 @@ use osCommerce\OM\Core\{
     Registry
 };
 
-//use osCommerce\OM\Core\Site\Me\Me;
+// use osCommerce\OM\Core\Site\Me\Me;
 
 class Download
 {
@@ -184,7 +184,7 @@ class Download
                                         $release['support_url'] = Invision::getForumClubUrl($e['oscommerce']['forum_club_id']);
                                     }
 
-/*
+                                /*
                                     if (Me::userIdExists($e['oscommerce']['user_id'])) {
                                         $user = Users::get($e['oscommerce']['user_id']);
                                         $user_me = Me::get($e['oscommerce']['user_id']);
@@ -193,7 +193,8 @@ class Download
                                         $release['user_photo_url'] = $user['photo_url'];
                                         $release['user_profile_url'] = OSCOM::getLink('Me', null, $user_me['profile_name']);
                                     }
-*/
+                                */
+
                                     $result[] = $release;
                                 }
                             }

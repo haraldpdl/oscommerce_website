@@ -8,7 +8,10 @@
 
 namespace osCommerce\OM\Core\Site\Website;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    Is,
+    OSCOM
+};
 
 require_once(OSCOM::getConfig('forum_dir_path', 'Website') . 'init_extern.php');
 
@@ -53,11 +56,11 @@ class Invision
             return false;
         }
 
-        if (($key == 'id') && !is_numeric($search)) {
+        if (($key == 'id') && !Is::Integer($search)) {
             return false;
         }
 
-        if (($key == 'email') && !filter_var($search, FILTER_VALIDATE_EMAIL)) {
+        if (($key == 'email') && !Is::EmailAddress($search)) {
             return false;
         }
 
@@ -89,14 +92,14 @@ class Invision
 
     public static function createUser($username, $email, $password)
     {
-        if (empty($username) || empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($password)) {
+        if (empty($username) || empty($email) || !Is::EmailAddress($email) || empty($password)) {
             return false;
         }
 
         $result = false;
 
         try {
-            $member = new \IPS\Member;
+            $member = new \IPS\Member();
 
             $member->name = $username;
             $member->email = $email;
@@ -135,9 +138,9 @@ class Invision
         return $result;
     }
 
-    public static function verifyUserKey($user_id, $key)
+    public static function verifyUserKey(int $user_id, $key)
     {
-        if (!is_numeric($user_id) || ($user_id < 1)) {
+        if (!Is::Integer($user_id, 1)) {
             return false;
         }
 
@@ -185,7 +188,7 @@ class Invision
     {
         $result = [];
 
-        if (!is_numeric($user_id) || ($user_id < 1)) {
+        if (!Is::Integer($user_id, 1)) {
             $result['error'] = 'invalid_member';
 
             return $result;
@@ -240,7 +243,7 @@ class Invision
 
     public static function deletePasswordResetKey($user_id): bool
     {
-        if (is_numeric($user_id) && ($user_id > 0)) {
+        if (Is::Integer($user_id, 1)) {
             $member = \IPS\Member::load($user_id);
 
             if (isset($member->member_id) && ($member->member_id > 0)) {
@@ -251,7 +254,7 @@ class Invision
 
                 $member->invalidateSessionsAndLogins();
 
-                \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication(isset($_COOKIES[static::COOKIE_LOGIN_KEY]));
+                \IPS\Member\Device::loadOrCreate($member)->updateAfterAuthentication(isset($_COOKIE[static::COOKIE_LOGIN_KEY]));
 
                 /* Delete validating record and log in */
                 \IPS\Db::i()->delete('core_validating', ['member_id=? AND lost_pass=1', $member->member_id]);
@@ -271,7 +274,7 @@ class Invision
             return true;
         }
 
-        foreach (\IPS\Db::i()->select('ban_content', 'core_banfilters', ['ban_type=?', $key]) as $filter) {
+        foreach (iterator_to_array(\IPS\Db::i()->select('ban_content', 'core_banfilters', ['ban_type=?', $key])) as $filter) {
             if (preg_match('/^' . str_replace('\*', '.*', preg_quote($filter, '/')) . '$/i', $source)) {
                 trigger_error('OSCOM\Invision::isFilterBanned(): ' . $source . ' (' . $key . ')');
 
@@ -309,7 +312,13 @@ class Invision
 
             if (isset($data['profilePhoto'])) {
                 try {
-                    $image = \IPS\Image::create(file_get_contents($data['profilePhoto']));
+                    $photo = file_get_contents($data['profilePhoto']);
+
+                    if ($photo === false) {
+                        throw new \Exception('no_profile_photo_file');
+                    }
+
+                    $image = \IPS\Image::create($photo);
 
                     if ($image->isAnimatedGif) {
                         throw new \Exception('member_photo_upload_no_animated');
@@ -378,8 +387,8 @@ class Invision
 
             if (isset($data['clubs']) && is_array($data['clubs'])) {
                 foreach ($data['clubs'] as $c) {
-                    if (is_numeric($c) && !in_array($c, $member->clubs())) {
-                        $club = \IPS\Member\Club::load($c);
+                    if (Is::Integer($c) && !in_array($c, $member->clubs())) {
+                        $club = \IPS\Member\Club::load((int)$c);
                         $club->addMember($member, \IPS\Member\Club::STATUS_MEMBER, true, null, null, true);
                         $club->recountMembers();
                     }
@@ -405,7 +414,7 @@ class Invision
 
                 if ($member->member_id) {
                     \IPS\Login::checkIfAccountIsLocked($member, true);
-                    $success = new \IPS\Login\Success($member, $method, isset( \IPS\Request::i()->remember_me ));
+                    $success = new \IPS\Login\Success($member, $method, isset(\IPS\Request::i()->remember_me));
                     break;
                 }
             } catch (\IPS\Login\Exception $e) {
@@ -426,6 +435,50 @@ class Invision
 
         if ($success) {
             return static::getUserDataArray(\IPS\Member::load($success->member->member_id));
+        }
+
+        $failedMember = array_values($fails)[0];
+
+        $unlockTime = $failedMember->unlockTime();
+
+        if ($unlockTime === false) {
+            $failedLogins = $failedMember->failed_logins;
+
+            if (isset($failedLogins[\IPS\Request::i()->ipAddress()]) && (count($failedLogins[\IPS\Request::i()->ipAddress()]) > \IPS\Settings::i()->ipb_bruteforce_attempts)) {
+                sort($failedLogins[\IPS\Request::i()->ipAddress()]);
+
+                foreach ($failedLogins[\IPS\Request::i()->ipAddress()] as $k => $v) {
+                    if ($v < \IPS\DateTime::create()->sub(new \DateInterval('PT' . \IPS\Settings::i()->ipb_bruteforce_period . 'M'))->getTimestamp()) {
+                        unset($failedLogins[\IPS\Request::i()->ipAddress()][$k]);
+                    } else {
+                        break;
+                    }
+                }
+
+                $failedMember->failed_logins = $failedLogins;
+                $failedMember->save();
+
+                $unlockTime = $failedMember->unlockTime();
+            }
+        }
+
+        if ($unlockTime !== false) {
+            if (count($failedMember->failed_logins[\IPS\Request::i()->ipAddress()]) == \IPS\Settings::i()->ipb_bruteforce_attempts) {
+                $failedMember->logHistory('core', 'login', ['type' => 'lock', 'count' => count($failedMember->failed_logins[\IPS\Request::i()->ipAddress()]), 'unlockTime' => isset($unlockTime) ? $unlockTime->getTimestamp() : null]);
+
+                trigger_error('Locked Login: ' . $username . ' (' . $failedMember->member_id . ')');
+            }
+
+            if (\IPS\Settings::i()->ipb_bruteforce_period and \IPS\Settings::i()->ipb_bruteforce_unlock) {
+                return [
+                    'locked' => $unlockTime->getTimestamp(),
+                    'remaining' => $unlockTime->getTimestamp() - (new \IPS\DateTime())->getTimestamp()
+                ];
+            } else {
+                return [
+                    'locked' => 'permanent'
+                ];
+            }
         }
 
         return false;
@@ -452,7 +505,7 @@ class Invision
                     OSCOM::setCookie(static::COOKIE_DEVICE_KEY, $_COOKIE[static::COOKIE_DEVICE_KEY], $expire->getTimestamp(), null, null, true, true);
 
                     /* Update device */
-                    $device->updateAfterAuthentication( TRUE, NULL, FALSE );
+                    $device->updateAfterAuthentication(true, null, false);
 
                     return static::getUserDataArray($member);
                 } catch (\OutOfRangeException $e) {
@@ -513,7 +566,7 @@ class Invision
             $ids = [];
 
             foreach ($forum_filter as $filter) {
-                if (is_numeric($filter) && !in_array((int)$filter, $ids)) {
+                if (Is::Integer($filter) && !in_array((int)$filter, $ids)) {
                     $ids[] = (int)$filter;
                 }
             }
@@ -543,7 +596,9 @@ EOD;
 
             $result = $stmt->get_result();
 
-            $result = $result->fetch_all(\MYSQLI_ASSOC);
+            if ($result !== false) {
+                $result = $result->fetch_all(\MYSQLI_ASSOC);
+            }
         } catch (\UnderflowException $e) {
         }
 
@@ -566,7 +621,7 @@ EOD;
             $ids = [];
 
             foreach ($forum_filter as $filter) {
-                if (is_numeric($filter) && !in_array((int)$filter, $ids)) {
+                if (Is::Integer($filter) && !in_array((int)$filter, $ids)) {
                     $ids[] = (int)$filter;
                 }
             }
@@ -596,7 +651,9 @@ EOD;
 
             $result = $stmt->get_result();
 
-            $result = $result->fetch_array(\MYSQLI_ASSOC);
+            if ($result !== false) {
+                $result = $result->fetch_array(\MYSQLI_ASSOC);
+            }
         } catch (\UnderflowException $e) {
         }
 
@@ -653,7 +710,7 @@ EOD;
 
     protected static function getUserDataArray(\IPS\Member $member): array
     {
-//        $extra = $member->apiOutput();
+        // $extra = $member->apiOutput();
 
         $group = \IPS\Member\Group::load($member->member_group_id);
 
@@ -685,7 +742,8 @@ EOD;
             'restricted_post' => ((int)$member->restrict_post !== 0) || ((int)$member->mod_posts !== 0),
             'joined' => $member->joined->rfc3339(),
             'posts' => (int)$member->member_posts,
-            'photo_url' => static::getPhotoUrl($member->getDataArray(), false),
+            'profile_url' => (string)$member->url(),
+            'photo_url' => $member->get_photo(false),
             'val_newreg_id' => $val_newreg_id
         ];
     }
@@ -718,10 +776,11 @@ EOD;
     {
         try {
             $result = \IPS\Db::i()->select('count(*)', 'core_members')->first();
-        } catch (\UnderflowException $e) {
-        }
 
-        if (!isset($result) || !is_numeric($result)) {
+            if (!Is::Integer($result)) {
+                throw new \Exception();
+            }
+        } catch (\Exception $e) {
             $result = static::DEFAULT_TOTAL_USERS;
         }
 
@@ -732,10 +791,11 @@ EOD;
     {
         try {
             $result = \IPS\Db::i()->select('count(*)', 'core_sessions', 'running_time > unix_timestamp(date_sub(now(), interval 60 minute))')->first();
-        } catch (\UnderflowException $e) {
-        }
 
-        if (!isset($result) || !is_numeric($result)) {
+            if (!Is::Integer($result)) {
+                throw new \Exception();
+            }
+        } catch (\Exception $e) {
             $result = static::DEFAULT_TOTAL_ONLINE_USERS;
         }
 
@@ -757,111 +817,128 @@ EOD;
         } catch (\UnderflowException $e) {
         }
 
-        if (!isset($result) || !is_numeric($result)) {
+        if (!isset($result) || !Is::Integer($result)) {
             $result = static::DEFAULT_TOTAL_POSTINGS;
         }
 
         return $result;
     }
 
-    public static function getPhotoUrl(array $memberData, $thumb = true, $email = false, $useDefaultPhoto = true)
+    public static function callFunctionOnMember(int $user_id, string $function, ...$args)
     {
-        $gravatar = false;
-        $photoUrl = null;
+        $member = \IPS\Member::load($user_id);
 
-        /* All this only applies to members... */
-        if (isset($memberData['member_id']) and $memberData['member_id']) {
-            /* Is Gravatar disabled for them? */
-            $gravatarDisabled = false;
-            if (isset($memberData['members_bitoptions'])) {
-                if (is_object($memberData['members_bitoptions'])) {
-                    $gravatarDisabled = $memberData['members_bitoptions']['bw_disable_gravatar'];
-                } else {
-                    $gravatarDisabled = $memberData['members_bitoptions'] & \IPS\Member::$bitOptions['members_bitoptions']['members_bitoptions']['bw_disable_gravatar'];
-                }
-            }
+        if (isset($member->member_id) && ($member->member_id > 0)) {
+            $callable = [$member, $function];
 
-            /* Either uploaded or synced from social media */
-            if ($memberData['pp_main_photo'] and (mb_substr($memberData['pp_photo_type'], 0, 5 ) === 'sync-' or $memberData['pp_photo_type'] === 'custom' or (\IPS\Settings::i()->letter_photos == 'letters' AND $memberData['pp_photo_type'] == 'letter' and $useDefaultPhoto and ($gravatarDisabled OR !\IPS\Settings::i()->allow_gravatars)))) {
-                try {
-                    $photoUrl = \IPS\File::get('core_Profile', ($thumb and $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'])->url;
-                } catch (\InvalidArgumentException $e) {
-                }
-            }
-            /* Gravatar */
-            elseif(\IPS\Settings::i()->allow_gravatars and (($memberData['pp_photo_type'] === 'letter' OR $memberData['pp_photo_type'] === 'gravatar') or (!$memberData['pp_photo_type'] and !$gravatarDisabled))) {
-//                $photoUrl = \IPS\Theme::i()->resource( 'default_photo.png', 'core', 'global' );
-                $photoUrl = OSCOM::getConfig('https_server', 'Website') . OSCOM::getConfig('dir_ws_https_server', 'Website') . OSCOM::getPublicSiteLink('images/default_photo.png', null, 'Website');
-
-                if (empty($memberData['pp_main_photo'])) {
-                    if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
-                        $photoUrl = $photo;
-                    }
-                } else {
-                    $photoUrl = \IPS\File::get('core_Profile', ($thumb and $memberData['pp_thumb_photo']) ? $memberData['pp_thumb_photo'] : $memberData['pp_main_photo'] )->url;
-                }
-                $gravatar = true;
-            } elseif(\IPS\Settings::i()->letter_photos == 'letters' AND empty($memberData['pp_main_photo'])) {
-                if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
-                    $photoUrl = $photo;
-
-                    if(!$gravatarDisabled AND \IPS\Settings::i()->allow_gravatars) {
-                        $gravatar = true;
-                    }
-                }
-            }
-
-            /* Other - This allows an app (such as Gallery) to set the pp_photo_type to a storage container to support custom images without duplicating them */
-            elseif ($memberData['pp_photo_type'] and $memberData['pp_photo_type'] != 'none' and mb_strpos($memberData['pp_photo_type'], '_' ) !== false) {
-                try {
-                    $photoUrl = \IPS\File::get($memberData['pp_photo_type'], $memberData['pp_main_photo'])->url;
-                } catch (\InvalidArgumentException $e) {
-                    /* If there was an exception, clear these values out - most likely the image or storage container is no longer valid */
-                    $member = \IPS\Member::load($memberData['member_id']);
-                    $member->pp_photo_type = null;
-                    $member->pp_main_photo = null;
-                    $member->save();
-                }
-            }
-
-            if ($gravatar) {
-                $photoUrl = \IPS\Http\Url::external('https://secure.gravatar.com/avatar/' . md5(trim(mb_strtolower($memberData['pp_gravatar'] ?: $memberData['email']))))->setQueryString([
-                    'd'	=> 'mp'
-                ]);
-            }
-
-            /* If we're in the ACP, munge because this is an external resource, but not for locally uploaded files or letter avatars */
-            if (
-                \IPS\Dispatcher::hasInstance() AND
-                \IPS\Dispatcher::i()->controllerLocation === 'admin' AND
-                ($photoUrl instanceof \IPS\Http\Url) AND
-                ($gravatar === TRUE OR !in_array($memberData['pp_photo_type'], ['custom', 'letter']))
-            )
-            {
-                $photoUrl = $photoUrl->makeSafeForAcp( TRUE );
-            }
-
-            /* Return */
-            if ($photoUrl !== null) {
-                return (string) $photoUrl;
-            }
-        }
-
-        /* Still here? Return default photo */
-        if (!$photoUrl and $useDefaultPhoto) {
-            if ($email) {
-                return rtrim( \IPS\Settings::i()->base_url, '/' ) . '/applications/core/interface/email/default_photo.png';
-            } else {
-                if ($photo = \IPS\Member::generateLetterPhoto($memberData)) {
-                    return (string) $photo;
-                }
-
-//                return (string) \IPS\Theme::i()->resource( 'default_photo.png', 'core', 'global' );
-                return OSCOM::getConfig('https_server', 'Website') . OSCOM::getConfig('dir_ws_https_server', 'Website') . OSCOM::getPublicSiteLink('images/default_photo.png', null, 'Website');
+            if (is_callable($callable)) {
+                return call_user_func_array($callable, $args);
             }
         }
 
         return null;
+    }
+
+    public static function getMemberPostActivity(int $user_id, int $limit = 25): array
+    {
+        $search_as_member = \IPS\Member::load(0); // guest
+        $member = \IPS\Member::load($user_id);
+
+        $activity = [];
+        $pageset = 1;
+
+        while (count($activity) < $limit) {
+            $query = \IPS\Content\Search\Query::init($search_as_member)->filterByContent([\IPS\Content\Search\ContentFilter::init('IPS\\core\\Statuses\\Status')], false)->filterByAuthor($member)->setOrder(\IPS\Content\Search\Query::ORDER_NEWEST_UPDATED)->setPage($pageset);
+            $results = $query->search();
+
+            if (empty($results)) {
+                break;
+            }
+
+            foreach ($results as $r) {
+                $r_array = $r->asArray();
+
+                if (!array_key_exists($r_array['indexData']['index_item_id'], $activity)) {
+                    $class = $r_array['indexData']['index_class'];
+                    $object = $class::load($r_array['indexData']['index_object_id']);
+
+                    $activity[$r_array['indexData']['index_item_id']] = [
+                        'title' => $r_array['itemData']['title'],
+                        'url' => (string)$object->url(),
+                        'posts' => $r_array['itemData']['posts'],
+                        'posts_formatted' => number_format($r_array['itemData']['posts'])
+                    ];
+                }
+
+                if (count($activity) >= $limit) {
+                    break 2;
+                }
+            }
+
+            $pageset++;
+        }
+
+        return $activity;
+    }
+
+    public static function getMemberFollowing(int $user_id, ?int $limit = 6): array
+    {
+        $result = [];
+
+        $where = [
+            [
+                'f.follow_app=?',
+                'core'
+            ],
+            [
+                'f.follow_area=?',
+                'member'
+            ],
+            [
+                'f.follow_member_id=?',
+                $user_id
+            ],
+            [
+                'f.follow_is_anon=?',
+                0
+            ],
+            [
+                'f.follow_visible=?',
+                1
+            ],
+            [
+                'f.follow_rel_id = m.member_id'
+            ],
+            [
+                'm.temp_ban = ?',
+                0
+            ],
+            [
+                'm.restrict_post = ?',
+                0
+            ],
+            [
+                'm.mod_posts = ?',
+                0
+            ]
+        ];
+
+        $where[] = [
+            '((m.member_group_id in (' . Users::GROUP_ADMIN_ID . ',' . Users::GROUP_TEAM_CORE_ID . ',' . Users::GROUP_TEAM_COMMUNITY_ID . ',' . Users::GROUP_AMBASSADOR_ID . ',' . Users::GROUP_PARTNER_ID . ')) OR (' . \IPS\Db::i()->findInSet('m.mgroup_others', [Users::GROUP_ADMIN_ID, Users::GROUP_TEAM_CORE_ID, Users::GROUP_TEAM_COMMUNITY_ID, Users::GROUP_AMBASSADOR_ID, Users::GROUP_PARTNER_ID]) . '))',
+        ];
+
+        try {
+            $result = \IPS\Db::i()->select('f.follow_rel_id', [['core_follow', 'f'], ['core_members', 'm']], $where, 'f.follow_added desc', $limit);
+
+            $result = iterator_to_array($result);
+        } catch (\UnderflowException $e) {
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
     }
 
     public static function getForumChannelUrl(int $id)

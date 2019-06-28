@@ -10,6 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action\Edit;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    Is,
     OSCOM,
     Registry,
     Sanitize
@@ -54,7 +55,7 @@ class Process
             } else {
                 $fileinfo = finfo_open(\FILEINFO_MIME_TYPE);
 
-                if (!in_array(finfo_file($fileinfo, $_FILES['user_photo']['tmp_name']), ['image/jpg', 'image/jpeg', 'image/png','image/gif'])) {
+                if (($fileinfo === false) || !in_array(finfo_file($fileinfo, $_FILES['user_photo']['tmp_name']), ['image/jpg', 'image/jpeg', 'image/png','image/gif'])) {
                     $error = true;
 
                     $OSCOM_MessageStack->add('account', OSCOM::getDef('edit_error_photo_filetype_invalid'), 'error');
@@ -62,8 +63,8 @@ class Process
             }
         }
 
-        if (is_numeric($uBdayMonth) && is_numeric($uBdayDay) && is_numeric($uBdayYear) && ($uBdayYear <= date('Y')) && ($uBdayYear >= (date('Y') - 150))) {
-            if (!checkdate($uBdayMonth, $uBdayDay, $uBdayYear)) {
+        if (Is::Integer($uBdayMonth, 1, 12) && Is::Integer($uBdayDay, 1, 31) && Is::Integer($uBdayYear, date('Y'), ((int)date('Y') - 150))) {
+            if (!checkdate((int)$uBdayMonth, (int)$uBdayDay, (int)$uBdayYear)) {
                 $error = true;
 
                 $OSCOM_MessageStack->add('account', OSCOM::getDef('edit_error_birthday_invalid'), 'error');
@@ -71,12 +72,31 @@ class Process
         } else {
             $uBdayYear = null;
 
-            if (is_numeric($uBdayMonth) && ($uBdayMonth >= 1) && ($uBdayMonth <= 12) && is_numeric($uBdayDay) && ($uBdayDay >= 1) && ($uBdayDay <= 31)) {
-                $birthday_date = explode('/', (\DateTime::createFromFormat('n/j', $uBdayMonth . '/' . $uBdayDay))->format('m/d'), 2);
+            try {
+                if (Is::Integer($uBdayMonth, 1, 12) && Is::Integer($uBdayDay, 1, 31)) {
+                    // pass leap years
+                    if (((int)$uBdayMonth !== 2) && ((int)$uBdayDay !== 29)) {
+                        $DateTime = \DateTime::createFromFormat('!n/j', $uBdayMonth . '/' . $uBdayDay);
 
-                $uBdayMonth = $birthday_date[0];
-                $uBdayDay = $birthday_date[1];
-            } else {
+                        if ($DateTime === false) {
+                            throw new \Exception();
+                        }
+
+                        $DateTime_errors = \DateTime::getLastErrors();
+
+                        if (($DateTime_errors['warning_count'] !== 0) || ($DateTime_errors['error_count'] !== 0)) {
+                            throw new \Exception();
+                        }
+
+                        $birthday_date = explode('/', $DateTime->format('m/d'), 2);
+
+                        $uBdayMonth = $birthday_date[0];
+                        $uBdayDay = $birthday_date[1];
+                    }
+                } else {
+                    throw new \Exception();
+                }
+            } catch (\Exception $e) {
                 $uBdayMonth = $uBdayDay = null;
             }
         }

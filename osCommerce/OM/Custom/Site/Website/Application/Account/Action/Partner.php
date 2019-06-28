@@ -23,7 +23,7 @@ class Partner
         $OSCOM_Template = Registry::get('Template');
 
         if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
-            $req_actions = http_build_query(array_slice($_GET, array_search('Partner', array_keys($_GET))));
+            $req_actions = http_build_query(array_slice($_GET, (int)array_search('Partner', array_keys($_GET))));
 
             $_SESSION['login_redirect'] = [
                 'url' => OSCOM::getLink(null, null, $req_actions, 'SSL')

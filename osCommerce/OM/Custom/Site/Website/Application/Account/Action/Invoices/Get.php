@@ -43,7 +43,7 @@ class Get
 
         $file = realpath(OSCOM::getConfig('dir_fs_invoices') . basename($invoice) . '.pdf');
 
-        if ((substr($file, 0, strlen(OSCOM::getConfig('dir_fs_invoices'))) !== OSCOM::getConfig('dir_fs_invoices')) || file_exists($file) === false) {
+        if (($file === false) || (substr($file, 0, strlen(OSCOM::getConfig('dir_fs_invoices'))) !== OSCOM::getConfig('dir_fs_invoices')) || !is_file($file)) {
             $OSCOM_MessageStack->add('account', OSCOM::getDef('error_invoice_file_nonexistent'), 'error');
 
             return false;

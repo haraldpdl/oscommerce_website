@@ -214,7 +214,9 @@ class Users
             'country_id' => $address['country_id'],
             'zone_id' => $address['zone_id'] ?? null,
             'telephone' => $address['telephone'] ?? null,
-            'fax' => $address['fax'] ?? null
+            'fax' => $address['fax'] ?? null,
+            'public_id' => null,
+            'new_public_id' => null
         ];
 
         if (isset($address['other'])) {
@@ -225,22 +227,20 @@ class Users
             $data['public_id'] = $public_id;
         } else {
             do {
-                $new_public_id = Hash::getRandomString(5);
+                $data['new_public_id'] = Hash::getRandomString(5);
 
                 $Qcheck = $OSCOM_PDO->get('website_user_addresses', 'id', [
-                    'public_id' => $new_public_id
-                 ], null, 1);
+                    'public_id' => $data['new_public_id']
+                ], null, 1);
 
                 if ($Qcheck->fetch() === false) {
                     break;
                 }
             } while (true);
-
-            $data['new_public_id'] = $new_public_id;
         }
 
         if ($OSCOM_PDO->call('SaveAddress', $data)) {
-            static::$users[$id]['address'][$type][$public_id ?? $new_public_id] = [
+            static::$users[$id]['address'][$type][$data['public_id'] ?? $data['new_public_id']] = [
                 'gender' => $data['gender'],
                 'company' => $data['company'],
                 'firstname' => $data['firstname'],

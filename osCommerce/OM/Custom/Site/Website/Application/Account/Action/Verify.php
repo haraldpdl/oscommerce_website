@@ -10,6 +10,7 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\Action;
 
 use osCommerce\OM\Core\{
     ApplicationAbstract,
+    Is,
     OSCOM,
     Registry,
     Sanitize
@@ -27,9 +28,9 @@ class Verify
         }
 
         $user_id = Sanitize::simple($_GET['id'] ?? null);
-        $key = isset($_GET['key']) ? preg_replace('/[^a-zA-Z0-9\-\_]/', '', $_GET['key']) : '';
+        $key = Sanitize::simple($_GET['key'] ?? null);
 
-        if (is_numeric($user_id) && ($user_id > 0) && (strlen($key) === 32)) {
+        if (Is::Integer($user_id, 1) && (preg_match('/^[a-zA-Z0-9\-\_]{32}$/', $key) === 1)) {
             $OSCOM_Template->setValue('verifyKey', [
                 'user_id' => $user_id,
                 'key' => $key

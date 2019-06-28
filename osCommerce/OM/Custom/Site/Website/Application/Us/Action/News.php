@@ -33,8 +33,11 @@ class News
 
             $OSCOM_Template->addHtmlElement('header', '<link rel="canonical" href="' . HTML::outputProtected(OSCOM::getLink(null, null, 'News=' . $news_entry['id'])) . '">');
 
-            $body_raw = wordwrap(str_replace("\n", '', strip_tags($news_entry['body'])), 200, "\n");
-            $short_body = substr($body_raw, 0, strpos($body_raw, "\n")) . '...';
+            $short_body = wordwrap(str_replace("\n", '', strip_tags($news_entry['body'])), 200, "\n");
+
+            if (strpos($short_body, "\n") !== false) {
+                $short_body = substr($short_body, 0, strpos($short_body, "\n")) . '...';
+            }
 
             $OSCOM_Template->addHtmlElement('header', '<meta name="description" content="' . HTML::outputProtected($short_body) . '">');
 
@@ -47,13 +50,14 @@ class News
                 $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:creator" content="@' . HTML::outputProtected($news_entry['author_twitter_id']) . '">');
             }
 
-// The following are taken care of by Open Graph
-//            $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:title" content="' . HTML::outputProtected($news_entry['title']) . '">');
-//            $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:description" content="' . HTML::outputProtected($short_body) . '">');
+        /* The following are taken care of by Open Graph
+            $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:title" content="' . HTML::outputProtected($news_entry['title']) . '">');
+            $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:description" content="' . HTML::outputProtected($short_body) . '">');
 
-//            if (!empty($news_entry['image'])) {
-//                $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:image:src" content="' . HTML::outputProtected($OSCOM_Template->getBaseUrl() . OSCOM::getPublicSiteLink('images/news/' . $news_entry['image'])) . '">');
-//            }
+            if (!empty($news_entry['image'])) {
+                $OSCOM_Template->addHtmlElement('header', '<meta name="twitter:image:src" content="' . HTML::outputProtected($OSCOM_Template->getBaseUrl() . OSCOM::getPublicSiteLink('images/news/' . $news_entry['image'])) . '">');
+            }
+        */
 
 /* Open Graph */
 

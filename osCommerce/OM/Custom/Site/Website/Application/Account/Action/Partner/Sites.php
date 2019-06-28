@@ -44,7 +44,7 @@ class Sites
             $showcase[$site['public_id']] = $site;
         }
 
-        uasort($showcase, function($a, $b) {
+        uasort($showcase, function ($a, $b) {
             return strcasecmp($a['title'], $b['title']);
         });
 
@@ -58,7 +58,7 @@ class Sites
             }
         }
 
-        uasort($sites, function($a, $b) {
+        uasort($sites, function ($a, $b) {
             return strcasecmp($a['title'], $b['title']);
         });
 

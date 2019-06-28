@@ -21,7 +21,7 @@ class Edit
         $OSCOM_Template = Registry::get('Template');
 
         if (!isset($_SESSION[OSCOM::getSite()]['Account'])) {
-            $req_actions = http_build_query(array_slice($_GET, array_search('Edit', array_keys($_GET))));
+            $req_actions = http_build_query(array_slice($_GET, (int)array_search('Edit', array_keys($_GET))));
 
             $_SESSION['login_redirect'] = [
                 'url' => OSCOM::getLink(null, null, $req_actions, 'SSL')
@@ -62,7 +62,7 @@ class Edit
 
         $years = [];
 
-        for ($i = date('Y'), $n = (date('Y') - 150); $i >= $n; $i--) {
+        for ($i = (int)date('Y'), $n = ((int)date('Y') - 150); $i >= $n; $i--) {
             $years[] = [
                 'id' => $i,
                 'title' => $i

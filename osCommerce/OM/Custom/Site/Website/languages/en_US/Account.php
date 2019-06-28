@@ -60,9 +60,12 @@ login_verify_account_requirement = <p>Your account needs to be verified. A verif
 
 login_ms_error_general = You could not be logged in due to incorrect credentials. Please try again and contact us if problems persist.
 login_ms_error_not_verified = You could not be logged in as your account has not been verified yet. <a href="{link}Account||Verify|SSL{link}" class="alert-link">Click here to verify your account.</a>
-login_ms_error_banned = Your could not be logged in due to your account being banned. Please contact us to solve the issue.
-
+login_ms_error_banned = You could not be logged in due to your account being banned. Please contact us to solve the issue.
 login_ms_warning_already_logged_in = You are already logged into your account.
+login_ms_error_locked = You are currently locked out of your account for :remaining. Please try again after or contact us for assistance.
+login_ms_error_locked_permanent = You are currently locked out of your account. Please contact us to solve the issue.
+login_ms_error_locked_minutes = :remaining minutes
+login_ms_error_locked_seconds = :remaining seconds
 
 login_ip_address_ms_error_filter_banned = The account cannot be accessed at this time due to unallowed activities detected from your location. Please try again later or contact us for further help.
 

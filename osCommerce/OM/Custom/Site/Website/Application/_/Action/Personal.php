@@ -23,6 +23,6 @@ class Personal
         $application->setPageContent('personal.html');
         $application->setPageTitle(OSCOM::getDef('personal_html_page_title'));
 
-        $OSCOM_Template->setValue('sweet_sixteen', date('Y') - 2000);
+        $OSCOM_Template->setValue('sweet_sixteen', (int)date('Y') - 2000);
     }
 }

@@ -159,7 +159,7 @@ class PayPalStart
                     if (is_array($result_grant)) {
                         if (isset($result_grant['access_token']) && isset($result_grant['token_type'])) {
                             while (true) {
-                                $merchant_id = Hash::getRandomString('32');
+                                $merchant_id = Hash::getRandomString(32);
 
                                 $Qcheck = $OSCOM_PDO->prepare('select merchant_id from :table_website_app_paypal_start where merchant_id = :merchant_id limit 1');
                                 $Qcheck->bindValue(':merchant_id', $merchant_id);
@@ -170,7 +170,7 @@ class PayPalStart
                                 }
                             }
 
-                            $secret = Hash::getRandomString('32');
+                            $secret = Hash::getRandomString(32);
 
                             $Qcreate = $OSCOM_PDO->prepare('insert into :table_website_app_paypal_start (merchant_id, secret, return_url, account_type, ip_address, date_added) values (:merchant_id, :secret, :return_url, :account_type, :ip_address, now())');
                             $Qcreate->bindValue(':merchant_id', $merchant_id);
@@ -235,55 +235,55 @@ class PayPalStart
 
                             $tries = 1;
 
-                            callInitialize: {
-                                $result_api = HttpRequest::getResponse([
-                                    'url' => 'https://' . $api_credentials[$server]['server'] . '/v1/customer/partner-referrals',
-                                    'header' => [
-                                        'Content-Type: application/json',
-                                        'Authorization: ' . $result_grant['token_type'] . ' ' . $result_grant['access_token']
-                                    ],
-                                    'parameters' => json_encode($data)
-                                ]);
+                            callInitialize:
 
-                                if (!empty($result_api)) {
-                                    $result_api = json_decode($result_api, true);
+                            $result_api = HttpRequest::getResponse([
+                                'url' => 'https://' . $api_credentials[$server]['server'] . '/v1/customer/partner-referrals',
+                                'header' => [
+                                    'Content-Type: application/json',
+                                    'Authorization: ' . $result_grant['token_type'] . ' ' . $result_grant['access_token']
+                                ],
+                                'parameters' => json_encode($data)
+                            ]);
 
-                                    if (is_array($result_api)) {
-                                        if (isset($result_api['links'])) {
-                                            foreach ($result_api['links'] as $l) {
-                                                if (isset($l['href']) && isset($l['rel']) && ($l['rel'] == 'action_url')) {
-                                                    $result = [
-                                                        'rpcStatus' => RPC::STATUS_SUCCESS,
-                                                        'merchant_id' => $merchant_id,
-                                                        'redirect_url' => $l['href'],
-                                                        'secret' => sha1($secret . OSCOM::getConfig('app_paypal_salt', 'Website'))
-                                                    ];
+                            if (!empty($result_api)) {
+                                $result_api = json_decode($result_api, true);
 
-                                                    break;
-                                                }
+                                if (is_array($result_api)) {
+                                    if (isset($result_api['links'])) {
+                                        foreach ($result_api['links'] as $l) {
+                                            if (isset($l['href']) && isset($l['rel']) && ($l['rel'] == 'action_url')) {
+                                                $result = [
+                                                    'rpcStatus' => RPC::STATUS_SUCCESS,
+                                                    'merchant_id' => $merchant_id,
+                                                    'redirect_url' => $l['href'],
+                                                    'secret' => sha1($secret . OSCOM::getConfig('app_paypal_salt', 'Website'))
+                                                ];
+
+                                                break;
                                             }
-                                        // if pref-fill data is invalid, try again without any pre-fill values
-                                        } elseif (isset($result_api['name']) && ($result_api['name'] == 'VALIDATION_ERROR') && ($tries === 1)) {
-                                            $tries += 1;
-
-                                            $data = $data_orig;
-
-                                            goto callInitialize;
-                                        } elseif (isset($result_api['name'])) {
-                                            $result['rpcStatus'] = -110;
-
-                                            trigger_error('PayPalStart INIT CALL; ' . $result_api['name']);
-                                        } else {
-                                            $result['rpcStatus'] = -110;
-
-                                            trigger_error('PayPalStart INIT CALL GENERAL' . "\n" . print_r($result_api, true));
                                         }
+                                    // if pref-fill data is invalid, try again without any pre-fill values
+                                    } elseif (isset($result_api['name']) && ($result_api['name'] == 'VALIDATION_ERROR') && ($tries === 1)) {
+                                        $tries += 1;
+
+                                        $data = $data_orig;
+
+                                        goto callInitialize;
+                                    } elseif (isset($result_api['name'])) {
+                                        $result['rpcStatus'] = -110;
+
+                                        trigger_error('PayPalStart INIT CALL; ' . $result_api['name']);
                                     } else {
-                                        trigger_error('PayPalStart INIT CALL NONARRAY');
+                                        $result['rpcStatus'] = -110;
+
+                                        trigger_error('PayPalStart INIT CALL GENERAL' . "\n" . print_r($result_api, true));
                                     }
                                 } else {
-                                    trigger_error('PayPalStart INIT CALL EMPTY');
+                                    trigger_error('PayPalStart INIT CALL NONARRAY');
                                 }
+                            } else {
+                                trigger_error('PayPalStart INIT CALL EMPTY');
                             }
                         } else {
                             $result['rpcStatus'] = -110;

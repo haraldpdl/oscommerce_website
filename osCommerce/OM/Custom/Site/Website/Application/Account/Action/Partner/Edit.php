@@ -33,8 +33,6 @@ class Edit
 
         $OSCOM_Template->setValue('partner', $partner);
 
-        $OSCOM_Template->setValue('partner_campaign', Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['Edit']));
-
         foreach ($OSCOM_Language->getAll() as $l) {
             $OSCOM_Template->setValue('partner_campaign_' . $l['code'], Partner::getCampaignInfo($partner['id'], $l['id']));
         }

@@ -9,6 +9,7 @@
 namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 
 use osCommerce\OM\Core\{
+    Is,
     OSCOM,
     Sanitize
 };
@@ -40,7 +41,7 @@ class Verify
                 $errors[] = OSCOM::getDef('error_form_protect_general');
             }
 
-            if (!is_numeric($user_id) || ($user_id < 1)) {
+            if (!Is::Integer($user_id, 1)) {
                 $errors[] = OSCOM::getDef('verify_user_id_ms_error_invalid');
             }
 
@@ -49,7 +50,7 @@ class Verify
             }
 
             if (empty($errors)) {
-                $verify_result = Invision::verifyUserKey($user_id, $key);
+                $verify_result = Invision::verifyUserKey((int)$user_id, $key);
 
                 if ($verify_result === true) {
                     $result['rpcStatus'] = RPC::STATUS_SUCCESS;

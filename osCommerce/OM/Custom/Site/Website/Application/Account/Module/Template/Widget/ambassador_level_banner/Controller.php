@@ -29,7 +29,7 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
 
         $file = OSCOM::BASE_DIRECTORY . 'Custom/Site/' . OSCOM::getSite() . '/Application/' . OSCOM::getSiteApplication() . '/Module/Template/Widget/ambassador_level_banner/pages/' . $filename;
 
-        if ( !file_exists($file) ) {
+        if (!is_file($file)) {
             $file = OSCOM::BASE_DIRECTORY . 'Core/Site/' . OSCOM::getSite() . '/Application/' . OSCOM::getSiteApplication() . '/Module/Template/Widget/ambassador_level_banner/pages/' . $filename;
         }
 

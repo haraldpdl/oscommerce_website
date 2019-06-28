@@ -45,16 +45,16 @@ class Invoices
 
             switch ($v['status']) {
                 case '1':
-                  $result[$k]['status_code'] = 'pending';
-                  break;
+                    $result[$k]['status_code'] = 'pending';
+                    break;
 
                 case '2':
-                  $result[$k]['status_code'] = 'paid';
-                  break;
+                    $result[$k]['status_code'] = 'paid';
+                    break;
 
                 default:
-                  $result[$k]['status_code'] = '';
-                  break;
+                    $result[$k]['status_code'] = '';
+                    break;
             }
         }
 

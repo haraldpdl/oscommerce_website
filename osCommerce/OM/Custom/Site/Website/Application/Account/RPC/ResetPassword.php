@@ -10,7 +10,6 @@ namespace osCommerce\OM\Core\Site\Website\Application\Account\RPC;
 
 use osCommerce\OM\Core\{
     OSCOM,
-    Registry,
     Sanitize
 };
 

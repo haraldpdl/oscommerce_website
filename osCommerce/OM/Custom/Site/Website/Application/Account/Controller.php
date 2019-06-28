@@ -60,9 +60,27 @@ class Controller extends \osCommerce\OM\Core\Site\Website\ApplicationAbstract
                 $bday = explode('/', $user_custom['birthday'], 3);
 
                 if (count($bday) === 3) {
-                    $birthday = (\DateTime::createFromFormat('m/d/Y', $user_custom['birthday']))->format('jS M Y');
-                } else {
-                    $birthday = (\DateTime::createFromFormat('m/d', $user_custom['birthday']))->format('jS M');
+                    $bdDateTime = \DateTime::createFromFormat('m/d/Y', $user_custom['birthday']);
+
+                    if ($bdDateTime !== false) {
+                        $bdDateTime_errors = \DateTime::getLastErrors();
+
+                        if (($bdDateTime_errors['warning_count'] === 0) && ($bdDateTime_errors['error_count'] === 0)) {
+                            $birthday = $bdDateTime->format('jS M Y');
+                        }
+                    }
+                } elseif (count($bday) === 2) {
+                    $bday[] = 2000; // add a compatible leap year for 02/29 birthdays
+
+                    $bdDateTime = \DateTime::createFromFormat('m/d/Y', implode('/', $bday));
+
+                    if ($bdDateTime !== false) {
+                        $bdDateTime_errors = \DateTime::getLastErrors();
+
+                        if (($bdDateTime_errors['warning_count'] === 0) && ($bdDateTime_errors['error_count'] === 0)) {
+                            $birthday = $bdDateTime->format('jS M');
+                        }
+                    }
                 }
             }
 

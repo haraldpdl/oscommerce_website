@@ -424,15 +424,17 @@ class Partner
                         'code' => $orig['code']
                     ];
 
-                    if ($OSCOM_PDO->save('website_partner_info', $o) === 1) {
-                        $campaign = static::getCampaignInfo($partner_id, $language_id);
-
-                        if (is_null($campaign)) {
-                            return false;
-                        }
+                    if ($OSCOM_PDO->save('website_partner_info', $o) !== 1) {
+                        return false;
                     }
+
+                    $campaign = static::getCampaignInfo($partner_id, $language_id);
                 }
             }
+        }
+
+        if (is_null($campaign)) {
+            return false;
         }
 
         $fields = [
@@ -600,35 +602,33 @@ class Partner
 
         $has_exclusive_offer = false;
 
-        if (isset($partner_code)) {
-            $extra = array_merge($data, ['partner_id' => static::get($partner_code, 'id')]);
+        $extra = array_merge($data, ['partner_id' => static::get($partner_code, 'id')]);
 
-            $levels = $OSCOM_PDO->call('GetPackageLevelsExtra', $extra);
+        $levels = $OSCOM_PDO->call('GetPackageLevelsExtra', $extra);
 
-            if (!empty($levels)) {
-                foreach ($levels as $l) {
-                    $result[$l['id']] = [
-                        'title' => $l['title'],
-                        'duration' => $l['duration_months'],
-                        'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
-                        'price_raw' => number_format($l['price'], 2, '.', ''),
-                        'default_selected' => $l['default_selected']
-                    ];
+        if (!empty($levels)) {
+            foreach ($levels as $l) {
+                $result[$l['id']] = [
+                    'title' => $l['title'],
+                    'duration' => $l['duration_months'],
+                    'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
+                    'price_raw' => number_format($l['price'], 2, '.', ''),
+                    'default_selected' => $l['default_selected']
+                ];
 
-                    $result[$l['id']]['total'] = $result[$l['id']]['price'];
-                    $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
+                $result[$l['id']]['total'] = $result[$l['id']]['price'];
+                $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
 
-                    if ($partner['billing_country_iso_code_2'] == 'DE') {
-                        $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
-                        $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+                if ($partner['billing_country_iso_code_2'] == 'DE') {
+                    $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
+                    $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
 
-                        $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
-                        $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
-                    }
+                    $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
+                    $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                }
 
-                    if ((int)$l['exclusive_offer'] === 1) {
-                        $has_exclusive_offer = true;
-                    }
+                if ((int)$l['exclusive_offer'] === 1) {
+                    $has_exclusive_offer = true;
                 }
             }
         }

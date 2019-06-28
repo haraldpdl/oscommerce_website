@@ -12,7 +12,7 @@ use osCommerce\OM\Core\OSCOM;
 
 class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
 {
-    static public function execute($param = null)
+    public static function execute($param = null)
     {
         $file = OSCOM::BASE_DIRECTORY . 'Custom/Site/' . OSCOM::getSite() . '/Application/' . OSCOM::getSiteApplication() . '/Module/Template/Widget/partner_edit_sidebar_nav/pages/main.html';
 

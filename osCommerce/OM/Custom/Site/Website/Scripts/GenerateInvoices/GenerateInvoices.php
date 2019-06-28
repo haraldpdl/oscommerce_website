@@ -27,6 +27,8 @@ use osCommerce\OM\Core\Site\Website\{
 
 class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
 {
+    const COUNTRIES_WITH_ZONES = ['AU', 'CA', 'DE', 'US'];
+
     public static function execute()
     {
         OSCOM::initialize('Website');
@@ -47,12 +49,12 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
 
                 $user = Users::get($i['user_id']);
 
-                $invoice_number_formatted = str_pad(TransactionId::get('inv'), 10, '0', STR_PAD_LEFT);
+                $invoice_number_formatted = str_pad((string)TransactionId::get('inv'), 10, '0', STR_PAD_LEFT);
 
                 $address = json_decode($i['billing_address'], true);
 
-                if (empty($address['state']) && isset($address['zone_code']) && isset($partner_billing_address['country_id']) && !in_array(Address::getCountryIsoCode2($partner_billing_address['country_id']), static::COUNTRIES_WITH_ZONES)) {
-                    $partner_billing_address['state'] = Address::getZoneName($partner_billing_address['zone_id']);
+                if (empty($address['state']) && isset($address['zone_code']) && isset($address['country_id']) && !in_array(Address::getCountryIsoCode2($address['country_id']), static::COUNTRIES_WITH_ZONES)) {
+                    $address['state'] = Address::getZoneName($address['zone_id']);
                 }
 
                 $billing_address = Address::format([
@@ -112,15 +114,17 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
                 $OSCOM_Template->setValue('invoice_date', $DATE_now->format('j. F Y'), true);
                 $OSCOM_Template->setValue('invoice_items', $purchase_items, true);
                 $OSCOM_Template->setValue('invoice_totals', $ot_items, true);
-                $OSCOM_Template->setValue('purchase_date', $DATE_purchased->format('j. F Y'), true);
+                $OSCOM_Template->setValue('purchase_date', ($DATE_purchased !== false) ? $DATE_purchased->format('j. F Y') : '', true);
 
                 $content = $OSCOM_Template->getContent(__DIR__ . '/pages/invoice.html');
 
-                $dompdf = new \Dompdf\Dompdf();
+                $dompdf = new \Dompdf\Dompdf(new \Dompdf\Options([
+                    'isRemoteEnabled' => true,
+                    'isFontSubsettingEnabled' => true,
+                    'fontHeightRatio' => 0.9
+                ]));
+
                 $dompdf->setPaper('a4', 'portrait');
-                $dompdf->set_option('isRemoteEnabled', true);
-                $dompdf->set_option('isFontSubsettingEnabled', true);
-                $dompdf->set_option('fontHeightRatio', 0.9);
 
                 $dompdf->loadHtml($content);
                 $dompdf->render();
@@ -149,11 +153,17 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
                 Cache::clear('users-' . $i['user_id'] . '-invoices');
 
                 if (isset($i['module']) && !empty($i['module'])) {
-                    if (class_exists('osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $i['module'])) {
-                        call_user_func([
-                            'osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $i['module'],
+                    $class = 'osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $i['module'];
+
+                    if (class_exists($class)) {
+                        $callable = [
+                            $class,
                             'beforeMail'
-                        ], $user, $i);
+                        ];
+
+                        if (is_callable($callable)) {
+                            call_user_func($callable, $user, $i);
+                        }
                     }
                 }
 
@@ -183,11 +193,17 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
         }
 
         foreach ($modules as $m) {
-            if (class_exists('osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $m)) {
-                call_user_func([
-                    'osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $m,
+            $class = 'osCommerce\\OM\\Core\\Site\\Website\\Scripts\\GenerateInvoices\\Module\\' . $m;
+
+            if (class_exists($class)) {
+                $callable = [
+                    $class,
                     'cleanup'
-                ]);
+                ];
+
+                if (is_callable($callable)) {
+                    call_user_func($callable);
+                }
             }
         }
     }

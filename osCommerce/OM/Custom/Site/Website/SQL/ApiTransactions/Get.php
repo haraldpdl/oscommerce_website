@@ -6,7 +6,7 @@
  * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
-namespace osCommerce\OM\Core\Site\Website\SQL\ApiTransaction;
+namespace osCommerce\OM\Core\Site\Website\SQL\ApiTransactions;
 
 use osCommerce\OM\Core\Registry;
 

@@ -20,6 +20,6 @@ class ApiTransactions
             'id' => $id
         ];
 
-        return $OSCOM_PDO->call('GetApiTransaction', $data);
+        return $OSCOM_PDO->call('Get', $data);
     }
 }

@@ -59,7 +59,10 @@ class Language extends \osCommerce\OM\Core\Site\Admin\Language
 
         $system_locale_numeric = setlocale(LC_NUMERIC, '0');
         setlocale(LC_ALL, explode(',', $this->getLocale()));
-        setlocale(LC_NUMERIC, $system_locale_numeric);
+
+        if ($system_locale_numeric !== false) {
+            setlocale(LC_NUMERIC, $system_locale_numeric);
+        }
 
         header('Content-Type: text/html; charset=' . $this->getCharacterSet());
 

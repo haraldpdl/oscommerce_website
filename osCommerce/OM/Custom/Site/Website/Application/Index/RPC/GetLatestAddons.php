@@ -8,12 +8,7 @@
 
 namespace osCommerce\OM\Core\Site\Website\Application\Index\RPC;
 
-use osCommerce\OM\Core\{
-    Cache,
-    OSCOM,
-    PDO,
-    Registry
-};
+use osCommerce\OM\Core\Cache;
 
 use osCommerce\OM\Core\Site\Apps\Apps;
 
@@ -21,8 +16,6 @@ class GetLatestAddons
 {
     public static function execute()
     {
-        Registry::set('PDO_OLD', PDO::initialize(OSCOM::getConfig('legacy_db_server', 'Apps'), OSCOM::getConfig('legacy_db_server_username', 'Apps'), OSCOM::getConfig('legacy_db_server_password', 'Apps'), OSCOM::getConfig('legacy_db_database', 'Apps')));
-
         $result = [];
 
         $OSCOM_Cache = new Cache();
@@ -36,9 +29,19 @@ class GetLatestAddons
                 $counter = 0;
 
                 foreach ($listing['entries'] as $l) {
-                    $counter += 1;
-
                     $date = \DateTime::createFromFormat('Ymd His', $l['last_update_date']);
+
+                    if ($date === false) {
+                        continue;
+                    }
+
+                    $date_errors = \DateTime::getLastErrors();
+
+                    if (($date_errors['warning_count'] !== 0) || ($date_errors['error_count'] !== 0)) {
+                        continue;
+                    }
+
+                    $counter++;
 
                     $result[] = [
                         'title' => $l['title'],
