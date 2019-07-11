@@ -164,7 +164,7 @@ class GetReleases implements \osCommerce\OM\Core\RunScriptInterface
                         foreach ($gvalue as $major_version => $releases) {
                             $releases_content = implode("\n", $releases);
 
-                            $releases_file = OSCOM::PUBLIC_DIRECTORY . 'version/online_merchant/ce/' . basename((string)$rel_group) . '/' . basename($major_version);
+                            $releases_file = realpath(__DIR__ . '/../../../../../../../version/online_merchant/') . '/ce/' . basename((string)$rel_group) . '/' . basename($major_version);
 
                             if (!is_file($releases_file) || (md5_file($releases_file) !== md5($releases_content))) {
                                 if (!is_dir(dirname($releases_file))) {

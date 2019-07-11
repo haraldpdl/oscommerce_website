@@ -31,6 +31,7 @@ class Invoices
 
     public static function getAll(int $user_id): array
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_PDO = Registry::get('PDO');
 
         $data = [
@@ -40,7 +41,7 @@ class Invoices
         $result = $OSCOM_PDO->call('GetUserInvoices', $data);
 
         foreach ($result as $k => $v) {
-            $result[$k]['cost_formatted'] = $v['currency'] . ' ' . number_format($v['cost'], 2);
+            $result[$k]['cost_formatted'] = $OSCOM_Currency->show($v['cost'], $OSCOM_Currency->getCode($v['currency_id']), null, false);
             $result[$k]['date_formatted'] = date_format(new \DateTime($v['date']), 'jS M Y');
 
             switch ($v['status']) {

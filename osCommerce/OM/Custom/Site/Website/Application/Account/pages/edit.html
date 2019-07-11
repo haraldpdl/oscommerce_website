@@ -44,7 +44,7 @@
           <div class="form-group col-4 col-sm-6">
             <label>{lang}edit_birthday_title{lang}</label>
 
-            <select id="inputBdayMonth" name="bday_month" class="form-control" data-default-value="{post}bday_month|bday_month{post}">
+            <select id="inputBdayMonth" name="bday_month" class="custom-select" data-default-value="{post}bday_month|bday_month{post}">
               <option value=""></option>
               {loop date_months}
               <option value="#id#">#title#</option>
@@ -54,9 +54,9 @@
           </div>
 
           <div class="form-group col-4 col-sm-3 col-md-2">
-            <label></label>
+            <label>&nbsp;</label>
 
-            <select id="inputBdayDay" name="bday_day" class="form-control" data-default-value="{post}bday_day|bday_date{post}">
+            <select id="inputBdayDay" name="bday_day" class="custom-select" data-default-value="{post}bday_day|bday_date{post}">
               <option value=""></option>
               {loop date_dates}
               <option value="#id#">#title#</option>
@@ -66,9 +66,9 @@
           </div>
 
           <div class="form-group col-4 col-sm-3 col-md-2">
-            <label></label>
+            <label>&nbsp;</label>
 
-            <select id="inputBdayYear" name="bday_year" class="form-control" data-default-value="{post}bday_year|bday_year{post}">
+            <select id="inputBdayYear" name="bday_year" class="custom-select" data-default-value="{post}bday_year|bday_year{post}">
               <option value=""></option>
               {loop date_years}
               <option value="#id#">#title#</option>
@@ -80,7 +80,7 @@
           <div class="form-group col-md-2">
             <label for="inputGender">{lang}edit_gender_title{lang}</label>
 
-            <select id="inputGender" name="gender" class="form-control" data-default-value="{post}gender|gender_code{post}">
+            <select id="inputGender" name="gender" class="custom-select" data-default-value="{post}gender|gender_code{post}">
               <option value=""></option>
               <option value="male">{lang}edit_gender_male{lang}</option>
               <option value="female">{lang}edit_gender_female{lang}</option>

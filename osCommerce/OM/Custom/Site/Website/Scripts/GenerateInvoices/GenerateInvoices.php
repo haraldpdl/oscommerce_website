@@ -33,6 +33,7 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
     {
         OSCOM::initialize('Website');
 
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_Template = Registry::get('Template');
 
@@ -82,7 +83,7 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
                 $purchase_items = json_decode($i['purchase_items'], true);
 
                 foreach ($purchase_items as $pik => &$piv) {
-                    $piv['cost_formatted'] = $OSCOM_Language->formatNumber($piv['cost'], 2) . ' €';
+                    $piv['cost_formatted'] = $OSCOM_Currency->show($piv['cost'], $OSCOM_Currency->getCode($i['currency_id']), null, false);
                 }
 
                 $order_total_items = json_decode($i['order_total_items'], true);
@@ -94,14 +95,14 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
                             $ot_items[] = [
                                 'title' => $ott['title'],
                                 'cost' => $ott['cost'],
-                                'cost_formatted' => $OSCOM_Language->formatNumber($ott['cost'], 2) . ' €'
+                                'cost_formatted' => $OSCOM_Currency->show($ott['cost'], $OSCOM_Currency->getCode($i['currency_id']), null, false)
                             ];
                         }
                     } else {
                         $ot_items[] = [
                             'title' => $otv['title'],
                             'cost' => $otv['cost'],
-                            'cost_formatted' => $OSCOM_Language->formatNumber($otv['cost'], 2) . ' €'
+                            'cost_formatted' => $OSCOM_Currency->show($otv['cost'], $OSCOM_Currency->getCode($i['currency_id']), null, false)
                         ];
                     }
                 }
@@ -115,6 +116,7 @@ class GenerateInvoices implements \osCommerce\OM\Core\RunScriptInterface
                 $OSCOM_Template->setValue('invoice_items', $purchase_items, true);
                 $OSCOM_Template->setValue('invoice_totals', $ot_items, true);
                 $OSCOM_Template->setValue('purchase_date', ($DATE_purchased !== false) ? $DATE_purchased->format('j. F Y') : '', true);
+                $OSCOM_Template->setValue('invoice_currency', $OSCOM_Currency->get('title', $OSCOM_Currency->getCode($i['currency_id'])), true);
 
                 $content = $OSCOM_Template->getContent(__DIR__ . '/pages/invoice.html');
 

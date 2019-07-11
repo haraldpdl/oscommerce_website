@@ -21,6 +21,8 @@ use osCommerce\OM\Core\Site\Website\{
     Users
 };
 
+use osCommerce\OM\Core\Site\Apps\Cache;
+
 use osCommerce\OM\Core\Site\RPC\{
     Controller as RPC,
     Exception as RPCException
@@ -30,6 +32,7 @@ class ProcessBraintree
 {
     public static function execute()
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_Session = Registry::get('Session');
 
@@ -54,7 +57,7 @@ class ProcessBraintree
                     'title' => OSCOM::getDef('purchase_item_title_raw', [
                         ':name' => $_SESSION[OSCOM::getSite()]['Account']['name']
                     ]),
-                    'cost' => number_format(Users::AMBASSADOR_LEVEL_PRICE, 2)
+                    'cost' => $OSCOM_Currency->raw(Users::AMBASSADOR_LEVEL_PRICE)
                 ]
             ];
 
@@ -66,9 +69,9 @@ class ProcessBraintree
             ];
 
             if ($address['country_iso_2'] == 'DE') {
-                $items[0]['tax']['DE19MWST'] = number_format(0.19 * $items[0]['cost'], 2);
+                $items[0]['tax']['DE19MWST'] = $OSCOM_Currency->raw(0.19 * $items[0]['cost'], null, null, false);
 
-                $total['cost'] = number_format($items[0]['cost'] * 1.19, 2);
+                $total['cost'] = $OSCOM_Currency->raw(1.19 * $items[0]['cost'], null, null, false);
 
                 $totals['tax'] = [
                     'DE19MWST' => [
@@ -113,7 +116,7 @@ class ProcessBraintree
                 'items' => $items,
                 'totals' => $totals,
                 'cost' => $totals['total']['cost'],
-                'currency_id' => 2,
+                'currency_id' => $OSCOM_Currency->get('id'),
                 'language_id' => $OSCOM_Language->getID(),
                 'status' => Invoices::STATUS_NEW,
                 'module' => 'Ambassador'
@@ -143,6 +146,15 @@ class ProcessBraintree
             }
 
             Users::save($_SESSION[OSCOM::getSite()]['Account']['id'], $profile);
+
+            $result['amb_profile'] = [
+                'name' => $_SESSION[OSCOM::getSite()]['Account']['name'],
+                'profile_url' => $_SESSION[OSCOM::getSite()]['Account']['profile_url'],
+                'photo_url' => $_SESSION[OSCOM::getSite()]['Account']['photo_url']
+            ];
+
+            $OSCOM_Cache = new Cache('ambassadors-newest-NS');
+            $OSCOM_Cache->delete();
         } catch (RPCException $e) {
             $code = $e->getCode();
 

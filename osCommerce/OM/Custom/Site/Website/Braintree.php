@@ -14,52 +14,60 @@ use osCommerce\OM\Core\{
     TransactionId
 };
 
-use osCommerce\OM\Core\Site\Website\Invoices;
+use osCommerce\OM\Core\Site\Website\{
+    Invoices,
+    Users
+};
 
 class Braintree
 {
-    const WEB_VERSION = '3.46.0';
     const WEB_DROPIN_VERSION = '1.18.0';
 
-    protected static $has_setup = false;
+    /** @var string */
+    protected static $environment;
 
-    public static function setupCredentials()
+    /** @var string */
+    protected static $merchant_account_id;
+
+    protected static function setupCredentials()
     {
-        $server = OSCOM::getConfig('braintree_server');
+        $OSCOM_Currency = Registry::get('Currency');
 
-        \Braintree\Configuration::environment($server);
-        \Braintree\Configuration::merchantId(OSCOM::getConfig('braintree_' . $server . '_merchant_id'));
-        \Braintree\Configuration::publicKey(OSCOM::getConfig('braintree_' . $server . '_public_key'));
-        \Braintree\Configuration::privateKey(OSCOM::getConfig('braintree_' . $server . '_private_key'));
+        static::$environment = OSCOM::getConfig('braintree_server');
 
-        static::$has_setup = true;
+        \Braintree\Configuration::environment(static::$environment);
+        \Braintree\Configuration::merchantId(OSCOM::getConfig('braintree_' . static::$environment . '_merchant_id'));
+        \Braintree\Configuration::publicKey(OSCOM::getConfig('braintree_' . static::$environment . '_public_key'));
+        \Braintree\Configuration::privateKey(OSCOM::getConfig('braintree_' . static::$environment . '_private_key'));
+
+        static::$merchant_account_id = OSCOM::getConfig('braintree_' . static::$environment . '_merchant_account_' . strtolower($OSCOM_Currency->getDefault()) . '_id');
     }
 
-    public static function getClientToken()
+    public static function getClientToken(array $log_params, array $request)
     {
-        if (static::$has_setup === false) {
+        if (!isset(static::$merchant_account_id)) {
             static::setupCredentials();
         }
 
-        $server = OSCOM::getConfig('braintree_server');
-
         $client_token = \Braintree\ClientToken::generate([
-            'merchantAccountId' => OSCOM::getConfig('braintree_' . $server . '_merchant_account_id')
+            'merchantAccountId' => static::$merchant_account_id
         ]);
+
+        static::log($log_params, (is_string($client_token) && !empty($client_token) ? 1 : -1), $request, ['message' => 'getClientToken' . (isset($request['currency']) ? '; ' . $request['currency'] : '') . (isset($request['totals']) ? '; ' . $request['totals']['total']['cost'] : '')]);
 
         return $client_token;
     }
 
-    public static function doSale($params, $log_params, array $invoice = null)
+    public static function doSale(array $params, array $log_params, array $invoice = null)
     {
-        if (static::$has_setup === false) {
+        if (!isset(static::$merchant_account_id)) {
             static::setupCredentials();
         }
 
-        $server = OSCOM::getConfig('braintree_server');
+        $OSCOM_Currency = Registry::get('Currency');
 
         $data = [
-            'merchantAccountId' => OSCOM::getConfig('braintree_' . $server . '_merchant_account_id'),
+            'merchantAccountId' => static::$merchant_account_id,
             'options' => [
                 'submitForSettlement' => true
             ]
@@ -83,6 +91,7 @@ class Braintree
 
         if ($result === 1) {
             $log = [
+                'message' => 'doSale; ' . $OSCOM_Currency->show($response->transaction->amount, $response->transaction->currencyIsoCode, null, false),
                 'id' => $response->transaction->id,
                 'payment_type' => $response->transaction->paymentInstrumentType,
                 'order_id' => $response->transaction->orderId,
@@ -163,17 +172,21 @@ class Braintree
         $OSCOM_PDO->save('website_api_transaction_log', [
             'app' => 'braintree',
             'user_group' => $params['user_group'],
-            'user_id' => isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? $_SESSION[OSCOM::getSite()]['Account']['id'] : null,
+            'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'] ?? null,
             'module' => $params['module'],
             'action' => $params['action'],
             'result' => $result,
-            'server' => (OSCOM::getConfig('braintree_server') == 'production') ? 1 : -1,
+            'server' => (static::$environment == 'production') ? 1 : -1,
             'request' => $request_string,
             'response' => $response_string,
             'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
             'date_added' => 'now()'
         ]);
 
-        return $OSCOM_PDO->lastInsertId();
+        $log_id = $OSCOM_PDO->lastInsertId();
+
+        trigger_error('OSCOM\Site\Website\Braintree::log(): [' . $log_id . '] ' . (($result === 1) ? 'Success' : 'Error') . ': [User: ' . (isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? Users::get($_SESSION[OSCOM::getSite()]['Account']['id'], 'name') . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')' : null) . '] ' . $params['module'] . ' ' . $params['action'] . (isset($response['message']) ? ' (' . $response['message'] . ')' : null));
+
+        return $log_id;
     }
 }

@@ -26,6 +26,6 @@ class fa extends \osCommerce\OM\Core\Template\TagAbstract
 
         $params[2] = isset($params[2]) ? ' style="' . $params[2] . '"' : '';
 
-        return '<img src="' . OSCOM::getPublicSiteLink('external/fontawesome/5.7.1/svgs/' . $params[0] . '.svg') . '" class="' . $params[1] . '"' . $params[2] . ' onload="SVGInject(this)">';
+        return '<img src="' . OSCOM::getPublicSiteLink('external/fontawesome/svgs/' . $params[0] . '.svg') . '" class="' . $params[1] . '"' . $params[2] . ' onload="SVGInject(this)">';
     }
 }

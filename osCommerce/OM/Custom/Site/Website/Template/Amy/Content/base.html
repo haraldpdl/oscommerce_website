@@ -25,20 +25,16 @@
 
   <link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}">
 
-  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.css{publiclink}?v20190617">
+  <link rel="stylesheet" type="text/css" href="{publiclink}templates/Amy/stylesheets/jade.min.css{publiclink}?v20190710">
 
-  <script src="{publiclink}external/jquery-3.3.1.min.js{publiclink}"></script>
-  <script src="{publiclink}external/svg-inject/1.2.2/svg-inject.min.js{publiclink}"></script>
+  <script src="{publiclink}external/jquery.min.js{publiclink}"></script>
+  <script src="{publiclink}external/svg-inject.min.js{publiclink}"></script>
 
   <link rel="alternate" type="application/rss+xml" href="https://www.oscommerce.com/oscommerce.rdf" title="osCommerce News">
 
 {ifvalue html_header_tags}
   {raw}html_header_tags{raw}
 {ifvalue}
-
-<script>
-var site_req = {raw json_encode}site_req{raw};
-</script>
 </head>
 <body>
   <header>
@@ -100,11 +96,11 @@ var site_req = {raw json_encode}site_req{raw};
     </div>
   </footer>
 
-<script src="{publiclink}external/bootstrap/4.3.1/js/bootstrap.bundle.min.js{publiclink}"></script>
+<script src="{publiclink}external/bootstrap.bundle.min.js{publiclink}"></script>
 
 <script>
 $(function() {
-  $('#btn' + site_req['app']).addClass('active');
+  $('#btn' + OSCOM.siteReq['app']).addClass('active');
 });
 </script>
 

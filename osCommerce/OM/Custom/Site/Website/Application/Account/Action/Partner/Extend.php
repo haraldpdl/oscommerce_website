@@ -17,10 +17,7 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Shop\Address;
 
-use osCommerce\OM\Core\Site\Website\{
-    Braintree,
-    Partner
-};
+use osCommerce\OM\Core\Site\Website\Partner;
 
 class Extend
 {
@@ -55,7 +52,6 @@ class Extend
         $partner = Partner::get($_GET['Extend']);
 
         $OSCOM_Template->setValue('partner', $partner);
-        $OSCOM_Template->setValue('partner_packages', Partner::getPackages($partner['code']));
 
         $address_formatted = Address::format($partner_billing_address, '<br>');
 
@@ -69,14 +65,15 @@ class Extend
 
         $OSCOM_Template->setValue('partner_billing_address_formatted', $address_formatted);
 
-        $OSCOM_Template->setValue('braintree_get_client_token_url', OSCOM::getRPCLink(null, null, 'GetBraintreeClientToken&p=' . $partner['code'], 'SSL'));
-
         $application->setPageContent('partner_extend.html');
 
         $application->setPageTitle(OSCOM::getDef('partner_view_html_title', [
             ':partner_title' => $partner['title']
         ]));
 
-        $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/three-d-secure.min.js"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('javascript/Application/Account/Partner/Extend.min.js') . '"></script>');
+
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('external/js.cookie.min.js') . '"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script>Cookies.defaults = {path: OSCOM.cookie["path"], domain: OSCOM.cookie["domain"], secure: true};</script>');
     }
 }

@@ -1,0 +1,185 @@
+$enable-responsive-font-sizes: true;
+$font-size-base: 1.1rem;
+$small-font-size: 85%;
+$jumbotron-bg: #f8f9fa;
+
+// remove smaller-than-xl viewpoints and treat .container like .container-fluid
+$container-max-widths: (
+  xl: 1140px
+) !default;
+
+@import "../../../../External/yarn/bootstrap/scss/bootstrap.scss";
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @each $prop, $abbrev in (width: w, height: h) {
+      @each $size, $length in $sizes {
+        .#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length !important; }
+      }
+    }
+  }
+}
+
+@each $color, $value in $colors {
+  @include text-emphasis-variant(".osc-text-#{$color}", $value);
+}
+
+@mixin osc-sticky-top {
+  @supports (position: sticky) {
+    position: sticky;
+    top: 0;
+    z-index: $zindex-sticky;
+  }
+}
+
+$display5-size: $display4-size - 1;
+
+.display-5 {
+  @include font-size($display5-size);
+  font-weight: $display4-weight;
+  line-height: $display-line-height;
+}
+
+.alert {
+  border-left-width: 4px;
+}
+
+svg.svg-inject {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.16rem;
+}
+
+img.svg-inject {
+  height: 22px;
+  width: 22px;
+}
+
+.nav-tabs {
+  margin-bottom: 1em;
+}
+
+body {
+  min-width: 320px;
+
+  @include media-breakpoint-up(xl) {
+    padding-top: 10px;
+  }
+}
+
+p {
+  line-height: 2rem;
+}
+
+p.small {
+  line-height: $line-height-base;
+}
+
+header {
+  @include media-breakpoint-down(md) {
+    @include osc-sticky-top;
+    background-color: #fff;
+  }
+
+  #logo {
+    max-width: 200px;
+
+    @media (min-width: 400px) {
+      @include media-breakpoint-down(xs) {
+        margin-top: -7px;
+      }
+
+      max-width: 240px;
+    }
+
+    @include media-breakpoint-up(md) {
+      max-width: 300px;
+    }
+  }
+
+  nav.navbar {
+    @include media-breakpoint-up(sm) {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+}
+
+footer {
+  padding-top: 4em;
+  padding-bottom: 2em;
+  text-align: right;
+  font-size: 0.75em;
+
+  p {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #footerSocialLinks {
+    margin-bottom: 5px;
+
+    a {
+      font-size: 1.7em;
+    }
+
+    a:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+#highlights {
+  @include media-breakpoint-up(sm) {
+    padding-bottom: 20px;
+  }
+
+  img {
+    @extend .img-fluid;
+
+    max-height: 336px;
+    width: 100%;
+
+    object-fit: cover;
+  }
+
+  .carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 65%;
+    font-size: 1em;
+
+    @include media-breakpoint-up(xs) {
+      top: 68%;
+      font-size: 1.5em;
+    }
+
+    @include media-breakpoint-up(sm) {
+      font-size: 2em;
+    }
+
+    @include media-breakpoint-up(md) {
+      font-size: 3em;
+    }
+  }
+}
+
+label {
+  margin-bottom: 0.25rem;
+  vertical-align: middle;
+}
+
+pre.prettyCode {
+  background-color: #fff;
+  padding: 1rem;
+}
+
+input[type="file"].inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}

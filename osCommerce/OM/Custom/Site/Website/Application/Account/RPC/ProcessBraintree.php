@@ -34,6 +34,7 @@ class ProcessBraintree
 {
     public static function execute()
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_PDO = Registry::get('PDO');
         $OSCOM_Template = Registry::get('Template');
@@ -45,11 +46,17 @@ class ProcessBraintree
                 throw new RPCException(RPC::STATUS_NO_ACCESS);
             }
 
-            if (!isset($_GET['partner']) || empty($_GET['partner']) || !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['partner'])) {
+            if (!isset($_GET['p']) || empty($_GET['p']) || !Partner::hasCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p'])) {
                 throw new RPCException(RPC::STATUS_NO_ACCESS);
             }
 
-            $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['partner']);
+            if (!isset($_GET['c']) || empty($_GET['c']) || !$OSCOM_Currency->exists($_GET['c'])) {
+                throw new RPCException(RPC::STATUS_NO_ACCESS);
+            }
+
+            $OSCOM_Currency->setSelected($_GET['c']);
+
+            $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
 
             if ((int)$partner_campaign['billing_country_id'] < 1) {
                 throw new RPCException(RPC::STATUS_NO_ACCESS);
@@ -61,7 +68,7 @@ class ProcessBraintree
                 throw new RPCException(RPC::STATUS_NO_ACCESS);
             }
 
-            $partner = Partner::get($_GET['partner']);
+            $partner = Partner::get($_GET['p']);
             $packages = Partner::getPackages($partner['code']);
 
             $plan = $_POST['plan'] ?? null;
@@ -165,7 +172,7 @@ class ProcessBraintree
                 'items' => $items,
                 'totals' => $totals,
                 'cost' => $totals['total']['cost'],
-                'currency_id' => 2,
+                'currency_id' => $OSCOM_Currency->get('id'),
                 'language_id' => $OSCOM_Language->getID(),
                 'status' => Invoices::STATUS_NEW
             ]);

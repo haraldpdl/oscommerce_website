@@ -22,14 +22,13 @@ use osCommerce\OM\Core\Site\Website\{
     Users
 };
 
-use Cocur\Slugify\Slugify;
-
 class Ambassadors
 {
     const COUNTRIES_WITH_ZONES = ['AU', 'CA', 'DE', 'US'];
 
     public static function execute(ApplicationAbstract $application)
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_Session = Registry::get('Session');
         $OSCOM_Template = Registry::get('Template');
@@ -49,7 +48,6 @@ class Ambassadors
 
         $OSCOM_Template->setValue('public_token', $_SESSION[OSCOM::getSite()]['public_token']);
         $OSCOM_Template->setValue('recaptcha_key_public', OSCOM::getConfig('recaptcha_key_public'));
-        $OSCOM_Template->addHtmlElement('footer', '<script src="https://www.google.com/recaptcha/api.js?hl=' . $OSCOM_Language->getCode() . '&render=explicit" async defer></script>');
 
         $application->setPageContent('ambassadors.html');
         $application->setPageTitle(OSCOM::getDef('amb_html_page_title'));
@@ -58,12 +56,17 @@ class Ambassadors
             $OSCOM_Template->setValue('highlights_image', 'images/highlights/ambassadors.jpg');
         }
 
+        $OSCOM_Template->setValue('language_code', $OSCOM_Language->getCode());
+        $OSCOM_Template->setValue('amb_price', $OSCOM_Currency->trim($OSCOM_Currency->show(Users::AMBASSADOR_LEVEL_PRICE)));
+        $OSCOM_Template->setValue('amb_prices', $OSCOM_Currency->showAll(Users::AMBASSADOR_LEVEL_PRICE, true));
         $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['amb_level'] > 0)));
         $OSCOM_Template->setValue('ambassador_user_next_level', isset($_SESSION[OSCOM::getSite()]['Account']) ? $_SESSION[OSCOM::getSite()]['Account']['amb_level'] + 1 : 1);
+        $OSCOM_Template->setValue('braintree_google_merchant_id', OSCOM::getConfig('braintree_google_merchant_id'));
 
-        $OSCOM_Template->addHtmlElement('footer', '<script src="https://js.braintreegateway.com/web/' . Braintree::WEB_VERSION . '/js/client.min.js"></script><script src="https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('javascript/Application/_/Ambassadors.min.js') . '"></script>');
 
-        $slugify = new Slugify();
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('external/js.cookie.min.js') . '"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script>Cookies.defaults = {path: OSCOM.cookie["path"], domain: OSCOM.cookie["domain"], secure: true};</script>');
 
         $amb_members = [];
 
@@ -71,10 +74,9 @@ class Ambassadors
             $m = Users::get($a);
 
             $amb_members[] = [
-                'id' => $m['id'],
                 'name' => $m['name'],
-                'name_slug' => $slugify->slugify($m['name']),
-                'photo' => $m['photo_url']
+                'profile_url' => $m['profile_url'],
+                'photo_url' => $m['photo_url']
             ];
         }
 
@@ -94,7 +96,7 @@ class Ambassadors
             ];
         }
 
-        $countries_field = HTML::selectMenu('country', $countries, null, 'id="cCountry" class="form-control" required');
+        $countries_field = HTML::selectMenu('country', $countries, null, 'id="cCountry" class="custom-select" required');
 
         $OSCOM_Template->setValue('field_countries', $countries_field);
 

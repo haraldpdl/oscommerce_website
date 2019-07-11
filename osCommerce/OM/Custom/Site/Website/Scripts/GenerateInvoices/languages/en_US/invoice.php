@@ -5,7 +5,7 @@ invoice_title = Invoice
 invoice_number = Invoice #:number
 invoice_date = Date :date
 
-prices_shown_in_euros = Prices shown in Euros
+prices_shown_in_currency = Prices shown in :currency
 
 table_products_title = Products
 table_price_title = Price

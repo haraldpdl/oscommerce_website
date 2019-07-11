@@ -74,7 +74,7 @@ class Edit
         $application->setPageContent('edit.html');
         $application->setPageTitle(OSCOM::getDef('account_html_title'));
 
-        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('external/bs-custom-file-input-1.3.1.min.js') . '"></script>');
+        $OSCOM_Template->addHtmlElement('footer', '<script src="' . OSCOM::getPublicSiteLink('external/bs-custom-file-input.min.js') . '"></script>');
         $OSCOM_Template->addHtmlElement('footer', '<script>$(document).ready(function(){bsCustomFileInput.init();});</script>');
     }
 }

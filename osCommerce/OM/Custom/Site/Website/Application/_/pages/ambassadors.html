@@ -11,324 +11,331 @@
 
       {lang}amb_main_content{lang}
 
-      <h2>{lang}amb_plan_title{lang}</h2>
+      <h2 id="ambTitle" class="py-3">{lang}amb_plan_title{lang}</h2>
 
-      <div class="row pb-4">
-        <div class="col-md-6">
-          <table class="table table-hover table-borderless">
-            <tbody>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_profile{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_apps{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square.svg{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_sites{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_commercial{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_commercial_feedback{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_search{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_pm{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">{lang}amb_plan_forum_channel{lang}</td>
-                <td class="text-center text-success" style="font-size: 140%;">{fa}check-square{fa}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div id="ambStart">
+        <div class="jumbotron border mb-1 py-4">
+          <div class="text-right pb-4 pb-sm-1">
+            <div class="form-check form-check-inline">
+              <label for="currencySelector" class="form-check-label small pr-1">{lang}currencies_title{lang}</label>
+
+              <select id="currencySelector" class="custom-select custom-select-sm">
+                {loop currencies}
+                <option value="#code#">#title#</option>
+                {loop}
+              </select>
+
+              <script>$('#currencySelector').val(OSCOM.currency);</script>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <h1 class="display-4"><span id="ambPrice" data-originalprice="{value}amb_price{value}">{value}amb_price{value}</span><sup style="vertical-align: top; font-size: 0.4em; top: 15px;">*</sup> <span class="text-muted">{lang}lifetime{lang}</span></h1>
+
+            {iftrue is_ambassador}
+            <p class="lead py-3">{lang}welcome_boost{lang}</p>
+
+            <p><button id="ambStartButton" class="btn btn-success btn-lg">{lang}button_boost_ambassador_level next_level="{value}ambassador_user_next_level{value}"{lang}</button></p>
+            {else}
+            <p class="lead py-3">{lang}welcome_start{lang}</p>
+
+            <p><button id="ambStartButton" class="btn btn-success btn-lg">{lang}button_become_an_ambassador{lang}</button></p>
+            {iftrue}
+          </div>
         </div>
 
-        <div class="col-md-6">
-          <div id="ambStart">
-            <div class="jumbotron border mb-1 pb-5">
-              <div class="text-center">
-                <h1 class="display-4">{lang}amb_price{lang}<sup style="vertical-align: top; font-size: 0.4em; top: 15px;">*</sup> <span class="text-muted">{lang}lifetime{lang}</span></h1>
+        <p class="text-muted text-center small mt-2">{lang}amb_pricing_info{lang}</p>
 
-                {iftrue is_ambassador}
-                <p class="lead">{lang}welcome_boost{lang}</p>
+        <ul class="list-group d-flex flex-row flex-wrap">
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_profile{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_apps{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_sites{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_commercial{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_commercial_feedback{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_search{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_pm{lang}
+          </li>
+          <li class="list-group-item list-group-item-action w-sm-50 border-0">
+            <span class="float-right" style="font-size: 120%;">{fa}check-square|text-success{fa}</span>
+            {lang}amb_plan_forum_channel{lang}
+          </li>
+        </ul>
+      </div>
 
-                <p><button id="ambStartButton" class="btn btn-success btn-lg">{lang}button_boost_ambassador_level next_level="{value}ambassador_user_next_level{value}"{lang}</button></p>
-                {else}
-                <p class="lead">{lang}welcome_start{lang}</p>
+      <div id="ambLogin" class="card bg-light d-none">
+        <div class="card-body">
+          <h3 class="card-title">{lang}login_title{lang}</h3>
 
-                <p><button id="ambStartButton" class="btn btn-success btn-lg">{lang}button_become_an_ambassador{lang}</button></p>
-                {iftrue}
+          <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
+
+          <form id="ambLoginForm" novalidate>{formprotect}public_token{formprotect}
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="cUsername">{lang}login_username_title{lang}</label>
+                  <input type="input" class="form-control" id="cUsername" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="cPassword">{lang}login_password_title{lang}</label>
+                  <input type="password" class="form-control" id="cPassword" required>
+                  <div class="invalid-feedback"></div>
+                  <span class="text-muted small"><a href="{link}Account|Website|ResetPassword|SSL{link}">{lang}login_password_forgotten_link{lang}</a></span>
+                </div>
               </div>
             </div>
 
-            <p class="text-muted text-center small mt-2">{lang}amb_pricing_info{lang}</p>
-          </div>
+            <p><button type="submit" id="ambLoginButton" class="btn btn-info" data-processing-text="{escape}{lang}login_processing_button_title{lang}{escape}">{lang}login_button_title{lang}</button></p>
+          </form>
 
-          <div id="ambLogin" class="card bg-light d-none">
-            <div class="card-body">
-              <h3 class="card-title">{lang}login_title{lang}</h3>
+          <p style="font-size: 0.9em;">{lang}login_account_required_reason{lang}</p>
 
-              <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
+          <p style="font-size: 0.9em;"><a href="#" id="ambCreateAccountLink" role="button">{lang}login_create_account_info{lang}</a></p>
+        </div>
+      </div>
 
-              <form id="ambLoginForm" novalidate>{formprotect}public_token{formprotect}
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="cUsername">{lang}login_username_title{lang}</label>
-                      <input type="input" class="form-control" id="cUsername" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
+      <div id="ambCreateAccount" class="card bg-light d-none">
+        <div class="card-body">
+          <h3 class="card-title">{lang}create_title{lang}</h3>
 
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="cPassword">{lang}login_password_title{lang}</label>
-                      <input type="password" class="form-control" id="cPassword" required>
-                      <div class="invalid-feedback"></div>
-                      <span class="text-muted small"><a href="{link}Account|Website|ResetPassword|SSL{link}">{lang}login_password_forgotten_link{lang}</a></span>
-                    </div>
-                  </div>
-                </div>
+          <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
 
-                <p><button type="submit" id="ambLoginButton" class="btn btn-info" data-processing-text="{escape}{lang}login_processing_button_title{lang}{escape}">{lang}login_button_title{lang}</button></p>
-              </form>
-
-              <p style="font-size: 0.9em;">{lang}login_account_required_reason{lang}</p>
-
-              <p style="font-size: 0.9em;"><a href="#" id="ambCreateAccountLink" role="button">{lang}login_create_account_info{lang}</a></p>
-            </div>
-          </div>
-
-          <div id="ambCreateAccount" class="card bg-light d-none">
-            <div class="card-body">
-              <h3 class="card-title">{lang}create_title{lang}</h3>
-
-              <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
-
-              <form id="ambCreateAccountForm" novalidate>{formprotect}public_token{formprotect}
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="cnUsername">{lang}create_username_title{lang}</label>
-                      <input type="input" class="form-control" id="cnUsername" required>
-                      <div class="invalid-feedback"></div>
-                      <small class="form-text text-muted">{lang}create_username_note{lang}</small>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="cnEmail">{lang}create_email_address_title{lang}</label>
-                      <input type="email" class="form-control" id="cnEmail" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="cnPassword">{lang}create_password_title{lang}</label>
-                      <input type="password" class="form-control" id="cnPassword" required>
-                      <div class="invalid-feedback"></div>
-                      <small class="form-text text-muted">{lang}create_password_note{lang}</small>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label>{lang}create_security_check_title{lang}</label>
-                      <div id="cnSecurityCheck"></div>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <p class="mt-2"><button type="submit" id="ambCreateAccountButton" class="btn btn-info" data-processing-text="{escape}{lang}create_processing_button_title{lang}{escape}">{lang}create_button_title{lang}</button></p>
-                <p class="text-muted" style="font-size: 0.9em;">{lang}create_tos_agree{lang}</p>
-              </form>
-
-              <p style="font-size: 0.9em;"><a href="#" id="ambLoginLink" role="button">{lang}create_login_link{lang}</a></p>
-            </div>
-          </div>
-
-          <div id="ambVerifyAccount" class="card bg-light d-none">
-            <div class="card-body">
-              <h3 class="card-title">{lang}verify_title{lang}</h3>
-
-              <div class="alert alert-success d-none" role="alert" style="font-size: 0.9em;"></div>
-
-              <p style="font-size: 0.9em;">{lang}verify_introduction{lang}</p>
-
-              <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
-
-              <form id="ambVerifyAccountForm" novalidate>{formprotect}public_token{formprotect}
-                <div class="row">
-                  <div class="col-lg-4">
-                    <div class="form-group">
-                      <label for="cvUserId">{lang}verify_user_id_title{lang}</label>
-                      <input type="tel" class="form-control" id="cvUserId" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-8">
-                    <div class="form-group">
-                      <label for="cvKey">{lang}verify_key_title{lang}</label>
-                      <input type="input" class="form-control" id="cvKey" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <p><button type="submit" id="ambVerifyAccountButton" class="btn btn-info" data-processing-text="{escape}{lang}verify_processing_button_title{lang}{escape}">{lang}verify_button_title{lang}</button></p>
-              </form>
-            </div>
-          </div>
-
-          <div id="ambBillingAddress" class="card bg-light d-none">
-            <div class="card-body">
-              <h3 class="card-title">{lang}billing_address_title{lang}</h3>
-
-              <p style="font-size: 0.9em;">{lang}billing_address_introduction{lang}</p>
-
-              <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
-
-              <form id="ambBillingAddressForm" novalidate>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cFirstName">{lang}billing_firstname_title{lang}</label>
-                      <input type="input" class="form-control" id="cFirstName" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cLastName">{lang}billing_lastname_title{lang}</label>
-                      <input type="input" class="form-control" id="cLastName" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cStreetAddress">{lang}billing_street_address_title{lang}</label>
-                      <input type="input" class="form-control" id="cStreetAddress" required>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cStreetAddress2">{lang}billing_street_address2_title{lang}</label>
-                      <input type="input" class="form-control" id="cStreetAddress2" placeholder="optional">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cCity">{lang}billing_city_title{lang}</label>
-                      <input type="input" class="form-control" id="cCity">
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cZip">{lang}billing_zip_title{lang}</label>
-                      <input type="input" class="form-control" id="cZip">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="cCountry">{lang}billing_country_title{lang}</label>
-                      {raw}field_countries{raw}
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>{lang}billing_state_title{lang}</label>
-                      <input type="input" class="form-control d-none" id="cState">
-                      <select id="cStateSelect" class="form-control d-none"></select>
-                      <p class="form-control-plaintext" style="font-size: 1.0em;"><small>{lang}billing_country_select_first{lang}</small></p>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-
-              <p class="text-right"><button type="submit" id="ambBillingAddressButton" class="btn btn-success" data-processing-text="{escape}{lang}billing_address_processing_button_title{lang}{escape}">{lang}billing_address_continue_button_title{lang}</button></p>
-            </div>
-          </div>
-
-          <div id="ambPayment" class="card bg-light d-none">
-            <div class="card-body">
-              <div class="text-right mb-2">
-                <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree">
-              </div>
-
-              <address id="orderBillingAddress"></address>
-
-              <table id="orderTable" class="table"></table>
-
-              <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
-
-              <div id="ambBtFormIndicator" class="spinner-border" role="status"></div>
-              <div id="ambBtForm"></div>
-
-              <p class="text-right">
-                {fa}arrow-right|d-none text-success{fa}
-                <button type="button" id="ambPaymentButton" class="btn btn-secondary d-none" data-processing-text="{escape}{lang}payment_processing_button_title{lang}{escape}" disabled>{lang}payment_pay_now_button_title{lang}</button>
-              </p>
-
-              <p id="ambPaymentTerms" class="small text-muted d-none">{lang}payment_tos_agree{lang}</p>
-            </div>
-          </div>
-
-          <div id="ambSuccess" class="card bg-light d-none">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-3 mx-auto mt-3 display-2 text-center">
-                  {fa}heart|text-danger{fa}
-                </div>
-
-                <div class="col-9 text-center">
-                  <h1 class="display-4">{lang}success_title{lang}</h1>
-
-                  {lang}success_description{lang}
-
-                  <p><a href="{link}Account{link}" class="btn btn-success" style="margin-bottom: 10px;">{lang}success_visit_account_button_title{lang}</a></p>
+          <form id="ambCreateAccountForm" novalidate>{formprotect}public_token{formprotect}
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="cnUsername">{lang}create_username_title{lang}</label>
+                  <input type="input" class="form-control" id="cnUsername" required>
+                  <div class="invalid-feedback"></div>
+                  <small class="form-text text-muted">{lang}create_username_note{lang}</small>
                 </div>
               </div>
+
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="cnEmail">{lang}create_email_address_title{lang}</label>
+                  <input type="email" class="form-control" id="cnEmail" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="cnPassword">{lang}create_password_title{lang}</label>
+                  <input type="password" class="form-control" id="cnPassword" required>
+                  <div class="invalid-feedback"></div>
+                  <small class="form-text text-muted">{lang}create_password_note{lang}</small>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label>{lang}create_security_check_title{lang}</label>
+                  <div id="cnSecurityCheck"></div>
+                  <div class="invalid-feedback d-inline"></div> <!-- d-inline required as there is no input.form-control //-->
+                </div>
+              </div>
+            </div>
+
+            <p class="mt-2"><button type="submit" id="ambCreateAccountButton" class="btn btn-info" data-processing-text="{escape}{lang}create_processing_button_title{lang}{escape}">{lang}create_button_title{lang}</button></p>
+            <p class="text-muted" style="font-size: 0.9em;">{lang}create_tos_agree{lang}</p>
+          </form>
+
+          <p style="font-size: 0.9em;"><a href="#" id="ambLoginLink" role="button">{lang}create_login_link{lang}</a></p>
+        </div>
+      </div>
+
+      <div id="ambVerifyAccount" class="card bg-light d-none">
+        <div class="card-body">
+          <h3 class="card-title">{lang}verify_title{lang}</h3>
+
+          <div class="alert alert-success d-none" role="alert" style="font-size: 0.9em;"></div>
+
+          <p style="font-size: 0.9em;">{lang}verify_introduction{lang}</p>
+
+          <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
+
+          <form id="ambVerifyAccountForm" novalidate>{formprotect}public_token{formprotect}
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label for="cvUserId">{lang}verify_user_id_title{lang}</label>
+                  <input type="tel" class="form-control" id="cvUserId" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-lg-8">
+                <div class="form-group">
+                  <label for="cvKey">{lang}verify_key_title{lang}</label>
+                  <input type="input" class="form-control" id="cvKey" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+            </div>
+
+            <p><button type="submit" id="ambVerifyAccountButton" class="btn btn-info" data-processing-text="{escape}{lang}verify_processing_button_title{lang}{escape}">{lang}verify_button_title{lang}</button></p>
+          </form>
+        </div>
+      </div>
+
+      <div id="ambBillingAddress" class="card bg-light d-none">
+        <div class="card-body">
+          <h3 class="card-title">{lang}billing_address_title{lang}</h3>
+
+          <p style="font-size: 0.9em;">{lang}billing_address_introduction{lang}</p>
+
+          <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
+
+          <form id="ambBillingAddressForm" novalidate>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cFirstName">{lang}billing_firstname_title{lang}</label>
+                  <input type="input" class="form-control" id="cFirstName" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cLastName">{lang}billing_lastname_title{lang}</label>
+                  <input type="input" class="form-control" id="cLastName" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cStreetAddress">{lang}billing_street_address_title{lang}</label>
+                  <input type="input" class="form-control" id="cStreetAddress" required>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cStreetAddress2">{lang}billing_street_address2_title{lang}</label>
+                  <input type="input" class="form-control" id="cStreetAddress2" placeholder="optional">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cCity">{lang}billing_city_title{lang}</label>
+                  <input type="input" class="form-control" id="cCity">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cZip">{lang}billing_zip_title{lang}</label>
+                  <input type="input" class="form-control" id="cZip">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="cCountry">{lang}billing_country_title{lang}</label>
+                  {raw}field_countries{raw}
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>{lang}billing_state_title{lang}</label>
+                  <input type="input" class="form-control d-none" id="cState">
+                  <select id="cStateSelect" class="custom-select d-none"></select>
+                  <p class="form-control-plaintext" style="font-size: 1.0em;"><small>{lang}billing_country_select_first{lang}</small></p>
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <p class="text-right"><button type="submit" id="ambBillingAddressButton" class="btn btn-success" data-processing-text="{escape}{lang}billing_address_processing_button_title{lang}{escape}">{lang}billing_address_continue_button_title{lang}</button></p>
+        </div>
+      </div>
+
+      <div id="ambPayment" class="card bg-light d-none">
+        <div class="card-body">
+          <div class="text-right mb-2">
+            <img src="{publiclink}images/braintree-badge-wide-light.png{publiclink}" width="202px" height="32px" border="0" alt="Payments by Braintree">
+          </div>
+
+          <button type="button" id="ambPaymentChangeAddressButton" class="btn btn-link btn-sm pl-0 invisible">{lang}change_address_title{lang}</button>
+
+          <address id="orderBillingAddress"></address>
+
+          <table id="orderTable" class="table"></table>
+
+          <div class="alert alert-danger d-none" role="alert" style="font-size: 0.9em;"></div>
+
+          <div id="ambBtForm"></div>
+
+          <p class="text-right">
+            {fa}arrow-right|d-none text-success{fa}
+            <button type="button" id="ambPaymentButton" class="btn btn-secondary d-none" data-processing-text="{escape}{lang}payment_processing_button_title{lang}{escape}" disabled>{lang}payment_pay_now_button_title{lang}</button>
+          </p>
+
+          <p id="ambPaymentTerms" class="small text-center text-muted d-none">{lang}payment_tos_agree{lang}</p>
+        </div>
+      </div>
+
+      <div id="ambSuccess" class="card bg-light d-none">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3 mx-auto mt-3 display-2 text-center">
+              {fa}heart|text-danger{fa}
+            </div>
+
+            <div class="col-9 text-center">
+              <h1 class="display-4">{lang}success_title{lang}</h1>
+
+              {lang}success_description{lang}
+
+              <p><a href="{link}Account{link}" class="btn btn-success" style="margin-bottom: 10px;">{lang}success_visit_account_button_title{lang}</a></p>
             </div>
           </div>
         </div>
       </div>
 
-      <h3>{lang}amb_newest_ambassadors_title{lang}</h3>
+      <h3 class="pt-4">{lang}amb_newest_ambassadors_title{lang}</h3>
 
-      <div class="row">
+      <div id="newestAmbMembers" class="row">
         {loop amb_members}
           <div class="col-3 col-sm-2 col-lg-1 text-center">
-            <a href="https://forums.oscommerce.com/profile/#id#-#name_slug#/"><img src="#photo#" class="rounded-circle my-4" style="width: 75px; height: 75px;" title="#name#"></a>
+            <a href="#profile_url#"><img src="#photo_url#" class="rounded-circle my-4" style="width: 75px; height: 75px;" title="#name#"></a>
           </div>
         {loop}
       </div>
@@ -369,698 +376,122 @@
   </div>
 </div>
 
+<style>
+.animationNewAmbassador {
+  animation-name: animationNewAmbassador;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes animationNewAmbassador {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  70% {
+    transform: scale(2.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
+
 <script>
-$(function() {
-  var loggedIn = {ifvalue user}true{else}false{ifvalue};
-  var zones = {raw json_encode}select_zones{raw};
-{ifvalue billing_address}
-  var billing_address = {raw json_encode}billing_address{raw};
-{else}
-  var billing_address;
-{ifvalue}
-  var address;
-  var total_raw;
-  var paymentButtonText = $('#ambPaymentButton').html();
-  var hasError = false;
-  var gSecurityCheck;
-  var panelCurrent = 'Start';
-  var panelLast;
-
-  var btDropinInstance;
-
-  var error_general = {lang json_encode}error_general{lang};
-  var error_login_general = {lang json_encode}login_ms_error_general{lang};
-  var error_create_general = {lang json_encode}create_ms_error_general{lang};
-  var error_verify_general = {lang json_encode}verify_ms_error_general{lang};
-  var error_payment_general = {lang json_encode}payment_ms_error_general{lang};
-
-  if ('MutationObserver' in window) {
-    var paymentButtonObserver = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.oldValue === null) {
-          $('#ambPaymentButton').siblings('svg.svg-inject').addClass('d-none');
-
-          if ($('#ambPaymentButton').html() != $('#ambPaymentButton').data('processing-text')) {
-            $('#ambPaymentButton').removeClass('btn-success').addClass('btn-secondary');
-          }
-        } else {
-          if ($('#ambPaymentButton').html() != $('#ambPaymentButton').data('processing-text')) {
-            $('#ambPaymentButton').siblings('svg.svg-inject').removeClass('d-none');
-            $('#ambPaymentButton').removeClass('btn-secondary').addClass('btn-success');
-          } else {
-            if ($('#ambPaymentButton').data('original-text')) {
-              $('#ambPaymentButton').html($('#ambPaymentButton').data('original-text')).removeData('original-text');
-            }
-
-            $('#ambPaymentButton').siblings('svg.svg-inject').addClass('d-none');
-            $('#ambPaymentButton').removeClass('btn-success').addClass('btn-secondary');
-          }
-        }
-      });
-    });
-
-    paymentButtonObserver.observe(document.getElementById('ambPaymentButton'), {
-      attributes: true,
-      attributeOldValue: true,
-      attributeFilter: [
-        'disabled'
-      ]
-    });
-  }
-
-  function showPanel(panel) {
-    panelLast = panelCurrent;
-    panelCurrent = panel;
-
-    $('#amb' + panelLast).addClass('d-none');
-    $('#amb' + panelCurrent).removeClass('d-none');
-  }
-
-  function showMessage(id, message, type) {
-    if (typeof type === 'undefined') {
-      type = 'danger';
+Object.defineProperties(OSCOM.lang, {
+    amb_error_general: {
+        value: {lang json_encode}error_general{lang}
+    },
+    amb_error_login_general: {
+        value: {lang json_encode}login_ms_error_general{lang}
+    },
+    amb_error_create_general: {
+        value: {lang json_encode}create_ms_error_general{lang}
+    },
+    amb_error_verify_general: {
+        value: {lang json_encode}verify_ms_error_general{lang}
+    },
+    amb_error_payment_general: {
+        value: {lang json_encode}payment_ms_error_general{lang}
+    },
+    amb_select_please_select: {
+        value: {lang json_encode}select_please_select{lang}
+    },
+    amb_error_login_username: {
+        value: {lang json_encode}login_username_js_error{lang}
+    },
+    amb_error_login_password: {
+        value: {lang json_encode}login_password_js_error{lang}
+    },
+    amb_error_verify_user_id: {
+        value: {lang json_encode}verify_user_id_js_error{lang}
+    },
+    amb_error_verify_user_key: {
+        value: {lang json_encode}verify_key_js_error{lang}
+    },
+    amb_error_create_email_address: {
+        value: {lang json_encode}create_email_address_js_error{lang}
+    },
+    amb_error_create_security_check: {
+        value: {lang json_encode}create_security_check_js_error{lang}
+    },
+    amb_create_verify_account: {
+        value: {lang json_encode}create_verify_account{lang}
+    },
+    amb_error_billing_firstname: {
+        value: {lang json_encode}billing_firstname_js_error{lang}
+    },
+    amb_error_billing_lastname: {
+        value: {lang json_encode}billing_lastname_js_error{lang}
+    },
+    amb_error_billing_street_address: {
+        value: {lang json_encode}billing_street_address_js_error{lang}
+    },
+    amb_error_payment_transaction: {
+        value: {lang json_encode}payment_transaction_error{lang}
     }
+});
 
-    $('#' + id + ' div.alert-' + type).append('<p>' + message + '</p>').removeClass('d-none');
-  }
+if (typeof OSCOM.a.vars === 'undefined') OSCOM.a.vars = {};
 
-  function showInlineError(id, error) {
-    hasError = true;
-
-    if (typeof error === 'undefined') {
-      error = $('#' + id).parent().find('.form-text.text-muted').html();
+Object.defineProperties(OSCOM.a.vars, {
+    loggedIn: {
+        value: {ifvalue user}true{else}false{ifvalue}
+    },
+    zones: {
+        value: {raw json_encode}select_zones{raw}
+    },
+    billing_address: {
+        value: {ifvalue billing_address}{raw json_encode}billing_address{raw}{else}undefined{ifvalue}
+    },
+    ambPrices: {
+        value: {raw json_encode}amb_prices{raw}
+    },
+    recaptcha_key_public: {
+        value: {raw json_encode}recaptcha_key_public{raw}
+    },
+    language_code: {
+        value: {raw json_encode}language_code{raw}
+    },
+    rpc_login_url: {
+        value: '{rpclink}Login|Account|Website{rpclink}'
+    },
+    rpc_verify_url: {
+        value: '{rpclink}Verify|Account|Website{rpclink}'
+    },
+    rpc_create_url: {
+        value: '{rpclink}Create|Account|Website{rpclink}'
+    },
+    rpc_braintree_client_token_url: {
+        value: '{rpclink}GetBraintreeClientToken|_|Website{rpclink}'
+    },
+    rpc_braintree_process_url: {
+        value: '{rpclink}ProcessBraintree|_|Website{rpclink}'
     }
-
-    $('#' + id).parent().find('.invalid-feedback').html(error);
-
-    $('#' + id).parent().find('.form-text.text-muted').addClass('d-none');
-    $('#' + id).addClass('is-invalid');
-  }
-
-  function clearInlineError(id) {
-    $('#' + id).removeClass('is-invalid');
-    $('#' + id).parent().find('.form-text.text-muted').removeClass('d-none');
-  }
-
-  function prefillBillingAddress() {
-    if (typeof billing_address !== 'undefined') {
-      $('#cFirstName').val(billing_address.firstname);
-      $('#cLastName').val(billing_address.lastname);
-      $('#cStreetAddress').val(billing_address.street);
-      $('#cStreetAddress2').val(billing_address.street2);
-      $('#cCity').val(billing_address.city);
-      $('#cZip').val(billing_address.zip);
-      $('#cCountry').val(billing_address.country_iso_2).trigger('change');
-
-      if (billing_address.country_iso_2 in zones) {
-        $('#cStateSelect').val(billing_address.zone_code).trigger('change');
-      } else {
-        $('#cState').val(billing_address.state);
-      }
-    }
-  }
-
-  $('#cCountry').on('change', function(e) {
-    if ($(this).val() === '') {
-      $('#cState, #cStateSelect').addClass('d-none');
-      $('#cState').siblings('.form-control-plaintext').removeClass('d-none');
-      $('#cState').siblings('label').removeAttr('for');
-    } else if ($(this).val() in zones) {
-      $('#cStateSelect').empty();
-
-      $('#cStateSelect').append('<option value="">' + {lang json_encode}select_please_select{lang} + '</option>');
-
-      zones[$(this).val()].forEach(function (value) {
-        $('#cStateSelect').append('<option value="' + value.code + '">' + value.title + '</option>');
-      });
-
-      $('#cState').siblings('.form-control-plaintext').addClass('d-none');
-      $('#cState').addClass('d-none');
-      $('#cStateSelect').removeClass('d-none');
-      $('#cState').siblings('label').attr('for', 'cStateSelect');
-    } else {
-      $('#cState').siblings('.form-control-plaintext').addClass('d-none');
-      $('#cStateSelect').addClass('d-none');
-      $('#cState').removeClass('d-none');
-      $('#cState').siblings('label').attr('for', 'cState');
-    }
-  });
-
-  $('#ambStartButton').on('click', function(e) {
-    e.preventDefault();
-
-    if (loggedIn === true) {
-      prefillBillingAddress();
-
-      showPanel('BillingAddress');
-    } else {
-      showPanel('Login');
-    }
-  });
-
-  $('#ambCreateAccountLink').on('click', function(e) {
-    e.preventDefault();
-
-    if (typeof gSecurityCheck === 'undefined') {
-      gSecurityCheck = grecaptcha.render('cnSecurityCheck', {
-        'sitekey': {raw json_encode}recaptcha_key_public{raw}
-      });
-    }
-
-    showPanel('CreateAccount');
-  });
-
-  $('#ambLoginLink').on('click', function(e) {
-    e.preventDefault();
-
-    showPanel('Login');
-  });
-
-  $('#ambLoginForm').submit(function(e) {
-    e.preventDefault();
-
-    if ($('#ambLoginButton').prop('disabled') === true) {
-      return false;
-    }
-
-    $('#ambLogin div.alert').empty().addClass('d-none');
-
-    hasError = false;
-
-    $('#ambLoginButton').prop('disabled', true).data('original-text', $('#ambLoginButton').html()).html($('#ambLoginButton').data('processing-text'));
-
-    $('#cUsername').val($('#cUsername').val().trim());
-
-    clearInlineError('cUsername');
-
-    if (($('#cUsername').val().length < 3) || ($('#cUsername').val().length > 26)) {
-      showInlineError('cUsername', {lang json_encode}login_username_js_error{lang});
-    }
-
-    clearInlineError('cPassword');
-
-    if (($('#cPassword').val().length < 3) || ($('#cPassword').val().length > 32)) {
-      showInlineError('cPassword', {lang json_encode}login_password_js_error{lang});
-    }
-
-    if (hasError === true) {
-      $('#ambLoginButton').html($('#ambLoginButton').data('original-text')).removeData('original-text').prop('disabled', false);
-    } else {
-      var params = {
-        public_token: $('#ambLoginForm input[name="public_token"]').val(),
-        username: $('#cUsername').val(),
-        password: $('#cPassword').val(),
-        sendVerification: '1',
-        addressType: 'billing'
-      };
-
-      $.post('{rpclink}Login|Account|Website{rpclink}', params, function (result) {
-        if (typeof result.rpcStatus !== 'undefined') {
-          if (result.rpcStatus === 1) {
-            loggedIn = true;
-
-            if (typeof result.address !== 'undefined') {
-              billing_address = result.address;
-
-              prefillBillingAddress();
-            }
-
-            showPanel('BillingAddress');
-          } else {
-            if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'not_verified')) {
-              $('#ambVerifyEmailAddress').html(result.email);
-
-              showPanel('VerifyAccount');
-            } else {
-              var e = (typeof result.errors !== 'undefined') ? result.errors : [];
-
-              if (e.length < 1) {
-                e.push(error_login_general);
-              }
-
-              e.forEach(function(v) {
-                showMessage('ambLogin', v);
-              });
-            }
-          }
-        } else {
-          showMessage('ambLogin', error_general);
-        }
-      }, 'json').fail(function() {
-        showMessage('ambLogin', error_general);
-      }).always(function() {
-        $('#ambLoginButton').html($('#ambLoginButton').data('original-text')).removeData('original-text').prop('disabled', false);
-      });
-    }
-  });
-
-  $('#ambVerifyAccountForm').submit(function(e) {
-    e.preventDefault();
-
-    if ($('#ambVerifyAccountButton').prop('disabled') === true) {
-      return false;
-    }
-
-    $('#ambVerifyAccount div.alert').empty().addClass('d-none');
-
-    hasError = false;
-
-    $('#ambVerifyAccountButton').prop('disabled', true).data('original-text', $('#ambVerifyAccountButton').html()).html($('#ambVerifyAccountButton').data('processing-text'));
-
-    $('#cvUserId').val($('#cvUserId').val().trim());
-
-    clearInlineError('cvUserId');
-
-    if (($('#cvUserId').val().match(/^\d+$/g) === null) || ($('#cvUserId').val() < 1)) {
-      showInlineError('cvUserId', {lang json_encode}verify_user_id_js_error{lang});
-    }
-
-    $('#cvKey').val($('#cvKey').val().trim());
-
-    clearInlineError('cvKey');
-
-    if (($('#cvKey').val().length !== 32) || ($('#cvKey').val().match(/^[a-zA-Z0-9\-\_]+$/g) === null)) {
-      showInlineError('cvKey', {lang json_encode}verify_key_js_error{lang});
-    }
-
-    if (hasError === true) {
-      $('#ambVerifyAccountButton').html($('#ambVerifyAccountButton').data('original-text')).removeData('original-text').prop('disabled', false);
-    } else {
-      var params = {
-        public_token: $('#ambVerifyAccountForm input[name="public_token"]').val(),
-        user_id: $('#cvUserId').val(),
-        key: $('#cvKey').val()
-      };
-
-      $.post('{rpclink}Verify|Account|Website{rpclink}', params, function (result) {
-        if (typeof result.rpcStatus !== 'undefined') {
-          if (result.rpcStatus === 1) {
-            var login_params;
-
-            if (panelLast === 'Login') {
-              login_params = {
-                public_token: $('#ambLoginForm input[name="public_token"]').val(),
-                username: $('#cUsername').val(),
-                password: $('#cPassword').val()
-              };
-            } else if (panelLast === 'CreateAccount') {
-              login_params = {
-                public_token: $('#ambCreateAccountForm input[name="public_token"]').val(),
-                username: $('#cnUsername').val(),
-                password: $('#cnPassword').val()
-              };
-            }
-
-            if (typeof login_params.username !== 'undefined') {
-              $.post('{rpclink}Login|Account|Website{rpclink}', login_params, function (login_result) {
-                if ((typeof login_result.rpcStatus !== 'undefined') && (login_result.rpcStatus === 1)) {
-                  loggedIn = true;
-
-                  if (typeof login_result.address !== 'undefined') {
-                    billing_address = login_result.address;
-
-                    prefillBillingAddress();
-                  }
-
-                  showPanel('BillingAddress');
-                } else {
-                  showPanel('Login');
-                }
-              }, 'json').fail(function() {
-                showPanel('Login');
-              }).always(function() {
-                $('#ambVerifyAccountButton').html($('#ambVerifyAccountButton').data('original-text')).removeData('original-text').prop('disabled', false);
-              });
-            } else {
-              showPanel('Login');
-            }
-          } else {
-            if ((typeof result.errorCode !== 'undefined') && (result.errorCode === 'already_verified')) {
-              showMessage('ambLogin', 'already_verified');
-
-              $('#cvUserId, #cvKey, #cUsername, #cPassword').val('');
-
-              showPanel('Login');
-            } else {
-              var e = (typeof result.errors !== 'undefined') ? result.errors : [];
-
-              if (e.length < 1) {
-                e.push(error_verify_general);
-              }
-
-              e.forEach(function(v) {
-                showMessage('ambVerifyAccount', v);
-              });
-            }
-          }
-        } else {
-          showMessage('ambVerifyAccount', error_verify_general);
-        }
-      }, 'json').fail(function() {
-        showMessage('ambVerifyAccount', error_verify_general);
-      }).always(function() {
-        $('#ambVerifyAccountButton').html($('#ambVerifyAccountButton').data('original-text')).removeData('original-text').prop('disabled', false);
-      });
-    }
-  });
-
-  $('#ambCreateAccountForm').submit(function(e) {
-    e.preventDefault();
-
-    if ($('#ambCreateAccountButton').prop('disabled') === true) {
-      return false;
-    }
-
-    $('#ambCreateAccount div.alert').empty().addClass('d-none');
-
-    hasError = false;
-
-    $('#ambCreateAccountButton').prop('disabled', true).data('original-text', $('#ambCreateAccountButton').html()).html($('#ambCreateAccountButton').data('processing-text'));
-
-    $('#cnUsername').val($('#cnUsername').val().trim());
-
-    clearInlineError('cnUsername');
-
-    if (($('#cnUsername').val().length < 3) || ($('#cnUsername').val().length > 26)) {
-      showInlineError('cnUsername');
-    }
-
-    $('#cnEmail').val($('#cnEmail').val().trim());
-
-    clearInlineError('cnEmail');
-
-    if (($('#cnEmail').val() === '') || ($('#cnEmail').val().match(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g) === null)) {
-      showInlineError('cnEmail', {lang json_encode}create_email_address_js_error{lang});
-    }
-
-    clearInlineError('cnPassword');
-
-    if (($('#cnPassword').val().length < 3) || ($('#cnPassword').val().length > 32)) {
-      showInlineError('cnPassword');
-    }
-
-    clearInlineError('cnSecurityCheck');
-
-    if ($('#ambCreateAccountForm textarea[name="g-recaptcha-response"]').val().length < 1) {
-      showInlineError('cnSecurityCheck', {lang json_encode}create_security_check_js_error{lang});
-    }
-
-    if (hasError === true) {
-      $('#ambCreateAccountButton').html($('#ambCreateAccountButton').data('original-text')).removeData('original-text').prop('disabled', false);
-    } else {
-      var params = {
-        public_token: $('#ambCreateAccountForm input[name="public_token"]').val(),
-        username: $('#cnUsername').val(),
-        email: $('#cnEmail').val(),
-        password: $('#cnPassword').val(),
-        gr_security_check: $('#ambCreateAccountForm textarea[name="g-recaptcha-response"]').val(),
-        sendVerification: '1'
-      };
-
-      $.post('{rpclink}Create|Account|Website{rpclink}', params, function (result) {
-        if (typeof result.rpcStatus !== 'undefined') {
-          if (result.rpcStatus === 1) {
-            showMessage('ambVerifyAccount', {lang json_encode}create_verify_account{lang}, 'success');
-
-            $('#ambVerifyEmailAddress').html(result.email);
-
-            showPanel('VerifyAccount');
-          } else {
-            var e = (typeof result.errors !== 'undefined') ? result.errors : [];
-
-            if (e.length < 1) {
-              e.push(error_create_general);
-            }
-
-            e.forEach(function(v) {
-              showMessage('ambCreateAccount', v);
-            });
-
-            if ((typeof result.resetGSecurityCheck !== 'undefined') && (result.resetGSecurityCheck === true)) {
-              grecaptcha.reset(gSecurityCheck);
-            }
-          }
-        } else {
-          showMessage('ambCreateAccount', error_create_general);
-        }
-      }, 'json').fail(function() {
-        showMessage('ambCreateAccount', error_create_general);
-      }).always(function() {
-        $('#ambCreateAccountButton').html($('#ambCreateAccountButton').data('original-text')).removeData('original-text').prop('disabled', false);
-      });
-    }
-  });
-
-  $('#ambBillingAddressButton').on('click', function(e) {
-    e.preventDefault();
-
-    if ($('#ambBillingAddressButton').prop('disabled') === true) {
-      return false;
-    }
-
-    $('#ambBillingAddress div.alert').empty().addClass('d-none');
-
-    hasError = false;
-
-    $('#ambBillingAddressButton').prop('disabled', true).data('original-text', $('#ambBillingAddressButton').html()).html($('#ambBillingAddressButton').data('processing-text'));
-
-    $('#cFirstName').val($('#cFirstName').val().trim());
-
-    clearInlineError('cFirstName');
-
-    if ($('#cFirstName').val().length < 1) {
-      showInlineError('cFirstName', {lang json_encode}billing_firstname_js_error{lang});
-    }
-
-    $('#cLastName').val($('#cLastName').val().trim());
-
-    clearInlineError('cLastName');
-
-    if ($('#cLastName').val().length < 1) {
-      showInlineError('cLastName', {lang json_encode}billing_lastname_js_error{lang});
-    }
-
-    $('#cStreetAddress').val($('#cStreetAddress').val().trim());
-
-    clearInlineError('cStreetAddress');
-
-    if ($('#cStreetAddress').val().length < 1) {
-      showInlineError('cStreetAddress', {lang json_encode}billing_street_address_js_error{lang});
-    }
-
-    $('#cCity').val($('#cCity').val().trim());
-
-    $('#cZip').val($('#cZip').val().trim());
-
-    clearInlineError('cCountry');
-
-    if ($('#cCountry').val() === '') {
-      showInlineError('cCountry');
-    }
-
-    $('#cState').val($('#cState').val().trim());
-
-    clearInlineError('cStateSelect');
-
-    if (($('#cCountry').val() in zones) && ($('#cStateSelect').val() === '')) {
-      showInlineError('cStateSelect');
-    }
-
-    if (hasError === false) {
-      address = {
-        firstname: $('#cFirstName').val(),
-        lastname: $('#cLastName').val(),
-        street: $('#cStreetAddress').val(),
-        street2: $('#cStreetAddress2').val(),
-        city: $('#cCity').val(),
-        zip: $('#cZip').val(),
-        country: $('#cCountry').val()
-      }
-
-      if ($('#cCountry').val() in zones) {
-        address.zone = $('#cStateSelect').val();
-      } else {
-        address.zone = $('#cState').val();
-      }
-
-      initializeBt();
-    } else {
-      $('#ambBillingAddressButton').html($('#ambBillingAddressButton').data('original-text')).removeData('original-text').prop('disabled', false);
-    }
-  });
-
-  function initializeBt() {
-    $.post('{rpclink}GetBraintreeClientToken|_|Website{rpclink}', address, function (result) {
-      if ((typeof result.rpcStatus !== 'undefined') && (result.rpcStatus === 1) && (typeof result.token !== 'undefined')) {
-        $('#orderBillingAddress').html(result.addressFormatted);
-
-        $.each(result.items, function(i, value) {
-          $('#orderTable').append('<tr><td>' + value.title + '</td><td align="right">' + value.cost + '</td></tr>');
-        });
-
-        $.each(result.totals, function(i, value) {
-          $('#orderTable').append('<tr><td align="right">' + value.title + ':</td><td align="right">' + value.cost + '</td></tr>');
-        });
-
-        var blush = 'Uh, thanks for reading this <3 #vollgerne';
-
-        showPanel('Payment');
-
-        braintree.client.create({
-          authorization: result.token
-        }, function (clientErr, clientInstance) {
-          $('#ambBtFormIndicator').addClass('d-none');
-
-          if (clientErr) {
-            showMessage('ambPayment', error_payment_general);
-
-            return false;
-          }
-
-          try {
-            createDropinInstance(result);
-          } catch (err) {
-            showMessage('ambPayment', error_payment_general);
-
-            return false;
-          }
-        });
-      }
-    }, 'json').always(function() {
-      $('#ambBillingAddressButton').html($('#ambBillingAddressButton').data('original-text')).removeData('original-text').prop('disabled', false);
-    });
-  }
-
-  function createDropinInstance(result) {
-    total_raw = result.totals.total.cost_raw;
-
-    braintree.dropin.create({
-      authorization: result.token,
-      container: '#ambBtForm',
-      paymentOptionPriority: ['paypal', 'card' /*, 'googlePay'*/],
-/*
-      card: {
-        cardholderName: true
-      },
-*/
-      threeDSecure: {
-        amount: total_raw
-      },
-      paypal: {
-        flow: 'checkout',
-        amount: total_raw,
-        currency: 'EUR',
-        displayName: 'osCommerce',
-        enableShippingAddress: false,
-        buttonStyle: {
-          size: 'small',
-          color: 'blue',
-          shape: 'rect'
-        }
-      },
-/*
-      googlePay: {
-//        merchantId: '',
-        environment: 'TEST',
-        transactionInfo: {
-          totalPriceStatus: 'FINAL',
-          totalPrice: total_raw,
-          currencyCode: 'EUR'
-        },
-        cardRequirements: {
-          billingAddressRequired: true
-        }
-      }
-*/
-    }, function (createErr, instance) {
-      if (createErr) {
-        showMessage('ambPayment', error_payment_general);
-
-        return false;
-      }
-
-      btDropinInstance = instance;
-
-      $('#ambPaymentButton').html(paymentButtonText + ' ' + result.totals.total.cost).removeClass('d-none');
-      $('#ambPaymentTerms').removeClass('d-none');
-
-      if (btDropinInstance.isPaymentMethodRequestable()) {
-        $('#ambPaymentButton').prop('disabled', false);
-      }
-
-      btDropinInstance.on('paymentMethodRequestable', function (event) {
-        if ($('#ambPaymentButton').html() != $('#ambPaymentButton').data('processing-text')) {
-          $('#ambPaymentButton').prop('disabled', false);
-        }
-      });
-
-      btDropinInstance.on('noPaymentMethodRequestable', function () {
-        $('#ambPaymentButton').prop('disabled', true);
-      });
-    });
-  }
-
-  $('#ambPaymentButton').on('click', function(e) {
-    e.preventDefault();
-
-    $('#ambPayment div.alert').empty().addClass('d-none');
-
-    $('#ambPaymentButton').data('original-text', $('#ambPaymentButton').html()).html($('#ambPaymentButton').data('processing-text')).prop('disabled', true);
-
-    btDropinInstance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-      if (requestPaymentMethodErr) {
-        showMessage('ambPayment', error_payment_general);
-
-        if ($('#ambPaymentButton').data('original-text')) {
-          $('#ambPaymentButton').html($('#ambPaymentButton').data('original-text')).removeData('original-text');
-        }
-
-        $('#ambPaymentButton').prop('disabled', false);
-
-        return false;
-      }
-
-      if ((payload.type !== 'CreditCard') || (payload.liabilityShifted === true) || (payload.liabilityShiftPossible === false)) {
-        processTransaction(payload.nonce);
-      } else {
-        reinitializeBt();
-
-        showMessage('ambPayment', error_payment_general);
-
-        return false;
-      }
-    });
-  });
-
-  function processTransaction(nonce) {
-    var params = {
-      nonce: nonce,
-      address: address
-    };
-
-    $.post('{rpclink}ProcessBraintree|_|Website{rpclink}', params, function (result) {
-      if (typeof result.rpcStatus !== 'undefined') {
-        if (result.rpcStatus === 1) {
-          showPanel('Success');
-        } else {
-          reinitializeBt();
-
-          showMessage('ambPayment', {lang json_encode}payment_transaction_error{lang} + ' ' + result.errorMessage);
-        }
-      } else {
-        reinitializeBt();
-
-        showMessage('ambPayment', error_payment_general);
-      }
-    }, 'json').fail(function() {
-      reinitializeBt();
-
-      showMessage('ambPayment', error_payment_general);
-    });
-  }
-
-  function reinitializeBt() {
-    btDropinInstance.clearSelectedPaymentMethod();
-  }
 });
 </script>

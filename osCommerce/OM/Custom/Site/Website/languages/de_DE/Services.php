@@ -23,8 +23,8 @@ cs_plans_service_custom_info = <p>Custom development work is available to create
 cs_plans_service_more = .. and more
 cs_plans_service_more_info = <p>We're eager to work with you on improving both our services to our users. Tell us your wishes and we'll work on achieving our goals together.</p>
 
-cs_inquiry_title = Pricing starts at <span style="white-space: nowrap;">50€ / month</span>.
-cs_inquiry_info = Send us your inquiry below or email us at <a href="mailto:partners@oscommerce.com" target="_blank">partners@oscommerce.com</a>
+cs_inquiry_title = Send us your inquiry below
+cs_inquiry_info = or email us at <a href="mailto:partners@oscommerce.com" target="_blank">partners@oscommerce.com</a>
 
 cs_partner_inquiry_contact_title = Your Name
 cs_partner_inquiry_email_title = Your Email Address

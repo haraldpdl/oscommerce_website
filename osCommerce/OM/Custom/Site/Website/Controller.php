@@ -101,6 +101,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
         $OSCOM_Template = Registry::get('Template');
         $OSCOM_Language = Registry::get('Language');
+        $OSCOM_Currency = Registry::get('Currency');
 
         $OSCOM_Template->setApplication(Registry::get('Application'));
 
@@ -109,6 +110,23 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
         $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Website v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '">');
 
+        $js_oscom = [
+            'siteReq' => [
+                'site' => OSCOM::getSite(),
+                'app' => OSCOM::getSiteApplication(),
+                'actions' => Registry::get('Application')->getActionsRun()
+            ],
+            'cookie' => [
+                'path' => OSCOM::getConfig('https_cookie_path'),
+                'domain' => OSCOM::getConfig('https_cookie_domain')
+            ],
+            'currency' => $OSCOM_Currency->getDefault(),
+            'lang' => new \stdClass(),
+            'a' => new \stdClass()
+        ];
+
+        $OSCOM_Template->addHtmlElement('header', '<script>let OSCOM = ' . json_encode($js_oscom) . ';</script>');
+
         $OSCOM_Template->setValue('html_tags', $OSCOM_Template->getHtmlTags());
         $OSCOM_Template->setValue('html_character_set', $OSCOM_Language->getCharacterSet());
         $OSCOM_Template->setValue('html_page_title', $OSCOM_Template->getPageTitle());
@@ -116,7 +134,6 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
         $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlElements('header'));
         $OSCOM_Template->setValue('html_footer_tags', $OSCOM_Template->getHtmlElements('footer'));
-        $OSCOM_Template->setValue('site_req', ['site' => OSCOM::getSite(), 'app' => OSCOM::getSiteApplication(), 'actions' => Registry::get('Application')->getActionsRun()]);
         $OSCOM_Template->setValue('site_version', OSCOM::getVersion(OSCOM::getSite()));
         $OSCOM_Template->setValue('current_year', date('Y'));
 

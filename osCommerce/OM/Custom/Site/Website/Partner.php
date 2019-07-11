@@ -584,6 +584,7 @@ class Partner
 
     public static function getPackageLevels(string $code, string $partner_code): array
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_PDO = Registry::get('PDO');
 
@@ -611,8 +612,8 @@ class Partner
                 $result[$l['id']] = [
                     'title' => $l['title'],
                     'duration' => $l['duration_months'],
-                    'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
-                    'price_raw' => number_format($l['price'], 2, '.', ''),
+                    'price' => $OSCOM_Currency->show($l['price']),
+                    'price_raw' => $OSCOM_Currency->raw($l['price']),
                     'default_selected' => $l['default_selected']
                 ];
 
@@ -620,11 +621,11 @@ class Partner
                 $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
 
                 if ($partner['billing_country_iso_code_2'] == 'DE') {
-                    $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
-                    $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+                    $result[$l['id']]['tax']['DE19MWST'] = $OSCOM_Currency->show(0.19 * $result[$l['id']]['price_raw'], null, null, false);
+                    $result[$l['id']]['tax_raw']['DE19MWST'] = $OSCOM_Currency->raw(0.19 * $result[$l['id']]['price_raw'], null, null, false);
 
-                    $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
-                    $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                    $result[$l['id']]['total'] = $OSCOM_Currency->show(1.19 * $result[$l['id']]['price_raw'], null, null, false);
+                    $result[$l['id']]['total_raw'] = $OSCOM_Currency->raw(1.19 * $result[$l['id']]['price_raw'], null, null, false);
                 }
 
                 if ((int)$l['exclusive_offer'] === 1) {
@@ -640,8 +641,8 @@ class Partner
                 $result[$l['id']] = [
                     'title' => $l['title'],
                     'duration' => $l['duration_months'],
-                    'price' => '€' . $OSCOM_Language->formatNumber($l['price'], 2),
-                    'price_raw' => number_format($l['price'], 2, '.', ''),
+                    'price' => $OSCOM_Currency->show($l['price']),
+                    'price_raw' => $OSCOM_Currency->raw($l['price']),
                     'default_selected' => $l['default_selected']
                 ];
 
@@ -649,11 +650,11 @@ class Partner
                 $result[$l['id']]['total_raw'] = $result[$l['id']]['price_raw'];
 
                 if ($partner['billing_country_iso_code_2'] == 'DE') {
-                    $result[$l['id']]['tax']['DE19MWST'] = '€' . $OSCOM_Language->formatNumber(0.19 * $l['price'], 2);
-                    $result[$l['id']]['tax_raw']['DE19MWST'] = number_format(0.19 * $l['price'], 2, '.', '');
+                    $result[$l['id']]['tax']['DE19MWST'] = $OSCOM_Currency->show(0.19 * $result[$l['id']]['price_raw'], null, null, false);
+                    $result[$l['id']]['tax_raw']['DE19MWST'] = $OSCOM_Currency->raw(0.19 * $result[$l['id']]['price_raw'], null, null, false);
 
-                    $result[$l['id']]['total'] = '€' . $OSCOM_Language->formatNumber(1.19 * $l['price'], 2);
-                    $result[$l['id']]['total_raw'] = number_format(1.19 * $l['price'], 2, '.', '');
+                    $result[$l['id']]['total'] = $OSCOM_Currency->show(1.19 * $result[$l['id']]['price_raw'], null, null, false);
+                    $result[$l['id']]['total_raw'] = $OSCOM_Currency->raw(1.19 * $result[$l['id']]['price_raw'], null, null, false);
                 }
             }
         }

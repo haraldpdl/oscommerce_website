@@ -37,5 +37,8 @@ button_file_upload_label = Browse&hellip;
 purchase_item_total = Total
 purchase_tax_DE19MWST_title = 19% MwSt.
 
+currencies_title = Currencies
+change_address_title = Change Address
+
 error_form_protect_general = The action could not be verified - please reload the page and try again, and contact us if problems persist.
 error_general = A general problem has been encountered. Please try again and contact us if problems persist.

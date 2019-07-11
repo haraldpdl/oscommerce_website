@@ -15,7 +15,6 @@ amb_plan_search = Lowered search flood protection on the forum
 amb_plan_pm = Increased Personal Message storage in forum
 amb_plan_forum_channel = Access to the Ambassadors forum channel
 
-amb_price = 49€
 lifetime = lifetime!
 
 button_become_an_ambassador = Become an Ambassador {fa}heart{fa}

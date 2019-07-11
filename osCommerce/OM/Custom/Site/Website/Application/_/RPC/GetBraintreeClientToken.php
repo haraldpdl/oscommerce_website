@@ -32,6 +32,7 @@ class GetBraintreeClientToken
 {
     public static function execute()
     {
+        $OSCOM_Currency = Registry::get('Currency');
         $OSCOM_Language = Registry::get('Language');
         $OSCOM_Session = Registry::get('Session');
 
@@ -98,6 +99,8 @@ class GetBraintreeClientToken
 
             $result['rpcStatus'] = RPC::STATUS_SUCCESS;
 
+            $result['currency'] = $OSCOM_Currency->getDefault();
+
             $result['addressFormatted'] = Address::format([
                 'firstname' => $cFirstName,
                 'lastname' => $cLastName,
@@ -116,8 +119,8 @@ class GetBraintreeClientToken
                     'title' => OSCOM::getDef('purchase_item_title', [
                         ':name' => $_SESSION[OSCOM::getSite()]['Account']['name']
                     ]),
-                    'cost' => $OSCOM_Language->formatNumber(Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €',
-                    'cost_raw' => number_format(Users::AMBASSADOR_LEVEL_PRICE, 2)
+                    'cost' => $OSCOM_Currency->show(Users::AMBASSADOR_LEVEL_PRICE),
+                    'cost_raw' => $OSCOM_Currency->raw(Users::AMBASSADOR_LEVEL_PRICE)
                 ]
             ];
 
@@ -130,11 +133,11 @@ class GetBraintreeClientToken
             ];
 
             if ($cCountry == 'DE') {
-                $result['items'][0]['tax']['DE19MWST'] = $OSCOM_Language->formatNumber(0.19 * Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €';
-                $result['items'][0]['tax_raw']['DE19MWST'] = number_format(0.19 * Users::AMBASSADOR_LEVEL_PRICE, 2);
+                $result['items'][0]['tax']['DE19MWST'] = $OSCOM_Currency->show(0.19 * $result['items'][0]['cost_raw'], null, null, false);
+                $result['items'][0]['tax_raw']['DE19MWST'] = $OSCOM_Currency->raw(0.19 * $result['items'][0]['cost_raw'], null, null, false);
 
-                $result['totals']['total']['cost'] = $OSCOM_Language->formatNumber(1.19 * Users::AMBASSADOR_LEVEL_PRICE, 2) . ' €';
-                $result['totals']['total']['cost_raw'] = number_format(1.19 * Users::AMBASSADOR_LEVEL_PRICE, 2);
+                $result['totals']['total']['cost'] = $OSCOM_Currency->show(1.19 * $result['items'][0]['cost_raw'], null, null, false);
+                $result['totals']['total']['cost_raw'] = $OSCOM_Currency->raw(1.19 * $result['items'][0]['cost_raw'], null, null, false);
 
                 $result['totals'] = [
                     'tax_DE19MWST' => [
@@ -145,7 +148,19 @@ class GetBraintreeClientToken
                 ] + $result['totals']; // preprend 'tax' to $result['totals'] array
             }
 
-            $result['token'] = Braintree::getClientToken();
+            $result['token'] = Braintree::getClientToken([
+                'user_group' => 'member',
+                'module' => 'ambassador',
+                'action' => 'signup'
+            ], $result);
+
+            $result['braintree_web_dropin_url'] = 'https://js.braintreegateway.com/web/dropin/' . Braintree::WEB_DROPIN_VERSION . '/js/dropin.min.js';
+
+            $braintree_google_merchant_id = OSCOM::getConfig('braintree_google_merchant_id');
+
+            if (!empty($braintree_google_merchant_id)) {
+                $result['googleMerchantId'] = $braintree_google_merchant_id;
+            }
         } catch (RPCException $e) {
             $code = $e->getCode();
 

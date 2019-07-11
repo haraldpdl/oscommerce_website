@@ -420,7 +420,7 @@ partner_error_billing_missing_address_fields = Please enter the required fields 
 
 partner_history_title = History
 
-cs_plans_duration_title = Duration:
+cs_plans_duration_title = Partnership Duration:
 
 cs_plans_service_partner_page = Presented as a partner with a dedicated partner information page
 cs_plans_service_promotions = Show promotions on our website, services page, and download redirection page

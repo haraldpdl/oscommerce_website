@@ -65,7 +65,7 @@ class Billing
             ];
         }
 
-        $countries_field = HTML::selectMenu('country', $countries, Address::getCountryIsoCode2($partner_billing_address['country_id']), 'id="pCountry" class="form-control"');
+        $countries_field = HTML::selectMenu('country', $countries, Address::getCountryIsoCode2($partner_billing_address['country_id']), 'id="pCountry" class="custom-select"');
 
         $OSCOM_Template->setValue('field_countries', $countries_field);
 

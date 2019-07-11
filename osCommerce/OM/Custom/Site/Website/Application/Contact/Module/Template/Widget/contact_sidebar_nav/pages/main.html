@@ -13,7 +13,7 @@
 
 <script>
 $(function() {
-  var sn_active_link = ( typeof site_req['actions'][0] !== 'undefined' ) ? site_req['actions'][0] : 'ContactUs';
+  var sn_active_link = ( typeof OSCOM.siteReq['actions'][0] !== 'undefined' ) ? OSCOM.siteReq['actions'][0] : 'ContactUs';
 
   $('#sidebar #sn' + sn_active_link + ' a').addClass('active');
 });
