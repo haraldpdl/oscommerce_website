@@ -123,7 +123,7 @@ OSCOM.a.Account.Partner.Extend = {
                             $.each(pPackages.plans[pPackages.selected].levels, function(lid, lvalue) {
                                 $('#pPlanSelection').append($('<option/>', {
                                     value: lid,
-                                    text: lvalue.title + ' ' + lvalue.price
+                                    text: lvalue.title
                                 }));
                             });
 
