@@ -53,8 +53,6 @@ class Braintree
             'merchantAccountId' => static::$merchant_account_id
         ]);
 
-        static::log($log_params, (is_string($client_token) && !empty($client_token) ? 1 : -1), $request, ['message' => 'getClientToken' . (isset($request['currency']) ? '; ' . $request['currency'] : '') . (isset($request['totals']) ? '; ' . $request['totals']['total']['cost'] : '')]);
-
         return $client_token;
     }
 
