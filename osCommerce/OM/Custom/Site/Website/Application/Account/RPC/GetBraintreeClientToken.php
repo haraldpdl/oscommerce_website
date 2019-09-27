@@ -13,6 +13,8 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Shop\Address;
+
 use osCommerce\OM\Core\Site\Website\{
     Braintree,
     Partner
@@ -50,12 +52,25 @@ class GetBraintreeClientToken
             }
 
             $partner_campaign = Partner::getCampaign($_SESSION[OSCOM::getSite()]['Account']['id'], $_GET['p']);
+            $partner_billing_address = json_decode($partner_campaign['billing_address'], true);
 
             $OSCOM_Currency->setSelected($_GET['c']);
 
             $result['rpcStatus'] = RPC::STATUS_SUCCESS;
 
+            $result['email'] = $_SESSION[OSCOM::getSite()]['Account']['email'];
             $result['currency'] = $OSCOM_Currency->getDefault();
+
+            $result['address'] = [
+                'firstname' => $partner_billing_address['firstname'],
+                'lastname' => $partner_billing_address['lastname'],
+                'street_address' => $partner_billing_address['street_address'],
+                'street_address_2' => $partner_billing_address['street_address_2'],
+                'city' => $partner_billing_address['city'],
+                'state' => isset($partner_billing_address['zone_id']) ? Address::getZoneCode($partner_billing_address['zone_id']) : $partner_billing_address['state'],
+                'postcode' => $partner_billing_address['postcode'],
+                'country_code2' => Address::getCountryIsoCode2($partner_billing_address['country_id'])
+            ];
 
             $result['token'] = Braintree::getClientToken([
                 'user_group' => 'partner',

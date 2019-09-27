@@ -29,6 +29,16 @@ download_title = Downloading..
 download_description = Downloading {value}download_file_title{value} in <span id="redirect_counter">5</span> second(s)
 download_now_button = Skip, and download now..
 
+amb_plan_title = osCommerce Ambassador
+
+amb_welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We'd love to have you as an Ambassador!
+amb_welcome_boost = Hi {value}user name{value}! Ready to boost your Ambassador level?
+
+amb_button_become_an_ambassador = Become an Ambassador {fa}heart{fa}
+amb_button_boost_ambassador_level = Boost to Level :next_level {fa}heart{fa}
+
+amb_newest_ambassadors_title = Our newest Ambassadors
+
 partner_promotions_heading = Promotions
 partner_promotions_show_all = Show All
 

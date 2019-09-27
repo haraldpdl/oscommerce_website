@@ -183,7 +183,18 @@ OSCOM.a.Account.Partner.Extend = {
                 container: '#pBtForm',
                 paymentOptionPriority: ['paypal', 'card'],
                 threeDSecure: {
-                    amount: total_raw
+                    amount: total_raw,
+                    email: result.email,
+                    billingAddress: {
+                        givenName: result.address['firstname'],
+                        surname: result.address['lastname'],
+                        streetAddress: result.address['street_address'],
+                        extendedAddress: result.address['street_address_2'],
+                        locality: result.address['city'],
+                        region: result.address['state'],
+                        postalCode: result.address['postcode'],
+                        countryCodeAlpha2: result.address['country_code2']
+                    }
                 },
                 paypal: {
                     flow: 'checkout',

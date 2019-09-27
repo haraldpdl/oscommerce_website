@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-12 col-lg-8">
     <div class="jumbotron border">
       <h2 class="display-4">{lang}download_title{lang}</h2>
 
@@ -8,6 +8,30 @@
       <form id="downloadForm" action="{link}Products|Website|Download={get}Download{get}{link}" method="post">
         <button type="submit" class="btn btn-info btn-lg">{lang}download_now_button{lang}</button>
       </form>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4 text-center">
+    <h5 class="pt-3">{lang}amb_plan_title{lang}</h5>
+
+    {iftrue is_ambassador}
+    <p class="lead py-3">{lang}amb_welcome_boost{lang}</p>
+
+    <p><a href="{link}_||Ambassadors{link}" class="btn btn-success">{lang}amb_button_boost_ambassador_level next_level="{value}ambassador_user_next_level{value}"{lang}</a></p>
+    {else}
+    <p class="lead py-3">{lang}amb_welcome_start{lang}</p>
+
+    <p><a href="{link}_||Ambassadors{link}" class="btn btn-success">{lang}amb_button_become_an_ambassador{lang}</a></p>
+    {iftrue}
+
+    <h5 class="pt-3">{lang}amb_newest_ambassadors_title{lang}</h5>
+
+    <div class="row">
+      {loop amb_members}
+        <div class="col-4">
+          <a href="#profile_url#"><img src="#photo_url#" class="rounded-circle my-4" style="width: 65px; height: 65px;" title="#name#"></a>
+        </div>
+      {loop}
     </div>
   </div>
 </div>

@@ -21,7 +21,7 @@ use osCommerce\OM\Core\Site\Website\{
 
 class Braintree
 {
-    const WEB_DROPIN_VERSION = '1.18.0';
+    const WEB_DROPIN_VERSION = '1.20.1';
 
     /** @var string */
     protected static $environment;
@@ -52,6 +52,8 @@ class Braintree
         $client_token = \Braintree\ClientToken::generate([
             'merchantAccountId' => static::$merchant_account_id
         ]);
+
+        static::log($log_params, (is_string($client_token) && !empty($client_token) ? 1 : -1), $request, ['message' => 'getClientToken' . (isset($request['currency']) ? '; ' . $request['currency'] : '') . (isset($request['totals']) ? '; ' . $request['totals']['total']['cost'] : '')], false);
 
         return $client_token;
     }
@@ -145,45 +147,49 @@ class Braintree
         return $response;
     }
 
-    protected static function log(array $params, int $result, array $request, array $response): int
+    protected static function log(array $params, int $result, array $request, array $response, bool $store_in_db = true): ?int
     {
-        $OSCOM_PDO = Registry::get('PDO');
+        $log_id = null;
 
-        $filter = ['paymentMethodNonce'];
+        if ($store_in_db === true) {
+            $OSCOM_PDO = Registry::get('PDO');
 
-        foreach ($request as $key => $value) {
-            if ((strpos($key, '_nh-dns') !== false) || in_array($key, $filter)) {
-                $request[$key] = '**********';
+            $filter = ['paymentMethodNonce'];
+
+            foreach ($request as $key => $value) {
+                if ((strpos($key, '_nh-dns') !== false) || in_array($key, $filter)) {
+                    $request[$key] = '**********';
+                }
             }
+
+            $request_string = json_encode($request, JSON_PRETTY_PRINT);
+
+            foreach ($response as $key => $value) {
+                if ((strpos($key, '_nh-dns') !== false) || in_array($key, $filter)) {
+                    $response[$key] = '**********';
+                }
+            }
+
+           $response_string = json_encode($response, JSON_PRETTY_PRINT);
+
+            $OSCOM_PDO->save('website_api_transaction_log', [
+                'app' => 'braintree',
+                'user_group' => $params['user_group'],
+                'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'] ?? null,
+                'module' => $params['module'],
+                'action' => $params['action'],
+                'result' => $result,
+                'server' => (static::$environment == 'production') ? 1 : -1,
+                'request' => $request_string,
+                'response' => $response_string,
+                'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
+                'date_added' => 'now()'
+            ]);
+
+            $log_id = $OSCOM_PDO->lastInsertId();
         }
 
-        $request_string = json_encode($request, JSON_PRETTY_PRINT);
-
-        foreach ($response as $key => $value) {
-            if ((strpos($key, '_nh-dns') !== false) || in_array($key, $filter)) {
-                $response[$key] = '**********';
-            }
-        }
-
-        $response_string = json_encode($response, JSON_PRETTY_PRINT);
-
-        $OSCOM_PDO->save('website_api_transaction_log', [
-            'app' => 'braintree',
-            'user_group' => $params['user_group'],
-            'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'] ?? null,
-            'module' => $params['module'],
-            'action' => $params['action'],
-            'result' => $result,
-            'server' => (static::$environment == 'production') ? 1 : -1,
-            'request' => $request_string,
-            'response' => $response_string,
-            'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
-            'date_added' => 'now()'
-        ]);
-
-        $log_id = $OSCOM_PDO->lastInsertId();
-
-        trigger_error('OSCOM\Site\Website\Braintree::log(): [' . $log_id . '] ' . (($result === 1) ? 'Success' : 'Error') . ': [User: ' . (isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? Users::get($_SESSION[OSCOM::getSite()]['Account']['id'], 'name') . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')' : null) . '] ' . $params['module'] . ' ' . $params['action'] . (isset($response['message']) ? ' (' . $response['message'] . ')' : null));
+        trigger_error('OSCOM\Site\Website\Braintree::log(): ' . (isset($log_id) ? '[' . $log_id . ']' : '') . ' ' . (($result === 1) ? 'Success' : 'Error') . ': [User: ' . (isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? Users::get($_SESSION[OSCOM::getSite()]['Account']['id'], 'name') . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')' : null) . '] ' . $params['module'] . ' ' . $params['action'] . (isset($response['message']) ? ' (' . $response['message'] . ')' : null));
 
         return $log_id;
     }

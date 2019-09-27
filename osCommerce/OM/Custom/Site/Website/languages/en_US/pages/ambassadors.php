@@ -36,7 +36,7 @@ amb_lifetime_title = Lifetime is a long time!
 amb_lifetime_description = <p>Indeed it is. We've been here for over {value}never_ask_her{value} years and with dedicated members, customers, and partners in our community, have outgrown our previous monthly and yearly Community Sponsorship subscription plans. This is our gift to you, for life, for continuing to support us all of these years.</p>
 <p>As lifetime is a long time, we'll strive to always provide the same - and even better - benefits when our websites and services are updated in the future. The terms and conditions of the <a href="#ambTosPane" data-toggle="modal">Ambassador membership can be read here</a>.</p>
 
-welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We can't wait to have you as an Ambassador!
+welcome_start = Hi{ifvalue user} {value}user name{value}{ifvalue}! We'd love to have you as an Ambassador!
 welcome_boost = Hi {value}user name{value}! Ready to boost your Ambassador level?
 
 login_title = Log In

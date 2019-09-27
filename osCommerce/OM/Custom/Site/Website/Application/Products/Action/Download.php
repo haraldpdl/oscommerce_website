@@ -17,14 +17,20 @@ use osCommerce\OM\Core\{
 
 use osCommerce\OM\Core\Site\Website\{
     Download as DownloadClass,
-    Partner
+    Partner,
+    Users
 };
 
 class Download
 {
     public static function execute(ApplicationAbstract $application)
     {
+        $OSCOM_Session = Registry::get('Session');
         $OSCOM_Template = Registry::get('Template');
+
+        if (!$OSCOM_Session->hasStarted()) {
+            $OSCOM_Session->start();
+        }
 
         $file = null;
 
@@ -69,6 +75,23 @@ class Download
             $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow">');
 
             $OSCOM_Template->setValue('download_file_title', DownloadClass::get($_GET['Download'], 'title') . ' ' . DownloadClass::get($_GET['Download'], 'version'));
+
+            $OSCOM_Template->setValue('is_ambassador', (isset($_SESSION[OSCOM::getSite()]['Account']) && ($_SESSION[OSCOM::getSite()]['Account']['amb_level'] > 0)));
+            $OSCOM_Template->setValue('ambassador_user_next_level', isset($_SESSION[OSCOM::getSite()]['Account']) ? $_SESSION[OSCOM::getSite()]['Account']['amb_level'] + 1 : 1);
+
+            $amb_members = [];
+
+            foreach (Users::getNewestAmbassadors(3) as $a) {
+                $m = Users::get($a);
+
+                $amb_members[] = [
+                    'name' => $m['name'],
+                    'profile_url' => $m['profile_url'],
+                    'photo_url' => $m['photo_url']
+                ];
+            }
+
+            $OSCOM_Template->setValue('amb_members', $amb_members);
 
             $OSCOM_Template->setValue('partner_promotions', Partner::getPromotions());
 

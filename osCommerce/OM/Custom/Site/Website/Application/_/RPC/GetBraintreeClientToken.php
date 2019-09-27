@@ -99,7 +99,19 @@ class GetBraintreeClientToken
 
             $result['rpcStatus'] = RPC::STATUS_SUCCESS;
 
+            $result['email'] = $_SESSION[OSCOM::getSite()]['Account']['email'];
             $result['currency'] = $OSCOM_Currency->getDefault();
+
+            $result['address'] = [
+                'firstname' => $cFirstName,
+                'lastname' => $cLastName,
+                'street_address' => $cStreet,
+                'street_address_2' => $cStreet2,
+                'city' => $cCity,
+                'state' => $cZoneCode ?? $cZone,
+                'postcode' => $cZip,
+                'country_code2' => Address::getCountryIsoCode2($country_id)
+            ];
 
             $result['addressFormatted'] = Address::format([
                 'firstname' => $cFirstName,
