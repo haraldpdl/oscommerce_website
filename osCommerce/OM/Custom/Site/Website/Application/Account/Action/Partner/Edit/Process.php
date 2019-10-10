@@ -433,42 +433,55 @@ class Process
             }
 
             if ($did_save === true) {
-                $email_txt_file = $OSCOM_Template->getPageContentsFile('email_partner_save.txt');
-                $email_txt_tmpl = file_exists($email_txt_file) ? file_get_contents($email_txt_file) : null;
+                $send_email = true;
 
-                $email_html_file = $OSCOM_Template->getPageContentsFile('email_partner_save.html');
-                $email_html_tmpl = file_exists($email_html_file) ? file_get_contents($email_html_file) : null;
+                if (isset($partner['date_last_updated']) && !is_null($partner['date_last_updated'])) {
+                    $dateLastUpdate = new \DateTime($partner['date_last_updated']);
+                    $dateNow = new \DateTime();
 
-                $OSCOM_Template->setValue('user_name', $_SESSION[OSCOM::getSite()]['Account']['name']);
-                $OSCOM_Template->setValue('partner_code', $partner['code']);
-
-                foreach (Partner::getCampaignAdmins($partner['code']) as $admin_id) {
-                    $admin = Users::get($admin_id);
-                    $OSCOM_Template->setValue('partner_admin_name', $admin['name'], true);
-
-                    $email_txt = null;
-                    $email_html = null;
-
-                    if (isset($email_txt_tmpl)) {
-                        $email_txt = $OSCOM_Template->parseContent($email_txt_tmpl);
+                    if ($dateLastUpdate->diff($dateNow)->i <= 15) {
+                        $send_email = false;
                     }
+                }
 
-                    if (isset($email_html_tmpl)) {
-                        $email_html = $OSCOM_Template->parseContent($email_html_tmpl);
-                    }
+                if ($send_email === true) {
+                    $email_txt_file = $OSCOM_Template->getPageContentsFile('email_partner_save.txt');
+                    $email_txt_tmpl = file_exists($email_txt_file) ? file_get_contents($email_txt_file) : null;
 
-                    if (!empty($email_txt) || !empty($email_html)) {
-                        $OSCOM_Mail = new Mail($admin['email'], $admin['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('email_partner_update_subject'));
+                    $email_html_file = $OSCOM_Template->getPageContentsFile('email_partner_save.html');
+                    $email_html_tmpl = file_exists($email_html_file) ? file_get_contents($email_html_file) : null;
 
-                        if (!empty($email_txt)) {
-                            $OSCOM_Mail->setBodyPlain($email_txt);
+                    $OSCOM_Template->setValue('user_name', $_SESSION[OSCOM::getSite()]['Account']['name']);
+                    $OSCOM_Template->setValue('partner_code', $partner['code']);
+
+                    foreach (Partner::getCampaignAdmins($partner['code']) as $admin_id) {
+                        $admin = Users::get($admin_id);
+                        $OSCOM_Template->setValue('partner_admin_name', $admin['name'], true);
+
+                        $email_txt = null;
+                        $email_html = null;
+
+                        if (isset($email_txt_tmpl)) {
+                            $email_txt = $OSCOM_Template->parseContent($email_txt_tmpl);
                         }
 
-                        if (!empty($email_html)) {
-                            $OSCOM_Mail->setBodyHTML($email_html);
+                        if (isset($email_html_tmpl)) {
+                            $email_html = $OSCOM_Template->parseContent($email_html_tmpl);
                         }
 
-                        $OSCOM_Mail->send();
+                        if (!empty($email_txt) || !empty($email_html)) {
+                            $OSCOM_Mail = new Mail($admin['email'], $admin['name'], 'noreply@oscommerce.com', 'osCommerce', OSCOM::getDef('email_partner_update_subject'));
+
+                            if (!empty($email_txt)) {
+                                $OSCOM_Mail->setBodyPlain($email_txt);
+                            }
+
+                            if (!empty($email_html)) {
+                                $OSCOM_Mail->setBodyHTML($email_html);
+                            }
+
+                            $OSCOM_Mail->send();
+                        }
                     }
                 }
 

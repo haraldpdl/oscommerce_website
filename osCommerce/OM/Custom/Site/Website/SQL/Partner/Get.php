@@ -21,6 +21,7 @@ class Get
 select
   p.id,
   p.app_code,
+  p.date_last_updated,
   coalesce(pi_lang_user.code, pi_lang_en.code) as code,
   coalesce(pi_lang_user.title, pi_lang_en.title) as title,
   coalesce(pi_lang_user.desc_short, pi_lang_en.desc_short) as desc_short,
@@ -66,6 +67,7 @@ EOD;
 select
   p.id,
   p.app_code,
+  p.date_last_updated,
   pi.code,
   pi.title,
   pi.desc_short,

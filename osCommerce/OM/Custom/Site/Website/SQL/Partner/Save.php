@@ -76,6 +76,14 @@ class Save
                     }
                 }
 
+                if ($affected_rows > 0) {
+                    $OSCOM_PDO->save('website_partner', [
+                        'date_last_updated' => 'now()'
+                    ], [
+                        'id' => $data['id']
+                    ]);
+                }
+
                 $OSCOM_PDO->commit();
             }
         } catch (\Exception $e) {

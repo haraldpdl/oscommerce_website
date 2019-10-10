@@ -13,6 +13,9 @@ Partner Information Page Updated
 
   {link}Account|Website|Partner&History={raw}partner_code{raw}|SSL{link}
 
+  No further notification emails will be sent for the next 15 minutes if
+  additional updates are performed during this time.
+
   Kind regards,
 
   osCommerce, https://www.oscommerce.com
