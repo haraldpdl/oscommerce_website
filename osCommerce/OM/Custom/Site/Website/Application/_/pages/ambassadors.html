@@ -461,13 +461,15 @@ if (typeof OSCOM.a.vars === 'undefined') OSCOM.a.vars = {};
 
 Object.defineProperties(OSCOM.a.vars, {
     loggedIn: {
-        value: {ifvalue user}true{else}false{ifvalue}
+        value: {ifvalue user}true{else}false{ifvalue},
+        writable: true
     },
     zones: {
         value: {raw json_encode}select_zones{raw}
     },
     billing_address: {
-        value: {ifvalue billing_address}{raw json_encode}billing_address{raw}{else}undefined{ifvalue}
+        value: {ifvalue billing_address}{raw json_encode}billing_address{raw}{else}undefined{ifvalue},
+        writable: true
     },
     ambPrices: {
         value: {raw json_encode}amb_prices{raw}

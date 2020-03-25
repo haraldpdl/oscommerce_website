@@ -21,7 +21,7 @@ use osCommerce\OM\Core\Site\Website\{
 
 class Braintree
 {
-    const WEB_DROPIN_VERSION = '1.20.1';
+    const WEB_DROPIN_VERSION = '1.22.1';
 
     /** @var string */
     protected static $environment;
@@ -147,6 +147,29 @@ class Braintree
         return $response;
     }
 
+    public static function canDoSale(): bool
+    {
+        $OSCOM_PDO = Registry::get('PDO');
+
+        $Qtotal = $OSCOM_PDO->get('website_api_transaction_log', 'count(*) as total', [
+            'user_id' => $_SESSION[OSCOM::getSite()]['Account']['id'],
+            'app' => 'braintree',
+            'result' => -1,
+            'date_added' => [
+                'op' => '>=',
+                'rel' => 'date_sub(now(), interval 15 minute)'
+            ]
+        ]);
+
+        if ($Qtotal->valueInt('total') >= 5) {
+            trigger_error('OSCOM\Site\Website\Braintree::canDoSale(): [User: ' . (isset($_SESSION[OSCOM::getSite()]['Account']['id']) ? Users::get($_SESSION[OSCOM::getSite()]['Account']['id'], 'name') . ' (' . $_SESSION[OSCOM::getSite()]['Account']['id'] . ')' : null) . '] Failed attempts reached.');
+
+            return false;
+        }
+
+        return true;
+    }
+
     protected static function log(array $params, int $result, array $request, array $response, bool $store_in_db = true): ?int
     {
         $log_id = null;
@@ -170,7 +193,7 @@ class Braintree
                 }
             }
 
-           $response_string = json_encode($response, JSON_PRETTY_PRINT);
+            $response_string = json_encode($response, JSON_PRETTY_PRINT);
 
             $OSCOM_PDO->save('website_api_transaction_log', [
                 'app' => 'braintree',

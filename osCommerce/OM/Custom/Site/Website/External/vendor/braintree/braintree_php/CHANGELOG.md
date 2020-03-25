@@ -1,3 +1,53 @@
+## 4.8.0
+* Add `Authentication Insight` to payment method nonce create
+* Add `threeDSecureAuthenticationId` support to transaction sale
+* Add ThreeDSecure test payment method nonces
+* Add test `AuthenticationId`s
+
+## 4.7.0
+* Add `RefundAuthHardDeclined` and `RefundAuthSoftDeclined` to validation errors
+* Add level 2 processing options `purchaseOrderNumber`, `taxAmount`, and `taxExempt` to Transaction submit for settlement
+* Add level 3 processing options `discountAmount`, `shippingAmount`, `shipsFromPostalCode`, and `lineItems` to Transaction submit for settlement
+
+## 4.6.0
+* Add `isNetworkTokenized` to `AndroidPayCard` and `AndroidPayCardDetails`
+* Add GraphQL ID to `CreditCardVerification`, `Customer`, `Dispute`, and `Transaction`
+* Add support for PHP 7.4 (#262 thanks @slt)
+* Add `threeDSecurePassThru` params to PaymentMethod update
+
+## 4.5.0
+* Add `PROCESSOR_DOES_NOT_SUPPORT_MOTO_FOR_CARD_TYPE` to validation errors
+* Make errors JSON serializable (#256 thanks @sebdesign)
+
+## 4.4.0
+* Add `AMOUNT_NOT_SUPPORTED_BY_PROCESSOR` to validation errors
+* Forward `forwardedComments` to `processorComments`
+
+## 4.3.0
+* Add `PayPalHereDetails` to transactions
+* Add `network_response_code` and `network_response_text` to `Transaction` and `CreditCardVerification`
+* Add `xid`, `cavv`, `eciFlag`, `dsTransactionId`, and `threeDSecureVersion` to `ThreeDSecureInfo`
+* Add `threeDSecureInfo` to `CreditCardVerification`
+* Add `GraphQLClient` to `BraintreeGateway` class
+
+## 4.2.0
+* Add `captureId` to `LocalPaymentDetails`
+* Add `debugId` to `LocalPaymentDetails`
+* Add `refundId` to `LocalPaymentDetails`
+* Add `transactionFeeAmount` to `LocalPaymentDetails`
+* Add `transactionFeeCurrencyIsoCode` to `LocalPaymentDetails`
+* Add `refundFromTransactionFeeAmount` to `LocalPaymentDetails`
+* Add `refundFromTransactionFeeCurrencyIsoCode` to `LocalPaymentDetails`
+* Add `threeDSecureVersion`, `authenticationResponse`, `directoryResponse`, `cavvAlgorithm` and `dsTransactionId` to 3DS pass thru fields
+* Add `payerInfo` to `PaymentMethodNonce` details
+* Add `roomTax` field to Transaction sale
+* Add `noShow` field to Transaction sale
+* Add `advancedDeposit` field to Transaction sale
+* Add `fireSafe` field to Transaction sale
+* Add `propertyPhone` field to Transaction sale
+* Add `additionalCharges` field to Transaction sale
+* Add `PostalCodeIsRequiredForCardBrandAndProcessor` to validation errors
+
 ## 4.1.0
 * Add `revokedAt` field to `PayPalAccount`
 * Add support for `PAYMENT_METHOD_REVOKED_BY_CUSTOMER` webhook

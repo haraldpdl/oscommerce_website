@@ -18,12 +18,14 @@ namespace Braintree;
  * @property-read \DateTime $createdAt
  * @property-read \Braintree\CreditCard $creditCard
  * @property-read string|null $gatewayRejectionReason
+ * @property-read string $graphQLId
  * @property-read string $id
  * @property-read string $merchantAccountId
  * @property-read string $processorResponseCode
  * @property-read string $processorResponseText
  * @property-read string $processorResponseType
  * @property-read \Braintree\RiskData|null $riskData
+ * @property-read \Braintree\ThreeDSecureInfo|null $threeDSecureInfo
  */
 class CreditCardVerification extends Result\CreditCardVerification
 {

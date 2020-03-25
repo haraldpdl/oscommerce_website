@@ -1,17 +1,17 @@
 [
     {
         "name": "braintree/braintree_php",
-        "version": "4.1.0",
-        "version_normalized": "4.1.0.0",
+        "version": "4.8.0",
+        "version_normalized": "4.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/braintree/braintree_php.git",
-            "reference": "486d1326854410bf045bb0e2d28e401936de7712"
+            "reference": "758fa7ceec5d115508187df777e1552fabe31dad"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/braintree/braintree_php/zipball/486d1326854410bf045bb0e2d28e401936de7712",
-            "reference": "486d1326854410bf045bb0e2d28e401936de7712",
+            "url": "https://api.github.com/repos/braintree/braintree_php/zipball/758fa7ceec5d115508187df777e1552fabe31dad",
+            "reference": "758fa7ceec5d115508187df777e1552fabe31dad",
             "shasum": ""
         },
         "require": {
@@ -25,7 +25,7 @@
         "require-dev": {
             "phpunit/phpunit": "^7.5"
         },
-        "time": "2019-05-21T15:52:11+00:00",
+        "time": "2020-03-12T21:19:39+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -50,36 +50,36 @@
     },
     {
         "name": "dompdf/dompdf",
-        "version": "v0.8.3",
-        "version_normalized": "0.8.3.0",
+        "version": "v0.8.5",
+        "version_normalized": "0.8.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dompdf/dompdf.git",
-            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
+            "reference": "6782abfc090b132134cd6cea0ec6d76f0fce2c56"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
-            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/6782abfc090b132134cd6cea0ec6d76f0fce2c56",
+            "reference": "6782abfc090b132134cd6cea0ec6d76f0fce2c56",
             "shasum": ""
         },
         "require": {
             "ext-dom": "*",
             "ext-mbstring": "*",
-            "phenx/php-font-lib": "0.5.*",
-            "phenx/php-svg-lib": "0.3.*",
-            "php": ">=5.4.0"
+            "phenx/php-font-lib": "^0.5.1",
+            "phenx/php-svg-lib": "^0.3.3",
+            "php": "^7.1"
         },
         "require-dev": {
-            "phpunit/phpunit": "^4.8|^5.5|^6.5",
-            "squizlabs/php_codesniffer": "2.*"
+            "phpunit/phpunit": "^7.5",
+            "squizlabs/php_codesniffer": "^3.5"
         },
         "suggest": {
             "ext-gd": "Needed to process images",
             "ext-gmagick": "Improves image processing performance",
             "ext-imagick": "Improves image processing performance"
         },
-        "time": "2018-12-14T02:40:31+00:00",
+        "time": "2020-02-20T03:52:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -118,17 +118,17 @@
     },
     {
         "name": "erusev/parsedown",
-        "version": "1.7.3",
-        "version_normalized": "1.7.3.0",
+        "version": "1.7.4",
+        "version_normalized": "1.7.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/erusev/parsedown.git",
-            "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
+            "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
-            "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+            "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+            "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
             "shasum": ""
         },
         "require": {
@@ -138,7 +138,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8.35"
         },
-        "time": "2019-03-17T18:48:37+00:00",
+        "time": "2019-12-30T22:54:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -205,31 +205,31 @@
     },
     {
         "name": "phenx/php-svg-lib",
-        "version": "v0.3.2",
-        "version_normalized": "0.3.2.0",
+        "version": "v0.3.3",
+        "version_normalized": "0.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PhenX/php-svg-lib.git",
-            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c"
+            "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/ccc46ef6340d4b8a4a68047e68d8501ea961442c",
-            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
+            "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
             "shasum": ""
         },
         "require": {
-            "sabberworm/php-css-parser": "8.1.*"
+            "sabberworm/php-css-parser": "^8.3"
         },
         "require-dev": {
-            "phpunit/phpunit": "~5.0"
+            "phpunit/phpunit": "^5.5|^6.5"
         },
-        "time": "2018-06-03T10:10:03+00:00",
+        "time": "2019-09-11T20:02:13+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "Svg\\": "src/"
+            "psr-4": {
+                "Svg\\": "src/Svg"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -247,26 +247,27 @@
     },
     {
         "name": "sabberworm/php-css-parser",
-        "version": "8.1.0",
-        "version_normalized": "8.1.0.0",
+        "version": "8.3.0",
+        "version_normalized": "8.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+            "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
-            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
+            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
+            "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.2"
         },
         "require-dev": {
-            "phpunit/phpunit": "*"
+            "codacy/coverage": "^1.4",
+            "phpunit/phpunit": "~4.8"
         },
-        "time": "2016-07-19T19:14:21+00:00",
+        "time": "2019-02-22T07:42:52+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

@@ -2,6 +2,7 @@
 namespace Braintree\Result;
 
 use Braintree\RiskData;
+use Braintree\ThreeDSecureInfo;
 use Braintree\Util;
 
 /**
@@ -61,6 +62,15 @@ class CreditCardVerification
             $attributes['riskData'] = RiskData::factory($attributes['riskData']);
         }
 
+        // TODO investigate why CC Verifications don't inherit from the Base result class.
+        if(isset($attributes['globalId']))
+        {
+            $attributes['graphQLId'] = $attributes['globalId'];
+        }
+
+        if(isset($attributes['threeDSecureInfo'])) {
+            $attributes['threeDSecureInfo'] = ThreeDSecureInfo::factory($attributes['threeDSecureInfo']);
+        }
         $this->_attributes = $attributes;
         foreach($attributes AS $name => $value) {
             $varName = "_$name";

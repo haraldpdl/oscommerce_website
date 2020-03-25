@@ -49,6 +49,14 @@ class ProcessBraintree
                 throw new RPCException(RPC::STATUS_NO_ACCESS);
             }
 
+            if (!isset($_POST['nonce']) || empty($_POST['nonce'])) {
+                throw new BraintreeException(OSCOM::getDef('payment_ms_error_general'));
+            }
+
+            if (!Braintree::canDoSale()) {
+                throw new BraintreeException(OSCOM::getDef('payment_ms_error_general'));
+            }
+
             $address = Users::getAddress($_SESSION[OSCOM::getSite()]['Account']['id'], 'billing');
             $address = reset($address);
 

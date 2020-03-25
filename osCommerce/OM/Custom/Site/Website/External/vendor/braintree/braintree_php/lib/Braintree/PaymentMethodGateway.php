@@ -152,7 +152,12 @@ class PaymentMethodGateway
 
     public static function createSignature()
     {
-        $signature = array_merge(self::baseSignature(), ['customerId', 'paypalRefreshToken', 'paypalVaultWithoutUpgrade']);
+        $signature = array_merge(self::baseSignature(), [
+            'customerId',
+            'paypalRefreshToken',
+            // NEXT_MAJOR_VERSION remove paypalVaultWithoutUpgrade from signature
+            'paypalVaultWithoutUpgrade'
+        ]);
         return $signature;
     }
 
@@ -164,11 +169,22 @@ class PaymentMethodGateway
                 'updateExisting'
             ]
         ]);
+        $threeDSPassThruSignature = [
+            'authenticationResponse',
+            'cavv',
+            'cavvAlgorithm',
+            'directoryResponse',
+            'dsTransactionId',
+            'eciFlag',
+            'threeDSecureVersion',
+            'xid'
+        ];
         $signature = array_merge(self::baseSignature(), [
             'deviceSessionId',
             'venmoSdkPaymentMethodCode',
             'fraudMerchantId',
-            ['billingAddress' => $billingAddressSignature]
+            ['billingAddress' => $billingAddressSignature],
+            ['threeDSecurePassThru' => $threeDSPassThruSignature]
         ]);
         return $signature;
     }
